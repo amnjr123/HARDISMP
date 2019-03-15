@@ -46,7 +46,13 @@ public class Servlet extends HttpServlet {
                 String mail = request.getParameter("email").trim();
                 String tel = request.getParameter("tel").trim();
                 String mdp = request.getParameter("pw");
-                
+                if(!prenom.isEmpty()&&!nom.isEmpty()&&!mail.isEmpty()&&!tel.isEmpty()&&!mdp.isEmpty()){
+                    sessionMain.creerClient(nom, prenom, mail, mdp, tel);
+                }
+                else{
+                    jspClient = "/signup.jsp";
+                    request.setAttribute("MsgError", "Veuillez saisir tous les champs nécessaires");
+                }
             }
 
             if (act.equals("login")) {
