@@ -19,6 +19,7 @@ import GestionCatalogue.Service;
 import GestionCatalogue.ServiceStandard;
 import GestionDevis.Devis;
 import GestionDevis.DevisStandard;
+import GestionUtilisateur.Agence;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Entreprise;
 import GestionUtilisateur.ReferentLocal;

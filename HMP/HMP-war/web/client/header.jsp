@@ -1,16 +1,17 @@
+<%@page import="GestionUtilisateur.Client"%>
+<% Client c = (Client) session.getAttribute("sessionClient"); %>
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>nomClient</title>
+        <title><%=(c.getNom()+' '+c.getPrenom())%></title>
 
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
 
         <link href="${pageContext.request.contextPath}/css/custom/dashboard.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/custom/simple-sidebar.css" rel="stylesheet">
         
-        <link href="${pageContext.request.contextPath}/css/custom/form-validation.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/custom/fileInput.css" rel="stylesheet">
 
     </head>
