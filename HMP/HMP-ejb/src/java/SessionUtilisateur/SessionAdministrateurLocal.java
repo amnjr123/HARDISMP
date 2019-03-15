@@ -19,8 +19,10 @@ public interface SessionAdministrateurLocal {
 
     Agence creerAgence(String localisation);
 
-    Entreprise creerEntreprise(String nom, String siret, String adresseFacturation, String mdpRattachement, long idAgence);
-
     Interlocuteur creerInterlocuteur(String nom, String prenom, String telephone, String fonction, long idEntreprise);
+
+    Entreprise creerEntreprise(String nom, String siret, String adresseFacturation, long idAgence);
+
+    Entreprise validerDemandeCreationEntreprise(Long idDemande);
     
 }

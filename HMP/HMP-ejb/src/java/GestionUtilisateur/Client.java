@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 
@@ -35,6 +36,29 @@ public class Client extends Utilisateur implements Serializable {
     public void setCommunications(List<Communication> communications) {
         this.communications = communications;
     }
+    
+    @OneToOne(mappedBy = "client")
+    private DemandeCreationEntreprise demandeCreationEntreprise;
+
+    public DemandeCreationEntreprise getDemandeCreationEntreprise() {
+        return demandeCreationEntreprise;
+    }
+
+    public void setDemandeCreationEntreprise(DemandeCreationEntreprise demandeCreationEntreprise) {
+        this.demandeCreationEntreprise = demandeCreationEntreprise;
+    }
+    
+    @OneToOne(mappedBy = "Client")
+    private DemandeRattachement demandeRattachement;
+    
+    public DemandeRattachement getDemandeRattachement() {
+        return demandeRattachement;
+    }
+
+    public void setDemandeRattachement(DemandeRattachement demandeRattachement) {
+        this.demandeRattachement = demandeRattachement;
+    }
+    
 //Attributs
    
     private Boolean administrateur;

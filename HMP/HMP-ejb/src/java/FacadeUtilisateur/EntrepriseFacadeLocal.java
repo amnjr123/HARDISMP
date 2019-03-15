@@ -43,6 +43,6 @@ public interface EntrepriseFacadeLocal {
 
     Entreprise modifierEntreprise(Entreprise e, String nom, String siret, String adresse, Agence a);
 
-    Entreprise creerEntreprise(String nom, String siret, String adresse, String mdp, Agence a);
+    Entreprise creerEntreprise(String nom, String siret, String adresse, Agence a);
     
 }

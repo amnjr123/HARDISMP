@@ -6,7 +6,6 @@
 package FacadeUtilisateur;
 
 import Enum.Helpers;
-import GestionCatalogue.Service;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Entreprise;
 import java.io.UnsupportedEncodingException;
@@ -17,7 +16,6 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *
@@ -53,6 +51,7 @@ public class ClientFacade extends AbstractFacade<Client> implements ClientFacade
         }
         /*End Hashage*/
         c.setDateCreationCompte(new Date());
+        c.setAdministrateur(false);
         create(c);
         return c;
     }
@@ -97,11 +96,29 @@ public class ClientFacade extends AbstractFacade<Client> implements ClientFacade
         return findAll();
     }
 
+    @Override
     public Client affecterEntreprise(Client c, Entreprise e) {
         c.setEntreprise(e);
         edit(c);
         return c;
     }
+    
+    @Override
+    public Client modifierAdmin(Client c) {
+        c.setAdministrateur(true);
+        edit(c);
+        return c;
+    }
+    
+    @Override
+    public Client modifierAdmin(Client ancienAdmin, Client nouveauAdmin) {
+        ancienAdmin.setAdministrateur(false);
+        nouveauAdmin.setAdministrateur(true);
+        edit(ancienAdmin);
+        edit(nouveauAdmin);
+        return nouveauAdmin;
+    }
+    
     
     
 
