@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GestionUtilisateur;
+package FacadeUtilisateur;
 
+import GestionUtilisateur.Client;
+import GestionUtilisateur.DemandeRattachement;
+import GestionUtilisateur.Entreprise;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -28,5 +31,11 @@ public interface DemandeRattachementFacadeLocal {
     List<DemandeRattachement> findRange(int[] range);
 
     int count();
+
+    DemandeRattachement rechercherDemandeRattachement(Entreprise e);
+
+    DemandeRattachement rechercherDemandeRattachement(Client c);
+
+    DemandeRattachement rechercherDemandeRattachement(Long id);
     
 }

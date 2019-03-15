@@ -25,6 +25,8 @@ import GestionDevis.DevisStandard;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.DemandeCreationEntreprise;
+import GestionUtilisateur.DemandeRattachement;
+import FacadeUtilisateur.DemandeRattachementFacadeLocal;
 import GestionUtilisateur.Entreprise;
 import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.Utilisateur;
@@ -37,6 +39,9 @@ import javax.ejb.Stateless;
 
 @Stateless
 public class SessionClient implements SessionClientLocal {
+
+    @EJB
+    private DemandeRattachementFacadeLocal demandeRattachementFacade;
 
     @EJB
     private DemandeCreationEntrepriseFacadeLocal demandeCreationEntrepriseFacade;
@@ -93,13 +98,15 @@ public class SessionClient implements SessionClientLocal {
     }
     
     @Override
-    public List<DemandeRattachement> rechercherDemandeRattachementEntreprise(Long idEntreprise) {
-        return demandeRattachementFacade.rechercherDemandeRattachement(idEntreprise);
+    public DemandeRattachement rechercherDemandeRattachementEntreprise(Long idEntreprise) {
+        Entreprise e = entrepriseFacade.rechercheEntreprise(idEntreprise);
+        return demandeRattachementFacade.rechercherDemandeRattachement(e);
     }
     
     @Override
-    public List<DemandeRattachement> rechercherDemandeRattachementClient(Long idClient) {
-        return demandeRattachementFacade.rechercherDemandeRattachement(idClient);
+    public DemandeRattachement rechercherDemandeRattachementClient(Long idClient) {
+        Client c = clientFacade.rechercheClient(idClient);
+        return demandeRattachementFacade.rechercherDemandeRattachement(c);
     }
     
     @Override

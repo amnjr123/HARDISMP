@@ -11,6 +11,7 @@ import GestionDevis.DevisStandard;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.DemandeCreationEntreprise;
+import GestionUtilisateur.DemandeRattachement;
 import GestionUtilisateur.Entreprise;
 import java.util.List;
 import javax.ejb.Local;
@@ -34,4 +35,8 @@ public interface SessionClientLocal {
     List<Agence> rechercherAgence();
 
     DemandeCreationEntreprise rechercherDemandeCreationEntreprise(Long idClient);
+
+    DemandeRattachement rechercherDemandeRattachementClient(Long idClient);
+
+    DemandeRattachement rechercherDemandeRattachementEntreprise(Long idEntreprise);
 }
