@@ -5,6 +5,7 @@
  */
 package FacadeCatalogue;
 
+import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
 import java.util.List;
 import javax.ejb.Local;
@@ -29,5 +30,9 @@ public interface ServiceFacadeLocal {
     List<Service> findRange(int[] range);
 
     int count();
+
+    List<Service> rechercherService(Offre o);
+
+    List<Service> rechercherService();
     
 }

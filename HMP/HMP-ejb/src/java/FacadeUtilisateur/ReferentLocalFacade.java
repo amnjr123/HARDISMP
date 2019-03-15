@@ -14,6 +14,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -69,7 +70,7 @@ public class ReferentLocalFacade extends AbstractFacade<ReferentLocal> implement
         return rl;
     }
     
-    @Override //Méthode pour Porteur d'Offre Gestionnaire ou Visualisation
+    @Override //Méthode pour ReferentLocal Gestionnaire ou Visualisation
     public ReferentLocal modifierReferentLocal(ReferentLocal rl, String mail,String tel,String mdp,Boolean actifInactif){
         rl.setMail(mail);
         rl.setTelephone(tel);
@@ -94,4 +95,17 @@ public class ReferentLocalFacade extends AbstractFacade<ReferentLocal> implement
     public List<ReferentLocal> rechercheReferentLocal(){
         return findAll();
     }
+    
+    @Override
+    public ReferentLocal rechercheReferentLocal(Agence a, Offre o){
+        Query requete = em.createQuery("select r from ReferentLocal as r where  r.agence=:a and r.offre=:o");
+        requete.setParameter("a", a);
+        requete.setParameter("o", o);
+        if (!requete.getResultList().isEmpty()) {
+            return (ReferentLocal) requete.getSingleResult();
+        } else {
+            return null;
+        }
+    }
+    
 }

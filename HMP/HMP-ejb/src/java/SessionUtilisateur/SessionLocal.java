@@ -25,8 +25,6 @@ public interface SessionLocal {
 
     UtilisateurHardis rechercheUtilisateurHardis(Long id);
 
-    void test();
-
     Client creerClient(String nom, String prenom, String mail, String mdp, String telephone);
 
     Utilisateur rechercherUtilisateurExistant(String mail);

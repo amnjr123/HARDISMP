@@ -13,7 +13,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 public class Client extends Utilisateur implements Serializable {    
-    
+//Clés étrangères    
     @ManyToOne
     private Entreprise entreprise;
 
@@ -35,5 +35,16 @@ public class Client extends Utilisateur implements Serializable {
     public void setCommunications(List<Communication> communications) {
         this.communications = communications;
     }
-    
+//Attributs
+   
+    private Boolean administrateur;
+
+    public Boolean getAdministrateur() {
+        return administrateur;
+    }
+
+    public void setAdministrateur(Boolean administrateur) {
+        this.administrateur = administrateur;
+    }
+
 }
