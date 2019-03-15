@@ -23,7 +23,7 @@
 hs_err_pid*
 
 #Dist et build
-/HMP/nbproject/private/
+/HMP/nbproject/
 /HMP/HMP-war/nbproject/private/
 /HMP/HMP-ejb/nbproject/private/
 /HMP/HMP-ejb/build/
