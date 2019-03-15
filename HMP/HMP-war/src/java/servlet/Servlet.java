@@ -39,22 +39,28 @@ public class Servlet extends HttpServlet {
 
         if (request.getParameter("action") != null) {
             String act = request.getParameter("action");
-
+            /*CREATION CLIENT*/
             if (act.equals("creerClient")) {
                 String prenom = request.getParameter("prenom").trim();
                 String nom = request.getParameter("nom").trim();
                 String mail = request.getParameter("email").trim().toLowerCase();
                 String tel = request.getParameter("tel").trim();
                 String mdp = request.getParameter("pw");
-                if(!prenom.isEmpty() && !nom.isEmpty() && !mail.isEmpty() && !tel.isEmpty() && !mdp.isEmpty()){
-                    sessionMain.creerClient(nom, prenom, mail, mdp, tel);
-                }
-                else{
+                if (!prenom.isEmpty() && !nom.isEmpty() && !mail.isEmpty() && !tel.isEmpty() && !mdp.isEmpty()) {
+                    Utilisateur u = sessionMain.rechercherUtilisateurExistant(mail);
+                    if (u == null) {
+                        sessionMain.creerClient(nom, prenom, mail, mdp, tel);
+                    } else {
+                        jspClient = "/signup.jsp";
+                        request.setAttribute("MsgError", "Cette adresse mail est déjà utilisée");
+                    }
+                } else {
                     jspClient = "/signup.jsp";
                     request.setAttribute("MsgError", "Veuillez saisir tous les champs nécessaires");
                 }
             }
-
+            /*FIN CREATION CLIENT*/
+            /*AUTHENTIFICATION*/
             if (act.equals("login")) {
                 String login = request.getParameter("email").trim();
                 String mdp = request.getParameter("pw");
@@ -76,10 +82,10 @@ public class Servlet extends HttpServlet {
                     }
                 } else {
                     jspClient = "/login.jsp";
-                    request.setAttribute("msgError", "Utilisateur inexistant");
+                    request.setAttribute("msgError", "Utilisateur inexistant ou mot de passe erroné");
                 }
             }
-
+            /*FIN AUTHENTIFICATION*/
             /*Control Deconnexion*/
             if (act.equals("logout")) {
                 sessionHttp.setAttribute(ATT_SESSION_CLIENT, null); //Enlever le Token
