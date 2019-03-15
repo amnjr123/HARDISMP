@@ -37,7 +37,7 @@ public class ClientFacade extends AbstractFacade<Client> implements ClientFacade
     }
 
     @Override
-    public Client creerClient(String nom, String prenom, String mail, String tel, String mdp, Entreprise e) {
+    public Client creerClient(String nom, String prenom, String mail, String tel, String mdp) {
         Client c = new Client();
         c.setNom(nom);
         c.setPrenom(prenom);
@@ -51,9 +51,6 @@ public class ClientFacade extends AbstractFacade<Client> implements ClientFacade
         }
         /*End Hashage*/
         c.setDateCreationCompte(new Date());
-        if (e != null) {
-            c.setEntreprise(e);
-        }
         create(c);
         return c;
     }

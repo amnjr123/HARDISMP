@@ -34,11 +34,11 @@ public class UtilisateurFacade extends AbstractFacade<Utilisateur> implements Ut
         Query requete = getEntityManager().createQuery("select u from Utilisateur as u where u.mail=:mail and u.mdp=:mdp");
         requete.setParameter("mail", mail);
         requete.setParameter("mdp", mdp);
-        /*try {
+        try {
             requete.setParameter("mdp", Helpers.sha1(mdp));
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(UtilisateurFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
         if (!requete.getResultList().isEmpty()) {
             return (Utilisateur) requete.getSingleResult();
         } else {
@@ -61,6 +61,17 @@ public class UtilisateurFacade extends AbstractFacade<Utilisateur> implements Ut
     @Override
     public Utilisateur rechercheUtilisateur(long id) {
         return find(id);
+    }
+    
+    @Override
+    public Utilisateur rechercherUtilisateurParMail(String mail){
+        Query requete = em.createQuery("select u from Utilisateur as u where  u.mail=:mail ");
+        requete.setParameter("mail", mail);
+        if (!requete.getResultList().isEmpty()) {
+            return (Utilisateur) requete.getSingleResult();
+        } else {
+            return null;
+        }
     }
     
     

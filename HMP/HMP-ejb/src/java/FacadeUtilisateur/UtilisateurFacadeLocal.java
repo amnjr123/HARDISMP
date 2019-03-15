@@ -35,5 +35,7 @@ public interface UtilisateurFacadeLocal {
     public String getDType(Utilisateur u);
 
     Utilisateur rechercheUtilisateur(long id);
+
+    Utilisateur rechercherUtilisateurParMail(String mail);
     
 }

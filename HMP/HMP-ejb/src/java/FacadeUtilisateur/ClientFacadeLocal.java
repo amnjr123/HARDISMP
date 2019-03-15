@@ -39,7 +39,7 @@ public interface ClientFacadeLocal {
 
     List<Client> rechercheClient();
 
-    Client creerClient(String nom, String prenom, String mail, String tel, String mdp, Entreprise e);
+    Client creerClient(String nom, String prenom, String mail, String tel, String mdp);
 
     void test();
     

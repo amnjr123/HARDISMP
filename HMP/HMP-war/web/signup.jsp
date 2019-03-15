@@ -11,7 +11,7 @@
         </div>
 
         <div>
-            <form class="needs-validation" novalidate>
+            <form class="needs-validation" novalidate method="post" action="${pageContext.request.contextPath}/Servlet">
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="firstName">Prénom *</label>
