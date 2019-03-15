@@ -21,3 +21,14 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+#Dist et build
+/HMP/nbproject/private/
+/HMP/HMP-war/nbproject/private/
+/HMP/HMP-ejb/nbproject/private/
+/HMP/HMP-ejb/build/
+/HMP/build/
+/HMP/dist/
+/HMP/HMP-ejb/dist/
+/HMP/HMP-war/build/
+/HMP/HMP-war/dist/
