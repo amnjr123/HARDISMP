@@ -58,23 +58,6 @@
                         </div>
                     </div>
                 </div>
-                <%--
-                            <div class="mb-3">
-                              <label for="address">SIRET de votre entreprise *</label>
-                              <input name="siret" type="text" class="form-control" id="address" placeholder="##############" required>
-                              <div class="invalid-feedback">
-                                Le SIRET Est obligatoire.
-                              </div>
-                            </div>
-
-            <div class="mb-3">
-              <label for="address">Code d'identification d'entreprise *</label>
-              <input name="pwEntreprise" type="text" class="form-control" id="address" placeholder="Code de votre entreprise" required>
-              <div class="invalid-feedback">
-                Le code Est obligatoire.
-              </div>
-            </div>
-                --%>
                 <hr class="mb-4">
                 <input type="hidden" name="action" value="creerClient">
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Créez votre compte</button>
