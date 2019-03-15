@@ -4,7 +4,6 @@ import Enum.ProfilTechnique;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
-import SessionUtilisateur.SessionClientLocal;
 import SessionUtilisateur.SessionLocal;
 import java.io.IOException;
 import javax.ejb.EJB;
@@ -61,16 +60,16 @@ public class Servlet extends HttpServlet {
                 Utilisateur utilisateur = sessionMain.authentification(login, mdp);
 
                 if (utilisateur != null) {
-                    if (sessionMain.getTypeUser(utilisateur).equalsIgnoreCase("Client")) {
-                        Client c = sessionMain.rechercheClient(utilisateur.getId());
+                    if (sessionMain.getTypeUser(utilisateur).equalsIgnoreCase("Client")) {//verif type utilisateur
+                        Client c = sessionMain.rechercheClient(utilisateur.getId());// recherche Client
                         sessionHttp.setAttribute(ATT_SESSION_CLIENT, c);//Attribuer le Token
                         jspClient = "/client/index.jsp";
                     } else {
                         jspClient = "/utilisateurHardis/index.jsp";
-                        UtilisateurHardis uh = sessionMain.rechercheUtilisateurHardis(utilisateur.getId());
+                        UtilisateurHardis uh = sessionMain.rechercheUtilisateurHardis(utilisateur.getId());// Chercher l'utilisateur Hardis
                         sessionHttp.setAttribute(ATT_SESSION_HARDIS, uh);//Attribuer le Token
                         ProfilTechnique pt = uh.getProfilTechnique();// Profil technique
-                        if (pt.equals(ProfilTechnique.Administrateur)) {
+                        if (pt.equals(ProfilTechnique.Administrateur)) {// Verif profil technique
                             sessionHttp.setAttribute(ATT_SESSION_ADMINISTRATEUR, uh);//Attribuer le Token
                         }
                     }
