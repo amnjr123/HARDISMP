@@ -6,6 +6,7 @@
 package FacadeUtilisateur;
 
 import Enum.Helpers;
+import GestionCatalogue.Service;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Entreprise;
 import java.io.UnsupportedEncodingException;
@@ -16,6 +17,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -56,15 +58,28 @@ public class ClientFacade extends AbstractFacade<Client> implements ClientFacade
     }
 
     @Override
-    public Client modifierClient(Client c, String nom, String prenom, String mail, String tel, String mdp) {
+    public Client modifierClient(Client c, String nom, String prenom, String mail, String tel) {
         c.setNom(nom);
         c.setPrenom(prenom);
         c.setMail(mail);
         c.setTelephone(tel);
-        c.setMdp(mdp);
         edit(c);
         return c;
     }
+    
+    @Override
+    public Client modifierClientMDP(Client c, String mdp) {
+        /*Hashage password*/ 
+        try {
+            c.setMdp(Helpers.sha1(mdp));
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(ClientFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        /*End Hashage*/
+        edit(c);
+        return c;
+    }
+    
 
     @Override
     public Client supprimerClient(Client c) {
@@ -87,17 +102,7 @@ public class ClientFacade extends AbstractFacade<Client> implements ClientFacade
         edit(c);
         return c;
     }
+    
+    
 
-    @Override
-    public void test() {
-        Client c = new Client();
-        c.setNom("Hamad ");
-        c.setPrenom("Borkovich");
-        c.setMail("test@gmail.com");
-        c.setTelephone("0600000000");
-        c.setMdp("test");
-        c.setDateCreationCompte(new Date());
-        // c.setEntreprise(e);
-        create(c);
-    }
 }

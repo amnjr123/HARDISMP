@@ -31,8 +31,6 @@ public interface ClientFacadeLocal {
 
     int count();
 
-    Client modifierClient(Client c, String nom, String prenom, String mail, String tel, String mdp);
-
     Client supprimerClient(Client c);
 
     Client rechercheClient(long id);
@@ -41,6 +39,8 @@ public interface ClientFacadeLocal {
 
     Client creerClient(String nom, String prenom, String mail, String tel, String mdp);
 
-    void test();
+    Client modifierClient(Client c, String nom, String prenom, String mail, String tel);
+
+    Client modifierClientMDP(Client c, String mdp);
     
 }

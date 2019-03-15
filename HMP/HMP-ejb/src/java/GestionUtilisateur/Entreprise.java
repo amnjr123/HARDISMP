@@ -98,16 +98,6 @@ public class Entreprise implements Serializable {
         this.adresseFacturation = adresseFacturation;
     }
 
-    private String mdpRattachement;
-
-    public String getMdpRattachement() {
-        return mdpRattachement;
-    }
-
-    public void setMdpRattachement(String mdpRattachement) {
-        this.mdpRattachement = mdpRattachement;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;

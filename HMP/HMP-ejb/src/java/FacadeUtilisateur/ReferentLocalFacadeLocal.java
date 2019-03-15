@@ -44,5 +44,7 @@ public interface ReferentLocalFacadeLocal {
     ReferentLocal modifierReferentLocal(ReferentLocal rl, String nom, String prenom, String mail, String tel, String mdp, ProfilTechnique profil, Boolean actifInactif, float plafondDelegation, Offre offre, Agence agence);
 
     ReferentLocal creerReferentLocal(String nom, String prenom, String mail, String tel, String mdp, ProfilTechnique profil, Boolean actifInactif, float plafondDelegation, Offre offre, Agence agence);
+
+    ReferentLocal rechercheReferentLocal(Agence a, Offre o);
     
 }

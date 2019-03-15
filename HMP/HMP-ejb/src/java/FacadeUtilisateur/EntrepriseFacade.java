@@ -38,18 +38,17 @@ public class EntrepriseFacade extends AbstractFacade<Entreprise> implements Entr
         e.setNom(nom);
         e.setSiret(siret);
         e.setAdresseFacturation(adresse);
-        e.setMdpRattachement(mdp);
         e.setAgence(a);
         create(e);
         return e;
     }
 
+    
     @Override
-    public Entreprise modifierEntreprise(Entreprise e, String nom, String siret, String adresse, String mdp, Agence a) {
+    public Entreprise modifierEntreprise(Entreprise e, String nom, String siret, String adresse, Agence a) {
         e.setNom(nom);
         e.setSiret(siret);
         e.setAdresseFacturation(adresse);
-        e.setMdpRattachement(mdp);
         e.setAgence(a);
         edit(e);
         return e;
