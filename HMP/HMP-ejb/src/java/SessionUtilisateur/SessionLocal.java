@@ -28,5 +28,7 @@ public interface SessionLocal {
     Client creerClient(String nom, String prenom, String mail, String mdp, String telephone);
 
     Utilisateur rechercherUtilisateurExistant(String mail);
+
+     void test();
     
 }

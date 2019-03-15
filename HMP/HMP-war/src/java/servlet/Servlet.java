@@ -34,7 +34,7 @@ public class Servlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         HttpSession sessionHttp = request.getSession();
-
+        //sessionMain.test();
         if (request.getParameter("action") != null) {
             String act = request.getParameter("action");
             /*CREATION CLIENT*/
