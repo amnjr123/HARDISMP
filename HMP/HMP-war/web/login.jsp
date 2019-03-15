@@ -1,5 +1,5 @@
 <jsp:include page="header.jsp"/>
-<link href="./css/custom/signin.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/custom/signin.css" rel="stylesheet">
 </head>
 <body class="text-center">
     <form class="form-signin" method="post" action="${pageContext.request.contextPath}/Servlet">
@@ -39,7 +39,5 @@
                 </div>
             </div>
         </div>
-
-
-
+        
     <jsp:include page="footer.jsp"/>

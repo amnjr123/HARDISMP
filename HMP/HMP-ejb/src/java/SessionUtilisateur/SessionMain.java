@@ -46,8 +46,14 @@ public class SessionMain implements SessionLocal {
         return clientFacade.creerClient(nom, prenom, mail, mdp, mdp);
     }
 
+    @Override
     public Utilisateur rechercherUtilisateurExistant(String mail){
         return utilisateurFacade.rechercherUtilisateurParMail(mail);
+    }
+    
+    @Override
+    public void test(){
+        this.creerClient("NEJJARI","Amine","amnjr123@gmail.com","123456","0624318857");
     }
         
 }

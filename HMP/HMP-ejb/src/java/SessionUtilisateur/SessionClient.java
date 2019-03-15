@@ -97,6 +97,8 @@ public class SessionClient implements SessionClientLocal {
         return e;
     }
     
+    /*
+    
     @Override
     public DemandeRattachement rechercherDemandeRattachementEntreprise(Long idEntreprise) {
         Entreprise e = entrepriseFacade.rechercheEntreprise(idEntreprise);
@@ -130,8 +132,7 @@ public class SessionClient implements SessionClientLocal {
         DemandeRattachement d = demandeRattachementFacade.rechercheDemandeRattachement(idDemande);
         demandeRattachementFacade.supprimerDemandeRattachement(d);
         return d;//A tester si on peut renvoyer une instance supprimée de la bdd sans provoquer de bug
-    }
-    
+    }*/
     
     
     /*GESTION DES DEVIS*/
