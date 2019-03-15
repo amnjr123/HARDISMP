@@ -43,10 +43,10 @@ public class Servlet extends HttpServlet {
             if (act.equals("creerClient")) {
                 String prenom = request.getParameter("prenom").trim();
                 String nom = request.getParameter("nom").trim();
-                String mail = request.getParameter("email").trim();
+                String mail = request.getParameter("email").trim().toLowerCase();
                 String tel = request.getParameter("tel").trim();
                 String mdp = request.getParameter("pw");
-                if(!prenom.isEmpty()&&!nom.isEmpty()&&!mail.isEmpty()&&!tel.isEmpty()&&!mdp.isEmpty()){
+                if(!prenom.isEmpty() && !nom.isEmpty() && !mail.isEmpty() && !tel.isEmpty() && !mdp.isEmpty()){
                     sessionMain.creerClient(nom, prenom, mail, mdp, tel);
                 }
                 else{
