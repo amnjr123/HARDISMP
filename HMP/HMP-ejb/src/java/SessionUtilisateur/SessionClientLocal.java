@@ -8,7 +8,10 @@ package SessionUtilisateur;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
 import GestionDevis.DevisStandard;
+import GestionUtilisateur.Agence;
 import GestionUtilisateur.Client;
+import GestionUtilisateur.DemandeCreationEntreprise;
+import GestionUtilisateur.Entreprise;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -25,4 +28,10 @@ public interface SessionClientLocal {
     DevisStandard creerDevisStandard(String commentaireClient, Long idServiceStandard, Long idClient);
 
     Client modifierClientMDP(Long id, String ancienMdp, String nouveauMdp);
+
+    DemandeCreationEntreprise creerDemandeEntreprise(Long idClient, String nom, String siret, String adresse, Long idAgence);
+
+    List<Agence> rechercherAgence();
+
+    DemandeCreationEntreprise rechercherDemandeCreationEntreprise(Long idClient);
 }

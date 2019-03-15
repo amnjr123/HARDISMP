@@ -42,5 +42,11 @@ public interface ClientFacadeLocal {
     Client modifierClient(Client c, String nom, String prenom, String mail, String tel);
 
     Client modifierClientMDP(Client c, String mdp);
+
+    Client affecterEntreprise(Client c, Entreprise e);
+
+    Client modifierAdmin(Client c);
+
+    Client modifierAdmin(Client ancienAdmin, Client nouveauAdmin);
     
 }

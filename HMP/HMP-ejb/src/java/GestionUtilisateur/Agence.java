@@ -43,6 +43,17 @@ public class Agence implements Serializable {
         this.deviss = deviss;
     }
     
+    @OneToMany(mappedBy = "agence")
+    private List<DemandeCreationEntreprise> demandeCreationEntreprises;
+
+    public List<DemandeCreationEntreprise> getDemandeCreationEntreprises() {
+        return demandeCreationEntreprises;
+    }
+
+    public void setDemandeCreationEntreprises(List<DemandeCreationEntreprise> demandeCreationEntreprises) {
+        this.demandeCreationEntreprises = demandeCreationEntreprises;
+    }
+    
 //Attributs
     private static final long serialVersionUID = 1L;
     @Id
