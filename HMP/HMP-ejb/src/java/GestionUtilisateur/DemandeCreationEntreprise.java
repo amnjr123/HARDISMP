@@ -6,46 +6,35 @@
 package GestionUtilisateur;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author 5151882
  */
 @Entity
-public class Entreprise implements Serializable {
+public class DemandeCreationEntreprise implements Serializable {
+//Clés étrangères
+    
 
-    @OneToMany(mappedBy = "entreprise")
-    private List<DemandeRattachement> demandeRattachements;
-//Clé étrangères
-    @OneToMany(mappedBy = "entreprise")
-    private List<Interlocuteur> interlocuteurs;
+    @OneToOne
+    private Client client;
 
-    public List<Interlocuteur> getInterlocuteurs() {
-        return interlocuteurs;
+    public Client getClient() {
+        return client;
     }
 
-    public void setInterlocuteurs(List<Interlocuteur> interlocuteurs) {
-        this.interlocuteurs = interlocuteurs;
+    public void setClient(Client client) {
+        this.client = client;
     }
     
-    @OneToMany(mappedBy = "entreprise")
-    private List<Client> employes;
-
-    public List<Client> getEmployes() {
-        return employes;
-    }
-
-    public void setEmployes(List<Client> employes) {
-        this.employes = employes;
-    }
-        
     @ManyToOne
     private Agence agence;
 
@@ -57,7 +46,8 @@ public class Entreprise implements Serializable {
         this.agence = agence;
     }
 
-//Attributs    
+
+//Attributs
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -70,7 +60,7 @@ public class Entreprise implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
+    
     private String nom;
 
     public String getNom() {
@@ -101,6 +91,17 @@ public class Entreprise implements Serializable {
         this.adresseFacturation = adresseFacturation;
     }
 
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date dateDemande;
+
+    public Date getDateDemande() {
+        return dateDemande;
+    }
+
+    public void setDateDemande(Date dateDemande) {
+        this.dateDemande = dateDemande;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -111,10 +112,10 @@ public class Entreprise implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Entreprise)) {
+        if (!(object instanceof DemandeCreationEntreprise)) {
             return false;
         }
-        Entreprise other = (Entreprise) object;
+        DemandeCreationEntreprise other = (DemandeCreationEntreprise) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -123,7 +124,7 @@ public class Entreprise implements Serializable {
 
     @Override
     public String toString() {
-        return "Classes.Entreprise[ id=" + id + " ]";
+        return "GestionUtilisateur.DemandeCreationEntreprise[ id=" + id + " ]";
     }
     
 }

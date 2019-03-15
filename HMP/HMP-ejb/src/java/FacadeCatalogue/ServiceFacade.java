@@ -7,10 +7,13 @@ package FacadeCatalogue;
 
 import GestionCatalogue.Service;
 import FacadeUtilisateur.AbstractFacade;
+import GestionCatalogue.Offre;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,6 +32,22 @@ public class ServiceFacade extends AbstractFacade<Service> implements ServiceFac
 
     public ServiceFacade() {
         super(Service.class);
+    }
+    
+    @Override
+    public List<Service> rechercherService(){
+        return findAll();
+    }
+    
+    @Override
+    public List<Service> rechercherService(Offre o){
+        Query requete = em.createQuery("select s from Service as s where  s.offre=:o ");
+        requete.setParameter("o", o);
+        if (!requete.getResultList().isEmpty()) {
+            return requete.getResultList();
+        } else {
+            return null;
+        }
     }
     
 }

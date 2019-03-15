@@ -33,23 +33,22 @@ public class EntrepriseFacade extends AbstractFacade<Entreprise> implements Entr
     }
 
     @Override
-    public Entreprise creerEntreprise(String nom, String siret, String adresse, String mdp, Agence a) {
+    public Entreprise creerEntreprise(String nom, String siret, String adresse, Agence a) {
         Entreprise e = new Entreprise();
         e.setNom(nom);
         e.setSiret(siret);
         e.setAdresseFacturation(adresse);
-        e.setMdpRattachement(mdp);
         e.setAgence(a);
         create(e);
         return e;
     }
 
+    
     @Override
-    public Entreprise modifierEntreprise(Entreprise e, String nom, String siret, String adresse, String mdp, Agence a) {
+    public Entreprise modifierEntreprise(Entreprise e, String nom, String siret, String adresse, Agence a) {
         e.setNom(nom);
         e.setSiret(siret);
         e.setAdresseFacturation(adresse);
-        e.setMdpRattachement(mdp);
         e.setAgence(a);
         edit(e);
         return e;
@@ -68,7 +67,7 @@ public class EntrepriseFacade extends AbstractFacade<Entreprise> implements Entr
 
     @Override
     public Entreprise rechercheEntrepriseSiret(String siret) {
-        Query requete = getEntityManager().createQuery("select e from Entreprise e where e.siret:siret");
+        Query requete = getEntityManager().createQuery("select e from Entreprise e where e.siret=:siret");
         requete.setParameter("siret", siret);
         if (!requete.getResultList().isEmpty()) {
             return (Entreprise) requete.getSingleResult();
@@ -79,7 +78,7 @@ public class EntrepriseFacade extends AbstractFacade<Entreprise> implements Entr
     
     @Override
     public Entreprise rechercheEntrepriseNom(String nom) {
-        Query requete = getEntityManager().createQuery("select e from Entreprise e where e.nom:nom");
+        Query requete = getEntityManager().createQuery("select e from Entreprise e where e.nom=:nom");
         requete.setParameter("nom", nom);
         if (!requete.getResultList().isEmpty()) {
             return (Entreprise) requete.getSingleResult();
@@ -92,4 +91,6 @@ public class EntrepriseFacade extends AbstractFacade<Entreprise> implements Entr
     public List<Entreprise> rechercheEntreprise() {
         return findAll();
     }
+    
+    
 }

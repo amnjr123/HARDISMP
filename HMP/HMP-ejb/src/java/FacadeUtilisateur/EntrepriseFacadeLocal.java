@@ -31,18 +31,18 @@ public interface EntrepriseFacadeLocal {
 
     int count();
 
-    Entreprise modifierEntreprise(Entreprise e, String nom, String siret, String adresse, String mdp, Agence a);
-
     Entreprise supprimerEntreprise(Entreprise e);
 
     Entreprise rechercheEntreprise(long id);
 
     List<Entreprise> rechercheEntreprise();
 
-    Entreprise creerEntreprise(String nom, String siret, String adresse, String mdp, Agence a);
-
     Entreprise rechercheEntrepriseSiret(String siret);
 
     Entreprise rechercheEntrepriseNom(String nom);
+
+    Entreprise modifierEntreprise(Entreprise e, String nom, String siret, String adresse, Agence a);
+
+    Entreprise creerEntreprise(String nom, String siret, String adresse, Agence a);
     
 }

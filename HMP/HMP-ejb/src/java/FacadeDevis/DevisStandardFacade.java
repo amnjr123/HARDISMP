@@ -36,6 +36,7 @@ public class DevisStandardFacade extends AbstractFacade<DevisStandard> implement
         super(DevisStandard.class);
     }
     
+    /*RAJOUTER CLIENT*/
     @Override
     public DevisStandard creerDevisStandard(float montant, String commentaireClient, ServiceStandard serviceStandard, ReferentLocal rl, Agence agence){
         DevisStandard d = new DevisStandard();

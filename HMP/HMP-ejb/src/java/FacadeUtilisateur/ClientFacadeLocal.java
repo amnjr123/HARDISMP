@@ -31,16 +31,22 @@ public interface ClientFacadeLocal {
 
     int count();
 
-    Client modifierClient(Client c, String nom, String prenom, String mail, String tel, String mdp);
-
     Client supprimerClient(Client c);
 
     Client rechercheClient(long id);
 
     List<Client> rechercheClient();
 
-    Client creerClient(String nom, String prenom, String mail, String tel, String mdp, Entreprise e);
+    Client creerClient(String nom, String prenom, String mail, String tel, String mdp);
 
-    void test();
+    Client modifierClient(Client c, String nom, String prenom, String mail, String tel);
+
+    Client modifierClientMDP(Client c, String mdp);
+
+    Client affecterEntreprise(Client c, Entreprise e);
+
+    Client modifierAdmin(Client c);
+
+    Client modifierAdmin(Client ancienAdmin, Client nouveauAdmin);
     
 }

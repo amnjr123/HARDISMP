@@ -37,7 +37,7 @@ public class ClientFacade extends AbstractFacade<Client> implements ClientFacade
     }
 
     @Override
-    public Client creerClient(String nom, String prenom, String mail, String tel, String mdp, Entreprise e) {
+    public Client creerClient(String nom, String prenom, String mail, String tel, String mdp) {
         Client c = new Client();
         c.setNom(nom);
         c.setPrenom(prenom);
@@ -51,23 +51,34 @@ public class ClientFacade extends AbstractFacade<Client> implements ClientFacade
         }
         /*End Hashage*/
         c.setDateCreationCompte(new Date());
-        if (e != null) {
-            c.setEntreprise(e);
-        }
+        c.setAdministrateur(false);
         create(c);
         return c;
     }
 
     @Override
-    public Client modifierClient(Client c, String nom, String prenom, String mail, String tel, String mdp) {
+    public Client modifierClient(Client c, String nom, String prenom, String mail, String tel) {
         c.setNom(nom);
         c.setPrenom(prenom);
         c.setMail(mail);
         c.setTelephone(tel);
-        c.setMdp(mdp);
         edit(c);
         return c;
     }
+    
+    @Override
+    public Client modifierClientMDP(Client c, String mdp) {
+        /*Hashage password*/ 
+        try {
+            c.setMdp(Helpers.sha1(mdp));
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(ClientFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        /*End Hashage*/
+        edit(c);
+        return c;
+    }
+    
 
     @Override
     public Client supprimerClient(Client c) {
@@ -85,22 +96,30 @@ public class ClientFacade extends AbstractFacade<Client> implements ClientFacade
         return findAll();
     }
 
+    @Override
     public Client affecterEntreprise(Client c, Entreprise e) {
         c.setEntreprise(e);
         edit(c);
         return c;
     }
-
+    
     @Override
-    public void test() {
-        Client c = new Client();
-        c.setNom("Hamad ");
-        c.setPrenom("Borkovich");
-        c.setMail("test@gmail.com");
-        c.setTelephone("0600000000");
-        c.setMdp("test");
-        c.setDateCreationCompte(new Date());
-        // c.setEntreprise(e);
-        create(c);
+    public Client modifierAdmin(Client c) {
+        c.setAdministrateur(true);
+        edit(c);
+        return c;
     }
+    
+    @Override
+    public Client modifierAdmin(Client ancienAdmin, Client nouveauAdmin) {
+        ancienAdmin.setAdministrateur(false);
+        nouveauAdmin.setAdministrateur(true);
+        edit(ancienAdmin);
+        edit(nouveauAdmin);
+        return nouveauAdmin;
+    }
+    
+    
+    
+
 }
