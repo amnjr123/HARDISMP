@@ -1,5 +1,6 @@
 package SessionUtilisateur;
 
+import Enum.ProfilTechnique;
 import FacadeUtilisateur.ClientFacadeLocal;
 import FacadeUtilisateur.UtilisateurFacadeLocal;
 import FacadeUtilisateur.UtilisateurHardisFacadeLocal;
@@ -53,7 +54,14 @@ public class SessionMain implements SessionLocal {
     
     @Override
     public void test(){
-        this.creerClient("NEJJARI","Amine","amnjr123@gmail.com","123456","0624318857");
+        //this.creerClient("NEJJARI","Amine","amnjr123@gmail.com","123456","0624318857");
+        UtilisateurHardis uh = new UtilisateurHardis();
+        uh.setNom("NEJJARI");
+        uh.setPrenom("Amine");
+        uh.setMail("amnjr456@gmail.com");
+        uh.setMdp("7C4A8D09CA3762AF61E59520943DC26494F8941B");
+        uh.setProfilTechnique(ProfilTechnique.Gestionnaire);
+        utilisateurHardisFacade.ajouter(uh);
     }
         
 }

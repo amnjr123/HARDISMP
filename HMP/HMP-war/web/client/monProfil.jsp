@@ -18,9 +18,9 @@
             <h4 class="card-title p-3 mb-2">L'attachement à votre entreprise est en cours de traitement</h4>
         </div>
     </div>
-    
-    <% 
-    if(c.getEntreprise()==null){ 
+
+    <%
+        if (c.getEntreprise() == null) {
     %>
     <div class="card text-white bg-danger mb-3">
         <div class="card-header"><h4>Mon entreprise</h4></div>
@@ -64,75 +64,81 @@
             <a href="#" class="btn btn-warning">Demande de rattachement</a>
         </div>
     </div>
-    <%      
-    }    
+    <%
+        }
     %>
 
     <div class="card text-white bg-dark mb-3">
         <div class="card-header"><h4>Mes informations personnelles</h4></div>
         <div class="card-body">
-            <form class="needs-validation" novalidate>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="firstName">Prénom</label>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <form method="post" action="${pageContext.request.contextPath}/ServletClient">
+                        <input type="hidden" name="action" value="modifierPrenomClient">
+                        <label for="nouveauPrenom">Prénom</label>
                         <div class="input-group">
-                            <input name="prenom" type="text" class="form-control" id="firstName" placeholder="Votre prénom" value="" required>
+                            <input name="nouveauPrenom" type="text" class="form-control" id="nouveauPrenom" placeholder="Votre prénom" value="<%=(c.getPrenom())%>" required>
                             <div class="input-group-prepend">
-                                <a href="#" type="button" class="btn btn-primary"><i data-feather="check"></i></a>
+                                <button type="submit" class="btn btn-primary"><i data-feather="check"></i></button>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="lastName">Nom</label>
+                    </form>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <form method="post" action="${pageContext.request.contextPath}/ServletClient">
+                        <input type="hidden" name="action" value="modifierNomClient">
+                        <label for="nouveauNom">Nom</label>
                         <div class="input-group">
-                            <input name="nom" type="text" class="form-control" id="lastName" placeholder="Votre nom" value="" required>
+                            <input name="nouveauNom" type="text" class="form-control" id="nouveauNom" placeholder="Votre nom" value="<%=(c.getNom())%>" required>
                             <div class="input-group-prepend">
-                                <a href="#" type="button" class="btn btn-primary"><i data-feather="check"></i></a>
+                                <button type="submit" class="btn btn-primary"><i data-feather="check"></i></button>
                             </div>
                         </div>
+                    </form>
+                </div>
+            </div>
+
+
+            <div class="mb-3">
+                <label for="email">Email</label>
+                <div class="input-group">
+                    <input name="email" type="email" class="form-control" id="email" placeholder="vous@votreentreprise.com" value="<%=(c.getMail())%>" disabled>
+                    <div class="input-group-prepend">
+                        <a href="#" type="button" class="btn btn-primary"data-toggle="modal" data-target="#changerEmailModal"><i data-feather="edit"></i></a>
                     </div>
                 </div>
+            </div>
 
+            <div class="mb-3">
+                <label for="inputPassword">Mot de passe</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" value="Mot de passe" disabled>
+                    <div class="input-group-prepend">
+                        <a href="#" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changerMDPModal"><i data-feather="edit"></i></a>
+                    </div>
+                </div>
+            </div>
 
-                <div class="mb-3">
-                    <label for="email">Email</label>
+            <div class="mb-3">
+                <form method="post" action="${pageContext.request.contextPath}/ServletClient">
+                    <input type="hidden" name="action" value="modifierTelephoneClient">
+                    <label for="nouveauTelephone">Téléphone</label>
                     <div class="input-group">
-                        <input name="email" type="email" class="form-control" id="email" placeholder="vous@votreentreprise.com" disabled>
+                        <input name="nouveauTelephone" type="tel" id="nouveauTelephone" class="form-control" placeholder="Numéro de téléphone" value="<%=(c.getTelephone())%>" required>
                         <div class="input-group-prepend">
-                            <a href="#" type="button" class="btn btn-primary"data-toggle="modal" data-target="#changerEmailModal"><i data-feather="edit"></i></a>
+                            <button type="submit" class="btn btn-primary"><i data-feather="check"></i></button>
                         </div>
                     </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="inputPassword">Mot de passe</label>
-                    <div class="input-group">
-                        <input type="password" class="form-control" value="Mot de passe" disabled>
-                        <div class="input-group-prepend">
-                            <a href="#" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changerMDPModal"><i data-feather="edit"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="inputPassword">Téléphone</label>
-                    <div class="input-group">
-                        <input name="tel" type="tel" id="telephone" class="form-control" placeholder="Numéro de téléphone" required>
-                        <div class="input-group-prepend">
-                            <a href="#" type="button" class="btn btn-primary"><i data-feather="check"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 
-    Si rattaché
-    <% 
-    if(c.getEntreprise()!=null){
+    <%
+        if (c.getEntreprise() != null) {
     %>
     <div class="card text-white bg-dark mb-3">
-        <div class="card-header"><h4><%=c.getEntreprise().getNom() %> : Agence <%=c.getEntreprise().getAgence().getLocalisation() %></h4></div>
+        <div class="card-header"><h4><%=c.getEntreprise().getNom()%> : Agence <%=c.getEntreprise().getAgence().getLocalisation()%></h4></div>
         <div class="card-body">
             <h4 class="card-header">Interlocuteurs</h4>
             <div class="table-responsive">
@@ -161,8 +167,8 @@
             </div>
         </div>
     </div>
-    <%   
-    }    
+    <%
+        }
     %>
 
 

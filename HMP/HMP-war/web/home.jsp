@@ -15,6 +15,7 @@
 
     </head>
     <body class="gradiant-background">
+
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
             <div class="container">
@@ -55,8 +56,16 @@
                         <a class="btn btn-primary btn-xl" href="#loginModal" data-toggle="modal">Se Connecter</a>
                         <a class="btn btn-secondary btn-xl" href="#signUpModal" data-toggle="modal">S'inscrire</a>
                     </div>
+                    <% String error = (String) request.getAttribute("msgError");
+                        if (request.getAttribute("msgError") != null) {%>
+                    <div class="alert alert-danger alert-dismissible fade in show">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Attention !</strong>&nbsp;<%=error%>.
+                    </div>
+                    <%}%>
                 </div>
             </div>
+
         </header>
 
         <!--Modal Signin-->
@@ -72,7 +81,7 @@
                             <div class="form-group">
                                 <a href="${pageContext.request.contextPath}/signup.jsp" class="float-right">Nouveau client ?</a>
                                 <label for="email">Email</label>
-                                <input name="email" type="mail" class="form-control form-control-lg" id="email" required>
+                                <input name="email" type="email" class="form-control form-control-lg" id="email" required>
                                 <div class="invalid-feedback" style="width: 100%;">
                                     Veuillez entrer une adresse mail valide.
                                 </div>
@@ -84,11 +93,18 @@
                                     Veuillez entrer un mot de passe.
                                 </div>
                             </div>
+                            <div class="text-center">           
+                                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#pwOublieModal">
+                                    Mot de passe oublié
+                                </button></div>
                             <div class="form-group py-4 text-center">
                                 <input type="hidden" name="action" value="login">
                                 <button type="submit" class="btn btn-success btn-lg " id="btnLogin">Login</button>
                                 <button style="margin-left: 1em" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" aria-hidden="true">Annuler</button>
+
                             </div>
+
+
                         </form>
                     </div>
                 </div>
@@ -139,7 +155,7 @@
                             <div class="form-group">
                                 <label for="inputPassword">Verification Mot de passe *</label>
                                 <div class="input-group">
-                                    <input name="pwV" type="password" id="inputPasswordVerif" class="form-control" onkeyup="verif()" placeholder="Vérification Mot de passe" required>
+                                    <input name="pwV" type="password" id="inputPasswordVerif" class="form-control" on onkeyup="verif()" placeholder="Vérification Mot de passe" required>
                                     <div id="result" class="invalid-feedback" style="width: 100%;">
                                         Veuillez Répéter le mot de passe.
                                     </div>
@@ -164,6 +180,7 @@
                 </div>
             </div>
         </div>
+
         <script>
             function verif() {
                 var val1 = document.getElementById("inputPassword").value,
