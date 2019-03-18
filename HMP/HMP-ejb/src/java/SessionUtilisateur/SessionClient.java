@@ -27,7 +27,9 @@ import GestionUtilisateur.Client;
 import GestionUtilisateur.DemandeCreationEntreprise;
 import GestionUtilisateur.DemandeRattachement;
 import FacadeUtilisateur.DemandeRattachementFacadeLocal;
+import FacadeUtilisateur.InterlocuteurFacadeLocal;
 import GestionUtilisateur.Entreprise;
+import GestionUtilisateur.Interlocuteur;
 import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.Utilisateur;
 import java.io.UnsupportedEncodingException;
@@ -39,6 +41,9 @@ import javax.ejb.Stateless;
 
 @Stateless
 public class SessionClient implements SessionClientLocal {
+
+    @EJB
+    private InterlocuteurFacadeLocal interlocuteurFacade;
 
     @EJB
     private DemandeRattachementFacadeLocal demandeRattachementFacade;
@@ -97,10 +102,32 @@ public class SessionClient implements SessionClientLocal {
         return e;
     }
     
-    /*
+    @Override
+    public List<Interlocuteur> rechercherInterlocuteur(Long idEntreprise){
+        Entreprise e = entrepriseFacade.rechercheEntreprise(idEntreprise);
+        return interlocuteurFacade.rechercheInterlocuteur(e);
+    }
     
     @Override
-    public DemandeRattachement rechercherDemandeRattachementEntreprise(Long idEntreprise) {
+    public Interlocuteur creerInterlocuteur(String nom, String prenom, String telephone, String fonction, long idEntreprise) {
+        return interlocuteurFacade.creerInterlocuteur(nom, prenom, nom, telephone, fonction, entrepriseFacade.rechercheEntreprise(idEntreprise));
+    }
+    
+    @Override
+    public Interlocuteur modifierInterlocuteur(Long idInterlocuteur, String nom, String prenom, String telephone, String fonction) {
+        Interlocuteur i = interlocuteurFacade.rechercheInterlocuteur(idInterlocuteur);
+        return interlocuteurFacade.modifierInterlocuteur(i,nom, prenom, nom, telephone, fonction);
+    }
+    
+    @Override
+    public Interlocuteur supprimerInterlocuteur(Long idInterlocuteur) {
+        Interlocuteur i = interlocuteurFacade.rechercheInterlocuteur(idInterlocuteur);
+        return interlocuteurFacade.supprimerInterlocuteur(i);
+    }
+    
+
+    @Override
+    public List<DemandeRattachement> rechercherDemandeRattachementEntreprise(Long idEntreprise) {
         Entreprise e = entrepriseFacade.rechercheEntreprise(idEntreprise);
         return demandeRattachementFacade.rechercherDemandeRattachement(e);
     }
@@ -121,7 +148,7 @@ public class SessionClient implements SessionClientLocal {
     
     @Override
     public DemandeRattachement validerDemandeRattachement(Long idDemande) {
-        DemandeRattachement d = demandeRattachementFacade.rechercheDemandeRattachement(idDemande);
+        DemandeRattachement d = demandeRattachementFacade.rechercherDemandeRattachement(idDemande);
         clientFacade.affecterEntreprise(d.getClient(), d.getEntreprise());
         demandeRattachementFacade.supprimerDemandeRattachement(d);
         return d;//A tester si on peut renvoyer une instance supprimée de la bdd sans provoquer de bug
@@ -129,10 +156,10 @@ public class SessionClient implements SessionClientLocal {
     
     @Override
     public DemandeRattachement refuserDemandeRattachement(Long idDemande) {
-        DemandeRattachement d = demandeRattachementFacade.rechercheDemandeRattachement(idDemande);
+        DemandeRattachement d = demandeRattachementFacade.rechercherDemandeRattachement(idDemande);
         demandeRattachementFacade.supprimerDemandeRattachement(d);
         return d;//A tester si on peut renvoyer une instance supprimée de la bdd sans provoquer de bug
-    }*/
+    }
     
     
     /*GESTION DES DEVIS*/

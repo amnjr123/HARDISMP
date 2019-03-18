@@ -6,8 +6,10 @@
 package SessionUtilisateur;
 
 import GestionUtilisateur.Agence;
+import GestionUtilisateur.Client;
 import GestionUtilisateur.Entreprise;
 import GestionUtilisateur.Interlocuteur;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -24,5 +26,15 @@ public interface SessionAdministrateurLocal {
     Entreprise creerEntreprise(String nom, String siret, String adresseFacturation, long idAgence);
 
     Entreprise validerDemandeCreationEntreprise(Long idDemande);
+
+    Interlocuteur modifierInterlocuteur(Long idInterlocuteur, String nom, String prenom, String telephone, String fonction);
+
+    Interlocuteur supprimerInterlocuteur(Long idInterlocuteur);
+
+    List<Interlocuteur> rechercherInterlocuteur(Long idEntreprise);
+
+    Client rattacherClientAdmin(Long idClient, Long idEntreprise);
+
+    Client rattacherClient(Long idClient, Long idEntreprise);
     
 }

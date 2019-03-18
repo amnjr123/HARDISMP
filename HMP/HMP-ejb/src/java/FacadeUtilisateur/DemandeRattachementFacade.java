@@ -9,6 +9,7 @@ import GestionUtilisateur.AbstractFacade;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.DemandeRattachement;
 import GestionUtilisateur.Entreprise;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -38,13 +39,23 @@ public class DemandeRattachementFacade extends AbstractFacade<DemandeRattachemen
     public DemandeRattachement rechercherDemandeRattachement(Long id){
         return find(id);
     }
+
+    @Override
+    public DemandeRattachement creerDemandeRattachement(Client c, Entreprise e){
+        DemandeRattachement d = new DemandeRattachement();
+        d.setClient(c);
+        d.setEntreprise(e);
+        d.setDateDemande(new Date());
+        create(d);  
+        return d;
+    }
     
     @Override
-    public DemandeRattachement rechercherDemandeRattachement(Entreprise e){
+    public List<DemandeRattachement> rechercherDemandeRattachement(Entreprise e){
         Query requete = em.createQuery("select d from DemandeRattachement as d where d.entreprise=:entreprise");
         requete.setParameter("entreprise", e);
         if (!requete.getResultList().isEmpty()) {
-            return (DemandeRattachement) requete.getSingleResult();
+            return requete.getResultList();
         } else {
             return null;
         }
@@ -61,10 +72,9 @@ public class DemandeRattachementFacade extends AbstractFacade<DemandeRattachemen
         }
     }
     
-    
-    /*
-     DemandeRattachement d = demandeRattachementFacade.creerDemandeRattachement(c, e);
-   
-     demandeRattachementFacade.supprimerDemandeRattachement(d);
-      */ 
+    @Override
+    public DemandeRattachement supprimerDemandeRattachement(DemandeRattachement d){
+        remove(d);
+        return d;
+    }
 }
