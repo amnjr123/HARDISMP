@@ -11,6 +11,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -69,5 +70,16 @@ public class InterlocuteurFacade extends AbstractFacade<Interlocuteur> implement
     @Override
     public List<Interlocuteur> rechercheInterlocuteur(){
         return findAll();
+    }
+    
+    @Override
+    public List<Interlocuteur> rechercheInterlocuteur(Entreprise entreprise) {
+        Query requete = getEntityManager().createQuery("select i from Interlocuteur as i where i.entreprise=:entreprise");
+        requete.setParameter("entreprise", entreprise);
+        if (!requete.getResultList().isEmpty()) {
+            return requete.getResultList();
+        } else {
+            return null;
+        }
     }
 }

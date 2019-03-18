@@ -32,10 +32,14 @@ public interface DemandeRattachementFacadeLocal {
 
     int count();
 
-    DemandeRattachement rechercherDemandeRattachement(Entreprise e);
+    List<DemandeRattachement> rechercherDemandeRattachement(Entreprise e);
 
     DemandeRattachement rechercherDemandeRattachement(Client c);
 
     DemandeRattachement rechercherDemandeRattachement(Long id);
+
+    DemandeRattachement supprimerDemandeRattachement(DemandeRattachement d);
+
+    DemandeRattachement creerDemandeRattachement(Client c, Entreprise e);
     
 }

@@ -102,16 +102,38 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         return demandeCreationEntrepriseFacade.supprimerDemandeCreationEntreprise(d);
     }
     
-    
-    
     @Override
     public Entreprise creerEntreprise(String nom, String siret, String adresseFacturation, long idAgence) {
         return entrepriseFacade.creerEntreprise(nom, siret, adresseFacturation, agenceFacade.rechercheAgence(idAgence));
+    }
+    
+    public List<Interlocuteur> rechercherInterlocuteur(){
+        return interlocuteurFacade.rechercheInterlocuteur();
+    }
+    
+    @Override
+    public List<Interlocuteur> rechercherInterlocuteur(Long idEntreprise){
+        Entreprise e = entrepriseFacade.rechercheEntreprise(idEntreprise);
+        return interlocuteurFacade.rechercheInterlocuteur(e);
     }
     
     @Override
     public Interlocuteur creerInterlocuteur(String nom, String prenom, String telephone, String fonction, long idEntreprise) {
         return interlocuteurFacade.creerInterlocuteur(nom, prenom, nom, telephone, fonction, entrepriseFacade.rechercheEntreprise(idEntreprise));
     }
+    
+    @Override
+    public Interlocuteur modifierInterlocuteur(Long idInterlocuteur, String nom, String prenom, String telephone, String fonction) {
+        Interlocuteur i = interlocuteurFacade.rechercheInterlocuteur(idInterlocuteur);
+        return interlocuteurFacade.modifierInterlocuteur(i,nom, prenom, nom, telephone, fonction);
+    }
+    
+    @Override
+    public Interlocuteur supprimerInterlocuteur(Long idInterlocuteur) {
+        Interlocuteur i = interlocuteurFacade.rechercheInterlocuteur(idInterlocuteur);
+        return interlocuteurFacade.supprimerInterlocuteur(i);
+    }
+    
+    
     
 }
