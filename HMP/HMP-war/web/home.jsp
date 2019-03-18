@@ -12,6 +12,7 @@
         <link href="https://fr.snatchbot.me/sdk/webchat.css" rel="stylesheet" type="text/css">    
         <link href="${pageContext.request.contextPath}/css/custom/form-validation.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/bootstrap4-toggle.css" rel="stylesheet">
+        <script src='https://www.google.com/recaptcha/api.js'></script>
     </head>      
     <body class="gradiant-background">
         <!-- Navigation -->
@@ -171,6 +172,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="g-recaptcha" data-sitekey="6LdiapgUAAAAAL1La45v_u4NCHidSXXRwsTgwM44"></div>
                             <div class="text-center">
                                 <input name="rgpd" data-toggle="toggle" data-size="lg" type="checkbox" value="oui" required="true" data-onstyle="success" data-on="J'accepte" data-off="Je n'accepte pas" data-width="200" >
                                 <label for="rgpd"> que mes données à caractère personnel soient collectées et traitées selon les conditions décrites à la page&nbsp;<a href="https://www.hardis-group.com/respect-des-donnees-personnelles">"respect des données personnelles"</a></label>

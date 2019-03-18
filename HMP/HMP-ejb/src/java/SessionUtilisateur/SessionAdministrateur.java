@@ -41,6 +41,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import org.apache.jasper.tagplugins.jstl.ForEach;
 
 /**
  *
@@ -99,6 +100,19 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     /*GESTION ENTREPRISE*/
     public List<DemandeCreationEntreprise> rechercheDemandeCreationEntreprise(){
         return demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise();
+    }
+    
+    public List<Entreprise> rechercherEntreprisePagine(int page){
+        int lastPage=entrepriseFacade.rechercheEntreprise().size();
+        List<Entreprise> lr = new ArrayList<Entreprise>();
+        for(int i=page*10; i<(page*10+9); i++){
+            try{
+              lr.add(entrepriseFacade.rechercheEntreprise().get(i));
+            } catch (Exception e) {
+              System.out.print("out of bounds");
+            }
+        }
+        return lr;
     }
     
     public Entreprise entrepriseExistante(String siret){

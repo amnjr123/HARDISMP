@@ -47,7 +47,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="entreprises.jsp">
+                <a class="nav-link" href="${pageContext.request.contextPath}/ServletAdministrateur?action=entreprises&p=0">
                   <span data-feather="file-text"></span>
                   Entreprises
                 </a>

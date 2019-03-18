@@ -70,12 +70,20 @@
 
     <div class="card text-white bg-dark mb-3">
         <% String error = (String) request.getAttribute("msgError");
-                        if (request.getAttribute("msgError") != null) {%>
-                    <div class="alert alert-danger alert-dismissible fade in show">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        <strong>Attention !</strong>&nbsp;<%=error%>.
-                    </div>
-                    <%}%>
+            if (request.getAttribute("msgError") != null) {%>
+        <div class="alert alert-danger alert-dismissible fade in show">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Attention !</strong>&nbsp;<%=error%>.
+        </div>
+        <%}%>
+
+        <% String success = (String) request.getAttribute("msgSuccess");
+                                if (request.getAttribute("msgSuccess") != null) {%>
+        <div class="alert alert-success alert-dismissible fade in show">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <%=success%>.
+        </div>
+        <%}%>
         <div class="card-header"><h4>Mes informations personnelles</h4></div>
         <div class="card-body">
             <div class="row">

@@ -43,6 +43,7 @@ public class ServletClient extends HttpServlet {
                         Client cli = sessionClient.modifierClient(c.getId(), c.getNom(), prenom, c.getMail(), c.getTelephone());
                         if (cli != null) {
                             request.getSession().setAttribute(ATT_SESSION_CLIENT, cli);//Attribuer le Token
+                            request.setAttribute("msgSuccess", "Le prénom a bien été modifié");
                             jspClient = "/client/monProfil.jsp";
                         } else {
                             request.setAttribute("msgError", "Le prénom n'a pas été modifié");
@@ -57,6 +58,7 @@ public class ServletClient extends HttpServlet {
                         Client cli = sessionClient.modifierClient(c.getId(), nom, c.getPrenom(), c.getMail(), c.getTelephone());
                         if (cli != null) {
                             request.getSession().setAttribute(ATT_SESSION_CLIENT, cli);//Attribuer le Token
+                            request.setAttribute("msgSuccess", "Le nom a bien été modifié");
                             jspClient = "/client/monProfil.jsp";
                         } else {
                             request.setAttribute("msgError", "Le nom n'a pas été modifié");
@@ -71,6 +73,7 @@ public class ServletClient extends HttpServlet {
                         Client cli = sessionClient.modifierClient(c.getId(), c.getNom(), c.getPrenom(), c.getMail(), tel);
                         if (cli != null) {
                             request.getSession().setAttribute(ATT_SESSION_CLIENT, cli);//Attribuer le Token
+                            request.setAttribute("msgSuccess", "Le téléphone a bien été modifié");
                             jspClient = "/client/monProfil.jsp";
                         } else {
                             request.setAttribute("msgError", "Le téléphone n'a pas été modifié");
@@ -88,6 +91,7 @@ public class ServletClient extends HttpServlet {
                         if (uti != null) {
                             Client cli = sessionClient.rechercheClient(uti.getId());
                             request.getSession().setAttribute(ATT_SESSION_CLIENT, cli);//Attribuer le Token
+                            request.setAttribute("msgSuccess", "Le mot de passe a bien été modifié");
                             jspClient = "/client/monProfil.jsp";
                         } else {
                             request.setAttribute("msgError", "Le mot de passe n'a pas été modifié, l'ancien mot de passe est incorrect");

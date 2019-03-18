@@ -70,5 +70,7 @@ public interface SessionAdministrateurLocal {
     ServiceStandard modifierServiceStandard(Long idServiceStandard, String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre, int nbJoursConsultantSenior, int nbJoursConsultantConfirme, int nbJoursConsultantJunior, int nbHeuresAtelierEntretien, int nbHeuresSupportTel, String descriptionPrestation);
 
     List<ServiceStandard> afficherServiceStandards();
+
+    List<Entreprise> rechercherEntreprisePagine(int page);
     
 }

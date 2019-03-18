@@ -47,9 +47,6 @@
                             <a href="${pageContext.request.contextPath}/client/devis.jsp" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="file-text"></span> Mes devis
                             </a>
-                            <a href="${pageContext.request.contextPath}/client/commandes.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="shopping-cart"></span> Mes commandes
-                            </a>
                             <a href="${pageContext.request.contextPath}/client/factures.jsp" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="square"></span> Mes factures
                             </a>
@@ -57,7 +54,7 @@
                                 <span data-feather="calendar"></span> Calendrier
                             </a>
                             <a href="${pageContext.request.contextPath}/client/inbox.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="inbox"></span>Inbox
+                                <span data-feather="inbox"></span> Inbox
                             </a>
                         </div>
                     </div>

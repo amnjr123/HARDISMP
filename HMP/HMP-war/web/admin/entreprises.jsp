@@ -54,7 +54,8 @@
                             <th scope="col">id</th>
                             <th scope="col">SIRET</th>
                             <th scope="col">Nom</th>
-                            <th scope="col">Clé de rattachement</th>
+                            <th scope="col">Adresse</th>
+                            <th scope="col">Agence</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -63,52 +64,21 @@
                             <th scope="row">1</th>
                             <td>15422651475448</td>
                             <td>Orange</td>
-                            <td>f5fz651t51j65gh</td>
+                            <td>Lyon</td>
+                            <td>Lyon</td>
                             <td><div class="dropdown">
                                     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Action
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#"><i data-feather="edit-2"></i> Interlocuteurs</a>
                                         <a class="dropdown-item" href="#"><i data-feather="edit-2"></i> Modifier</a>
                                         <a class="dropdown-item" href="#"><i data-feather="trash-2"></i> Supprimmer</a>
                                     </div>
                                 </div></td>
 
                         </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>95448575236144</td>
-                            <td>Coeur de blé</td>
-                            <td>6f6ds6f5h5y55yj</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Action
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#"><i data-feather="edit-2"></i> Modifier</a>
-                                        <a class="dropdown-item" href="#"><i data-feather="trash-2"></i> Supprimmer</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>11546544142845</td>
-                            <td>Roya</td>
-                            <td>4c4c44d54s5gk8y</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Action
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#"><i data-feather="edit-2"></i> Modifier</a>
-                                        <a class="dropdown-item" href="#"><i data-feather="trash-2"></i> Supprimmer</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+
                     </tbody>
                 </table>
             </div>
