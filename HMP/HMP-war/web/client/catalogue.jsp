@@ -16,7 +16,7 @@
             <div class="card">
                 <div class="front">
                     <div class="cover">
-                        <img src="http://lorempixel.com/400/200/abstract/1"/>
+                        <img src="http://lorempixel.com/400/200/business/6"/>
                     </div>
                     <div class="user">
                         <img class="img-circle" src="https://randomuser.me/api/portraits/men/1.jpg"/>
@@ -80,7 +80,7 @@
             <div class="card">
                 <div class="front">
                     <div class="cover">
-                        <img src="http://lorempixel.com/400/200/abstract/2"/>
+                        <img src="http://lorempixel.com/400/200/business/2"/>
                     </div>
                     <div class="user">
                         <img class="img-circle" src="https://randomuser.me/api/portraits/women/3.jpg"/>
@@ -144,7 +144,7 @@
             <div class="card">
                 <div class="front">
                     <div class="cover">
-                        <img src="http://lorempixel.com/400/200/abstract/5"/>
+                        <img src="http://lorempixel.com/400/200/business/5"/>
                     </div>
                     <div class="user">
                         <img class="img-circle" src="https://randomuser.me/api/portraits/women/20.jpg"/>
@@ -208,7 +208,7 @@
             <div class="card">
                 <div class="front">
                     <div class="cover">
-                        <img src="http://lorempixel.com/400/200/abstract/15"/>
+                        <img src="http://lorempixel.com/400/200/business/9"/>
                     </div>
                     <div class="user">
                         <img class="img-circle"  src="https://randomuser.me/api/portraits/men/20.jpg"/>
