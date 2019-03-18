@@ -12,6 +12,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -33,27 +34,26 @@ public class OffreFacade extends AbstractFacade<Offre> implements OffreFacadeLoc
     }
     
     @Override
-    public Offre creerOffre(String libelle, Date dateDebutValidite, Date dateFinValidite){
+    public Offre creerOffre(String libelle){
         Offre o = new Offre();
         o.setLibelle(libelle);
-        o.setDateDebutValidite(dateDebutValidite);
-        o.setDateFinValidite(dateFinValidite);
+        o.setDateDebutValidite(new Date());
+        o.setDateFinValidite(new Date(Long.MAX_VALUE));
         create(o);  
         return o;
     }
     
     @Override
-    public Offre modifierOffre(Offre o, String libelle, Date dateDebutValidite, Date dateFinValidite){
+    public Offre modifierOffre(Offre o, String libelle){
         o.setLibelle(libelle);
-        o.setDateDebutValidite(dateDebutValidite);
-        o.setDateFinValidite(dateFinValidite);
         edit(o);
         return o;
     }
     
     @Override
     public Offre supprimerOffre(Offre o){
-        remove(o);
+        o.setDateFinValidite(new Date());
+        edit(o);
         return o;
     }
     
@@ -65,5 +65,19 @@ public class OffreFacade extends AbstractFacade<Offre> implements OffreFacadeLoc
     @Override
     public List<Offre> rechercheOffre(){
         return findAll();
+    }
+    
+    @Override
+    public List<Offre> rechercheOffresActuelles() {
+        Query requete = getEntityManager().createQuery("select o from Offre as o where o.dateFinValidite>:date");
+        requete.setParameter("date", new Date());
+        return requete.getResultList();
+    }
+    
+    @Override
+    public List<Offre> rechercheOffresAnciennes() {
+        Query requete = getEntityManager().createQuery("select o from Offre as o where o.dateFinValidite<=:date");
+        requete.setParameter("date", new Date());
+        return requete.getResultList();
     }
 }

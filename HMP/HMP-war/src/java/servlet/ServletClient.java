@@ -37,7 +37,6 @@ public class ServletClient extends HttpServlet {
         
         if(sessionHttp.getAttribute("sessionClient")!=null){
             c = (Client) sessionHttp.getAttribute("sessionClient");  
-            System.out.print(c);
             if (request.getParameter("action") != null){
             String act = request.getParameter("action");
             //MODIFIER LE PRENOM DU CLIENT

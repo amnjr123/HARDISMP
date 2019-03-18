@@ -5,6 +5,8 @@
  */
 package SessionUtilisateur;
 
+import GestionCatalogue.Offre;
+import GestionCatalogue.ServiceStandard;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Consultant;
@@ -54,5 +56,19 @@ public interface SessionAdministrateurLocal {
     ReferentLocal modifierReferentLocal(Long idReferentLocal, String nom, String prenom, String mail, String tel, String profilTechnique, boolean actifInactif, float plafondDelegation, Long idOffre, Long idAgence);
 
     Utilisateur modifierUtilisateurMDP(Long id, String ancienMdp, String nouveauMdp);
+
+    Offre creerOffre(String nom);
+
+    Offre modifierOffre(Long idOffre, String nom);
+
+    Offre supprimerOffre(Long idOffre);
+
+    List<Offre> afficherOffres();
+
+    ServiceStandard creerServiceStandard(String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre, int nbJoursConsultantSenior, int nbJoursConsultantConfirme, int nbJoursConsultantJunior, int nbHeuresAtelierEntretien, int nbHeuresSupportTel, String descriptionPrestation);
+
+    ServiceStandard modifierServiceStandard(Long idServiceStandard, String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre, int nbJoursConsultantSenior, int nbJoursConsultantConfirme, int nbJoursConsultantJunior, int nbHeuresAtelierEntretien, int nbHeuresSupportTel, String descriptionPrestation);
+
+    List<ServiceStandard> afficherServiceStandards();
     
 }

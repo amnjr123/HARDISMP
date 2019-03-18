@@ -8,6 +8,7 @@ package FacadeDevis;
 import GestionCatalogue.ServiceStandard;
 import GestionDevis.DevisStandard;
 import GestionUtilisateur.Agence;
+import GestionUtilisateur.Client;
 import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.UtilisateurHardis;
 import java.util.List;
@@ -34,7 +35,7 @@ public interface DevisStandardFacadeLocal {
 
     int count();
 
-    DevisStandard creerDevisStandard(float montant, String commentaireClient, ServiceStandard serviceStandard, ReferentLocal rl, Agence agence);
+    DevisStandard creerDevisStandard(float montant, String commentaireClient, ServiceStandard serviceStandard, ReferentLocal rl, Agence agence, Client c);
 
     DevisStandard modifierDevisStandard(DevisStandard d, float montant);
 

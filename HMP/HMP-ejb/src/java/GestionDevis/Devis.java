@@ -7,6 +7,7 @@ package GestionDevis;
 
 import Enum.StatutDevis;
 import GestionUtilisateur.Agence;
+import GestionUtilisateur.Client;
 import GestionUtilisateur.UtilisateurHardis;
 import java.io.Serializable;
 import java.util.Date;
@@ -30,6 +31,19 @@ import javax.persistence.Temporal;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Devis implements Serializable {
 //Clés étrangères
+    
+    @ManyToOne
+    private Client client;
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    
     @OneToMany(mappedBy = "devis")
     private List<HistoriqueUtilisateurDevis> historiqueUtilisateurDeviss;
 

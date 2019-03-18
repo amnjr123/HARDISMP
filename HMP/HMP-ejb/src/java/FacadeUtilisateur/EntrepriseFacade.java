@@ -67,7 +67,7 @@ public class EntrepriseFacade extends AbstractFacade<Entreprise> implements Entr
 
     @Override
     public Entreprise rechercheEntrepriseSiret(String siret) {
-        Query requete = getEntityManager().createQuery("select e from Entreprise e where e.siret=:siret");
+        Query requete = getEntityManager().createQuery("select e from Entreprise as e where e.siret=:siret");
         requete.setParameter("siret", siret);
         if (!requete.getResultList().isEmpty()) {
             return (Entreprise) requete.getSingleResult();
@@ -78,7 +78,7 @@ public class EntrepriseFacade extends AbstractFacade<Entreprise> implements Entr
     
     @Override
     public Entreprise rechercheEntrepriseNom(String nom) {
-        Query requete = getEntityManager().createQuery("select e from Entreprise e where e.nom=:nom");
+        Query requete = getEntityManager().createQuery("select e from Entreprise as e where e.nom=:nom");
         requete.setParameter("nom", nom);
         if (!requete.getResultList().isEmpty()) {
             return (Entreprise) requete.getSingleResult();

@@ -20,7 +20,7 @@
     </div>
 
     <%
-        if (c.getEntreprise() == null) {
+        if (c.getEntreprise() == null && 1==2) {
     %>
     <div class="card text-white bg-danger mb-3">
         <div class="card-header"><h4>Mon entreprise</h4></div>
