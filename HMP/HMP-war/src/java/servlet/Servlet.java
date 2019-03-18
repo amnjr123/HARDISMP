@@ -30,21 +30,21 @@ public class Servlet extends HttpServlet {
     private String jspClient = "/home.jsp";
     
 
-    private void login(String login, String mdp, HttpSession sessionHttp, HttpServletRequest request) {
+    private void login(String login, String mdp, HttpServletRequest request, HttpServletResponse response) {
         Utilisateur utilisateur = sessionMain.authentification(login, mdp);
 
         if (utilisateur != null) {
             if (sessionMain.getTypeUser(utilisateur).equalsIgnoreCase("Client")) {//verif type utilisateur
                 Client c = sessionMain.rechercheClient(utilisateur.getId());// recherche Client
-                sessionHttp.setAttribute(ATT_SESSION_CLIENT, c);//Attribuer le Token
+                request.getSession().setAttribute(ATT_SESSION_CLIENT, c);//Attribuer le Token
                 jspClient = "/client/index.jsp";
             } else {
                 jspClient = "/utilisateurHardis/index.jsp";
                 UtilisateurHardis uh = sessionMain.rechercheUtilisateurHardis(utilisateur.getId());// Chercher l'utilisateur Hardis
-                sessionHttp.setAttribute(ATT_SESSION_HARDIS, uh);//Attribuer le Token
+                request.getSession().setAttribute(ATT_SESSION_HARDIS, uh);//Attribuer le Token
                 ProfilTechnique pt = uh.getProfilTechnique();// Profil technique
                 if (pt.equals(ProfilTechnique.Administrateur)) {// Verif profil technique
-                    sessionHttp.setAttribute(ATT_SESSION_ADMINISTRATEUR, uh);//Attribuer le Token
+                    request.getSession().setAttribute(ATT_SESSION_ADMINISTRATEUR, uh);//Attribuer le Token
                 }
             }
         } else {
@@ -56,7 +56,6 @@ public class Servlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
         HttpSession sessionHttp = request.getSession();
         if (request.getParameter("action") != null) {
             String act = request.getParameter("action");
@@ -71,7 +70,7 @@ public class Servlet extends HttpServlet {
                     Utilisateur u = sessionMain.rechercherUtilisateurExistant(mail);
                     if (u == null) {
                         sessionMain.creerClient(nom, prenom, mail, mdp, tel);
-                        login(mail, mdp, sessionHttp, request);
+                        login(mail, mdp, request, response);
                     } else {
                         jspClient = "/signup.jsp";
                         request.setAttribute("MsgError", "Cette adresse mail est déjà utilisée");
@@ -86,13 +85,14 @@ public class Servlet extends HttpServlet {
             if (act.equals("login")) {
                 String login = request.getParameter("email").trim();
                 String mdp = request.getParameter("pw");
-                login(login, mdp, sessionHttp, request);
+                login(login, mdp, request, response);
             }
             /*FIN AUTHENTIFICATION*/
  /*Control Deconnexion*/
             if (act.equals("logout")) {
                 sessionHttp.setAttribute(ATT_SESSION_CLIENT, null); //Enlever le Token
                 sessionHttp.setAttribute(ATT_SESSION_HARDIS, null); //Enlever le Token
+                sessionHttp.setAttribute(ATT_SESSION_ADMINISTRATEUR, null); //Enlever le Token
                 jspClient = "/home.jsp";
             }
             /*Fin Deconnexion*/
