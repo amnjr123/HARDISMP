@@ -77,7 +77,7 @@
                     <div class="modal-body">
                         <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" id="formLogin" novalidate="" method="POST" action="${pageContext.request.contextPath}/Servlet">
                             <div class="form-group">
-                                <a href="${pageContext.request.contextPath}/signup.jsp" class="float-right">Nouveau client ?</a>
+                                <a href="${pageContext.request.contextPath}/signup.jsp" class="float-right"  data-toggle="modal" data-target="#signUpModal">Nouveau client ?</a>
                                 <label for="email">Email</label>
                                 <input name="email" type="email" class="form-control form-control-lg" id="email" required>
                                 <div class="invalid-feedback" style="width: 100%;">
