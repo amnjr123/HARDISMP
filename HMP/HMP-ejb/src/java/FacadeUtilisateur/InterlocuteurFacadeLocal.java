@@ -40,5 +40,7 @@ public interface InterlocuteurFacadeLocal {
     Interlocuteur rechercheInterlocuteur(long id);
 
     List<Interlocuteur> rechercheInterlocuteur();
+
+    List<Interlocuteur> rechercheInterlocuteur(Entreprise entreprise);
     
 }

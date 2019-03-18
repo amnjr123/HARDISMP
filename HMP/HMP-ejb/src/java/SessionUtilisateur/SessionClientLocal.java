@@ -13,6 +13,7 @@ import GestionUtilisateur.Client;
 import GestionUtilisateur.DemandeCreationEntreprise;
 import GestionUtilisateur.DemandeRattachement;
 import GestionUtilisateur.Entreprise;
+import GestionUtilisateur.Interlocuteur;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -35,9 +36,22 @@ public interface SessionClientLocal {
     List<Agence> rechercherAgence();
 
     DemandeCreationEntreprise rechercherDemandeCreationEntreprise(Long idClient);
-/*
+
+    List<DemandeRattachement> rechercherDemandeRattachementEntreprise(Long idEntreprise);
+
     DemandeRattachement rechercherDemandeRattachementClient(Long idClient);
 
-    DemandeRattachement rechercherDemandeRattachementEntreprise(Long idEntreprise);
-*/
+    DemandeRattachement creerDemandeRattachement(Long idClient, String siret);
+
+    DemandeRattachement validerDemandeRattachement(Long idDemande);
+
+    DemandeRattachement refuserDemandeRattachement(Long idDemande);
+
+    Interlocuteur creerInterlocuteur(String nom, String prenom, String telephone, String fonction, long idEntreprise);
+
+    Interlocuteur supprimerInterlocuteur(Long idInterlocuteur);
+
+    Interlocuteur modifierInterlocuteur(Long idInterlocuteur, String nom, String prenom, String telephone, String fonction);
+
+    List<Interlocuteur> rechercherInterlocuteur(Long idEntreprise);
 }
