@@ -41,5 +41,9 @@ public interface DemandeRattachementFacadeLocal {
     DemandeRattachement supprimerDemandeRattachement(DemandeRattachement d);
 
     DemandeRattachement creerDemandeRattachement(Client c, Entreprise e);
+
+    List<DemandeRattachement> rechercherDemandeRattachement();
+
+    List<DemandeRattachement> rechercherDemandeRattachementUrgentes();
     
 }
