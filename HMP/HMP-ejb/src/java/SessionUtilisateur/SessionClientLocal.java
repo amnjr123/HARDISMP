@@ -35,8 +35,9 @@ public interface SessionClientLocal {
     List<Agence> rechercherAgence();
 
     DemandeCreationEntreprise rechercherDemandeCreationEntreprise(Long idClient);
-
+/*
     DemandeRattachement rechercherDemandeRattachementClient(Long idClient);
 
     DemandeRattachement rechercherDemandeRattachementEntreprise(Long idEntreprise);
+*/
 }

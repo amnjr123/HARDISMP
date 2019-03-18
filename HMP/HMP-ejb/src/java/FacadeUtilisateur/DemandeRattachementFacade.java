@@ -62,9 +62,9 @@ public class DemandeRattachementFacade extends AbstractFacade<DemandeRattachemen
     }
     
     
-    
+    /*
      DemandeRattachement d = demandeRattachementFacade.creerDemandeRattachement(c, e);
    
      demandeRattachementFacade.supprimerDemandeRattachement(d);
-       
+      */ 
 }
