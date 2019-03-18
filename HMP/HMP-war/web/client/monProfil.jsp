@@ -15,17 +15,17 @@
     <div class="card text-white bg-warning mb-3">
         <div class="card-header"><h4>Mon entreprise</h4></div>
         <div class="card-body">
-            <h4 class="card-title p-3 mb-2">L'attachement à votre entreprise est en cours de traitement</h4>
+            <h4 class="card-title p-3 mb-2">L'attachement ï¿½ votre entreprise est en cours de traitement</h4>
         </div>
     </div>
 
     <%
-        if (c.getEntreprise() == null && 1==2) {
+        if (c.getEntreprise() == null && 1 == 2) {
     %>
     <div class="card text-white bg-danger mb-3">
         <div class="card-header"><h4>Mon entreprise</h4></div>
         <div class="card-body">
-            <h5 class="card-title p-3 mb-2 bg-danger text-white">Vous n'êtes rattaché à aucune enreprise<br> afin de pouvoir profiter de l'ensemble des fonctionnalités d'Hardis Market place, nous vous prions de compléter les informations suivantes:</h5>
+            <h5 class="card-title p-3 mb-2 bg-danger text-white">Vous n'ï¿½tes rattachï¿½ ï¿½ aucune enreprise<br> afin de pouvoir profiter de l'ensemble des fonctionnalitï¿½s d'Hardis Market place, nous vous prions de complï¿½ter les informations suivantes:</h5>
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="firstName">SIRET *</label>
@@ -69,15 +69,22 @@
     %>
 
     <div class="card text-white bg-dark mb-3">
+        <% String error = (String) request.getAttribute("msgError");
+                        if (request.getAttribute("msgError") != null) {%>
+                    <div class="alert alert-danger alert-dismissible fade in show">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Attention !</strong>&nbsp;<%=error%>.
+                    </div>
+                    <%}%>
         <div class="card-header"><h4>Mes informations personnelles</h4></div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <form method="post" action="${pageContext.request.contextPath}/ServletClient">
                         <input type="hidden" name="action" value="modifierPrenomClient">
-                        <label for="nouveauPrenom">Prénom</label>
+                        <label for="nouveauPrenom">Prï¿½nom</label>
                         <div class="input-group">
-                            <input name="nouveauPrenom" type="text" class="form-control" id="nouveauPrenom" placeholder="Votre prénom" value="<%=(c.getPrenom())%>" required>
+                            <input name="nouveauPrenom" type="text" class="form-control" id="nouveauPrenom" placeholder="Votre prï¿½nom" value="<%=(c.getPrenom())%>" required>
                             <div class="input-group-prepend">
                                 <button type="submit" class="btn btn-primary"><i data-feather="check"></i></button>
                             </div>
@@ -122,9 +129,9 @@
             <div class="mb-3">
                 <form method="post" action="${pageContext.request.contextPath}/ServletClient">
                     <input type="hidden" name="action" value="modifierTelephoneClient">
-                    <label for="nouveauTelephone">Téléphone</label>
+                    <label for="nouveauTelephone">Tï¿½lï¿½phone</label>
                     <div class="input-group">
-                        <input name="nouveauTelephone" type="tel" id="nouveauTelephone" class="form-control" placeholder="Numéro de téléphone" value="<%=(c.getTelephone())%>" required>
+                        <input name="nouveauTelephone" type="tel" id="nouveauTelephone" class="form-control" placeholder="Numï¿½ro de tï¿½lï¿½phone" value="<%=(c.getTelephone())%>" required>
                         <div class="input-group-prepend">
                             <button type="submit" class="btn btn-primary"><i data-feather="check"></i></button>
                         </div>
@@ -149,7 +156,7 @@
                             <th scope="col">id</th>
                             <th scope="col">Nom</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Téléphone</th>
+                            <th scope="col">Tï¿½lï¿½phone</th>
                             <th scope="col">Fonction</th>
                         </tr>
                     </thead>
@@ -179,25 +186,28 @@
     <div class="modal fade" id="changerMDPModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Changer le mot de passe</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        <input id="ancienMDP" type="password" class="form-control" placeholder="Ancien mot de passe" required> 
-                    </p>
-                    <p>
-                        <input id="nouveauMDP" type="password" class="form-control" placeholder="Nouveau mot de passe" required> 
-                    </p>
+                <form class="needs-validation" method="post" action="${pageContext.request.contextPath}/ServletClient">
+                    <input type="hidden" name="action" value="modifierMDPClient">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Changer le mot de passe</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            <input name="ancienMDP" type="password" class="form-control" placeholder="Ancien mot de passe" required> 
+                        </p>
+                        <p>
+                            <input name="nouveauMDP" type="password" class="form-control" placeholder="Nouveau mot de passe" required> 
+                        </p>
 
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                    <button type="button" class="btn btn-primary">Valider</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Valider</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -206,7 +216,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Changer le mot de passe</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Changer votre adresse mail</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
