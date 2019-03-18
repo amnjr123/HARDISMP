@@ -3,15 +3,15 @@
 </style>
 <jsp:include page="header.jsp"/>
 
-<main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
+<main role="main" class="  col-auto">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 class="h2">Catalogue</h1>
     </div>
-    <div class="container">
+    <div class="container-fluid">
           <div class="row">
 
 
-    <div class="col-sm-1 col-md-2 col-lg-3">
+    <div class="col-md-6 col-lg-4 col-xl-3">
         <div class="card-container">
             <div class="card">
                 <div class="front">
@@ -75,7 +75,7 @@
             </div> <!-- end card -->
         </div> <!-- end card-container -->
     </div> <!-- end col sm 3 -->
-    <div class="col-sm-1 col-md-2 col-lg-3">
+    <div class="col-md-6 col-lg-4 col-xl-3">
         <div class="card-container">
             <div class="card">
                 <div class="front">
@@ -139,7 +139,7 @@
             </div> <!-- end card -->
         </div> <!-- end card-container -->
     </div>
-    <div class="col-sm-1 col-md-2 col-lg-3">
+    <div class="col-md-6 col-lg-4 col-xl-3">
         <div class="card-container">
             <div class="card">
                 <div class="front">
@@ -203,7 +203,7 @@
             </div> <!-- end card -->
         </div> <!-- end card-container -->
     </div>
-        <div class="col-sm-1 col-md-2 col-lg-3 ">
+        <div class="col-md-6 col-lg-4 col-xl-3">
         <div class="card-container">
             <div class="card">
                 <div class="front">
