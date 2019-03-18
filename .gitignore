@@ -32,3 +32,4 @@ hs_err_pid*
 /HMP/HMP-ejb/dist/
 /HMP/HMP-war/build/
 /HMP/HMP-war/dist/
+HMP/nbproject/project.properties
