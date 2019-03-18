@@ -7,19 +7,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title><%=(u.getNom().toUpperCase()+' '+u.getPrenom())%></title>
-
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
-
         <link href="${pageContext.request.contextPath}/css/custom/dashboard.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/custom/simple-sidebar.css" rel="stylesheet">
-
     </head>
-
     <body>  
-
-
-
-
 
         <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
             <Button class="btn" style="background-color:transparent"  id="menu-toggle"><span data-feather="menu" color="white"></span></Button>
