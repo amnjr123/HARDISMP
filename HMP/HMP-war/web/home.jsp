@@ -7,15 +7,13 @@
         <meta name="author" content="M2SIA">
         <title>Bienvenue Work Place Hardis-Group</title>
         <!-- Theme CSS - Includes Bootstrap -->
-        <link href="${pageContext.request.contextPath}/css/custom/creative.min.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/css/custom/creative.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/custom/home.css" rel="stylesheet">
         <link href="https://fr.snatchbot.me/sdk/webchat.css" rel="stylesheet" type="text/css">    
         <link href="${pageContext.request.contextPath}/css/custom/form-validation.css" rel="stylesheet">
-
-
-    </head>
+        <link href="${pageContext.request.contextPath}/css/bootstrap4-toggle.css" rel="stylesheet">
+    </head>      
     <body class="gradiant-background">
-
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
             <div class="container">
@@ -53,7 +51,7 @@
                     <div class="col-lg-8 align-self-baseline">
                         <p class="text-white-75 font-weight-light mb-5">Il s'agit d'un Market Place, dotée de fonctionnalités que vous pourrez utiliser dans vos projets futurs.</p>
                         <p class="text-white-75 font-weight-light mb-5">Découvrez nos fonctionnalités pour parler avec nos équipes et découvrir nos offres & services.</p>
-                        <a class="btn btn-primary btn-xl" href="#loginModal" data-toggle="modal">Se Connecter</a>
+                        <a class="btn btn-light btn-xl" href="#loginModal" data-toggle="modal">Se Connecter</a>
                         <a class="btn btn-secondary btn-xl" href="#signUpModal" data-toggle="modal">S'inscrire</a>
                     </div>
                     <% String error = (String) request.getAttribute("msgError");
@@ -69,7 +67,7 @@
         </header>
 
         <!--Modal Signin-->
-        <div id="loginModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div id="loginModal" class="modal fade" tabindex="-2" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -111,7 +109,7 @@
             </div>
         </div>        
         <!--Modal SignUp-->
-        <div id="signUpModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div id="signUpModal" class="modal fade" tabindex="-2" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document" style="max-width: 700px">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -146,7 +144,7 @@
                             <div class="form-group">
                                 <label for="inputPassword">Mot de passe *</label>
                                 <div class="input-group">
-                                    <input name="pw" type="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
+                                    <input name="pw" type="password" id="inputPassword" class="form-control" onkeyup="verif(1)" placeholder="Mot de passe" required>
                                     <div class="invalid-feedback" style="width: 100%;">
                                         Veuillez entrer un mot de passe.
                                     </div>
@@ -155,22 +153,32 @@
                             <div class="form-group">
                                 <label for="inputPassword">Verification Mot de passe *</label>
                                 <div class="input-group">
-                                    <input name="pwV" type="password" id="inputPasswordVerif" class="form-control" on onkeyup="verif()" placeholder="Vérification Mot de passe" required>
-                                    <div id="result" class="invalid-feedback" style="width: 100%;">
+                                    <input name="pwV" type="password" id="inputPasswordVerif" class="form-control" onkeyup="verif(2)" placeholder="Vérification Mot de passe" required>
+                                    <div  class="invalid-feedback" style="width: 100%;">
                                         Veuillez Répéter le mot de passe.
+                                    </div>
+                                    <div id="result" style="width: 100%;">
+
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="telephone">Téléphone *</label>
                                 <div class="input-group">
-                                    <input name="tel" type="tel" id="telephone" class="form-control" placeholder="Numéro de téléphone" required>
+                                    <input name="tel" type="tel" id="telephone" class="form-control" placeholder="(+33)6xxxxxxxxx ou 00336xxxxxxxxx ou 0xxxxxxxxx" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$" required>
                                     <div class="invalid-feedback" style="width: 100%;">
-                                        Le numéro de téléphone est obligatoire.
+                                        Le numéro de téléphone est obligatoire et doit être conforme
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group py-4 text-center">
+                            <div class="text-center">
+                                <input name="rgpd" data-toggle="toggle" data-size="lg" type="checkbox" value="oui" required="true" data-onstyle="success" data-on="J'accepte" data-off="Je n'accepte pas" data-width="200" >
+                                <label for="rgpd"> que mes données à caractère personnel soient collectées et traitées selon les conditions décrites à la page&nbsp;<a href="https://www.hardis-group.com/respect-des-donnees-personnelles">"respect des données personnelles"</a></label>
+                                <div class="invalid-feedback" style="width: 100%;">
+                                    Il est obligatoire d'accepter la RGPD.
+                                </div>
+                            </div>
+                            <div class="form-group  text-center">
                                 <input type="hidden" name="action" value="creerClient">
                                 <button type="submit" class="btn btn-success btn-lg " id="btnLogin" >Créer mon compte</button>
                                 <button style="margin-left: 1em" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" aria-hidden="true">Annuler</button>
@@ -180,21 +188,87 @@
                 </div>
             </div>
         </div>
+        <!--Modal mdp oublié-->
 
+        <div class="modal fade" id="pwOublieModal" tabindex="-1" role="dialog" aria-labelledby="pwOublieModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="pwOublieModal">Mot de passe oublié</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="inputForgottenEmail" class="sr-only">Email</label>
+                        <input type="email" id="inputForgottenEmail" class="form-control" placeholder="Adresse mail" required autofocus>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button type="button" class="btn btn-primary">Envoi d'un mail de récupération du mot de passe</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script>
-            function verif() {
+
+            function verif(unOuDeux) {
                 var val1 = document.getElementById("inputPassword").value,
                         val2 = document.getElementById("inputPasswordVerif").value,
                         result = document.getElementById("result");
 
                 if (val1 != val2) {
-                    result.innerHTML = "Ne correspond pas au mot de passe entré !";
                     result.style.color = "red";
+                    if (unOuDeux == 1) {
+                        result.innerHTML = "Veuillez retaper le mot de passe ici !";
+                    } else {
+                        result.innerHTML = "Ne correspond pas au mot de passe entré !";
+                    }
                 } else {
-                    result.innerHTML = "Valide !";
                     result.style.color = "green";
-
+                    result.innerHTML = "Identique au mot de passe entré";
                 }
             }
         </script>
-        <jsp:include page="footer.jsp"/>
+        <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
+        <script src="https://fr.snatchbot.me/sdk/webchat.min.js"></script>
+        <script> Init('?botID=49391&appID=webchat', 600, 600, 'https://dvgpba5hywmpo.cloudfront.net/media/image/JIod5vjYEQFaz3yMV5FgTC2GG', 'bubble', '#00AFF0', 90, 90, 62.99999999999999, '', '1', '#FFFFFF', '#FFFFFF', 0); /* for authentication of its users, you can define your userID (add &userID={login}) */</script>
+        <script src="${pageContext.request.contextPath}/js/bootstrap4-toggle.min.js" defer></script>
+        <!-- Bootstrap core JavaScript
+      ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function () {
+                'use strict';
+
+                window.addEventListener('load', function () {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function (form) {
+                        form.addEventListener('submit', function (event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>    
+        <script>
+            /*Toggle deuxieme Modal*/
+            $('#pwOublieModal').on('show.bs.modal', function (e) {
+                $('#loginModal').toggleClass('show')
+            })
+            $('#pwOublieModal').on('hide.bs.modal', function (e) {
+                $('#loginModal').toggleClass('show')
+            }
+            )
+        </script>
+    </body>
+</html>

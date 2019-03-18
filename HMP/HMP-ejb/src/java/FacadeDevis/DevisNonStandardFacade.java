@@ -9,6 +9,7 @@ import Enum.StatutDevis;
 import GestionCatalogue.ServiceNonStandard;
 import GestionDevis.DevisNonStandard;
 import GestionUtilisateur.Agence;
+import GestionUtilisateur.Client;
 import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.UtilisateurHardis;
 import java.util.Date;
@@ -37,7 +38,7 @@ public class DevisNonStandardFacade extends AbstractFacade<DevisNonStandard> imp
     }
     
     @Override
-    public DevisNonStandard creerDevisNonStandard(float montant, String commentaireClient, ServiceNonStandard serviceNonStandard, ReferentLocal rl, Agence agence){
+    public DevisNonStandard creerDevisNonStandard(float montant, String commentaireClient, ServiceNonStandard serviceNonStandard, ReferentLocal rl, Agence agence,Client c){
         DevisNonStandard d = new DevisNonStandard();
         d.setStatut(StatutDevis.ReponseEnCours);
         d.setMotifRefus("");
@@ -47,6 +48,7 @@ public class DevisNonStandardFacade extends AbstractFacade<DevisNonStandard> imp
         d.setServiceNonStandard(serviceNonStandard);
         d.setUtilisateurHardis(rl);
         d.setAgence(agence);
+        d.setClient(c);
         create(d);  
         return d;
     }

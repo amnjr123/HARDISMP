@@ -6,8 +6,10 @@
 package SessionUtilisateur;
 
 import Enum.Helpers;
+import Enum.LieuIntervention;
 import Enum.ProfilTechnique;
 import FacadeCatalogue.OffreFacadeLocal;
+import FacadeCatalogue.ServiceStandardFacadeLocal;
 import FacadeUtilisateur.AgenceFacadeLocal;
 import FacadeUtilisateur.CVFacadeLocal;
 import FacadeUtilisateur.ClientFacadeLocal;
@@ -21,6 +23,7 @@ import FacadeUtilisateur.PorteurOffreFacadeLocal;
 import FacadeUtilisateur.ReferentLocalFacadeLocal;
 import FacadeUtilisateur.UtilisateurFacadeLocal;
 import GestionCatalogue.Offre;
+import GestionCatalogue.ServiceStandard;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Consultant;
@@ -33,6 +36,7 @@ import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.Utilisateur;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,6 +49,9 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class SessionAdministrateur implements SessionAdministrateurLocal {
+
+    @EJB
+    private ServiceStandardFacadeLocal serviceStandardFacade;
 
     @EJB
     private UtilisateurFacadeLocal utilisateurFacade;
@@ -339,5 +346,49 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         }
         return retour;
     }
+    
+    /*GESTION DU CATALOGUE*/
+    @Override
+    public Offre creerOffre(String nom){
+        return offreFacade.creerOffre(nom);
+    }
+    
+    @Override
+    public Offre modifierOffre(Long idOffre, String nom){
+        return offreFacade.modifierOffre(offreFacade.rechercheOffre(idOffre),nom);
+    }
+    
+    @Override
+    public Offre supprimerOffre(Long idOffre){
+        return offreFacade.supprimerOffre(offreFacade.rechercheOffre(idOffre));
+    }
+    
+    @Override
+    public List<Offre> afficherOffres(){
+        return offreFacade.rechercheOffre();
+    }
+    
+    @Override
+    public ServiceStandard creerServiceStandard(String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre,  int nbJoursConsultantSenior, int nbJoursConsultantConfirme, int nbJoursConsultantJunior, int nbHeuresAtelierEntretien, int nbHeuresSupportTel, String descriptionPrestation){
+        LieuIntervention lieu = LieuIntervention.valueOf(lieuString);
+        Offre offre = offreFacade.rechercheOffre(idOffre);
+        return serviceStandardFacade.creerServiceStandard(nom, descriptionService, lieu, cout, fraisInclus, conditions, delaiRelance, offre, nbJoursConsultantSenior, nbJoursConsultantConfirme, nbJoursConsultantJunior, nbHeuresAtelierEntretien, nbHeuresSupportTel, descriptionPrestation);
+    }
+    
+    @Override
+    public ServiceStandard modifierServiceStandard(Long idServiceStandard, String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre,  int nbJoursConsultantSenior, int nbJoursConsultantConfirme, int nbJoursConsultantJunior, int nbHeuresAtelierEntretien, int nbHeuresSupportTel, String descriptionPrestation){
+        LieuIntervention lieu = LieuIntervention.valueOf(lieuString);
+        Offre offre = offreFacade.rechercheOffre(idOffre);
+        ServiceStandard ancienService = serviceStandardFacade.rechercheServiceStandard(idServiceStandard);
+        return serviceStandardFacade.modifierServiceStandard(ancienService, nom, descriptionService, lieu, cout, fraisInclus, conditions, delaiRelance, offre, nbJoursConsultantSenior, nbJoursConsultantConfirme, nbJoursConsultantJunior, nbHeuresAtelierEntretien, nbHeuresSupportTel, descriptionPrestation);
+    }
+    
+    @Override
+    public List<ServiceStandard> afficherServiceStandards(){
+        return serviceStandardFacade.rechercheServiceStandard();
+    }
+  
+    
+    
     
 }

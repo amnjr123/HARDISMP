@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -106,4 +107,5 @@ public class ServiceStandardFacade extends AbstractFacade<ServiceStandard> imple
     public List<ServiceStandard> rechercheServiceStandard(){
         return findAll();
     }
+
 }

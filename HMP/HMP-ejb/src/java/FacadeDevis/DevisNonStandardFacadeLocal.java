@@ -8,6 +8,7 @@ package FacadeDevis;
 import GestionCatalogue.ServiceNonStandard;
 import GestionDevis.DevisNonStandard;
 import GestionUtilisateur.Agence;
+import GestionUtilisateur.Client;
 import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.UtilisateurHardis;
 import java.util.List;
@@ -34,7 +35,7 @@ public interface DevisNonStandardFacadeLocal {
 
     int count();
 
-    DevisNonStandard creerDevisNonStandard(float montant, String commentaireClient, ServiceNonStandard serviceNonStandard, ReferentLocal rl, Agence agence);
+    DevisNonStandard creerDevisNonStandard(float montant, String commentaireClient, ServiceNonStandard serviceNonStandard, ReferentLocal rl, Agence agence,Client c);
 
     DevisNonStandard modifierDevisNonStandard(DevisNonStandard d, float montant);
 
