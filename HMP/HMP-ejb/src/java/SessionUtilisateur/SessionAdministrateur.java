@@ -11,13 +11,16 @@ import FacadeUtilisateur.CVFacadeLocal;
 import FacadeUtilisateur.ClientFacadeLocal;
 import FacadeUtilisateur.ConsultantFacadeLocal;
 import FacadeUtilisateur.DemandeCreationEntrepriseFacadeLocal;
+import FacadeUtilisateur.DemandeRattachementFacadeLocal;
 import FacadeUtilisateur.DisponibiliteFacadeLocal;
 import FacadeUtilisateur.EntrepriseFacadeLocal;
 import FacadeUtilisateur.InterlocuteurFacadeLocal;
 import FacadeUtilisateur.PorteurOffreFacadeLocal;
 import FacadeUtilisateur.ReferentLocalFacadeLocal;
 import GestionUtilisateur.Agence;
+import GestionUtilisateur.Client;
 import GestionUtilisateur.DemandeCreationEntreprise;
+import GestionUtilisateur.DemandeRattachement;
 import GestionUtilisateur.Entreprise;
 import GestionUtilisateur.Interlocuteur;
 import java.util.List;
@@ -30,6 +33,9 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class SessionAdministrateur implements SessionAdministrateurLocal {
+
+    @EJB
+    private DemandeRattachementFacadeLocal demandeRattachementFacade;
 
     @EJB
     private DemandeCreationEntrepriseFacadeLocal demandeCreationEntrepriseFacade;
@@ -102,9 +108,38 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         return demandeCreationEntrepriseFacade.supprimerDemandeCreationEntreprise(d);
     }
     
+    public DemandeRattachement transfertCreationEnRattachement(Long idDemande){
+        //Méthode pour si lors d'une demande de création d'entreprise, l'entreprise est déjà existante, on transforme la demande de création en demande de rattachement, renvoyée à l'admin Client
+        DemandeCreationEntreprise d = demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise(idDemande);
+        Entreprise e = entrepriseFacade.rechercheEntrepriseSiret(d.getSiret());
+        DemandeRattachement dr = demandeRattachementFacade.creerDemandeRattachement(d.getClient(),e);
+        demandeCreationEntrepriseFacade.supprimerDemandeCreationEntreprise(d);
+        return dr;
+    }
+    
     @Override
     public Entreprise creerEntreprise(String nom, String siret, String adresseFacturation, long idAgence) {
+        //Méthode pour que l'admin crée manuellement une enteprise
         return entrepriseFacade.creerEntreprise(nom, siret, adresseFacturation, agenceFacade.rechercheAgence(idAgence));
+    }
+    
+    @Override
+    public Client rattacherClientAdmin(Long idClient, Long idEntreprise) {
+        //Méthode pour que l'admin rattache manuellement le Client Admin à une entreprise
+        Client c = clientFacade.rechercheClient(idClient);
+        Entreprise e = entrepriseFacade.rechercheEntreprise(idEntreprise);
+        c = clientFacade.affecterEntreprise(c,e);
+        clientFacade.modifierAdmin(c);
+        return c;
+    }
+    
+    @Override
+    public Client rattacherClient(Long idClient, Long idEntreprise) {
+        //Méthode pour que l'admin rattache manuellement les clients à une entreprise
+        Client c = clientFacade.rechercheClient(idClient);
+        Entreprise e = entrepriseFacade.rechercheEntreprise(idEntreprise);
+        c = clientFacade.affecterEntreprise(c,e);
+        return c;
     }
     
     public List<Interlocuteur> rechercherInterlocuteur(){
@@ -133,6 +168,8 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         Interlocuteur i = interlocuteurFacade.rechercheInterlocuteur(idInterlocuteur);
         return interlocuteurFacade.supprimerInterlocuteur(i);
     }
+    
+    /*GESTION DES COMPTES UTILISATEUR HARDIS*/
     
     
     
