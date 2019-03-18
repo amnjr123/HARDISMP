@@ -54,11 +54,7 @@ public class DemandeRattachementFacade extends AbstractFacade<DemandeRattachemen
     public List<DemandeRattachement> rechercherDemandeRattachement(Entreprise e){
         Query requete = em.createQuery("select d from DemandeRattachement as d where d.entreprise=:entreprise");
         requete.setParameter("entreprise", e);
-        if (!requete.getResultList().isEmpty()) {
-            return requete.getResultList();
-        } else {
-            return null;
-        }
+        return requete.getResultList();
     }
     
     @Override

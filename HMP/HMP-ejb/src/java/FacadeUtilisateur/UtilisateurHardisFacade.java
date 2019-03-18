@@ -29,6 +29,20 @@ public class UtilisateurHardisFacade extends AbstractFacade<UtilisateurHardis> i
         super(UtilisateurHardis.class);
     }
     
+    @Override
+    public UtilisateurHardis rechercheUtilisateurHardis(long id) {
+        return find(id);
+    }
+    
+    @Override //Méthode pour un utilisateur Gestionnaire ou Visualisation sur son propre compte
+    public UtilisateurHardis modifierUtilisateurHardis(UtilisateurHardis u, String mail,String tel,boolean actifInactif){
+        u.setMail(mail);
+        u.setTelephone(tel);
+        u.setActifInactif(actifInactif);
+        edit(u);
+        return u;
+    }
+    
     //POUR LES TESTS ###############################################
     public void ajouter(UtilisateurHardis uh){
         em.persist(uh);

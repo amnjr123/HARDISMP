@@ -76,10 +76,6 @@ public class InterlocuteurFacade extends AbstractFacade<Interlocuteur> implement
     public List<Interlocuteur> rechercheInterlocuteur(Entreprise entreprise) {
         Query requete = getEntityManager().createQuery("select i from Interlocuteur as i where i.entreprise=:entreprise");
         requete.setParameter("entreprise", entreprise);
-        if (!requete.getResultList().isEmpty()) {
-            return requete.getResultList();
-        } else {
-            return null;
-        }
+        return requete.getResultList();
     }
 }
