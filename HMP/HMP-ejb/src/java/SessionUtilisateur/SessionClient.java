@@ -220,4 +220,10 @@ public class SessionClient implements SessionClientLocal {
         }
         return retour;
     }
+
+    @Override
+    public Client rechercheClient(long id) {
+        return clientFacade.rechercheClient(id);
+    }
+    
 }
