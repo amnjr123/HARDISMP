@@ -61,13 +61,13 @@ public class Client extends Utilisateur implements Serializable {
     
 //Attributs
    
-    private Boolean administrateur;
+    private boolean administrateur;
 
-    public Boolean getAdministrateur() {
+    public boolean getAdministrateur() {
         return administrateur;
     }
 
-    public void setAdministrateur(Boolean administrateur) {
+    public void setAdministrateur(boolean administrateur) {
         this.administrateur = administrateur;
     }
 

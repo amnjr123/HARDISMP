@@ -14,6 +14,7 @@ import GestionUtilisateur.DemandeCreationEntreprise;
 import GestionUtilisateur.DemandeRattachement;
 import GestionUtilisateur.Entreprise;
 import GestionUtilisateur.Interlocuteur;
+import GestionUtilisateur.Utilisateur;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,7 +30,7 @@ public interface SessionClientLocal {
 
     DevisStandard creerDevisStandard(String commentaireClient, Long idServiceStandard, Long idClient);
 
-    Client modifierClientMDP(Long id, String ancienMdp, String nouveauMdp);
+    Utilisateur modifierClientMDP(Long id, String ancienMdp, String nouveauMdp);
 
     DemandeCreationEntreprise creerDemandeEntreprise(Long idClient, String nom, String siret, String adresse, Long idAgence);
 

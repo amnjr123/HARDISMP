@@ -5,12 +5,16 @@
  */
 package FacadeUtilisateur;
 
+import Enum.Helpers;
 import Enum.ProfilTechnique;
 import GestionCatalogue.Offre;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.Consultant;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,15 +39,21 @@ public class ConsultantFacade extends AbstractFacade<Consultant> implements Cons
     }
     
     @Override
-    public Consultant creerConsultant(String nom, String prenom,String mail,String tel,String mdp,ProfilTechnique profil,Boolean actifInactif,float plafondDelegation, Agence agence, List<Offre> offres){
+    public Consultant creerConsultant(String nom, String prenom,String mail,String tel,String mdp,ProfilTechnique profil,float plafondDelegation, Agence agence, List<Offre> offres){
         Consultant c = new Consultant();
         c.setNom(nom);
         c.setPrenom(prenom);
         c.setMail(mail);
         c.setTelephone(tel);
-        c.setMdp(mdp);
+        /*Hashage password*/ 
+        try {
+            c.setMdp(Helpers.sha1(mdp));
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(ClientFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        /*End Hashage*/
         c.setProfilTechnique(profil);
-        c.setActifInactif(actifInactif);
+        c.setActifInactif(true);
         c.setPlafondDelegation(plafondDelegation);
         c.setDateCreationCompte(new Date());
         c.setAgence(agence);
@@ -54,25 +64,24 @@ public class ConsultantFacade extends AbstractFacade<Consultant> implements Cons
     
     
     @Override //Méthode pour Administrateur
-    public Consultant modifierConsultant(Consultant c, String nom,String prenom,String mail,String tel,String mdp,ProfilTechnique profil,Boolean actifInactif,float plafondDelegation, List<Offre> offres){
+    public Consultant modifierConsultant(Consultant c, String nom,String prenom,String mail,String tel,ProfilTechnique profil,boolean actifInactif,float plafondDelegation, List<Offre> offres, Agence a){
         c.setNom(nom);
         c.setPrenom(prenom);
         c.setMail(mail);
         c.setTelephone(tel);
-        c.setMdp(mdp);
         c.setProfilTechnique(profil);
         c.setActifInactif(actifInactif);
         c.setPlafondDelegation(plafondDelegation);
         c.setOffres(offres);
+        c.setAgence(a);
         edit(c);
         return c;
     }
     
     @Override //Méthode pour Consultant Gestionnaire ou Visualisation
-    public Consultant modifierConsultant(Consultant c, String mail,String tel,String mdp,Boolean actifInactif){
+    public Consultant modifierConsultant(Consultant c, String mail,String tel,boolean actifInactif){
         c.setMail(mail);
         c.setTelephone(tel);
-        c.setMdp(mdp);
         c.setActifInactif(actifInactif);
         edit(c);
         return c;

@@ -5,12 +5,16 @@
  */
 package FacadeUtilisateur;
 
+import Enum.Helpers;
 import Enum.ProfilTechnique;
 import GestionCatalogue.Offre;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.ReferentLocal;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -36,15 +40,21 @@ public class ReferentLocalFacade extends AbstractFacade<ReferentLocal> implement
     }
     
     @Override
-    public ReferentLocal creerReferentLocal(String nom,String prenom,String mail,String tel,String mdp,ProfilTechnique profil,Boolean actifInactif,float plafondDelegation,Offre offre,Agence agence){
+    public ReferentLocal creerReferentLocal(String nom,String prenom,String mail,String tel,String mdp,ProfilTechnique profil,float plafondDelegation,Offre offre,Agence agence){
         ReferentLocal rl = new ReferentLocal();
         rl.setNom(nom);
         rl.setPrenom(prenom);
         rl.setMail(mail);
         rl.setTelephone(tel);
-        rl.setMdp(mdp);
+        /*Hashage password*/ 
+        try {
+            rl.setMdp(Helpers.sha1(mdp));
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(ClientFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        /*End Hashage*/
         rl.setProfilTechnique(profil);
-        rl.setActifInactif(actifInactif);
+        rl.setActifInactif(true);
         rl.setPlafondDelegation(plafondDelegation);
         rl.setDateCreationCompte(new Date());
         rl.setOffre(offre);
@@ -55,12 +65,11 @@ public class ReferentLocalFacade extends AbstractFacade<ReferentLocal> implement
     
     
     @Override //Méthode pour Administrateur
-    public ReferentLocal modifierReferentLocal(ReferentLocal rl, String nom,String prenom,String mail,String tel,String mdp,ProfilTechnique profil,Boolean actifInactif,float plafondDelegation,Offre offre,Agence agence){
+    public ReferentLocal modifierReferentLocal(ReferentLocal rl, String nom,String prenom,String mail,String tel,ProfilTechnique profil,boolean actifInactif,float plafondDelegation,Offre offre,Agence agence){
         rl.setNom(nom);
         rl.setPrenom(prenom);
         rl.setMail(mail);
         rl.setTelephone(tel);
-        rl.setMdp(mdp);
         rl.setProfilTechnique(profil);
         rl.setActifInactif(actifInactif);
         rl.setPlafondDelegation(plafondDelegation);
@@ -71,10 +80,9 @@ public class ReferentLocalFacade extends AbstractFacade<ReferentLocal> implement
     }
     
     @Override //Méthode pour ReferentLocal Gestionnaire ou Visualisation
-    public ReferentLocal modifierReferentLocal(ReferentLocal rl, String mail,String tel,String mdp,Boolean actifInactif){
+    public ReferentLocal modifierReferentLocal(ReferentLocal rl, String mail,String tel,boolean actifInactif){
         rl.setMail(mail);
         rl.setTelephone(tel);
-        rl.setMdp(mdp);
         rl.setActifInactif(actifInactif);
         edit(rl);
         return rl;

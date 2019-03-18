@@ -5,12 +5,16 @@
  */
 package FacadeUtilisateur;
 
+import Enum.Helpers;
 import Enum.ProfilTechnique;
 import GestionCatalogue.Offre;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.PorteurOffre;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,15 +39,21 @@ public class PorteurOffreFacade extends AbstractFacade<PorteurOffre> implements 
     }
 
     @Override
-    public PorteurOffre creerPorteurOffre(String nom,String prenom,String mail,String tel,String mdp,ProfilTechnique profil,Boolean actifInactif,Offre offre,Agence agence){
+    public PorteurOffre creerPorteurOffre(String nom,String prenom,String mail,String tel,String mdp,ProfilTechnique profil,Offre offre,Agence agence){
         PorteurOffre po = new PorteurOffre();
         po.setNom(nom);
         po.setPrenom(prenom);
         po.setMail(mail);
         po.setTelephone(tel);
-        po.setMdp(mdp);
+        /*Hashage password*/ 
+        try {
+            po.setMdp(Helpers.sha1(mdp));
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(ClientFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        /*End Hashage*/
         po.setProfilTechnique(profil);
-        po.setActifInactif(actifInactif);
+        po.setActifInactif(true);
         po.setDateCreationCompte(new Date());
         po.setOffre(offre);
         po.setAgence(agence);
@@ -53,12 +63,11 @@ public class PorteurOffreFacade extends AbstractFacade<PorteurOffre> implements 
     
     
     @Override //Méthode pour Administrateur
-    public PorteurOffre modifierPorteurOffre(PorteurOffre po, String nom,String prenom,String mail,String tel,String mdp,ProfilTechnique profil,Boolean actifInactif,Offre offre, Agence agence){
+    public PorteurOffre modifierPorteurOffre(PorteurOffre po, String nom,String prenom,String mail,String tel,ProfilTechnique profil,boolean actifInactif,Offre offre, Agence agence){
         po.setNom(nom);
         po.setPrenom(prenom);
         po.setMail(mail);
         po.setTelephone(tel);
-        po.setMdp(mdp);
         po.setProfilTechnique(profil);
         po.setActifInactif(actifInactif);
         po.setOffre(offre);
@@ -68,10 +77,9 @@ public class PorteurOffreFacade extends AbstractFacade<PorteurOffre> implements 
     }
     
     @Override //Méthode pour Porteur d'Offre Gestionnaire ou Visualisation
-    public PorteurOffre modifierPorteurOffre(PorteurOffre po, String mail,String tel,String mdp,Boolean actifInactif){
+    public PorteurOffre modifierPorteurOffre(PorteurOffre po, String mail,String tel,boolean actifInactif){
         po.setMail(mail);
         po.setTelephone(tel);
-        po.setMdp(mdp);
         po.setActifInactif(actifInactif);
         edit(po);
         return po;

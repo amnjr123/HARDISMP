@@ -33,16 +33,16 @@ public interface PorteurOffreFacadeLocal {
 
     int count();
 
-    PorteurOffre modifierPorteurOffre(PorteurOffre po, String mail, String tel, String mdp, Boolean actifInactif);
-
     PorteurOffre supprimerConsultant(PorteurOffre c);
 
     PorteurOffre recherchePorteurOffre(long id);
 
     List<PorteurOffre> recherchePorteurOffre();
 
-    PorteurOffre modifierPorteurOffre(PorteurOffre po, String nom, String prenom, String mail, String tel, String mdp, ProfilTechnique profil, Boolean actifInactif, Offre offre, Agence agence);
+    PorteurOffre creerPorteurOffre(String nom, String prenom, String mail, String tel, String mdp, ProfilTechnique profil, Offre offre, Agence agence);
 
-    PorteurOffre creerPorteurOffre(String nom, String prenom, String mail, String tel, String mdp, ProfilTechnique profil, Boolean actifInactif, Offre offre, Agence agence);
+    PorteurOffre modifierPorteurOffre(PorteurOffre po, String nom, String prenom, String mail, String tel, ProfilTechnique profil, boolean actifInactif, Offre offre, Agence agence);
+
+    PorteurOffre modifierPorteurOffre(PorteurOffre po, String mail, String tel, boolean actifInactif);
     
 }
