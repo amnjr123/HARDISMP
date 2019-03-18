@@ -1,9 +1,12 @@
+<%@page import="GestionUtilisateur.UtilisateurHardis"%>
+<% UtilisateurHardis u = (UtilisateurHardis) session.getAttribute("sessionHardis"); %>
+<% UtilisateurHardis ua = (UtilisateurHardis) session.getAttribute("sessionAdministrateur"); %>
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>nomClient</title>
+        <title><%=(u.getNom().toUpperCase()+' '+u.getPrenom())%></title>
 
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
 
@@ -38,29 +41,35 @@
 
                     <!-- Sidebar -->
                     <div class="bg-light border-right" id="sidebar-wrapper">
-                        <div class="sidebar-heading">nomClient </div>
+                        <div class="sidebar-heading"><%=(u.getNom().toUpperCase()+' '+u.getPrenom())%></div>
                         <div class="list-group list-group-flush">
-                            <a href="${pageContext.request.contextPath}/client/index.jsp" class="list-group-item list-group-item-action bg-light">
+                            <a href="${pageContext.request.contextPath}/hardisUser/index.jsp" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="monitor"></span> Tableau de bord
                             </a>
-                            <a href="${pageContext.request.contextPath}/client/monProfil.jsp" class="list-group-item list-group-item-action bg-light">
+                            <a href="${pageContext.request.contextPath}/hardisUser/monProfil.jsp" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="user"></span> Mon profil
                             </a>
-                            <a href="${pageContext.request.contextPath}/client/devis.jsp" class="list-group-item list-group-item-action bg-light">
+                            <a href="${pageContext.request.contextPath}/hardisUser/devis.jsp" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="file-text"></span> Mes devis
                             </a>
-                            <a href="${pageContext.request.contextPath}/client/commandes.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="shopping-cart"></span> Mes commandes
-                            </a>
-                            <a href="${pageContext.request.contextPath}/client/factures.jsp" class="list-group-item list-group-item-action bg-light">
+                            <a href="${pageContext.request.contextPath}/hardisUser/factures.jsp" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="square"></span> Mes factures
                             </a>
-                            <a href="${pageContext.request.contextPath}/client/calendrier.jsp" class="list-group-item list-group-item-action bg-light">
+                            <a href="${pageContext.request.contextPath}/hardisUser/calendrier.jsp" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="calendar"></span> Calendrier
                             </a>
-                            <a href="${pageContext.request.contextPath}/client/inbox.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="inbox"></span>Inbox
+                            <a href="${pageContext.request.contextPath}/hardisUser/inbox.jsp" class="list-group-item list-group-item-action bg-light">
+                                <span data-feather="inbox"></span> Inbox
                             </a>
+                            <%
+                                if (ua!=null){
+                            %>
+                            <a href="${pageContext.request.contextPath}/admin/indexAdmin.jsp" class="list-group-item list-group-item-action bg-light">
+                                <span data-feather="sliders"></span> Interface d'administration
+                            </a>
+                            <%
+                                }
+                            %>
                         </div>
                     </div>
                     <!-- /#sidebar-wrapper -->

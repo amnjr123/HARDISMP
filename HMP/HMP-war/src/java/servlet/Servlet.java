@@ -39,7 +39,7 @@ public class Servlet extends HttpServlet {
                 sessionHttp.setAttribute(ATT_SESSION_CLIENT, c);//Attribuer le Token
                 jspClient = "/client/index.jsp";
             } else {
-                jspClient = "/utilisateurHardis/index.jsp";
+                jspClient = "/hardisUser/index.jsp";
                 UtilisateurHardis uh = sessionMain.rechercheUtilisateurHardis(utilisateur.getId());// Chercher l'utilisateur Hardis
                 sessionHttp.setAttribute(ATT_SESSION_HARDIS, uh);//Attribuer le Token
                 ProfilTechnique pt = uh.getProfilTechnique();// Profil technique
@@ -57,6 +57,8 @@ public class Servlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
+        //sessionMain.test();
+        
         HttpSession sessionHttp = request.getSession();
         if (request.getParameter("action") != null) {
             String act = request.getParameter("action");
@@ -93,6 +95,7 @@ public class Servlet extends HttpServlet {
             if (act.equals("logout")) {
                 sessionHttp.setAttribute(ATT_SESSION_CLIENT, null); //Enlever le Token
                 sessionHttp.setAttribute(ATT_SESSION_HARDIS, null); //Enlever le Token
+                sessionHttp.setAttribute(ATT_SESSION_ADMINISTRATEUR, null); //Enlever le Token
                 jspClient = "/home.jsp";
             }
             /*Fin Deconnexion*/
