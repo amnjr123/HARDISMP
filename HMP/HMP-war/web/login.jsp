@@ -16,11 +16,11 @@
         
         <p><a href="./signup.jsp">Créer un compte</a></p>
 
-        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#exampleModal">
+        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#pwOublieModal">
             Mot de passe oublié
         </button>
     </form>
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="pwOublieModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -38,6 +38,5 @@
                     </div>
                 </div>
             </div>
-        </div>
-        
+        </div>    
     <jsp:include page="footer.jsp"/>
