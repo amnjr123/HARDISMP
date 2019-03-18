@@ -31,5 +31,9 @@ public interface UtilisateurHardisFacadeLocal {
     int count();
 
     void ajouter(UtilisateurHardis uh);
+
+    UtilisateurHardis rechercheUtilisateurHardis(long id);
+
+    UtilisateurHardis modifierUtilisateurHardis(UtilisateurHardis u, String mail, String tel, boolean actifInactif);
     
 }

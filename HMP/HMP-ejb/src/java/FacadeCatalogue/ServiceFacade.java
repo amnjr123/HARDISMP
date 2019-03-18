@@ -43,11 +43,7 @@ public class ServiceFacade extends AbstractFacade<Service> implements ServiceFac
     public List<Service> rechercherService(Offre o){
         Query requete = em.createQuery("select s from Service as s where  s.offre=:o ");
         requete.setParameter("o", o);
-        if (!requete.getResultList().isEmpty()) {
-            return requete.getResultList();
-        } else {
-            return null;
-        }
+        return requete.getResultList();
     }
     
 }

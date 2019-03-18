@@ -77,7 +77,7 @@ public class DemandeCreationEntrepriseFacade extends AbstractFacade<DemandeCreat
     
     @Override
     public DemandeCreationEntreprise rechercheDemandeCreationEntrepriseClient(Client client) {
-        Query requete = getEntityManager().createQuery("select e from DemandeCreationEntreprise e where e.client:client");
+        Query requete = getEntityManager().createQuery("select e from DemandeCreationEntreprise e where e.client=:client");
         requete.setParameter("client", client);
         if (!requete.getResultList().isEmpty()) {
             return (DemandeCreationEntreprise) requete.getSingleResult();
