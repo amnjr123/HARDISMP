@@ -1,6 +1,8 @@
-
 .gradiant-background{
-    background: #1c92d2;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #f2fcfe, #1c92d2);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #f2fcfe, #1c92d2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+/*Theme1*/
+    /*background: #1c92d2; 
+    background: -webkit-linear-gradient(to right, #6c757d;, #1c92d2, #ffffff);  
+    background: linear-gradient(to right, #6c757d;, #1c92d2, #ffffff); */
+/*Theme2*/
+    background-image: linear-gradient(to right bottom, #6c757d, #667b8c, #5d809c, #5286ac, #438bbc, #3f91c6, #3997d0, #329dda, #40a5e0, #4cade5, #58b6eb, #63bef0);
 }

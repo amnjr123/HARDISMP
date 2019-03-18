@@ -28,7 +28,6 @@ public class Servlet extends HttpServlet {
     private final String ATT_SESSION_ADMINISTRATEUR = "sessionAdministrateur";
 
     private String jspClient = "/home.jsp";
-    
 
     private void login(String login, String mdp, HttpServletRequest request, HttpServletResponse response) {
         Utilisateur utilisateur = sessionMain.authentification(login, mdp);
@@ -61,23 +60,34 @@ public class Servlet extends HttpServlet {
             String act = request.getParameter("action");
             /*CREATION CLIENT*/
             if (act.equals("creerClient")) {
-                String prenom = request.getParameter("prenom").trim();
-                String nom = request.getParameter("nom").trim();
-                String mail = request.getParameter("email").trim().toLowerCase();
-                String tel = request.getParameter("tel").trim();
-                String mdp = request.getParameter("pw");
-                if (!prenom.isEmpty() && !nom.isEmpty() && !mail.isEmpty() && !tel.isEmpty() && !mdp.isEmpty()) {
-                    Utilisateur u = sessionMain.rechercherUtilisateurExistant(mail);
-                    if (u == null) {
-                        sessionMain.creerClient(nom, prenom, mail, mdp, tel);
-                        login(mail, mdp, request, response);
+                if (request.getParameter("rgpd") != null && request.getParameter("rgpd").equals("oui")) {
+                    String prenom = request.getParameter("prenom").trim();
+                    String nom = request.getParameter("nom").trim();
+                    String mail = request.getParameter("email").trim().toLowerCase();
+                    String tel = request.getParameter("tel").trim();
+                    String mdp = request.getParameter("pw");
+                    String mdpV = request.getParameter("pwV");
+                    if (!prenom.isEmpty() && !nom.isEmpty() && !mail.isEmpty() && !tel.isEmpty() && !mdp.isEmpty() && !mdpV.isEmpty()) {
+                        if (mdpV.equals(mdp)) {
+                            Utilisateur u = sessionMain.rechercherUtilisateurExistant(mail);
+                            if (u == null) {
+                                sessionMain.creerClient(nom, prenom, mail, mdp, tel);
+                                login(mail, mdp, request, response);
+                            } else {
+                                jspClient = "/home.jsp";
+                                request.setAttribute("MsgError", "Cette adresse mail est déjà utilisée");
+                            }
+                        }else{
+                            jspClient = "/home.jsp";
+                            request.setAttribute("MsgError", "Les deux mot de passes ne sont pas identiques");
+                        }
                     } else {
                         jspClient = "/home.jsp";
-                        request.setAttribute("MsgError", "Cette adresse mail est déjà utilisée");
+                        request.setAttribute("MsgError", "Veuillez saisir tous les champs nécessaires");
                     }
                 } else {
                     jspClient = "/home.jsp";
-                    request.setAttribute("MsgError", "Veuillez saisir tous les champs nécessaires");
+                    request.setAttribute("MsgError", "Il est obligatoire d'adhérer à notre loi de respect des donnees personnelles pour pouvoir créer un compte");
                 }
             }
             /*FIN CREATION CLIENT*/
