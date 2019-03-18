@@ -73,7 +73,7 @@ public class Client extends Utilisateur implements Serializable {
     
 //Attributs
    
-    private boolean administrateur;
+    private boolean administrateur=false;
 
     public boolean getAdministrateur() {
         return administrateur;

@@ -44,7 +44,7 @@ public class SessionMain implements SessionLocal {
 
     @Override
     public Client creerClient(String nom, String prenom, String mail, String mdp, String telephone) {
-        return clientFacade.creerClient(nom, prenom, mail, mdp, mdp);
+        return clientFacade.creerClient(nom, prenom, mail, mdp, telephone);
     }
 
     @Override

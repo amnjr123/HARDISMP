@@ -79,7 +79,8 @@ public class Servlet extends HttpServlet {
                             } else {
                                 jspClient = "/home.jsp";
                                 request.setAttribute("MsgError", "Cette adresse mail est déjà utilisée");
-                            }
+                                request.setAttribute("ErrorAdds", true);
+                            }    
                         }else{
                             jspClient = "/home.jsp";
                             request.setAttribute("MsgError", "Les deux mot de passes ne sont pas identiques");

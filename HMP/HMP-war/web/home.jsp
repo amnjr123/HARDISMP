@@ -21,10 +21,9 @@
         <!-- Theme CSS - Includes Bootstrap -->
         <link href="${pageContext.request.contextPath}/css/custom/creative.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/custom/home.css" rel="stylesheet">
-        <link href="https://fr.snatchbot.me/sdk/webchat.css" rel="stylesheet" type="text/css">    
+        <link href="${pageContext.request.contextPath}/css/snatchbot.css" rel="stylesheet" type="text/css">    
         <link href="${pageContext.request.contextPath}/css/custom/form-validation.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/bootstrap4-toggle.css" rel="stylesheet">
-        <script src='https://www.google.com/recaptcha/api.js'></script>
     </head>      
     <body class="gradiant-background">
         <!-- Navigation -->
@@ -39,12 +38,12 @@
                         <li class="nav-item">
                             <%if (sessionUtilisateur != null) {
                                     if (sessionUtilisateur.equalsIgnoreCase("UtilisateurHardis")) {
-                                        out.print("<a class='nav-link' href='"+request.getContextPath()+"/hardisUser/index.jsp'>" + u.getNom() + " " + u.getPrenom() + "</a>");
+                                        out.print("<a class='nav-link' href='" + request.getContextPath() + "/hardisUser/index.jsp'>" + u.getNom() + " " + u.getPrenom() + "</a>");
                                     } else if (sessionUtilisateur.equalsIgnoreCase("Client")) {
-                                        out.print("<a class='nav-link' href='"+request.getContextPath()+"/client/index.jsp'>" + c.getNom() + " " + c.getPrenom() + "</a>");
+                                        out.print("<a class='nav-link' href='" + request.getContextPath() + "/client/index.jsp'>" + c.getNom() + " " + c.getPrenom() + "</a>");
                                     }
                                 } else {
-                                    out.print("<a class='nav-link' href='#loginModal'  data-toggle='modal'>Se Connecter</a>");                    
+                                    out.print("<a class='nav-link' href='#loginModal'  data-toggle='modal'>Se Connecter</a>");
                                     out.print("</li>");
                                     out.print("<li class='nav-item'>");
                                     out.print("<a class='nav-link' href='#signUpModal' data-toggle='modal'>S&apos;inscrire</a>");
@@ -72,23 +71,30 @@
                     <div class="col-lg-8 align-self-baseline">
                         <p class="text-white-75 font-weight-light mb-5">Il s'agit d'un Market Place, dotée de fonctionnalités que vous pourrez utiliser dans vos projets futurs.</p>
                         <p class="text-white-75 font-weight-light mb-5">Découvrez nos fonctionnalités pour parler avec nos équipes et découvrir nos offres & services.</p>
-                            <%if (sessionUtilisateur != null) {
-                                    if (sessionUtilisateur.equalsIgnoreCase("UtilisateurHardis")) {
-                                        out.print("<a class='btn btn-light btn-xl' href='"+request.getContextPath()+"/hardisUser/index.jsp'>" + u.getNom() + " " + u.getPrenom() + "</a>");
-                                    } else if (sessionUtilisateur.equalsIgnoreCase("Client")) {
-                                        out.print("<a class='btn btn-light btn-xl' href='"+request.getContextPath()+"/client/index.jsp'>" + c.getNom() + " " + c.getPrenom() + "</a>");
-                                    }
-                                } else {
-                                    out.print("<a class='btn btn-light btn-xl' href='#loginModal' data-toggle='modal'>Se Connecter</a>");                    
-                                    out.print("<a class='btn btn-secondary btn-xl' href='#signUpModal' data-toggle='modal'>S&apos;inscrire</a>");
-                                }%>
-                                           
+                        <%if (sessionUtilisateur != null) {
+                                if (sessionUtilisateur.equalsIgnoreCase("UtilisateurHardis")) {
+                                    out.print("<a class='btn btn-light btn-xl' href='" + request.getContextPath() + "/hardisUser/index.jsp'>" + u.getNom() + " " + u.getPrenom() + "</a>");
+                                } else if (sessionUtilisateur.equalsIgnoreCase("Client")) {
+                                    out.print("<a class='btn btn-light btn-xl' href='" + request.getContextPath() + "/client/index.jsp'>" + c.getNom() + " " + c.getPrenom() + "</a>");
+                                }
+                            } else {
+                                out.print("<a class='btn btn-light btn-xl' href='#loginModal' data-toggle='modal'>Se Connecter</a>");
+                                out.print("<a class='btn btn-secondary btn-xl' href='#signUpModal' data-toggle='modal' style='margin:1em'>S&apos;inscrire</a>");
+                            }%>
+
                     </div>
                     <% String error = (String) request.getAttribute("MsgError");
                         if (request.getAttribute("MsgError") != null) {%>
                     <div class="alert alert-danger alert-dismissible fade in show">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                         <strong>Attention !</strong>&nbsp;<%=error%>.
+                        <%if(request.getAttribute("ErrorAdds")!=null){%>
+                             <div class='text-center'>           
+                                <button type='button' class='btn btn-link' data-toggle='modal' data-target='#pwOublieModal'>
+                                    Mot de passe oublié ?
+                                </button>
+                            </div>
+                        <%}%>
                     </div>
                     <%}%>
                 </div>
@@ -123,16 +129,14 @@
                             </div>
                             <div class="text-center">           
                                 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#pwOublieModal">
-                                    Mot de passe oublié
-                                </button></div>
+                                    Mot de passe oublié ?
+                                </button>
+                            </div>
                             <div class="form-group py-4 text-center">
                                 <input type="hidden" name="action" value="login">
                                 <button type="submit" class="btn btn-success btn-lg " id="btnLogin">Login</button>
                                 <button style="margin-left: 1em" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" aria-hidden="true">Annuler</button>
-
                             </div>
-
-
                         </form>
                     </div>
                 </div>
@@ -201,7 +205,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="g-recaptcha" data-sitekey="6LdiapgUAAAAAECcfWeAbS_T1fzimbIyepIc5pOK"></div>
                             <div class="text-center">
                                 <input name="rgpd" data-toggle="toggle" data-size="lg" type="checkbox" value="oui" required="true" data-onstyle="success" data-on="J'accepte" data-off="Je n'accepte pas" data-width="200" >
                                 <label for="rgpd"> que mes données à caractère personnel soient collectées et traitées selon les conditions décrites à la page&nbsp;<a href="https://www.hardis-group.com/respect-des-donnees-personnelles">"respect des données personnelles"</a></label>

@@ -51,7 +51,7 @@ public class ClientFacade extends AbstractFacade<Client> implements ClientFacade
         }
         /*End Hashage*/
         c.setDateCreationCompte(new Date());
-        c.setAdministrateur(false);
+        //c.setAdministrateur(false);
         create(c);
         return c;
     }
