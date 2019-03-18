@@ -6,6 +6,7 @@
 package SessionUtilisateur;
 
 import GestionUtilisateur.Agence;
+import GestionUtilisateur.Client;
 import GestionUtilisateur.Entreprise;
 import GestionUtilisateur.Interlocuteur;
 import java.util.List;
@@ -31,5 +32,9 @@ public interface SessionAdministrateurLocal {
     Interlocuteur supprimerInterlocuteur(Long idInterlocuteur);
 
     List<Interlocuteur> rechercherInterlocuteur(Long idEntreprise);
+
+    Client rattacherClientAdmin(Long idClient, Long idEntreprise);
+
+    Client rattacherClient(Long idClient, Long idEntreprise);
     
 }
