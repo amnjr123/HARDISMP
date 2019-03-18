@@ -1,6 +1,7 @@
 package servlet;
 
 import GestionUtilisateur.Client;
+import GestionUtilisateur.Utilisateur;
 import SessionUtilisateur.SessionClientLocal;
 import SessionUtilisateur.SessionLocal;
 import java.io.IOException;
@@ -17,65 +18,89 @@ import javax.servlet.http.HttpSession;
 public class ServletClient extends HttpServlet {
 
     @EJB
-    private SessionLocal sessionMain;
-
-    @EJB
     private SessionClientLocal sessionClient;
-    
-    
-    
+
     private final String ATT_SESSION_CLIENT = "sessionClient";
-    
+
     private String jspClient = "/client/index.jsp";
 
-    private Client c;    
+    private Client c;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sessionHttp = request.getSession();
-        
-        if(sessionHttp.getAttribute("sessionClient")!=null){
-            c = (Client) sessionHttp.getAttribute("sessionClient");  
+
+        if (sessionHttp.getAttribute("sessionClient") != null) {
+            c = (Client) sessionHttp.getAttribute("sessionClient");
             System.out.print(c);
-            if (request.getParameter("action") != null){
-            String act = request.getParameter("action");
-            //MODIFIER LE PRENOM DU CLIENT
-            if(act.equals("modifierPrenomClient")){
-                if (request.getParameter("nouveauPrenom") != null && !request.getParameter("nouveauPrenom").isEmpty()){
-                String prenom = request.getParameter("nouveauPrenom");
-                sessionClient.modifierClient(c.getId(), c.getNom(), prenom, c.getMail(), c.getTelephone());
-                Client cli = sessionMain.rechercheClient(c.getId());
-                request.getSession().setAttribute(ATT_SESSION_CLIENT, cli);//Attribuer le Token
-                jspClient = "/client/monProfil.jsp";
+            if (request.getParameter("action") != null) {
+                String act = request.getParameter("action");
+                //MODIFIER LE PRENOM DU CLIENT
+                if (act.equals("modifierPrenomClient")) {
+                    if (request.getParameter("nouveauPrenom") != null && !request.getParameter("nouveauPrenom").isEmpty()) {
+                        String prenom = request.getParameter("nouveauPrenom");
+                        Client cli = sessionClient.modifierClient(c.getId(), c.getNom(), prenom, c.getMail(), c.getTelephone());
+                        if (cli != null) {
+                            request.getSession().setAttribute(ATT_SESSION_CLIENT, cli);//Attribuer le Token
+                            jspClient = "/client/monProfil.jsp";
+                        } else {
+                            request.setAttribute("msgError", "Le prénom n'a pas été modifié");
+                            jspClient = "/client/monProfil.jsp";                        
+                        }
+                    }
                 }
-            }
-            //MODIFIER LE NOM DU CLIENT
-            if(act.equals("modifierNomClient")){
-                if (request.getParameter("nouveauNom") != null && !request.getParameter("nouveauNom").equals("") ){
-                String nom = request.getParameter("nouveauNom");
-                sessionClient.modifierClient(c.getId(), nom, c.getPrenom(), c.getMail(), c.getTelephone());
-                Client cli = sessionMain.rechercheClient(c.getId());
-                request.getSession().setAttribute(ATT_SESSION_CLIENT, cli);//Attribuer le Token
-                jspClient = "/client/monProfil.jsp";
+                //MODIFIER LE NOM DU CLIENT
+                if (act.equals("modifierNomClient")) {
+                    if (request.getParameter("nouveauNom") != null && !request.getParameter("nouveauNom").isEmpty()) {
+                        String nom = request.getParameter("nouveauNom");
+                        Client cli = sessionClient.modifierClient(c.getId(), nom, c.getPrenom(), c.getMail(), c.getTelephone());
+                        if (cli != null) {
+                            request.getSession().setAttribute(ATT_SESSION_CLIENT, cli);//Attribuer le Token
+                            jspClient = "/client/monProfil.jsp";
+                        } else {
+                            request.setAttribute("msgError", "Le nom n'a pas été modifié");
+                            jspClient = "/client/monProfil.jsp";                          
+                        }
+                    }
                 }
-            }
-            //MODIFIER LE TELEPHONE DU CLIENT
-            if(act.equals("modifierTelephoneClient")){
-                if (request.getParameter("nouveauTelephone") != null && !request.getParameter("nouveauTelephone").equals("") ){
-                String tel = request.getParameter("nouveauTelephone");
-                sessionClient.modifierClient(c.getId(), c.getNom(), c.getPrenom(), c.getMail(), tel);
-                Client cli = sessionMain.rechercheClient(c.getId());
-                request.getSession().setAttribute(ATT_SESSION_CLIENT, cli);//Attribuer le Token
-                jspClient = "/client/monProfil.jsp";
+                //MODIFIER LE TELEPHONE DU CLIENT
+                if (act.equals("modifierTelephoneClient")) {
+                    if (request.getParameter("nouveauTelephone") != null && !request.getParameter("nouveauTelephone").isEmpty()) {
+                        String tel = request.getParameter("nouveauTelephone");
+                        Client cli = sessionClient.modifierClient(c.getId(), c.getNom(), c.getPrenom(), c.getMail(), tel);
+                        if (cli != null) {
+                            request.getSession().setAttribute(ATT_SESSION_CLIENT, cli);//Attribuer le Token
+                            jspClient = "/client/monProfil.jsp";
+                        } else {
+                            request.setAttribute("msgError", "Le téléphone n'a pas été modifié");
+                            jspClient = "/client/monProfil.jsp";                           
+                        }
+
+                    }
                 }
+                //MODIFIER LE MOT DE PASSE DU CLIENT
+                if (act.equals("modifierMDPClient")) {
+                    if (request.getParameter("ancienMDP") != null && request.getParameter("nouveauMDP") != null && !request.getParameter("ancienMDP").isEmpty() && !request.getParameter("nouveauMDP").isEmpty()) {
+                        String nouveau = request.getParameter("nouveauMDP");
+                        String ancien = request.getParameter("ancienMDP");
+                        Utilisateur uti = sessionClient.modifierClientMDP(c.getId(), ancien, nouveau);
+                        if (uti != null) {
+                            Client cli = sessionClient.rechercheClient(uti.getId());
+                            request.getSession().setAttribute(ATT_SESSION_CLIENT, cli);//Attribuer le Token
+                            jspClient = "/client/monProfil.jsp";
+                        } else {
+                            request.setAttribute("msgError", "Le mot de passe n'a pas été modifié, l'ancien mot de passe est incorrect");
+                            jspClient = "/client/monProfil.jsp";
+                        }
+
+                    }
+                }
+
             }
-            
-        }
-           
+
         }
 
-        
         RequestDispatcher rd = getServletContext().getRequestDispatcher(jspClient);
         rd.forward(request, response);
 

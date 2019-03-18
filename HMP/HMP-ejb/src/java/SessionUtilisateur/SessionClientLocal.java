@@ -55,4 +55,6 @@ public interface SessionClientLocal {
     Interlocuteur modifierInterlocuteur(Long idInterlocuteur, String nom, String prenom, String telephone, String fonction);
 
     List<Interlocuteur> rechercherInterlocuteur(Long idEntreprise);
+
+    Client rechercheClient(long id);
 }

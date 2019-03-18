@@ -20,7 +20,7 @@
     </div>
 
     <%
-        if (c.getEntreprise() == null) {
+        if (c.getEntreprise() == null && 1 == 2) {
     %>
     <div class="card text-white bg-danger mb-3">
         <div class="card-header"><h4>Mon entreprise</h4></div>
@@ -69,6 +69,13 @@
     %>
 
     <div class="card text-white bg-dark mb-3">
+        <% String error = (String) request.getAttribute("msgError");
+                        if (request.getAttribute("msgError") != null) {%>
+                    <div class="alert alert-danger alert-dismissible fade in show">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Attention !</strong>&nbsp;<%=error%>.
+                    </div>
+                    <%}%>
         <div class="card-header"><h4>Mes informations personnelles</h4></div>
         <div class="card-body">
             <div class="row">
@@ -179,25 +186,28 @@
     <div class="modal fade" id="changerMDPModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Changer le mot de passe</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        <input id="ancienMDP" type="password" class="form-control" placeholder="Ancien mot de passe" required> 
-                    </p>
-                    <p>
-                        <input id="nouveauMDP" type="password" class="form-control" placeholder="Nouveau mot de passe" required> 
-                    </p>
+                <form class="needs-validation" method="post" action="${pageContext.request.contextPath}/ServletClient">
+                    <input type="hidden" name="action" value="modifierMDPClient">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Changer le mot de passe</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            <input name="ancienMDP" type="password" class="form-control" placeholder="Ancien mot de passe" required> 
+                        </p>
+                        <p>
+                            <input name="nouveauMDP" type="password" class="form-control" placeholder="Nouveau mot de passe" required> 
+                        </p>
 
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                    <button type="button" class="btn btn-primary">Valider</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Valider</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -206,7 +216,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Changer le mot de passe</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Changer votre adresse mail</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
