@@ -211,7 +211,7 @@
                         <img src="http://lorempixel.com/400/200/abstract/15"/>
                     </div>
                     <div class="user">
-                        <img class="img-circle" src="https://randomuser.me/api/portraits/men/20.jpg"/>
+                        <img class="img-circle"  src="https://randomuser.me/api/portraits/men/20.jpg"/>
                     </div>
                     <div class="content">
                         <div class="main">

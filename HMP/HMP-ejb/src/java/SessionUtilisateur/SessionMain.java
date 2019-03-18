@@ -55,13 +55,21 @@ public class SessionMain implements SessionLocal {
     @Override
     public void test(){
         //this.creerClient("NEJJARI","Amine","amnjr123@gmail.com","123456","0624318857");
-        UtilisateurHardis uh = new UtilisateurHardis();
-        uh.setNom("NEJJARI");
-        uh.setPrenom("Amine");
-        uh.setMail("amnjr456@gmail.com");
-        uh.setMdp("7C4A8D09CA3762AF61E59520943DC26494F8941B");
+       /* UtilisateurHardis uh = new UtilisateurHardis();
+        uh.setNom("Gestionnaire");
+        uh.setPrenom("test");
+        uh.setMail("test@gmail.com");
+        uh.setMdp("40BD001563085FC35165329EA1FF5C5ECBDBBEEF");
         uh.setProfilTechnique(ProfilTechnique.Gestionnaire);
         utilisateurHardisFacade.ajouter(uh);
+        */
+          UtilisateurHardis ur = new UtilisateurHardis();
+        ur.setNom("Admin");
+        ur.setPrenom("test");
+        ur.setMail("testa@gmail.com");
+        ur.setMdp("40BD001563085FC35165329EA1FF5C5ECBDBBEEF");
+        ur.setProfilTechnique(ProfilTechnique.Administrateur);
+        utilisateurHardisFacade.ajouter(ur);
     }
         
 }
