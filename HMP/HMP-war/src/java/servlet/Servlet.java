@@ -48,7 +48,7 @@ public class Servlet extends HttpServlet {
             }
         } else {
             jspClient = "/home.jsp";
-            request.setAttribute("msgError", "Utilisateur inexistant ou mot de passe erroné");
+            request.setAttribute("MsgError", "Utilisateur inexistant ou mot de passe erroné");
         }
     }
 

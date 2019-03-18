@@ -34,5 +34,13 @@ public interface ServiceFacadeLocal {
     List<Service> rechercherService(Offre o);
 
     List<Service> rechercherService();
+
+    List<Service> rechercheServicesActuels(Offre o);
+
+    List<Service> rechercheServicesAnciens(Offre o);
+
+    List<Service> rechercheServicesActuels();
+
+    List<Service> rechercheServicesAnciens();
     
 }

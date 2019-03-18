@@ -1,3 +1,15 @@
+<%@page import="GestionUtilisateur.UtilisateurHardis"%>
+<%@page import="GestionUtilisateur.Client"%>
+<%
+    Client c = (Client) session.getAttribute("sessionClient");
+    UtilisateurHardis u = (UtilisateurHardis) session.getAttribute("sessionHardis");
+    String sessionUtilisateur = null;
+    if (u != null) {
+        sessionUtilisateur = "UtilisateurHardis";
+    } else if (c != null) {
+        sessionUtilisateur = "Client";
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -25,16 +37,24 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">         
                         <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="#loginModal"  data-toggle="modal">Se Connecter</a>
+                            <%if (sessionUtilisateur != null) {
+                                    if (sessionUtilisateur.equalsIgnoreCase("UtilisateurHardis")) {
+                                        out.print("<a class='nav-link' href='"+request.getContextPath()+"/hardisUser/index.jsp'>" + u.getNom() + " " + u.getPrenom() + "</a>");
+                                    } else if (sessionUtilisateur.equalsIgnoreCase("Client")) {
+                                        out.print("<a class='nav-link' href='"+request.getContextPath()+"/client/index.jsp'>" + c.getNom() + " " + c.getPrenom() + "</a>");
+                                    }
+                                } else {
+                                    out.print("<a class='nav-link' href='#loginModal'  data-toggle='modal'>Se Connecter</a>");                    
+                                    out.print("</li>");
+                                    out.print("<li class='nav-item'>");
+                                    out.print("<a class='nav-link' href='#signUpModal' data-toggle='modal'>S&apos;inscrire</a>");
+                                    out.print("</li>");
+                                }%>                                                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://www.hardis-group.com/societe/hardis-group-ssii-esn-grenoble-lyon-paris-nantes-lille-dates-et-chiffres-cles">Qui sommes-nous ?</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="#signUpModal" data-toggle="modal">S'inscrire</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="https://www.hardis-group.com/societe/hardis-group-ssii-esn-grenoble-lyon-paris-nantes-lille-dates-et-chiffres-cles">Qui sommes-nous ?</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="https://fr.snatchbot.me/webchat/?botID=49391&appID=pa6u0D3Ox5pHt3C1bO42">Contact</a>
+                            <a class="nav-link" href="https://fr.snatchbot.me/webchat/?botID=49391&appID=pa6u0D3Ox5pHt3C1bO42">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -52,11 +72,20 @@
                     <div class="col-lg-8 align-self-baseline">
                         <p class="text-white-75 font-weight-light mb-5">Il s'agit d'un Market Place, dotée de fonctionnalités que vous pourrez utiliser dans vos projets futurs.</p>
                         <p class="text-white-75 font-weight-light mb-5">Découvrez nos fonctionnalités pour parler avec nos équipes et découvrir nos offres & services.</p>
-                        <a class="btn btn-light btn-xl" href="#loginModal" data-toggle="modal">Se Connecter</a>
-                        <a class="btn btn-secondary btn-xl" href="#signUpModal" data-toggle="modal">S'inscrire</a>
+                            <%if (sessionUtilisateur != null) {
+                                    if (sessionUtilisateur.equalsIgnoreCase("UtilisateurHardis")) {
+                                        out.print("<a class='btn btn-light btn-xl' href='"+request.getContextPath()+"/hardisUser/index.jsp'>" + u.getNom() + " " + u.getPrenom() + "</a>");
+                                    } else if (sessionUtilisateur.equalsIgnoreCase("Client")) {
+                                        out.print("<a class='btn btn-light btn-xl' href='"+request.getContextPath()+"/client/index.jsp'>" + c.getNom() + " " + c.getPrenom() + "</a>");
+                                    }
+                                } else {
+                                    out.print("<a class='btn btn-light btn-xl' href='#loginModal' data-toggle='modal'>Se Connecter</a>");                    
+                                    out.print("<a class='btn btn-secondary btn-xl' href='#signUpModal' data-toggle='modal'>S&apos;inscrire</a>");
+                                }%>
+                                           
                     </div>
-                    <% String error = (String) request.getAttribute("msgError");
-                        if (request.getAttribute("msgError") != null) {%>
+                    <% String error = (String) request.getAttribute("MsgError");
+                        if (request.getAttribute("MsgError") != null) {%>
                     <div class="alert alert-danger alert-dismissible fade in show">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                         <strong>Attention !</strong>&nbsp;<%=error%>.

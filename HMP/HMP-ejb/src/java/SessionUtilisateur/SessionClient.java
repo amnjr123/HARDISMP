@@ -21,7 +21,6 @@ import FacadeUtilisateur.UtilisateurFacadeLocal;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
 import GestionCatalogue.ServiceStandard;
-import GestionDevis.Devis;
 import GestionDevis.DevisStandard;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.Client;
@@ -172,8 +171,8 @@ public class SessionClient implements SessionClientLocal {
     }
     
     @Override
-    public List<Service> rechercherService(Offre o) {
-        return serviceFacade.rechercherService(o);
+    public List<Service> rechercherServices(Offre o) {
+        return serviceFacade.rechercheServicesActuels(o);
     }
 
     @Override

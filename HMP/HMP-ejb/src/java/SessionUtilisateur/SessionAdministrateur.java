@@ -9,6 +9,7 @@ import Enum.Helpers;
 import Enum.LieuIntervention;
 import Enum.ProfilTechnique;
 import FacadeCatalogue.OffreFacadeLocal;
+import FacadeCatalogue.ServiceFacadeLocal;
 import FacadeCatalogue.ServiceStandardFacadeLocal;
 import FacadeUtilisateur.AgenceFacadeLocal;
 import FacadeUtilisateur.CVFacadeLocal;
@@ -23,6 +24,7 @@ import FacadeUtilisateur.PorteurOffreFacadeLocal;
 import FacadeUtilisateur.ReferentLocalFacadeLocal;
 import FacadeUtilisateur.UtilisateurFacadeLocal;
 import GestionCatalogue.Offre;
+import GestionCatalogue.Service;
 import GestionCatalogue.ServiceStandard;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.Client;
@@ -49,6 +51,9 @@ import org.apache.jasper.tagplugins.jstl.ForEach;
  */
 @Stateless
 public class SessionAdministrateur implements SessionAdministrateurLocal {
+
+    @EJB
+    private ServiceFacadeLocal serviceFacade;
 
     @EJB
     private ServiceStandardFacadeLocal serviceStandardFacade;
@@ -98,6 +103,7 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     }
 
     /*GESTION ENTREPRISE*/
+    @Override
     public List<DemandeCreationEntreprise> rechercheDemandeCreationEntreprise(){
         return demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise();
     }
@@ -119,6 +125,8 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         return entrepriseFacade.rechercheEntrepriseSiret(siret);
     }
     
+    public List<DemandeRattachement> afficherDemandesRattachement;
+    
     @Override
     public Entreprise validerDemandeCreationEntreprise(Long idDemande) {
         DemandeCreationEntreprise d = demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise(idDemande);
@@ -134,22 +142,19 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
             //On supprime la demande de création
             demandeCreationEntrepriseFacade.supprimerDemandeCreationEntreprise(d);
         }
-        //Si oui, on renvoie null pour message erreur
+        else{
+            //Si l'entreprise existe alors on transforme en demande de rattachement qui sera envoyée à l'admin Client
+            DemandeRattachement dr = demandeRattachementFacade.creerDemandeRattachement(d.getClient(),e);
+            //On supprime la demande de création
+            demandeCreationEntrepriseFacade.supprimerDemandeCreationEntreprise(d);
+        }
         return e;
     }
     
+    @Override
     public DemandeCreationEntreprise refuserDemandeCreationEntreprise(Long idDemande) {
         DemandeCreationEntreprise d = demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise(idDemande);
         return demandeCreationEntrepriseFacade.supprimerDemandeCreationEntreprise(d);
-    }
-    
-    public DemandeRattachement transfertCreationEnRattachement(Long idDemande){
-        //Méthode pour si lors d'une demande de création d'entreprise, l'entreprise est déjà existante, on transforme la demande de création en demande de rattachement, renvoyée à l'admin Client
-        DemandeCreationEntreprise d = demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise(idDemande);
-        Entreprise e = entrepriseFacade.rechercheEntrepriseSiret(d.getSiret());
-        DemandeRattachement dr = demandeRattachementFacade.creerDemandeRattachement(d.getClient(),e);
-        demandeCreationEntrepriseFacade.supprimerDemandeCreationEntreprise(d);
-        return dr;
     }
     
     @Override
@@ -177,6 +182,7 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         return c;
     }
     
+    @Override
     public List<Interlocuteur> rechercherInterlocuteur(){
         return interlocuteurFacade.rechercheInterlocuteur();
     }
@@ -397,8 +403,8 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     }
     
     @Override
-    public List<ServiceStandard> afficherServiceStandards(){
-        return serviceStandardFacade.rechercheServiceStandard();
+    public List<Service> afficherServices(){
+        return serviceFacade.rechercherService();
     }
   
     
