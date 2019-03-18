@@ -72,11 +72,11 @@ public class Servlet extends HttpServlet {
                         sessionMain.creerClient(nom, prenom, mail, mdp, tel);
                         login(mail, mdp, request, response);
                     } else {
-                        jspClient = "/signup.jsp";
+                        jspClient = "/home.jsp";
                         request.setAttribute("MsgError", "Cette adresse mail est déjà utilisée");
                     }
                 } else {
-                    jspClient = "/signup.jsp";
+                    jspClient = "/home.jsp";
                     request.setAttribute("MsgError", "Veuillez saisir tous les champs nécessaires");
                 }
             }
