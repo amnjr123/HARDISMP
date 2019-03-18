@@ -11,6 +11,7 @@ import GestionCatalogue.ServiceStandard;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Consultant;
+import GestionUtilisateur.DemandeCreationEntreprise;
 import GestionUtilisateur.Entreprise;
 import GestionUtilisateur.Interlocuteur;
 import GestionUtilisateur.PorteurOffre;
@@ -71,5 +72,13 @@ public interface SessionAdministrateurLocal {
     ServiceStandard modifierServiceStandard(Long idServiceStandard, String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre, int nbJoursConsultantSenior, int nbJoursConsultantConfirme, int nbJoursConsultantJunior, int nbHeuresAtelierEntretien, int nbHeuresSupportTel, String descriptionPrestation);
 
     List<Service> afficherServices();
+
+    DemandeCreationEntreprise refuserDemandeCreationEntreprise(Long idDemande);
+
+    Entreprise entrepriseExistante(String siret);
+
+    List<DemandeCreationEntreprise> rechercheDemandeCreationEntreprise();
+
+    List<Interlocuteur> rechercherInterlocuteur();
     
 }

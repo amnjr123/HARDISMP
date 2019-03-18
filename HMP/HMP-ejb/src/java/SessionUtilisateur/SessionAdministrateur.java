@@ -102,13 +102,17 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     }
 
     /*GESTION ENTREPRISE*/
+    @Override
     public List<DemandeCreationEntreprise> rechercheDemandeCreationEntreprise(){
         return demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise();
     }
     
+    @Override
     public Entreprise entrepriseExistante(String siret){
         return entrepriseFacade.rechercheEntrepriseSiret(siret);
     }
+    
+    public List<DemandeRattachement> afficherDemandesRattachement;
     
     @Override
     public Entreprise validerDemandeCreationEntreprise(Long idDemande) {
@@ -125,22 +129,19 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
             //On supprime la demande de création
             demandeCreationEntrepriseFacade.supprimerDemandeCreationEntreprise(d);
         }
-        //Si oui, on renvoie null pour message erreur puis proposition vers la méthode transfertCreationEnRattachement(Long idDemande)
+        else{
+            //Si l'entreprise existe alors on transforme en demande de rattachement qui sera envoyée à l'admin Client
+            DemandeRattachement dr = demandeRattachementFacade.creerDemandeRattachement(d.getClient(),e);
+            //On supprime la demande de création
+            demandeCreationEntrepriseFacade.supprimerDemandeCreationEntreprise(d);
+        }
         return e;
     }
     
+    @Override
     public DemandeCreationEntreprise refuserDemandeCreationEntreprise(Long idDemande) {
         DemandeCreationEntreprise d = demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise(idDemande);
         return demandeCreationEntrepriseFacade.supprimerDemandeCreationEntreprise(d);
-    }
-    
-    public DemandeRattachement transfertCreationEnRattachement(Long idDemande){
-        //Méthode pour si lors d'une demande de création d'entreprise, l'entreprise est déjà existante, on transforme la demande de création en demande de rattachement, renvoyée à l'admin Client
-        DemandeCreationEntreprise d = demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise(idDemande);
-        Entreprise e = entrepriseFacade.rechercheEntrepriseSiret(d.getSiret());
-        DemandeRattachement dr = demandeRattachementFacade.creerDemandeRattachement(d.getClient(),e);
-        demandeCreationEntrepriseFacade.supprimerDemandeCreationEntreprise(d);
-        return dr;
     }
     
     @Override
@@ -168,6 +169,7 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         return c;
     }
     
+    @Override
     public List<Interlocuteur> rechercherInterlocuteur(){
         return interlocuteurFacade.rechercheInterlocuteur();
     }

@@ -9,6 +9,7 @@ import GestionUtilisateur.AbstractFacade;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.DemandeRattachement;
 import GestionUtilisateur.Entreprise;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -33,6 +34,11 @@ public class DemandeRattachementFacade extends AbstractFacade<DemandeRattachemen
 
     public DemandeRattachementFacade() {
         super(DemandeRattachement.class);
+    }
+    
+    @Override
+    public List<DemandeRattachement> rechercherDemandeRattachement(){
+        return findAll();
     }
     
     @Override
@@ -66,6 +72,13 @@ public class DemandeRattachementFacade extends AbstractFacade<DemandeRattachemen
         } else {
             return null;
         }
+    }
+    
+    @Override
+    public List<DemandeRattachement> rechercherDemandeRattachementUrgentes(){
+        //Méthode pour administrateur - bug à corriger
+        Query requete = em.createQuery("select d from DemandeRattachement as d where d.dateDemande<=date_sub(CURRENT_TIMESTAMP,3)");
+        return requete.getResultList();
     }
     
     @Override
