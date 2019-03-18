@@ -6,6 +6,7 @@
 package SessionUtilisateur;
 
 import GestionCatalogue.Offre;
+import GestionCatalogue.Service;
 import GestionCatalogue.ServiceStandard;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.Client;
@@ -69,6 +70,6 @@ public interface SessionAdministrateurLocal {
 
     ServiceStandard modifierServiceStandard(Long idServiceStandard, String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre, int nbJoursConsultantSenior, int nbJoursConsultantConfirme, int nbJoursConsultantJunior, int nbHeuresAtelierEntretien, int nbHeuresSupportTel, String descriptionPrestation);
 
-    List<ServiceStandard> afficherServiceStandards();
+    List<Service> afficherServices();
     
 }

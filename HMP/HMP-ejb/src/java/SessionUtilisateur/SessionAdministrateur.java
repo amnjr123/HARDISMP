@@ -9,6 +9,7 @@ import Enum.Helpers;
 import Enum.LieuIntervention;
 import Enum.ProfilTechnique;
 import FacadeCatalogue.OffreFacadeLocal;
+import FacadeCatalogue.ServiceFacadeLocal;
 import FacadeCatalogue.ServiceStandardFacadeLocal;
 import FacadeUtilisateur.AgenceFacadeLocal;
 import FacadeUtilisateur.CVFacadeLocal;
@@ -23,6 +24,7 @@ import FacadeUtilisateur.PorteurOffreFacadeLocal;
 import FacadeUtilisateur.ReferentLocalFacadeLocal;
 import FacadeUtilisateur.UtilisateurFacadeLocal;
 import GestionCatalogue.Offre;
+import GestionCatalogue.Service;
 import GestionCatalogue.ServiceStandard;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.Client;
@@ -48,6 +50,9 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class SessionAdministrateur implements SessionAdministrateurLocal {
+
+    @EJB
+    private ServiceFacadeLocal serviceFacade;
 
     @EJB
     private ServiceStandardFacadeLocal serviceStandardFacade;
@@ -120,7 +125,7 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
             //On supprime la demande de création
             demandeCreationEntrepriseFacade.supprimerDemandeCreationEntreprise(d);
         }
-        //Si oui, on renvoie null pour message erreur
+        //Si oui, on renvoie null pour message erreur puis proposition vers la méthode transfertCreationEnRattachement(Long idDemande)
         return e;
     }
     
@@ -383,8 +388,8 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     }
     
     @Override
-    public List<ServiceStandard> afficherServiceStandards(){
-        return serviceStandardFacade.rechercheServiceStandard();
+    public List<Service> afficherServices(){
+        return serviceFacade.rechercherService();
     }
   
     

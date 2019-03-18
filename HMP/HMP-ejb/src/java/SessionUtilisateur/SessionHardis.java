@@ -6,7 +6,6 @@
 package SessionUtilisateur;
 
 import Enum.Helpers;
-import Enum.ProfilTechnique;
 import FacadeCatalogue.OffreFacadeLocal;
 import FacadeCatalogue.ServiceFacadeLocal;
 import FacadeUtilisateur.AgenceFacadeLocal;
@@ -17,14 +16,9 @@ import FacadeUtilisateur.UtilisateurFacadeLocal;
 import FacadeUtilisateur.UtilisateurHardisFacadeLocal;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
-import GestionUtilisateur.Agence;
-import GestionUtilisateur.Consultant;
-import GestionUtilisateur.PorteurOffre;
-import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

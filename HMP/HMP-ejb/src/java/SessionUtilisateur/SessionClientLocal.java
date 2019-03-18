@@ -24,7 +24,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface SessionClientLocal {
-    List<Service> rechercherService(Offre o);
 
     Client modifierClient(Long id, String nom, String prenom, String mail, String tel);
 
@@ -57,4 +56,6 @@ public interface SessionClientLocal {
     List<Interlocuteur> rechercherInterlocuteur(Long idEntreprise);
 
     Client rechercheClient(long id);
+
+    List<Service> rechercherServices(Offre o);
 }
