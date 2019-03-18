@@ -1,4 +1,6 @@
+<%@page import="GestionUtilisateur.Client"%>
 <jsp:include page="header.jsp"/>
+<% Client c = (Client) session.getAttribute("sessionClient"); %>
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 class="h2">Mon profil</h1>
@@ -16,7 +18,10 @@
             <h4 class="card-title p-3 mb-2">L'attachement à votre entreprise est en cours de traitement</h4>
         </div>
     </div>
-    si non rattaché
+    
+    <% 
+    if(c.getEntreprise()==null){ 
+    %>
     <div class="card text-white bg-danger mb-3">
         <div class="card-header"><h4>Mon entreprise</h4></div>
         <div class="card-body">
@@ -59,7 +64,9 @@
             <a href="#" class="btn btn-warning">Demande de rattachement</a>
         </div>
     </div>
-
+    <%      
+    }    
+    %>
 
     <div class="card text-white bg-dark mb-3">
         <div class="card-header"><h4>Mes informations personnelles</h4></div>
@@ -121,8 +128,11 @@
     </div>
 
     Si rattaché
+    <% 
+    if(c.getEntreprise()!=null){
+    %>
     <div class="card text-white bg-dark mb-3">
-        <div class="card-header"><h4>nomEntreprise : Agence adresseAgence</h4></div>
+        <div class="card-header"><h4><%=c.getEntreprise().getNom() %> : Agence <%=c.getEntreprise().getAgence().getLocalisation() %></h4></div>
         <div class="card-body">
             <h4 class="card-header">Interlocuteurs</h4>
             <div class="table-responsive">
@@ -151,7 +161,9 @@
             </div>
         </div>
     </div>
-
+    <%   
+    }    
+    %>
 
 
 

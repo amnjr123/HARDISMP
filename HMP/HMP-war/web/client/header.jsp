@@ -41,7 +41,7 @@
 
                     <!-- Sidebar -->
                     <div class="bg-light border-right" id="sidebar-wrapper">
-                        <div class="sidebar-heading">nomClient </div>
+                        <div class="sidebar-heading"><%=(c.getNom()+' '+c.getPrenom())%> </div>
                         <div class="list-group list-group-flush">
                             <a href="${pageContext.request.contextPath}/client/index.jsp" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="monitor"></span> Tableau de bord
