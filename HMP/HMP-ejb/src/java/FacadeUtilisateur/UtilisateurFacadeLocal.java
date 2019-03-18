@@ -37,5 +37,7 @@ public interface UtilisateurFacadeLocal {
     Utilisateur rechercheUtilisateur(long id);
 
     Utilisateur rechercherUtilisateurParMail(String mail);
+
+    Utilisateur modifierUtilisateurMDP(Utilisateur u, String mdp);
     
 }

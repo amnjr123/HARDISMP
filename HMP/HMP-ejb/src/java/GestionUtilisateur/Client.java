@@ -1,6 +1,7 @@
 package GestionUtilisateur;
 
 import GestionDevis.Communication;
+import GestionDevis.Devis;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
@@ -14,7 +15,18 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 public class Client extends Utilisateur implements Serializable {    
-//Clés étrangères    
+//Clés étrangères  
+    @OneToMany(mappedBy = "client")
+    private List<Devis> deviss;
+
+    public List<Devis> getDeviss() {
+        return deviss;
+    }
+
+    public void setDeviss(List<Devis> deviss) {
+        this.deviss = deviss;
+    }
+    
     @ManyToOne
     private Entreprise entreprise;
 
@@ -61,13 +73,13 @@ public class Client extends Utilisateur implements Serializable {
     
 //Attributs
    
-    private Boolean administrateur;
+    private boolean administrateur;
 
-    public Boolean getAdministrateur() {
+    public boolean getAdministrateur() {
         return administrateur;
     }
 
-    public void setAdministrateur(Boolean administrateur) {
+    public void setAdministrateur(boolean administrateur) {
         this.administrateur = administrateur;
     }
 

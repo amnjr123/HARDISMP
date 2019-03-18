@@ -74,5 +74,17 @@ public class UtilisateurFacade extends AbstractFacade<Utilisateur> implements Ut
         }
     }
     
+    @Override
+    public Utilisateur modifierUtilisateurMDP(Utilisateur u, String mdp) {
+        /*Hashage password*/ 
+        try {
+            u.setMdp(Helpers.sha1(mdp));
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(ClientFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        /*End Hashage*/
+        edit(u);
+        return u;
+    }
     
 }

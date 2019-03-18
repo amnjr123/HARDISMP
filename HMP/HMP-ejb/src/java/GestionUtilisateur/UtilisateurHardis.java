@@ -131,13 +131,13 @@ public class UtilisateurHardis extends Utilisateur implements Serializable {
         this.profilTechnique = profilTechnique;
     }
 
-    private Boolean actifInactif;
+    private boolean actifInactif;
 
-    public Boolean getActifInactif() {
+    public boolean getActifInactif() {
         return actifInactif;
     }
 
-    public void setActifInactif(Boolean actifInactif) {
+    public void setActifInactif(boolean actifInactif) {
         this.actifInactif = actifInactif;
     }
     

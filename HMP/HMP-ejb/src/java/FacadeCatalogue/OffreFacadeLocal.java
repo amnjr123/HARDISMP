@@ -31,14 +31,18 @@ public interface OffreFacadeLocal {
 
     int count();
 
-    Offre creerOffre(String libelle, Date dateDebutValidite, Date dateFinValidite);
+    Offre creerOffre(String libelle);
 
-    Offre modifierOffre(Offre o, String libelle, Date dateDebutValidite, Date dateFinValidite);
+    Offre modifierOffre(Offre o, String libelle);
 
     Offre supprimerOffre(Offre o);
 
     Offre rechercheOffre(long id);
 
     List<Offre> rechercheOffre();
+
+    List<Offre> rechercheOffresActuelles();
+
+    List<Offre> rechercheOffresAnciennes();
     
 }

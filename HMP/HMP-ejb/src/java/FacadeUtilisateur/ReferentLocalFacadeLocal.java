@@ -33,7 +33,7 @@ public interface ReferentLocalFacadeLocal {
 
     int count();
 
-    ReferentLocal modifierReferentLocal(ReferentLocal rl, String mail, String tel, String mdp, Boolean actifInactif);
+    ReferentLocal modifierReferentLocal(ReferentLocal rl, String mail, String tel, boolean actifInactif);
 
     ReferentLocal supprimerReferentLocal(ReferentLocal rl);
 
@@ -41,10 +41,9 @@ public interface ReferentLocalFacadeLocal {
 
     List<ReferentLocal> rechercheReferentLocal();
 
-    ReferentLocal modifierReferentLocal(ReferentLocal rl, String nom, String prenom, String mail, String tel, String mdp, ProfilTechnique profil, Boolean actifInactif, float plafondDelegation, Offre offre, Agence agence);
+    ReferentLocal modifierReferentLocal(ReferentLocal rl, String nom, String prenom, String mail, String tel, ProfilTechnique profil, boolean actifInactif, float plafondDelegation, Offre offre, Agence agence);
 
-    ReferentLocal creerReferentLocal(String nom, String prenom, String mail, String tel, String mdp, ProfilTechnique profil, Boolean actifInactif, float plafondDelegation, Offre offre, Agence agence);
+    ReferentLocal creerReferentLocal(String nom, String prenom, String mail, String tel, String mdp, ProfilTechnique profil, float plafondDelegation, Offre offre, Agence agence);
 
-    ReferentLocal rechercheReferentLocal(Agence a, Offre o);
-    
+    ReferentLocal rechercheReferentLocal(Agence a, Offre o);    
 }

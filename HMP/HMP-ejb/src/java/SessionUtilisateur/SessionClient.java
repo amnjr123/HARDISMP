@@ -6,6 +6,7 @@
 package SessionUtilisateur;
 
 import Enum.Helpers;
+import FacadeCatalogue.OffreFacadeLocal;
 import FacadeCatalogue.ServiceFacadeLocal;
 import FacadeCatalogue.ServiceStandardFacadeLocal;
 import FacadeDevis.DevisFacadeLocal;
@@ -41,6 +42,9 @@ import javax.ejb.Stateless;
 
 @Stateless
 public class SessionClient implements SessionClientLocal {
+
+    @EJB
+    private OffreFacadeLocal offreFacade;
 
     @EJB
     private InterlocuteurFacadeLocal interlocuteurFacade;
@@ -163,7 +167,10 @@ public class SessionClient implements SessionClientLocal {
     
     
     /*GESTION DES DEVIS*/
-
+    public List<Offre> rechercherOffres(){
+        return offreFacade.rechercheOffresActuelles();
+    }
+    
     @Override
     public List<Service> rechercherService(Offre o) {
         return serviceFacade.rechercherService(o);
@@ -174,9 +181,9 @@ public class SessionClient implements SessionClientLocal {
         Client c = clientFacade.rechercheClient(idClient);
         ServiceStandard s = serviceStandardFacade.rechercheServiceStandard(idServiceStandard);
         ReferentLocal referentLocal = referentLocalFacade.rechercheReferentLocal(c.getEntreprise().getAgence(), s.getOffre());
-        /*RAJOUTER CLIENT*/
-        return devisStandardFacade.creerDevisStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence());
+        return devisStandardFacade.creerDevisStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence(),c);
     }
+    
 
     /*GESTION DU COMPTE*/
     @Override
@@ -199,14 +206,14 @@ public class SessionClient implements SessionClientLocal {
     }
 
     @Override
-    public Client modifierClientMDP(Long id, String ancienMdp, String nouveauMdp) {
-        Client c = clientFacade.rechercheClient(id);
-        Client retour = null;
+    public Utilisateur modifierClientMDP(Long id, String ancienMdp, String nouveauMdp) {
+        Utilisateur u = utilisateurFacade.rechercheUtilisateur(id);
+        Utilisateur retour = null;
         try {
             //Vérification si ancien mdp correct
-            if (c.getMdp().equals(Helpers.sha1(ancienMdp))) {
+            if (u.getMdp().equals(Helpers.sha1(ancienMdp))) {
                 //Si correct alors on peut modifier
-                retour = clientFacade.modifierClientMDP(c, nouveauMdp);
+                retour = utilisateurFacade.modifierUtilisateurMDP(u, nouveauMdp);
             }
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(SessionClient.class.getName()).log(Level.SEVERE, null, ex);

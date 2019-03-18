@@ -9,6 +9,7 @@ import Enum.StatutDevis;
 import GestionCatalogue.ServiceStandard;
 import GestionDevis.DevisStandard;
 import GestionUtilisateur.Agence;
+import GestionUtilisateur.Client;
 import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.UtilisateurHardis;
 import java.util.Date;
@@ -38,7 +39,7 @@ public class DevisStandardFacade extends AbstractFacade<DevisStandard> implement
     
     /*RAJOUTER CLIENT*/
     @Override
-    public DevisStandard creerDevisStandard(float montant, String commentaireClient, ServiceStandard serviceStandard, ReferentLocal rl, Agence agence){
+    public DevisStandard creerDevisStandard(float montant, String commentaireClient, ServiceStandard serviceStandard, ReferentLocal rl, Agence agence, Client c){
         DevisStandard d = new DevisStandard();
         d.setStatut(StatutDevis.ReponseEnCours);
         d.setMotifRefus("");
@@ -48,6 +49,7 @@ public class DevisStandardFacade extends AbstractFacade<DevisStandard> implement
         d.setServiceStandard(serviceStandard);
         d.setUtilisateurHardis(rl);
         d.setAgence(agence);
+        d.setClient(c);
         create(d);  
         return d;
     }

@@ -38,7 +38,7 @@ public class Servlet extends HttpServlet {
                 request.getSession().setAttribute(ATT_SESSION_CLIENT, c);//Attribuer le Token
                 jspClient = "/client/index.jsp";
             } else {
-                jspClient = "/utilisateurHardis/index.jsp";
+                jspClient = "/hardisUser/index.jsp";
                 UtilisateurHardis uh = sessionMain.rechercheUtilisateurHardis(utilisateur.getId());// Chercher l'utilisateur Hardis
                 request.getSession().setAttribute(ATT_SESSION_HARDIS, uh);//Attribuer le Token
                 ProfilTechnique pt = uh.getProfilTechnique();// Profil technique
@@ -55,6 +55,9 @@ public class Servlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
+        //sessionMain.test();
+        
         HttpSession sessionHttp = request.getSession();
         if (request.getParameter("action") != null) {
             String act = request.getParameter("action");

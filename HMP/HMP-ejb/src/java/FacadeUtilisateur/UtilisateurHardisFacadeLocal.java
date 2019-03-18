@@ -29,5 +29,7 @@ public interface UtilisateurHardisFacadeLocal {
     List<UtilisateurHardis> findRange(int[] range);
 
     int count();
+
+    void ajouter(UtilisateurHardis uh);
     
 }

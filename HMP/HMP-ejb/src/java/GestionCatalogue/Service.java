@@ -108,13 +108,13 @@ public class Service implements Serializable {
         this.cout = cout;
     }
 
-    private Boolean fraisInclus;
+    private boolean fraisInclus;
 
-    public Boolean getFraisInclus() {
+    public boolean getFraisInclus() {
         return fraisInclus;
     }
 
-    public void setFraisInclus(Boolean fraisInclus) {
+    public void setFraisInclus(boolean fraisInclus) {
         this.fraisInclus = fraisInclus;
     }
 

@@ -29,4 +29,9 @@ public class UtilisateurHardisFacade extends AbstractFacade<UtilisateurHardis> i
         super(UtilisateurHardis.class);
     }
     
+    //POUR LES TESTS ###############################################
+    public void ajouter(UtilisateurHardis uh){
+        em.persist(uh);
+    }
+    //POUR LES TESTS ###############################################
 }
