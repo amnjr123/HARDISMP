@@ -27,14 +27,37 @@ public class Servlet extends HttpServlet {
 
     private final String ATT_SESSION_ADMINISTRATEUR = "sessionAdministrateur";
 
-    private String jspClient = "/login.jsp";
+    private String jspClient = "/home.jsp";
+    
+
+    private void login(String login, String mdp, HttpSession sessionHttp, HttpServletRequest request) {
+        Utilisateur utilisateur = sessionMain.authentification(login, mdp);
+
+        if (utilisateur != null) {
+            if (sessionMain.getTypeUser(utilisateur).equalsIgnoreCase("Client")) {//verif type utilisateur
+                Client c = sessionMain.rechercheClient(utilisateur.getId());// recherche Client
+                sessionHttp.setAttribute(ATT_SESSION_CLIENT, c);//Attribuer le Token
+                jspClient = "/client/index.jsp";
+            } else {
+                jspClient = "/utilisateurHardis/index.jsp";
+                UtilisateurHardis uh = sessionMain.rechercheUtilisateurHardis(utilisateur.getId());// Chercher l'utilisateur Hardis
+                sessionHttp.setAttribute(ATT_SESSION_HARDIS, uh);//Attribuer le Token
+                ProfilTechnique pt = uh.getProfilTechnique();// Profil technique
+                if (pt.equals(ProfilTechnique.Administrateur)) {// Verif profil technique
+                    sessionHttp.setAttribute(ATT_SESSION_ADMINISTRATEUR, uh);//Attribuer le Token
+                }
+            }
+        } else {
+            jspClient = "/login.jsp";
+            request.setAttribute("msgError", "Utilisateur inexistant ou mot de passe erroné");
+        }
+    }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         HttpSession sessionHttp = request.getSession();
-        //sessionMain.test();
         if (request.getParameter("action") != null) {
             String act = request.getParameter("action");
             /*CREATION CLIENT*/
@@ -48,6 +71,7 @@ public class Servlet extends HttpServlet {
                     Utilisateur u = sessionMain.rechercherUtilisateurExistant(mail);
                     if (u == null) {
                         sessionMain.creerClient(nom, prenom, mail, mdp, tel);
+                        login(mail, mdp, sessionHttp, request);
                     } else {
                         jspClient = "/signup.jsp";
                         request.setAttribute("MsgError", "Cette adresse mail est déjà utilisée");
@@ -58,37 +82,18 @@ public class Servlet extends HttpServlet {
                 }
             }
             /*FIN CREATION CLIENT*/
-            /*AUTHENTIFICATION*/
+ /*AUTHENTIFICATION*/
             if (act.equals("login")) {
                 String login = request.getParameter("email").trim();
                 String mdp = request.getParameter("pw");
-                Utilisateur utilisateur = sessionMain.authentification(login, mdp);
-
-                if (utilisateur != null) {
-                    if (sessionMain.getTypeUser(utilisateur).equalsIgnoreCase("Client")) {//verif type utilisateur
-                        Client c = sessionMain.rechercheClient(utilisateur.getId());// recherche Client
-                        sessionHttp.setAttribute(ATT_SESSION_CLIENT, c);//Attribuer le Token
-                        jspClient = "/client/index.jsp";
-                    } else {
-                        jspClient = "/utilisateurHardis/index.jsp";
-                        UtilisateurHardis uh = sessionMain.rechercheUtilisateurHardis(utilisateur.getId());// Chercher l'utilisateur Hardis
-                        sessionHttp.setAttribute(ATT_SESSION_HARDIS, uh);//Attribuer le Token
-                        ProfilTechnique pt = uh.getProfilTechnique();// Profil technique
-                        if (pt.equals(ProfilTechnique.Administrateur)) {// Verif profil technique
-                            sessionHttp.setAttribute(ATT_SESSION_ADMINISTRATEUR, uh);//Attribuer le Token
-                        }
-                    }
-                } else {
-                    jspClient = "/login.jsp";
-                    request.setAttribute("msgError", "Utilisateur inexistant ou mot de passe erroné");
-                }
+                login(login, mdp, sessionHttp, request);
             }
             /*FIN AUTHENTIFICATION*/
-            /*Control Deconnexion*/
+ /*Control Deconnexion*/
             if (act.equals("logout")) {
                 sessionHttp.setAttribute(ATT_SESSION_CLIENT, null); //Enlever le Token
                 sessionHttp.setAttribute(ATT_SESSION_HARDIS, null); //Enlever le Token
-                jspClient = "/login.jsp";
+                jspClient = "/home.jsp";
             }
             /*Fin Deconnexion*/
 
