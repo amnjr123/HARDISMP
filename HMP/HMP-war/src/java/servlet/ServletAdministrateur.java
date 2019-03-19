@@ -16,20 +16,30 @@ public class ServletAdministrateur extends HttpServlet {
 
     @EJB
     private SessionAdministrateurLocal sessionAdministrateur;
-
     
+     private final String ATT_SESSION_ADMINISTRATEUR = "sessionAdministrateur";
     
     private String jspClient = "/admin/indexAdmin.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
         HttpSession sessionHttp = request.getSession();
-
-        if (sessionHttp.getAttribute("sessionAdministrateur") != null) {
+        
+        if (sessionHttp.getAttribute(ATT_SESSION_ADMINISTRATEUR) != null) {
+            
             if (request.getParameter("action") != null) {
+                
                 String act = request.getParameter("action");
-                if(act.equals("entreprises")){
+                
+                
+                
+                if(act.equals("")){
+                    
+                }
+                
+               /* if(act.equals("entreprises")){
                     int p;
                     try{
                        p = Integer.parseInt(request.getParameter("p")); 
@@ -38,7 +48,7 @@ public class ServletAdministrateur extends HttpServlet {
                     }
                     request.setAttribute("entreprises", sessionAdministrateur.rechercherEntreprisePagine(p));
                     jspClient="/admin/entreprises.jsp?p="+p;
-                }
+                }*/
                 
             }
         }
