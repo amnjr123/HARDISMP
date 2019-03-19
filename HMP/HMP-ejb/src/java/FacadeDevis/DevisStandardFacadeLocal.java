@@ -54,5 +54,7 @@ public interface DevisStandardFacadeLocal {
     DevisStandard rechercheDevisStandard(long id);
 
     List<DevisStandard> rechercheDevisStandard();
+
+    DevisStandard modifierDevisStandard(DevisStandard d, String commentaireClient);
     
 }

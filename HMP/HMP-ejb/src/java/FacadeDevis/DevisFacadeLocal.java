@@ -48,5 +48,7 @@ public interface DevisFacadeLocal {
     List<Devis> rechercherDevis(UtilisateurHardis uh, Client c);
 
     List<Devis> rechercherDevis(UtilisateurHardis uh, Client c, StatutDevis statutDevis);
+
+    Devis rechercherDevis(Long id);
     
 }

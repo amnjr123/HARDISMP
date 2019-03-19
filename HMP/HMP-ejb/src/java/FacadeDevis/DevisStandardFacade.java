@@ -41,16 +41,33 @@ public class DevisStandardFacade extends AbstractFacade<DevisStandard> implement
     @Override
     public DevisStandard creerDevisStandard(float montant, String commentaireClient, ServiceStandard serviceStandard, ReferentLocal rl, Agence agence, Client c){
         DevisStandard d = new DevisStandard();
-        d.setStatut(StatutDevis.ReponseEnCours);
-        d.setMotifRefus("");
+        if(commentaireClient==null || commentaireClient.equalsIgnoreCase("")){
+            d.setStatut(StatutDevis.Incomplet);
+        }
+        else{
+            d.setStatut(StatutDevis.ReponseEnCours);
+            d.setCommentaireClient(commentaireClient);
+        }
         d.setDateCreation(new Date());
         d.setMontant(montant);
-        d.setCommentaireClient(commentaireClient);
         d.setServiceStandard(serviceStandard);
         d.setUtilisateurHardis(rl);
         d.setAgence(agence);
         d.setClient(c);
         create(d);  
+        return d;
+    }
+    
+    @Override
+    public DevisStandard modifierDevisStandard(DevisStandard d, String commentaireClient){
+        if(commentaireClient==null || commentaireClient.equalsIgnoreCase("")){
+            d.setStatut(StatutDevis.Incomplet);
+        }
+        else{
+            d.setStatut(StatutDevis.ReponseEnCours);
+            d.setCommentaireClient(commentaireClient);
+        }
+        edit(d);
         return d;
     }
     
