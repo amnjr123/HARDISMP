@@ -22,14 +22,14 @@ import javax.persistence.OneToMany;
 public class Agence implements Serializable {
 //Clés étrangères
     @OneToMany(mappedBy = "agence")
-    private List<UtilisateurHardis> utilisateurHardiss;
+    private List<UtilisateurHardis> utilisateursHardis;
 
-    public List<UtilisateurHardis> getUtilisateurHardiss() {
-        return utilisateurHardiss;
+    public List<UtilisateurHardis> getUtilisateursHardis() {
+        return utilisateursHardis;
     }
 
-    public void setUtilisateurHardiss(List<UtilisateurHardis> utilisateurHardiss) {
-        this.utilisateurHardiss = utilisateurHardiss;
+    public void setUtilisateursHardis(List<UtilisateurHardis> utilisateursHardis) {
+        this.utilisateursHardis = utilisateursHardis;
     }
 
     @OneToMany(mappedBy = "agence")
@@ -68,14 +68,24 @@ public class Agence implements Serializable {
         this.id = id;
     }
 
-    private String Localisation;
+    private String adresse;
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+    
+    private String localisation;
 
     public String getLocalisation() {
-        return Localisation;
+        return localisation;
     }
 
     public void setLocalisation(String Localisation) {
-        this.Localisation = Localisation;
+        this.localisation = Localisation;
     }
 
     @Override

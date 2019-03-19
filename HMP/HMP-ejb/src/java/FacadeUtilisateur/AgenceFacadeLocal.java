@@ -30,9 +30,10 @@ public interface AgenceFacadeLocal {
 
     int count();
     
-    Agence creerAgence(String localisation);
     Agence modifierAgence(Agence a, String localisation);
     Agence supprimerAgence(Agence a);
     Agence rechercheAgence(long id);
-    List<Agence> rechercheAgence();
+    List<Agence> rechercheAgences();
+
+    Agence creerAgence(String localisation, String adresse);
 }

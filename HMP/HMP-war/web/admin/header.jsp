@@ -18,7 +18,7 @@
       <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="${pageContext.request.contextPath}/Servlet">Quitter l'interface d'administration <span data-feather="log-out"></span> </a>
+          <a class="nav-link" href="${pageContext.request.contextPath}/hardisUser/index.jsp">Quitter l'interface d'administration <span data-feather="log-out"></span> </a>
         </li>
       </ul>
     </nav>
@@ -53,7 +53,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="agences.jsp">
+                <a class="nav-link" href="${pageContext.request.contextPath}/ServletAdministrateur?action=agences">
                   <span data-feather="shopping-cart"></span>
                   Agences
                 </a>
