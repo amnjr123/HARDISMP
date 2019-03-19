@@ -41,5 +41,13 @@ public interface CVFacadeLocal {
     CV rechercheCV(long id);
 
     CV creerCV(String chemin, UtilisateurHardis uh, Offre o);
+
+    CV creerCV(String chemin, UtilisateurHardis uh);
+
+    CV rechercherCV(Offre offre, UtilisateurHardis uh);
+
+    List<CV> rechercherCV(UtilisateurHardis uh);
+
+    List<CV> rechercherCV(Offre offre);
     
 }

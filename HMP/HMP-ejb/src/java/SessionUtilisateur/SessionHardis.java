@@ -9,6 +9,7 @@ import Enum.Helpers;
 import FacadeCatalogue.OffreFacadeLocal;
 import FacadeCatalogue.ServiceFacadeLocal;
 import FacadeUtilisateur.AgenceFacadeLocal;
+import FacadeUtilisateur.CVFacadeLocal;
 import FacadeUtilisateur.ConsultantFacadeLocal;
 import FacadeUtilisateur.PorteurOffreFacadeLocal;
 import FacadeUtilisateur.ReferentLocalFacadeLocal;
@@ -16,6 +17,7 @@ import FacadeUtilisateur.UtilisateurFacadeLocal;
 import FacadeUtilisateur.UtilisateurHardisFacadeLocal;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
+import GestionUtilisateur.CV;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import java.io.UnsupportedEncodingException;
@@ -31,6 +33,9 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class SessionHardis implements SessionHardisLocal {
+
+    @EJB
+    private CVFacadeLocal cVFacade;
 
     @EJB
     private ServiceFacadeLocal serviceFacade;
@@ -106,5 +111,56 @@ public class SessionHardis implements SessionHardisLocal {
     @Override
     public List<Service> rechercherService(Offre o) {
         return serviceFacade.rechercherService(o);
+    }
+    
+    /*GESTION DES CV*/
+    
+    @Override
+    public CV creerCV(String chemin, Long idUtilisateur, Long idOffre){
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateur);
+        Offre o = offreFacade.rechercheOffre(idOffre);
+        return cVFacade.creerCV(chemin, uh, o);
+    }
+    
+    @Override
+    public CV creerCV(String chemin, Long idUtilisateurHardis){
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
+        return cVFacade.creerCV(chemin, uh);
+    }
+    
+    @Override
+    public CV modifierCV(Long idCV, String chemin){
+        CV cv = cVFacade.rechercheCV(idCV);
+        return cVFacade.modifierCV(cv, chemin);
+    }
+    
+    @Override
+    public CV supprimerCV(Long idCV){
+        CV cv = cVFacade.rechercheCV(idCV);
+        return cVFacade.supprimerCV(cv);
+    }
+    
+    @Override
+    public List<CV> afficherCV(){
+        return cVFacade.rechercheCV();
+    }
+    
+    @Override
+    public List<CV> afficherCVOffre(Long idOffre){
+        Offre o = offreFacade.rechercheOffre(idOffre);
+        return cVFacade.rechercherCV(o);
+    }
+    
+    @Override
+    public List<CV> afficherCVUtilisateur(Long idUtilisateurHardis){
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
+        return cVFacade.rechercherCV(uh);
+    }
+    
+    @Override
+    public CV afficherCVOffreUtilisateur(Long idUtilisateurHardis, Long idOffre){
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
+        Offre o = offreFacade.rechercheOffre(idOffre);
+        return cVFacade.rechercherCV(o, uh);
     }
 }
