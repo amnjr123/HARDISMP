@@ -1,9 +1,9 @@
 <%@page import="GestionUtilisateur.ReferentLocal"%>
 <%@page import="GestionUtilisateur.Consultant"%>
 <%@page import="GestionUtilisateur.UtilisateurHardis"%>
-<%@page import="java.util.List"%>
-<jsp:useBean id="listeUtilisateursHardis" scope="request" class="java.util.List"></jsp:useBean>
-<% List<UtilisateurHardis> listeUH = listeUtilisateursHardis; %>
+<%@page import="java.util.Collection"%>
+<jsp:useBean id="listeUtilisateursHardis" scope="request" class="java.util.Collection"></jsp:useBean>
+<% Collection<UtilisateurHardis> listeUH = listeUtilisateursHardis; %>
 <div class="card">
     <div class="card-header">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">

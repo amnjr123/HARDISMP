@@ -24,6 +24,13 @@ public class ServletAdministrateur extends HttpServlet {
 
     private String jspClient = "/admin/indexAdmin.jsp";
 
+    protected void menuEntreprise(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.setAttribute("listeEntreprises", sessionAdministrateur.rechercheEntreprises());
+        request.setAttribute("listeAgences", sessionAdministrateur.afficherAgences());
+        jspClient = "/admin/entreprises.jsp";
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -40,9 +47,7 @@ public class ServletAdministrateur extends HttpServlet {
                     String localisation = ((String) request.getParameter("localisation")).trim().toUpperCase();
                     String adresse = ((String) request.getParameter("adresse")).trim();
                     if (localisation != null && adresse != null && !localisation.isEmpty() && !adresse.isEmpty()) {
-                        System.out.println("HEEEEEEELP !!!!");
                         sessionAdministrateur.creerAgence(localisation, adresse);
-                        System.out.println("DONT HELP !!!!");
 
                     } else {
                         request.setAttribute("MsgError", "Une erreur s'est produite");
@@ -50,36 +55,29 @@ public class ServletAdministrateur extends HttpServlet {
                     request.setAttribute("listAgences", sessionAdministrateur.afficherAgences());
                     jspClient = "/admin/agences.jsp";
                 }
-                
-                if(act.equals("entreprises")){
-                    int p;
-                    try{
-                       p = Integer.parseInt(request.getParameter("p")); 
-                    } catch (Exception e) {
-                       p=0;
-                    }
-                    
-                    if(request.getParameter("recherche") != null){
-                        //Recherche
+
+                if (act.equals("creerEntreprise")) {
+                    String siret = ((String) request.getParameter("siret")).trim().toUpperCase();
+                    String nom = ((String) request.getParameter("nom")).trim();
+                    String adresse = ((String) request.getParameter("adresse")).trim();
+                    String agence = ((String) request.getParameter("agence")).trim();
+                    if (siret != null && nom != null && adresse != null && agence != null && !siret.isEmpty() && !nom.isEmpty() && !adresse.isEmpty() && !agence.isEmpty()) {
+                        sessionAdministrateur.creerEntreprise(siret, nom, adresse, Long.parseLong(agence));
+                        menuEntreprise(request, response);
                     } else {
-                        request.setAttribute("listeEntreprises",sessionAdministrateur.paginer(p, 10, sessionAdministrateur.rechercheEntreprise()));
-                        jspClient="/admin/entreprises.jsp?action=entreprises&p="+p;
+                        request.setAttribute("MsgError", "Une erreur s'est produite");
+                        menuEntreprise(request, response);
                     }
-                    
-                    
                 }
-                
-                if(act.equals("utilisateurs")){
-                    if(request.getParameter("recherche") != null){
-                        //Recherche
-                    } else {
-                        request.setAttribute("listeUtilisateursHardis",sessionAdministrateur.rechercheUtilisateursHardis());
-                        request.setAttribute("listeClients",sessionAdministrateur.listeClients());
-                        jspClient="/admin/users.jsp";
-                    }
-                    
+
+                if (act.equals("agences")) {
+                    request.setAttribute("listAgences", sessionAdministrateur.afficherAgences());
+                    jspClient = "/admin/agences.jsp";
                 }
-                
+
+                if (act.equals("entreprises")) {
+                    menuEntreprise(request, response);
+                }
             }
         }
 
