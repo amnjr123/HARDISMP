@@ -5,8 +5,10 @@
  */
 package SessionUtilisateur;
 
+import GestionCatalogue.Livrable;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
+import GestionCatalogue.ServiceNonStandard;
 import GestionCatalogue.ServiceStandard;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.CV;
@@ -18,6 +20,7 @@ import GestionUtilisateur.Interlocuteur;
 import GestionUtilisateur.PorteurOffre;
 import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.Utilisateur;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -27,8 +30,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface SessionAdministrateurLocal {
-
-    Agence creerAgence(String localisation);
 
     Interlocuteur creerInterlocuteur(String nom, String prenom, String telephone, String fonction, long idEntreprise);
 
@@ -82,6 +83,10 @@ public interface SessionAdministrateurLocal {
 
     List<Interlocuteur> rechercherInterlocuteur();
 
+    ArrayList paginer(int page, int nbreItems, List liste);
+
+    //List<Entreprise> rechercherEntreprisePagine(int page);
+
     List afficherAgences();
 
     List<CV> afficherCVUtilisateur(Long idUtilisateurHardis);
@@ -100,7 +105,23 @@ public interface SessionAdministrateurLocal {
 
     CV afficherCVOffreUtilisateur(Long idUtilisateurHardis, Long idOffre);
 
-    List paginer(int page, int nbreItems, List liste);
+    //List paginer(int page, int nbreItems, List liste);
 
     List rechercheEntreprise();    
+
+    Agence creerAgence(String localisation, String adresse);
+
+    Agence modifierAgence(Long idAgence, String localisation, String adresse);
+
+    ServiceNonStandard creerServiceNonStandard(String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre);
+
+    ServiceNonStandard modifierServiceNonStandard(Long idServiceNonStandard, String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre);
+
+    Livrable creerLivrable(String libelle, Long idService);
+
+    List<Livrable> afficherLivrables(Long idService);
+
+    Livrable supprimerLivrable(Long idLivrable);
+
+    Livrable modifierLivrable(Long idLivrable, String libelle);
 }

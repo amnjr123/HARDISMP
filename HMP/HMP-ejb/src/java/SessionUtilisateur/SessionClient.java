@@ -6,6 +6,7 @@
 package SessionUtilisateur;
 
 import Enum.Helpers;
+import FacadeCatalogue.LivrableFacadeLocal;
 import FacadeCatalogue.OffreFacadeLocal;
 import FacadeCatalogue.ServiceFacadeLocal;
 import FacadeCatalogue.ServiceStandardFacadeLocal;
@@ -28,6 +29,7 @@ import GestionUtilisateur.DemandeCreationEntreprise;
 import GestionUtilisateur.DemandeRattachement;
 import FacadeUtilisateur.DemandeRattachementFacadeLocal;
 import FacadeUtilisateur.InterlocuteurFacadeLocal;
+import GestionCatalogue.Livrable;
 import GestionUtilisateur.Entreprise;
 import GestionUtilisateur.Interlocuteur;
 import GestionUtilisateur.ReferentLocal;
@@ -41,6 +43,9 @@ import javax.ejb.Stateless;
 
 @Stateless
 public class SessionClient implements SessionClientLocal {
+
+    @EJB
+    private LivrableFacadeLocal livrableFacade;
 
     @EJB
     private OffreFacadeLocal offreFacade;
@@ -173,6 +178,12 @@ public class SessionClient implements SessionClientLocal {
     @Override
     public List<Service> rechercherServices(Offre o) {
         return serviceFacade.rechercheServicesActuels(o);
+    }
+    
+    @Override
+    public List<Livrable> afficherLivrables(Long idService){
+        Service service = serviceFacade.rechercherService(idService);
+        return livrableFacade.rechercheLivrable(service);
     }
 
     @Override

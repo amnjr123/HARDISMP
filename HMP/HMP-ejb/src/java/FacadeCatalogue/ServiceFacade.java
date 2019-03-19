@@ -41,6 +41,11 @@ public class ServiceFacade extends AbstractFacade<Service> implements ServiceFac
     }
     
     @Override
+    public Service rechercherService(Long idService){
+        return find(idService);
+    }
+    
+    @Override
     public List<Service> rechercherService(Offre o){
         Query requete = em.createQuery("select s from Service as s where  s.offre=:o ");
         requete.setParameter("o", o);

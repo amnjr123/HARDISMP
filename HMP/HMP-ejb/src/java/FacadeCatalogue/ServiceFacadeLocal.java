@@ -42,5 +42,7 @@ public interface ServiceFacadeLocal {
     List<Service> rechercheServicesActuels();
 
     List<Service> rechercheServicesAnciens();
+
+    Service rechercherService(Long idService);
     
 }

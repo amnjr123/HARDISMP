@@ -5,6 +5,7 @@
  */
 package SessionUtilisateur;
 
+import GestionCatalogue.Livrable;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
 import GestionDevis.DevisStandard;
@@ -58,4 +59,6 @@ public interface SessionClientLocal {
     Client rechercheClient(long id);
 
     List<Service> rechercherServices(Offre o);
+
+    List<Livrable> afficherLivrables(Long idService);
 }

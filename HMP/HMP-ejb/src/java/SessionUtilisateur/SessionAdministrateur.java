@@ -8,8 +8,10 @@ package SessionUtilisateur;
 import Enum.Helpers;
 import Enum.LieuIntervention;
 import Enum.ProfilTechnique;
+import FacadeCatalogue.LivrableFacadeLocal;
 import FacadeCatalogue.OffreFacadeLocal;
 import FacadeCatalogue.ServiceFacadeLocal;
+import FacadeCatalogue.ServiceNonStandardFacadeLocal;
 import FacadeCatalogue.ServiceStandardFacadeLocal;
 import FacadeUtilisateur.AgenceFacadeLocal;
 import FacadeUtilisateur.CVFacadeLocal;
@@ -24,8 +26,10 @@ import FacadeUtilisateur.PorteurOffreFacadeLocal;
 import FacadeUtilisateur.ReferentLocalFacadeLocal;
 import FacadeUtilisateur.UtilisateurFacadeLocal;
 import FacadeUtilisateur.UtilisateurHardisFacadeLocal;
+import GestionCatalogue.Livrable;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
+import GestionCatalogue.ServiceNonStandard;
 import GestionCatalogue.ServiceStandard;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.CV;
@@ -41,6 +45,7 @@ import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,6 +59,12 @@ import org.apache.jasper.tagplugins.jstl.ForEach;
  */
 @Stateless
 public class SessionAdministrateur implements SessionAdministrateurLocal {
+
+    @EJB
+    private LivrableFacadeLocal livrableFacade;
+
+    @EJB
+    private ServiceNonStandardFacadeLocal serviceNonStandardFacade;
 
     @EJB
     private UtilisateurHardisFacadeLocal utilisateurHardisFacade;
@@ -103,9 +114,21 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     @EJB
     private AgenceFacadeLocal agenceFacade;
 
+    /*GESTION DES AGENCES*/
     @Override
-    public Agence creerAgence(String localisation) {
-        return agenceFacade.creerAgence(localisation);
+    public Agence creerAgence(String localisation, String adresse) {
+        return agenceFacade.creerAgence(localisation, adresse);
+    }
+    
+    @Override
+    public List<Agence> afficherAgences(){
+        return agenceFacade.rechercheAgences();
+    }
+    
+    @Override
+    public Agence modifierAgence(Long idAgence, String localisation, String adresse){
+        Agence a = agenceFacade.rechercheAgence(idAgence);
+        return agenceFacade.modifierAgence(a, localisation, adresse);
     }
 
     /*GESTION ENTREPRISE*/
@@ -114,34 +137,38 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         return demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise();
     }
     
+    @Override
     public List rechercheEntreprise(){
         return entrepriseFacade.rechercheEntreprise();
     }
     
-    public List paginer(int page,int nbreItems, List liste){
+    @Override
+    public ArrayList paginer(int page,int nbreItems, List liste){
         int nblignes=liste.size();
-        int nbPages=0;
+        int nbPages=1;
         int modulo = nblignes%nbreItems;
         if (modulo!=0){
             nbPages = ((nblignes-modulo)/nbreItems)+1;
         } else {
             nbPages = nblignes/nbreItems;
         }
-        if (page>nbPages || page<0){
-            page = 1;
+        if (page>nbPages-1 || page<0){
+            page = 0;
         }
         
-        List lr = new ArrayList();
+        ArrayList lr = new ArrayList();
         for(int i=page*nbreItems; i<=(page*nbreItems+nbreItems); i++){
             try{
               lr.add(liste.get(i));
+              System.out.print(i);
             } catch (Exception e) {
-              System.out.print("out of bounds");
+              System.out.print(i+" out of bounds");
             }
         }
         return lr;
     }
-    
+   
+    @Override
     public Entreprise entrepriseExistante(String siret){
         return entrepriseFacade.rechercheEntrepriseSiret(siret);
     }
@@ -478,11 +505,47 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     public List<Service> afficherServices(){
         return serviceFacade.rechercherService();
     }
-
+    
     @Override
     public List<Agence> afficherAgences() {
         return agenceFacade.rechercheAgences();
     }   
+    public ServiceNonStandard creerServiceNonStandard(String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre){
+        LieuIntervention lieu = LieuIntervention.valueOf(lieuString);
+        Offre offre = offreFacade.rechercheOffre(idOffre);
+        return serviceNonStandardFacade.creerServiceNonStandard(nom, descriptionService, lieu, cout, fraisInclus, conditions, delaiRelance, offre);
+    }
     
+    @Override
+    public ServiceNonStandard modifierServiceNonStandard(Long idServiceNonStandard, String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre){
+        LieuIntervention lieu = LieuIntervention.valueOf(lieuString);
+        Offre offre = offreFacade.rechercheOffre(idOffre);
+        ServiceNonStandard ancienService = serviceNonStandardFacade.rechercheServiceNonStandard(idServiceNonStandard);
+        return serviceNonStandardFacade.modifierServiceNonStandard(ancienService,nom, descriptionService, lieu, cout, fraisInclus, conditions, delaiRelance, offre);
+    }
     
+    @Override
+    public Livrable creerLivrable(String libelle, Long idService){
+        Service service = serviceFacade.rechercherService(idService);
+        return livrableFacade.creerLivrable(libelle, service);
+    }
+    
+    @Override
+    public Livrable modifierLivrable(Long idLivrable, String libelle){
+        Livrable livrable = livrableFacade.rechercheLivrable(idLivrable);
+        return livrableFacade.modifierLivrable(livrable, libelle);
+    }
+    
+    @Override
+    public Livrable supprimerLivrable(Long idLivrable){
+        Livrable livrable = livrableFacade.rechercheLivrable(idLivrable);
+        return livrableFacade.supprimerLivrable(livrable);
+    }
+    
+    @Override
+    public List<Livrable> afficherLivrables(Long idService){
+        Service service = serviceFacade.rechercherService(idService);
+        return livrableFacade.rechercheLivrable(service);
+    } 
+
 }

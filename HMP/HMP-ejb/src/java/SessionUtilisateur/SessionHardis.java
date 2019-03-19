@@ -6,6 +6,7 @@
 package SessionUtilisateur;
 
 import Enum.Helpers;
+import FacadeCatalogue.LivrableFacadeLocal;
 import FacadeCatalogue.OffreFacadeLocal;
 import FacadeCatalogue.ServiceFacadeLocal;
 import FacadeUtilisateur.AgenceFacadeLocal;
@@ -15,6 +16,7 @@ import FacadeUtilisateur.PorteurOffreFacadeLocal;
 import FacadeUtilisateur.ReferentLocalFacadeLocal;
 import FacadeUtilisateur.UtilisateurFacadeLocal;
 import FacadeUtilisateur.UtilisateurHardisFacadeLocal;
+import GestionCatalogue.Livrable;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
 import GestionUtilisateur.CV;
@@ -33,6 +35,9 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class SessionHardis implements SessionHardisLocal {
+
+    @EJB
+    private LivrableFacadeLocal livrableFacade;
 
     @EJB
     private CVFacadeLocal cVFacade;
@@ -111,6 +116,12 @@ public class SessionHardis implements SessionHardisLocal {
     @Override
     public List<Service> rechercherService(Offre o) {
         return serviceFacade.rechercherService(o);
+    }
+    
+    @Override
+    public List<Livrable> afficherLivrables(Long idService){
+        Service service = serviceFacade.rechercherService(idService);
+        return livrableFacade.rechercheLivrable(service);
     }
     
     /*GESTION DES CV*/
