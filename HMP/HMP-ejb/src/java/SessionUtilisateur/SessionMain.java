@@ -2,9 +2,13 @@ package SessionUtilisateur;
 
 import Enum.ProfilTechnique;
 import FacadeUtilisateur.ClientFacadeLocal;
+import FacadeUtilisateur.PorteurOffreFacadeLocal;
+import FacadeUtilisateur.ReferentLocalFacadeLocal;
 import FacadeUtilisateur.UtilisateurFacadeLocal;
 import FacadeUtilisateur.UtilisateurHardisFacadeLocal;
 import GestionUtilisateur.Client;
+import GestionUtilisateur.PorteurOffre;
+import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import javax.ejb.EJB;
@@ -12,6 +16,12 @@ import javax.ejb.Stateless;
 
 @Stateless
 public class SessionMain implements SessionLocal {
+
+    @EJB
+    private ReferentLocalFacadeLocal referentLocalFacade;
+
+    @EJB
+    private PorteurOffreFacadeLocal porteurOffreFacade;
 
     @EJB
     private UtilisateurHardisFacadeLocal utilisateurHardisFacade;
@@ -22,6 +32,8 @@ public class SessionMain implements SessionLocal {
     @EJB
     private UtilisateurFacadeLocal utilisateurFacade;
 
+    
+    
     @Override
     public Utilisateur authentification(String mail, String mdp) {
         return utilisateurFacade.authentification(mail, mdp);
@@ -55,21 +67,23 @@ public class SessionMain implements SessionLocal {
     @Override
     public void test(){
         //this.creerClient("NEJJARI","Amine","amnjr123@gmail.com","123456","0624318857");
-       /* UtilisateurHardis uh = new UtilisateurHardis();
+        ReferentLocal uh = new ReferentLocal();
         uh.setNom("Gestionnaire");
         uh.setPrenom("test");
-        uh.setMail("test@gmail.com");
+        uh.setMail("test1@gmail.com");
         uh.setMdp("40BD001563085FC35165329EA1FF5C5ECBDBBEEF");
+        uh.setPlafondDelegation(Float.parseFloat("1000000"));
         uh.setProfilTechnique(ProfilTechnique.Gestionnaire);
-        utilisateurHardisFacade.ajouter(uh);
-        */
+        
+        referentLocalFacade.create(uh);
+                /*
           UtilisateurHardis ur = new UtilisateurHardis();
         ur.setNom("Admin");
         ur.setPrenom("test");
         ur.setMail("testa@gmail.com");
         ur.setMdp("40BD001563085FC35165329EA1FF5C5ECBDBBEEF");
         ur.setProfilTechnique(ProfilTechnique.Administrateur);
-        utilisateurHardisFacade.ajouter(ur);
+        utilisateurHardisFacade.ajouter(ur);*/
     }
         
 }

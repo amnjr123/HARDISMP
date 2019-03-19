@@ -109,4 +109,8 @@ public interface SessionAdministrateurLocal {
     List rechercheEntreprise();    
 
     Agence creerAgence(String localisation, String adresse);
+
+    List rechercheUtilisateursHardis();
+
+    List listeClients();
 }
