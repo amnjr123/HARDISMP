@@ -482,9 +482,7 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     @Override
     public List<Agence> afficherAgences() {
         return agenceFacade.rechercheAgences();
-    }
-  
-    
+    }   
     
     
 }

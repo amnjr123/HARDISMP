@@ -31,14 +31,18 @@ public class ServletAdministrateur extends HttpServlet {
             
             if (request.getParameter("action") != null) {
                 
-                String act = request.getParameter("action");
+                String act = request.getParameter("action");                        
                 
-                
-                
+                if(act.equals("creerAgence")){
+                    String localisation = ((String) request.getAttribute("localisation")).trim().toUpperCase();
+                    String adresse = ((String) request.getAttribute("adresse")).trim();
+                    sessionAdministrateur.creerAgence(localisation)
+                }
                 if(act.equals("agences")){
                     request.setAttribute("listAgences", sessionAdministrateur.afficherAgences());
                     jspClient="/admin/agences.jsp";
                 }
+                
                 
                /* if(act.equals("entreprises")){
                     int p;
