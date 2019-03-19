@@ -12,6 +12,7 @@ import GestionDevis.Devis;
 import GestionDevis.DevisStandard;
 import GestionDevis.Proposition;
 import GestionUtilisateur.CV;
+import GestionUtilisateur.Disponibilite;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import java.util.Date;
@@ -60,5 +61,9 @@ public interface SessionHardisLocal {
     Proposition creerProposition(Date dateDebutValidite, Date dateFinValidite, String cheminDocument, Long idUtilisateurHardis, Long idDevisNonStandard);
 
     void transfererDevisNonStandard(Long idDevisNonStandard, Long idUtilisateurHardis);
+
+    Disponibilite creerDisponibilite(Long idUtilisateurHardis, Date dateDispo);
+
+    Disponibilite supprimerDisponibilite(Long idDispo);
    
 }
