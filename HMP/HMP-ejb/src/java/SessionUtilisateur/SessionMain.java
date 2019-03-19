@@ -76,14 +76,14 @@ public class SessionMain implements SessionLocal {
         uh.setProfilTechnique(ProfilTechnique.Gestionnaire);
         
         referentLocalFacade.create(uh);
-                /*
+                
           UtilisateurHardis ur = new UtilisateurHardis();
         ur.setNom("Admin");
         ur.setPrenom("test");
-        ur.setMail("testa@gmail.com");
+        ur.setMail("amnjr123@gmail.com");
         ur.setMdp("40BD001563085FC35165329EA1FF5C5ECBDBBEEF");
         ur.setProfilTechnique(ProfilTechnique.Administrateur);
-        utilisateurHardisFacade.ajouter(ur);*/
+        utilisateurHardisFacade.ajouter(ur);
     }
         
 }

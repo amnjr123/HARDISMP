@@ -69,6 +69,16 @@ public class ServletAdministrateur extends HttpServlet {
                         menuEntreprise(request, response);
                     }
                 }
+                
+                if(act.equals("utilisateurs")){
+                    if(request.getParameter("recherche") != null){
+                        //Recherche
+                    } else {
+                        request.setAttribute("listeUtilisateursHardis",sessionAdministrateur.rechercheUtilisateursHardis());
+                        request.setAttribute("listeClients",sessionAdministrateur.listeClients());
+                        jspClient="/admin/users.jsp";
+                    }
+                }
 
                 if (act.equals("agences")) {
                     request.setAttribute("listAgences", sessionAdministrateur.afficherAgences());
