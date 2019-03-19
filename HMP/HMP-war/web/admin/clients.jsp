@@ -26,7 +26,6 @@
                             <div class="input-group-prepend">
                                 <a href="#" type="button" class="btn btn-primary"><i data-feather="search"></i></a>
                             </div>
-
                         </div>
                     </div>
 
@@ -34,9 +33,24 @@
             </div>
         </div>
         <div class="card-body">
+                                                <% String error = (String) request.getAttribute("msgError");
+            if (request.getAttribute("msgError") != null) {%>
+        <div class="alert alert-danger alert-dismissible fade in show">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Attention !</strong>&nbsp;<%=error%>.
+        </div>
+        <%}%>
+
+        <% String success = (String) request.getAttribute("msgSuccess");
+                                if (request.getAttribute("msgSuccess") != null) {%>
+        <div class="alert alert-success alert-dismissible fade in show">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <%=success%>.
+        </div>
+        <%}%>
             <div class="table-responsive">
                 <table class="table">
-                    <caption>Liste des entreprises </caption>
+                    <caption>Liste des clients </caption>
                     <thead>
                         <tr>
                             <th scope="col">id</th>
@@ -60,10 +74,14 @@
                             <td>
                                 <% if (c.getEntreprise() != null) {%>
                                 <%=(c.getEntreprise().getNom())%>
-                                <% } %>
+                                <% } else { %>
+                                Aucune entreprise associée
+                                <%
+                                }
+                                %>
                             </td>
                             <td>
-                                <a href="#" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
+                                <a href="#" type="button" data-toggle="modal" data-target="#modalClient<%=(c.getId())%>" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
                                 <a href="#" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a>
                             </td>
                         </tr>
@@ -78,4 +96,71 @@
         </div>
     </div>
 </main>
+                        
+<!--MODALS-->
+<%
+for (Client c : listeCli) {
+%>
+<div class="modal fade" id="modalClient<%=(c.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletAdministrateur">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modifier les données de l'utilisateur <%=(c.getId())%> </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="firstName">Prénom *</label>
+                        <input name="prenom" type="text" class="form-control" id="firstName" placeholder="Prénom du client" value="<%=(c.getPrenom())%>" required>
+                        <div class="invalid-feedback">
+                            Le prénom est obligatoire.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Nom *</label>
+                        <input name="nom" type="text" class="form-control" id="lastName" placeholder="Nom du client" value="<%=(c.getNom())%>" required>
+                        <div class="invalid-feedback">
+                            Le nom est obligatoire.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <div class="input-group">
+                            <input name="email" type="email" class="form-control" id="email" placeholder="Email du client" value="<%=(c.getMail())%>" required>
+                            <div class="invalid-feedback" style="width: 100%;">
+                                Veuillez entrer une adresse mail valide.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telephone">Téléphone *</label>
+                        <div class="input-group">
+                            <input name="tel" type="tel" id="telephone" class="form-control" placeholder="(+33)6xxxxxxxxx ou 00336xxxxxxxxx ou 0xxxxxxxxx" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$" value="<%=(c.getTelephone())%>" required>
+                            <div class="invalid-feedback" style="width: 100%;">
+                                Le numéro de téléphone est obligatoire et doit être conforme
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Enregistrer les modifications</button>
+                    <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
+                    <input type="hidden" name="action" value="modifierDonneesClient">
+                    <input type="hidden" name="id" value="<%=(c.getId())%>">
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<%
+}
+%>
+                        
+                        
+                        
+                        
 <jsp:include page="footer.jsp"/>

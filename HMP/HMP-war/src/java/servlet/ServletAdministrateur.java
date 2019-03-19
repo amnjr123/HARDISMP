@@ -17,7 +17,12 @@ import javax.servlet.http.HttpSession;
 public class ServletAdministrateur extends HttpServlet {
 
     @EJB
+    private SessionClientLocal sessionClient;
+
+    @EJB
     private SessionAdministrateurLocal sessionAdministrateur;
+    
+    
 
     private final String ATT_SESSION_ADMINISTRATEUR = "sessionAdministrateur";
 
@@ -67,6 +72,24 @@ public class ServletAdministrateur extends HttpServlet {
                         menuEntreprise(request, response);
                     }
                 }
+                
+                if (act.equals("modifierDonneesClient")){
+                    String id = ((String) request.getParameter("id")).trim();
+                    String nom = ((String) request.getParameter("nom")).trim();
+                    String prenom = ((String) request.getParameter("prenom")).trim();
+                    String telephone = ((String) request.getParameter("tel")).trim();
+                    String email = ((String) request.getParameter("email")).trim();
+                    if(sessionClient.modifierClient(Long.parseLong(id), nom, prenom, email, telephone)!=null){
+                        request.setAttribute("listeClients", sessionAdministrateur.listeClients());
+                        request.setAttribute("msgSuccess", "Les données du client n° "+id+" ont bien été modifiées");
+                        jspClient = "/admin/clients.jsp";
+                    } else {
+                        request.setAttribute("listeClients", sessionAdministrateur.listeClients());
+                        request.setAttribute("msgError", "Erreur lors de la modification des données du client n° "+id);
+                        jspClient = "/admin/clients.jsp";
+                    }
+                    
+                }
 
                 if (act.equals("utilisateursHardis")) {
                     if (request.getParameter("recherche") != null) {
@@ -77,6 +100,7 @@ public class ServletAdministrateur extends HttpServlet {
                     }
                 }
                 if (act.equals("clients")) {
+                    
                     if (request.getParameter("recherche") != null) {
                         //Recherche
                     } else {

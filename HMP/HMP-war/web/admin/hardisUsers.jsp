@@ -103,31 +103,13 @@
                         </td>
                     </tr>
                     <%
-                            }
-                        %>
-                        
-
-
-                    </tbody>
-                </table>
-            </div>
-            <nav aria-label="...">
-                <ul class="pagination">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Précédent</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item active">
-                        <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Suivant</a>
-                    </li>
-                </ul>
-            </nav>
+                        }
+                    %>
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -142,62 +124,62 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                  
-                    
-                          <div class="form-group">
-                                <label for="firstName">Prénom *</label>
-                                <input name="prenom" type="text" class="form-control" id="firstName" placeholder="Votre prénom" value="" required>
-                                <div class="invalid-feedback">
-                                    Le prénom est obligatoire.
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="lastName">Nom *</label>
-                                <input name="nom" type="text" class="form-control" id="lastName" placeholder="Votre nom" value="" required>
-                                <div class="invalid-feedback">
-                                    Le nom est obligatoire.
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email *</label>
-                                <div class="input-group">
-                                    <input name="email" type="email" class="form-control" id="email" placeholder="vous@votreentreprise.com" required>
-                                    <div class="invalid-feedback" style="width: 100%;">
-                                        Veuillez entrer une adresse mail valide.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputPassword">Mot de passe *</label>
-                                <div class="input-group">
-                                    <input name="pw" type="password" id="inputPassword" class="form-control" onkeyup="verif(1)" placeholder="Mot de passe" required>
-                                    <div class="invalid-feedback" style="width: 100%;">
-                                        Veuillez entrer un mot de passe.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputPassword">Verification Mot de passe *</label>
-                                <div class="input-group">
-                                    <input name="pwV" type="password" id="inputPasswordVerif" class="form-control" onkeyup="verif(2)" placeholder="Vérification Mot de passe" required>
-                                    <div  class="invalid-feedback" style="width: 100%;">
-                                        Veuillez Répéter le mot de passe.
-                                    </div>
-                                    <div id="result" style="width: 100%;">
 
-                                    </div>
-                                </div>
+
+                    <div class="form-group">
+                        <label for="firstName">Prénom *</label>
+                        <input name="prenom" type="text" class="form-control" id="firstName" placeholder="Votre prénom" value="" required>
+                        <div class="invalid-feedback">
+                            Le prénom est obligatoire.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Nom *</label>
+                        <input name="nom" type="text" class="form-control" id="lastName" placeholder="Votre nom" value="" required>
+                        <div class="invalid-feedback">
+                            Le nom est obligatoire.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <div class="input-group">
+                            <input name="email" type="email" class="form-control" id="email" placeholder="vous@votreentreprise.com" required>
+                            <div class="invalid-feedback" style="width: 100%;">
+                                Veuillez entrer une adresse mail valide.
                             </div>
-                            <div class="form-group">
-                                <label for="telephone">Téléphone *</label>
-                                <div class="input-group">
-                                    <input name="tel" type="tel" id="telephone" class="form-control" placeholder="(+33)6xxxxxxxxx ou 00336xxxxxxxxx ou 0xxxxxxxxx" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$" required>
-                                    <div class="invalid-feedback" style="width: 100%;">
-                                        Le numéro de téléphone est obligatoire et doit être conforme
-                                    </div>
-                                </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Mot de passe *</label>
+                        <div class="input-group">
+                            <input name="pw" type="password" id="inputPassword" class="form-control" onkeyup="verif(1)" placeholder="Mot de passe" required>
+                            <div class="invalid-feedback" style="width: 100%;">
+                                Veuillez entrer un mot de passe.
                             </div>
-                    
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Verification Mot de passe *</label>
+                        <div class="input-group">
+                            <input name="pwV" type="password" id="inputPasswordVerif" class="form-control" onkeyup="verif(2)" placeholder="Vérification Mot de passe" required>
+                            <div  class="invalid-feedback" style="width: 100%;">
+                                Veuillez Répéter le mot de passe.
+                            </div>
+                            <div id="result" style="width: 100%;">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="telephone">Téléphone *</label>
+                        <div class="input-group">
+                            <input name="tel" type="tel" id="telephone" class="form-control" placeholder="(+33)6xxxxxxxxx ou 00336xxxxxxxxx ou 0xxxxxxxxx" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$" required>
+                            <div class="invalid-feedback" style="width: 100%;">
+                                Le numéro de téléphone est obligatoire et doit être conforme
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="input-group mb-3">
                         <select class="custom-select">
                             <option disabled selected>Profil Technique</option>
@@ -231,5 +213,6 @@
         </div>
 
     </div>
+</div>
 </main>
 <jsp:include page="footer.jsp"/>
