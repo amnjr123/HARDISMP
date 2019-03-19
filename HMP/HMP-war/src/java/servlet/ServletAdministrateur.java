@@ -16,7 +16,6 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "ServletAdministrateur", urlPatterns = {"/ServletAdministrateur"})
 public class ServletAdministrateur extends HttpServlet {
 
-
     @EJB
     private SessionAdministrateurLocal sessionAdministrateur;
 
@@ -69,14 +68,21 @@ public class ServletAdministrateur extends HttpServlet {
                         menuEntreprise(request, response);
                     }
                 }
-                
-                if(act.equals("utilisateurs")){
-                    if(request.getParameter("recherche") != null){
+
+                if (act.equals("utilisateursHardis")) {
+                    if (request.getParameter("recherche") != null) {
                         //Recherche
                     } else {
-                        request.setAttribute("listeUtilisateursHardis",sessionAdministrateur.rechercheUtilisateursHardis());
-                        request.setAttribute("listeClients",sessionAdministrateur.listeClients());
-                        jspClient="/admin/users.jsp";
+                        request.setAttribute("listeUtilisateursHardis", sessionAdministrateur.rechercheUtilisateursHardis());
+                        jspClient = "/admin/hardisUsers.jsp";
+                    }
+                }
+                if (act.equals("clients")) {
+                    if (request.getParameter("recherche") != null) {
+                        //Recherche
+                    } else {
+                        request.setAttribute("listeClients", sessionAdministrateur.listeClients());
+                        jspClient = "/admin/clients.jsp";
                     }
                 }
 
