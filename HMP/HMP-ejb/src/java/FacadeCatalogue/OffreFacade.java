@@ -7,6 +7,7 @@ package FacadeCatalogue;
 
 import FacadeUtilisateur.AbstractFacade;
 import GestionCatalogue.Offre;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -38,7 +39,15 @@ public class OffreFacade extends AbstractFacade<Offre> implements OffreFacadeLoc
         Offre o = new Offre();
         o.setLibelle(libelle);
         o.setDateDebutValidite(new Date());
-        o.setDateFinValidite(new Date(Long.MAX_VALUE));
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.MONTH, 0);
+        cal.set(Calendar.YEAR, 2100);
+        o.setDateFinValidite(cal.getTime());
         create(o);  
         return o;
     }
