@@ -26,16 +26,12 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <div class="input-group mb-3">
-
-                            <label for="nom" class="sr-only">Rechercher</label>
-                            <input type="text" id="nom" class="form-control" placeholder="Nom, prénom, identifiant ou email" required autofocus>
-                            <div class="input-group-prepend">
-                                <a href="#" type="button" class="btn btn-primary"><i data-feather="search"></i></a>
-                            </div>
-
+                        <label for="nom" class="sr-only">Rechercher</label>
+                        <input type="text" id="nom" class="form-control" placeholder="Nom, prénom, identifiant ou email" required autofocus>
+                        <div class="input-group-prepend">
+                            <a href="#" type="button" class="btn btn-primary"><i data-feather="search"></i></a>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -125,7 +121,6 @@
                 </div>
                 <div class="modal-body">
 
-
                     <div class="form-group">
                         <label for="firstName">Prénom *</label>
                         <input name="prenom" type="text" class="form-control" id="firstName" placeholder="Votre prénom" value="" required>
@@ -180,28 +175,36 @@
                         </div>
                     </div>
 
-                    <div class="input-group mb-3">
-                        <select class="custom-select">
+
+                    <div class="form-group">
+                        <select name="profilTechnique" class="custom-select">
                             <option disabled selected>Profil Technique</option>
                             <option value="1">Administrateur</option>
                             <option value="2">Gestionnaire</option>
                             <option value="3">Visualisation</option>
                         </select>
+                        <div class="invalid-feedback">
+                            Le Profil Technique est obligatoire.
+                        </div>
                     </div>
+                    <div class="form-group">
 
-
-                    <p>
                         <label for='siret' class='sr-only'>Plafond de déléguation</label>
                         <input name="plafond" type='text' id='Plafond de déléguation' class='form-control' placeholder='Plafond de déléguation' required autofocus>
-                    </p>
-
+                        <div class="invalid-feedback">
+                            Le Profil métier est obligatoire.
+                        </div>
+                    </div>
                     <div class="input-group mb-3">
-                        <select name="" class="custom-select">
+                        <select name="profilMetier" class="custom-select">
                             <option disabled selected>Profil métier</option>
                             <option value="1">Référant local</option>
                             <option value="2">Porteur d'offre</option>
                             <option value="3">Consultant</option>
                         </select>
+                        <div class="invalid-feedback">
+                            Le Profil métier est obligatoire.
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -216,3 +219,4 @@
 </div>
 </main>
 <jsp:include page="footer.jsp"/>
+

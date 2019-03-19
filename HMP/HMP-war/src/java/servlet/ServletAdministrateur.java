@@ -28,7 +28,13 @@ public class ServletAdministrateur extends HttpServlet {
 
     private String jspClient = "/admin/indexAdmin.jsp";
 
-    protected void menuEntreprise(HttpServletRequest request, HttpServletResponse response){
+
+    protected void menuCatalogue(HttpServletRequest request, HttpServletResponse response) {
+        request.setAttribute("listOffres", sessionAdministrateur.afficherOffres());
+        jspClient = "/admin/offres.jsp";
+    }
+
+    protected void menuEntreprise(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("listeEntreprises", sessionAdministrateur.rechercheEntreprises());
         request.setAttribute("listeAgences", sessionAdministrateur.afficherAgences());
         jspClient = "/admin/entreprises.jsp";
@@ -72,6 +78,7 @@ public class ServletAdministrateur extends HttpServlet {
                         menuEntreprise(request, response);
                     }
                 }
+
                 
                 if (act.equals("modifierDonneesClient")){
                     String id = ((String) request.getParameter("id")).trim();
@@ -89,6 +96,20 @@ public class ServletAdministrateur extends HttpServlet {
                         jspClient = "/admin/clients.jsp";
                     }
                     
+                    }
+                if (act.equals("creerOffre")) {
+                    String libelle = ((String) request.getParameter("libelle")).trim().toUpperCase();
+                    if (libelle != null && !libelle.isEmpty()) {
+                        sessionAdministrateur.creerOffre(libelle);
+
+                    } else {
+                        request.setAttribute("MsgError", "Une erreur s'est produite");
+                    }
+                    request.setAttribute("listOffres", sessionAdministrateur.afficherOffres());
+                    jspClient = "/admin/offres.jsp";
+                }
+                if (act.equals("offres")) {
+                    menuCatalogue(request, response);
                 }
 
                 if (act.equals("utilisateursHardis")) {
