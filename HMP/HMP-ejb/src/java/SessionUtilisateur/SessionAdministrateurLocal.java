@@ -106,7 +106,7 @@ public interface SessionAdministrateurLocal {
 
     //List paginer(int page, int nbreItems, List liste);
 
-    List rechercheEntreprise();    
+    List rechercheEntreprises();    
 
     Agence creerAgence(String localisation, String adresse);
 

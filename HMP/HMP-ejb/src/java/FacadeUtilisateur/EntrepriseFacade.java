@@ -88,9 +88,7 @@ public class EntrepriseFacade extends AbstractFacade<Entreprise> implements Entr
     }
 
     @Override
-    public List<Entreprise> rechercheEntreprise() {
+    public List<Entreprise> rechercheEntreprises() {
         return findAll();
-    }
-    
-    
+    }    
 }

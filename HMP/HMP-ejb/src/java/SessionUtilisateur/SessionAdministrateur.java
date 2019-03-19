@@ -145,8 +145,8 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     }
     
     @Override
-    public List rechercheEntreprise(){
-        return entrepriseFacade.rechercheEntreprise();
+    public List rechercheEntreprises(){
+        return entrepriseFacade.rechercheEntreprises();
     }
     
     @Override

@@ -37,7 +37,6 @@ public class Servlet extends HttpServlet {
 
     private void login(String login, String mdp, HttpServletRequest request, HttpServletResponse response) {
         logout(request, response);
-        
         Utilisateur utilisateur = sessionMain.authentification(login, mdp);
 
         if (utilisateur != null) {
