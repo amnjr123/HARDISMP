@@ -1,27 +1,31 @@
-<%@page import="GestionUtilisateur.ReferentLocal"%>
-<%@page import="GestionUtilisateur.Consultant"%>
-<%@page import="GestionUtilisateur.UtilisateurHardis"%>
-<%@page import="java.util.Collection"%>
-<jsp:useBean id="listeUtilisateursHardis" scope="request" class="java.util.Collection"></jsp:useBean>
-<% Collection<UtilisateurHardis> listeUH = listeUtilisateursHardis; %>
-<div class="card">
-    <div class="card-header">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
-            <h1 class="h2">Utilisateurs HARDIS</h1>
-            <div class="btn-toolbar mb-2 mb-md-0">
-                <button  class="btn btn-sm btn-success" data-toggle="modal" data-target="#exampleModal">
-                    <span data-feather="plus"></span>
-                    Nouvel utilisateur
-                </button>
+<jsp:include page="header.jsp"/>
+<main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2">Utilisateurs HARDIS</h1>
+    </div>
+    <%@page import="GestionUtilisateur.ReferentLocal"%>
+    <%@page import="GestionUtilisateur.Consultant"%>
+    <%@page import="GestionUtilisateur.UtilisateurHardis"%>
+    <%@page import="java.util.Collection"%>
+    <jsp:useBean id="listeUtilisateursHardis" scope="request" class="java.util.Collection"></jsp:useBean>
+    <% Collection<UtilisateurHardis> listeUH = listeUtilisateursHardis; %>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
+                <h1 class="h2">Utilisateurs HARDIS</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <button  class="btn btn-sm btn-success" data-toggle="modal" data-target="#exampleModal">
+                        <span data-feather="plus"></span>
+                        Nouvel utilisateur
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <div class="input-group mb-3">
-
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="input-group mb-3">
                         <label for="nom" class="sr-only">Rechercher</label>
                         <input type="text" id="nom" class="form-control" placeholder="Nom, prénom, identifiant ou email" required autofocus>
                         <div class="input-group-prepend">
@@ -91,38 +95,42 @@
                                     <a class="dropdown-item" href="#"><i data-feather="edit-2"></i> Modifier</a>
                                     <a class="dropdown-item" href="#"><i data-feather="trash-2"></i> Supprimmer</a>
                                 </div>
-                            </div></td>
-
+                            </div>
+                        </td>
                     </tr>
                     <%
-                        }
-                    %>
+                            }
+                        %>
+                        
 
-                </tbody>
-            </table>
+
+                    </tbody>
+                </table>
+            </div>
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Précédent</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item active">
+                        <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Suivant</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
-        <nav aria-label="...">
-            <ul class="pagination">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">Précédent</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active">
-                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Suivant</a>
-                </li>
-            </ul>
-        </nav>
     </div>
-</div>
+
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletAdministrateur">
+
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Nouvel utilisateur HARDIS</h5>
@@ -222,5 +230,8 @@
                 </div>
             </form>
         </div>
+
     </div>
-</div>
+</main>
+<jsp:include page="footer.jsp"/>
+

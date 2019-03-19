@@ -1,5 +1,5 @@
 <%@page import="GestionUtilisateur.UtilisateurHardis"%>
-<% UtilisateurHardis u = (UtilisateurHardis) session.getAttribute("sessionHardis"); %>
+<% UtilisateurHardis u = (UtilisateurHardis) session.getAttribute("sessionHardis");%>
 <!doctype html>
 <html lang="en">
     <head>
@@ -31,8 +31,11 @@
                     <div class="bg-light border-right" id="sidebar-wrapper">
                         <div class="sidebar-heading"><span style="width:24px;height: 28px;color : grey;" data-feather="user" ></span>&nbsp;<%=(u.getNom() + ' ' + u.getPrenom())%></div>
                         <div class="list-group list-group-flush">
-                            <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=utilisateurs" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="user"></span> Utilisateurs
+                            <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=utilisateursHardis" class="list-group-item list-group-item-action bg-light">
+                                <span data-feather="user"></span> Utilisateurs HARDIS
+                            </a>
+                            <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=clients" class="list-group-item list-group-item-action bg-light">
+                                <span data-feather="user"></span> Clients
                             </a>
                             <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=entreprises&p=0" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="file-text"></span> Entreprises
@@ -40,11 +43,11 @@
                             <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=agences" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="layers"></span> Agences
                             </a>
-                                <!--href a modifier-->
+                            <!--href a modifier-->
                             <a href="catalogues.jsp" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="file-text"></span> Catalogues
                             </a>
-    
+
                         </div>
                     </div>
                     <div id="page-content-wrapper">
