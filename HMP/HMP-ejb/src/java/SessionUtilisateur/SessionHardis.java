@@ -19,6 +19,7 @@ import FacadeUtilisateur.AgenceFacadeLocal;
 import FacadeUtilisateur.CVFacadeLocal;
 import FacadeUtilisateur.ClientFacadeLocal;
 import FacadeUtilisateur.ConsultantFacadeLocal;
+import FacadeUtilisateur.DisponibiliteFacadeLocal;
 import FacadeUtilisateur.PorteurOffreFacadeLocal;
 import FacadeUtilisateur.ReferentLocalFacadeLocal;
 import FacadeUtilisateur.UtilisateurFacadeLocal;
@@ -33,9 +34,11 @@ import GestionDevis.HistoriqueUtilisateurDevis;
 import GestionDevis.Proposition;
 import GestionUtilisateur.CV;
 import GestionUtilisateur.Client;
+import GestionUtilisateur.Disponibilite;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -43,12 +46,16 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+
 /**
  *
  * @author 5151882
  */
 @Stateless
 public class SessionHardis implements SessionHardisLocal {
+
+    @EJB
+    private DisponibiliteFacadeLocal disponibiliteFacade;
 
     @EJB
     private HistoriqueUtilisateurDevisFacadeLocal historiqueUtilisateurDevisFacade;
@@ -138,6 +145,64 @@ public class SessionHardis implements SessionHardisLocal {
             Logger.getLogger(SessionClient.class.getName()).log(Level.SEVERE, null, ex);
         }
         return retour;
+    }
+/*GESTION DES DISPONIBILITES*/
+    
+    @Override
+    public Disponibilite creerDisponibilite(Long idUtilisateurHardis, Date dateDispo){
+        //Pour les dev du front : L'utilisateur doit pouvoir choisir entre deux demi journées et selon laquelle il choisit il faut renvoyer par
+        //exemple : 01/01/2019 08:00:00 pour la première demi-journée
+        //exemple : 01/01/2019 14:00:00 pour la deuxième demi-journée
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
+        Disponibilite dispo = null;
+        //Disponibilité par demi-journée
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dateDispo);
+        if(cal.get(Calendar.HOUR_OF_DAY)==8){
+            //Début de la dispo
+            Calendar calDebut = Calendar.getInstance();
+            calDebut.setTime(dateDispo);
+            calDebut.set(Calendar.MILLISECOND, 0);
+            calDebut.set(Calendar.SECOND, 0);
+            calDebut.set(Calendar.MINUTE, 0);
+            calDebut.set(Calendar.HOUR_OF_DAY, 8);
+            Date dateDebut = calDebut.getTime();
+            //Fin de la Dispo
+            Calendar calFin = Calendar.getInstance();
+            calFin.setTime(dateDispo);
+            calFin.set(Calendar.MILLISECOND, 0);
+            calFin.set(Calendar.SECOND, 0);
+            calFin.set(Calendar.MINUTE, 0);
+            calFin.set(Calendar.HOUR_OF_DAY, 12);
+            Date dateFin = calFin.getTime();
+            dispo = disponibiliteFacade.creerDisponibilite(dateDebut, dateFin, uh);
+        }
+        else if(cal.get(Calendar.HOUR_OF_DAY)==14){
+            //Début de la dispo
+            Calendar calDebut = Calendar.getInstance();
+            calDebut.setTime(dateDispo);
+            calDebut.set(Calendar.MILLISECOND, 0);
+            calDebut.set(Calendar.SECOND, 0);
+            calDebut.set(Calendar.MINUTE, 0);
+            calDebut.set(Calendar.HOUR_OF_DAY, 14);
+            Date dateDebut = calDebut.getTime();
+            //Fin de la Dispo
+            Calendar calFin = Calendar.getInstance();
+            calFin.setTime(dateDispo);
+            calFin.set(Calendar.MILLISECOND, 0);
+            calFin.set(Calendar.SECOND, 0);
+            calFin.set(Calendar.MINUTE, 0);
+            calFin.set(Calendar.HOUR_OF_DAY, 18);
+            Date dateFin = calFin.getTime();
+            dispo = disponibiliteFacade.creerDisponibilite(dateDebut, dateFin, uh);
+        }
+        return dispo;
+    }
+    
+    @Override
+    public Disponibilite supprimerDisponibilite(Long idDispo){
+        Disponibilite dispo = disponibiliteFacade.rechercheDisponibilite(idDispo);
+        return disponibiliteFacade.supprimerDisponibilite(dispo);
     }
     
 /*GESTION DU CATALOGUE*/
