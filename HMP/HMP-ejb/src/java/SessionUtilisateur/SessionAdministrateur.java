@@ -114,10 +114,12 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         return demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise();
     }
     
+    @Override
     public List rechercheEntreprise(){
         return entrepriseFacade.rechercheEntreprise();
     }
     
+    /*
     public List paginer(int page,int nbreItems, List liste){
         int nblignes=liste.size();
         int nbPages=0;
@@ -140,8 +142,9 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
             }
         }
         return lr;
-    }
+    }*/
     
+    @Override
     public Entreprise entrepriseExistante(String siret){
         return entrepriseFacade.rechercheEntrepriseSiret(siret);
     }

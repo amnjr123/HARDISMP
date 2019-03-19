@@ -82,7 +82,7 @@ public interface SessionAdministrateurLocal {
 
     List<Interlocuteur> rechercherInterlocuteur();
 
-    List<Entreprise> rechercherEntreprisePagine(int page);
+    //List<Entreprise> rechercherEntreprisePagine(int page);
 
     List<CV> afficherCVUtilisateur(Long idUtilisateurHardis);
 
@@ -100,7 +100,7 @@ public interface SessionAdministrateurLocal {
 
     CV afficherCVOffreUtilisateur(Long idUtilisateurHardis, Long idOffre);
 
-    List paginer(int page, int nbreItems, List liste);
+    //List paginer(int page, int nbreItems, List liste);
 
     List rechercheEntreprise();
     
