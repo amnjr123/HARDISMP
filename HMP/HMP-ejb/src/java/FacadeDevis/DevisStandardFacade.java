@@ -42,7 +42,7 @@ public class DevisStandardFacade extends AbstractFacade<DevisStandard> implement
     public DevisStandard creerDevisStandard(float montant, String commentaireClient, ServiceStandard serviceStandard, ReferentLocal rl, Agence agence, Client c){
         DevisStandard d = new DevisStandard();
         if(commentaireClient==null || commentaireClient.equalsIgnoreCase("")){
-            d.setStatut(StatutDevis.Incomplet);
+            d.setStatut(StatutDevis.Incomplet);d.setDateCreation(new Date());
         }
         else{
             d.setStatut(StatutDevis.ReponseEnCours);

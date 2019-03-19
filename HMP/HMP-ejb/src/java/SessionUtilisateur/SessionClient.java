@@ -15,6 +15,7 @@ import FacadeCatalogue.ServiceStandardFacadeLocal;
 import FacadeDevis.DevisFacadeLocal;
 import FacadeDevis.DevisNonStandardFacadeLocal;
 import FacadeDevis.DevisStandardFacadeLocal;
+import FacadeDevis.HistoriqueUtilisateurDevisFacadeLocal;
 import FacadeUtilisateur.AgenceFacadeLocal;
 import FacadeUtilisateur.ClientFacadeLocal;
 import FacadeUtilisateur.DemandeCreationEntrepriseFacadeLocal;
@@ -49,6 +50,9 @@ import javax.ejb.Stateless;
 
 @Stateless
 public class SessionClient implements SessionClientLocal {
+
+    @EJB
+    private HistoriqueUtilisateurDevisFacadeLocal historiqueUtilisateurDevisFacade;
 
     @EJB
     private ServiceNonStandardFacadeLocal serviceNonStandardFacade;
@@ -207,7 +211,9 @@ public class SessionClient implements SessionClientLocal {
         Client c = clientFacade.rechercheClient(idClient);
         ServiceStandard s = serviceStandardFacade.rechercheServiceStandard(idServiceStandard);
         ReferentLocal referentLocal = referentLocalFacade.rechercheReferentLocal(c.getEntreprise().getAgence(), s.getOffre());
-        return devisStandardFacade.creerDevisStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence(),c);
+        DevisStandard d = devisStandardFacade.creerDevisStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence(),c);
+        historiqueUtilisateurDevisFacade.creerPremierHistoriqueUtilisateurDevis(d, referentLocal);
+        return d;
     }
     
     @Override
@@ -216,7 +222,9 @@ public class SessionClient implements SessionClientLocal {
         Client c = clientFacade.rechercheClient(idClient);
         ServiceNonStandard s = serviceNonStandardFacade.rechercheServiceNonStandard(idServiceNonStandard);
         ReferentLocal referentLocal = referentLocalFacade.rechercheReferentLocal(c.getEntreprise().getAgence(), s.getOffre());
-        return devisNonStandardFacade.creerDevisNonStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence(),c);
+        DevisNonStandard dns = devisNonStandardFacade.creerDevisNonStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence(),c);
+        historiqueUtilisateurDevisFacade.creerPremierHistoriqueUtilisateurDevis(dns, referentLocal);
+        return dns;
     }
     
     @Override
@@ -237,7 +245,6 @@ public class SessionClient implements SessionClientLocal {
             return null;
         }
     }
-    
     
     @Override
     public List<Devis> rechercherDevis(Long idClient, String statutDevis){
