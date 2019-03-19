@@ -1,6 +1,8 @@
 package servlet;
 
 import SessionUtilisateur.SessionAdministrateurLocal;
+import SessionUtilisateur.SessionClientLocal;
+import SessionUtilisateur.SessionHardisLocal;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "ServletAdministrateur", urlPatterns = {"/ServletAdministrateur"})
 public class ServletAdministrateur extends HttpServlet {
+
 
     @EJB
     private SessionAdministrateurLocal sessionAdministrateur;

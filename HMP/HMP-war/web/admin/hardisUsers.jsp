@@ -1,3 +1,9 @@
+<%@page import="GestionUtilisateur.ReferentLocal"%>
+<%@page import="GestionUtilisateur.Consultant"%>
+<%@page import="GestionUtilisateur.UtilisateurHardis"%>
+<%@page import="java.util.List"%>
+<jsp:useBean id="listeUtilisateursHardis" scope="request" class="java.util.List"></jsp:useBean>
+<% List<UtilisateurHardis> listeUH = listeUtilisateursHardis; %>
 <div class="card">
     <div class="card-header">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
@@ -39,22 +45,46 @@
                         <th scope="col">Email</th>
                         <th scope="col">Téléphone</th>
                         <th scope="col">Profil technique</th>
-                        <th scope="col">Activité</th>
+                        <!--th scope="col">Activité</th-->
                         <th scope="col">Plafond de délégation</th>
                         <th scope="col">Type</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
+                    <%
+                        for(UtilisateurHardis uh : listeUH){
+                            %>
                     <tr>
-                        <th scope="row">1</th>
-                        <td>NEJJARI Amine</td>
-                        <td>amnjr123@gmail.com</td>
-                        <td>06 24 31 88 57</td>
-                        <td>Administrateur</td>
-                        <td><i data-feather="check" style="color :#34ce57"></i><i data-feather="x" style="color :#bd2130"></i><i data-feather="minus" style="color :#d39e00"></i></td>
-                        <td>10 000 EUR</td>
-                        <td>Consultant</td>
+                        <th scope="row"><%=(uh.getId())%></th>
+                        <td><%=(uh.getNom())%> <%=(uh.getPrenom())%></td>
+                        <td><%=(uh.getMail())%></td>
+                        <td><%=(uh.getTelephone())%></td>
+                        <td><%=(uh.getProfilTechnique())%></td>
+                        <!--td>
+                            <i data-feather="check" style="color :#34ce57"></i>
+                            <i data-feather="x" style="color :#bd2130"></i>
+                            <i data-feather="minus" style="color :#d39e00"></i>
+                        </td-->
+                        <%
+                        if(uh.getDtype().equals("Consultant")){
+                            Consultant c = (Consultant) uh;
+                        %>
+                            <td><%=(c.getPlafondDelegation())%> EUR</td>
+                        <%
+                        } else if (uh.getDtype().equals("ReferentLocal")) {
+                            ReferentLocal rl = (ReferentLocal) uh;
+                        %>
+                        <td><%=(rl.getPlafondDelegation())%> EUR</td>
+                        <%
+                        } else {
+                        %>
+                            <td> - </td>
+                        <%
+                        }
+                        %>
+                        
+                        <td><%=(uh.getDtype())%></td>
                         <td><div class="dropdown">
                                 <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Action
@@ -66,6 +96,9 @@
                             </div></td>
 
                     </tr>
+                    <%
+                        }
+                    %>
 
                 </tbody>
             </table>

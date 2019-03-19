@@ -54,5 +54,7 @@ public interface DevisNonStandardFacadeLocal {
     List<DevisNonStandard> rechercheDevisNonStandard();
 
     DevisNonStandard envoyerDevisNonStandard(DevisNonStandard d);
+
+    DevisNonStandard modifierDevisNonStandard(DevisNonStandard d, String commentaireClient);
     
 }

@@ -9,9 +9,12 @@ import GestionCatalogue.Livrable;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
 import GestionDevis.Devis;
+import GestionDevis.DevisStandard;
+import GestionDevis.Proposition;
 import GestionUtilisateur.CV;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -51,5 +54,11 @@ public interface SessionHardisLocal {
     List<Livrable> afficherLivrables(Long idService);
 
     List<Devis> rechercherDevis(Long idUtilisateurHardis, Long idClient, String statutDevis);
+
+    DevisStandard envoyerDevisStandard(Long idDevisStandard);
+
+    Proposition creerProposition(Date dateDebutValidite, Date dateFinValidite, String cheminDocument, Long idUtilisateurHardis, Long idDevisNonStandard);
+
+    void transfererDevisNonStandard(Long idDevisNonStandard, Long idUtilisateurHardis);
    
 }

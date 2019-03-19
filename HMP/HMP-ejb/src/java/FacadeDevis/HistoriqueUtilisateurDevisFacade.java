@@ -88,4 +88,15 @@ public class HistoriqueUtilisateurDevisFacade extends AbstractFacade<HistoriqueU
         requete.setParameter("devis",devis);
         return requete.getResultList();
     }
+    
+    @Override
+    public HistoriqueUtilisateurDevis rechercheDernierHistoriqueUtilisateurDevis(Devis devis){
+        Query requete = em.createQuery("SELECT hud FROM HistoriqueUtilisateurDevis as hud where hud.devis=:devis and hud.dateFin>=:CURRENT_TIMESTAMP");
+        requete.setParameter("devis",devis);
+        if (!requete.getResultList().isEmpty()) {
+            return (HistoriqueUtilisateurDevis) requete.getSingleResult();
+        } else {
+            return null;
+        }
+    }
 }

@@ -13,6 +13,8 @@ import FacadeCatalogue.ServiceFacadeLocal;
 import FacadeDevis.DevisFacadeLocal;
 import FacadeDevis.DevisNonStandardFacadeLocal;
 import FacadeDevis.DevisStandardFacadeLocal;
+import FacadeDevis.HistoriqueUtilisateurDevisFacadeLocal;
+import FacadeDevis.PropositionFacadeLocal;
 import FacadeUtilisateur.AgenceFacadeLocal;
 import FacadeUtilisateur.CVFacadeLocal;
 import FacadeUtilisateur.ClientFacadeLocal;
@@ -25,11 +27,16 @@ import GestionCatalogue.Livrable;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
 import GestionDevis.Devis;
+import GestionDevis.DevisNonStandard;
+import GestionDevis.DevisStandard;
+import GestionDevis.HistoriqueUtilisateurDevis;
+import GestionDevis.Proposition;
 import GestionUtilisateur.CV;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,6 +49,12 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class SessionHardis implements SessionHardisLocal {
+
+    @EJB
+    private HistoriqueUtilisateurDevisFacadeLocal historiqueUtilisateurDevisFacade;
+
+    @EJB
+    private PropositionFacadeLocal propositionFacade;
 
     @EJB
     private ClientFacadeLocal clientFacade;
@@ -247,5 +260,27 @@ public class SessionHardis implements SessionHardisLocal {
             StatutDevis statut = StatutDevis.valueOf(statutDevis);
             return devisFacade.rechercherDevis(uh,c,statut);
         }
+    }
+    
+    @Override
+    public DevisStandard envoyerDevisStandard(Long idDevisStandard){
+            DevisStandard d = devisStandardFacade.rechercheDevisStandard(idDevisStandard);
+            return devisStandardFacade.envoyerDevisStandard(d);
+    }
+    
+    @Override
+    public Proposition creerProposition(Date dateDebutValidite, Date dateFinValidite, String cheminDocument, Long idUtilisateurHardis, Long idDevisNonStandard ){
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
+        DevisNonStandard dns = devisNonStandardFacade.rechercheDevisNonStandard(idDevisNonStandard);
+        return propositionFacade.creerProposition(dateDebutValidite, dateFinValidite, cheminDocument, uh, dns);
+    }
+    
+    @Override
+    public void transfererDevisNonStandard(Long idDevisNonStandard, Long idUtilisateurHardis){
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
+        DevisNonStandard dns = devisNonStandardFacade.rechercheDevisNonStandard(idDevisNonStandard);
+        devisNonStandardFacade.transfererDevisNonStandard(dns, uh);
+        HistoriqueUtilisateurDevis ancienHistorique = historiqueUtilisateurDevisFacade.rechercheDernierHistoriqueUtilisateurDevis(dns);
+        historiqueUtilisateurDevisFacade.creerSuiteHistoriqueUtilisateurDevis(ancienHistorique, uh);
     }
 }

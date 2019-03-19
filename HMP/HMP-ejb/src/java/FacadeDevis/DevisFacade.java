@@ -40,6 +40,11 @@ public class DevisFacade extends AbstractFacade<Devis> implements DevisFacadeLoc
     }
     
     @Override
+    public Devis rechercherDevis(Long id) {
+        return find(id);
+    }
+    
+    @Override
     public List<Devis> rechercherDevis(UtilisateurHardis uh) {
         Query requete = getEntityManager().createQuery("select d from Devis as d where d.utilisateurHardis=:utilisateur");
         requete.setParameter("utilisateur", uh);

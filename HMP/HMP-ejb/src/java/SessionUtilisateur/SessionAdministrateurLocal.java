@@ -110,6 +110,9 @@ public interface SessionAdministrateurLocal {
 
     Agence creerAgence(String localisation, String adresse);
 
+    List rechercheUtilisateursHardis();
+
+    List listeClients();
     Agence modifierAgence(Long idAgence, String localisation, String adresse);
 
     ServiceNonStandard creerServiceNonStandard(String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre);

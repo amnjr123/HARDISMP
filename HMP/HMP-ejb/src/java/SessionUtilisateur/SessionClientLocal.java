@@ -69,4 +69,6 @@ public interface SessionClientLocal {
     DevisNonStandard creerDevisNonStandard(String commentaireClient, Long idServiceNonStandard, Long idClient);
 
     List<Devis> rechercherDevis(Long idClient, String statutDevis);
+
+    Devis modifierDevisIncomplet(Long idDevis, String commentaireClient);
 }
