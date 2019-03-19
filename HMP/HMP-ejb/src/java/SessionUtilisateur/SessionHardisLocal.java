@@ -8,6 +8,7 @@ package SessionUtilisateur;
 import GestionCatalogue.Livrable;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
+import GestionDevis.Devis;
 import GestionUtilisateur.CV;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
@@ -48,5 +49,7 @@ public interface SessionHardisLocal {
     CV creerCV(String chemin, Long idUtilisateur, Long idOffre);
 
     List<Livrable> afficherLivrables(Long idService);
+
+    List<Devis> rechercherDevis(Long idUtilisateurHardis, Long idClient, String statutDevis);
    
 }
