@@ -55,7 +55,6 @@
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
 
@@ -63,7 +62,7 @@
         <div class="modal-dialog" role="document">
 
             <div class="modal-content">
-                <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" action="POST" method="${pageContext.request.contextPath}/ServletAdministrateur">
+                <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletAdministrateur">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Nouvelle Agence</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -72,7 +71,7 @@
                     <div class="modal-body">
                         <p>
                             <label for="localisation" class="sr-only">Localisation/ Ville *</label>
-                            <input name="localisation" type="text" id="nom" class="form-control" placeholder="Localisation/ Ville" required autofocus>
+                            <input name="localisation" type="text" id="localisation" class="form-control" placeholder="Localisation/ Ville" required autofocus>
                         </p>
                         <p>
                             <label for="adresse" class="sr-only">Adresse *</label>
@@ -80,9 +79,9 @@
                         </p>
                     </div>
                     <div class="modal-footer ">
-                        <button type="button" type="submit" class="btn btn-success">Créer l'agence</button>
+                        <button type="submit" class="btn btn-success">Créer l'agence</button>
                         <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
-                        <input type="hidden" value="creerAgence">
+                        <input type="hidden" name="action" value="creerAgence">
                     </div>
                 </form>
             </div>

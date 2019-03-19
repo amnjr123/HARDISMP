@@ -45,13 +45,11 @@ import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import org.apache.jasper.tagplugins.jstl.ForEach;
 
 /**
  *
@@ -120,10 +118,11 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         return agenceFacade.creerAgence(localisation, adresse);
     }
     
-    @Override
-    public List<Agence> afficherAgences(){
+   @Override
+    public List<Agence> afficherAgences() {
         return agenceFacade.rechercheAgences();
     }
+
     
     @Override
     public Agence modifierAgence(Long idAgence, String localisation, String adresse){
@@ -506,10 +505,8 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         return serviceFacade.rechercherService();
     }
     
+ 
     @Override
-    public List<Agence> afficherAgences() {
-        return agenceFacade.rechercheAgences();
-    }   
     public ServiceNonStandard creerServiceNonStandard(String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre){
         LieuIntervention lieu = LieuIntervention.valueOf(lieuString);
         Offre offre = offreFacade.rechercheOffre(idOffre);
@@ -548,4 +545,5 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         return livrableFacade.rechercheLivrable(service);
     } 
 
+ 
 }
