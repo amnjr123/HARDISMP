@@ -124,21 +124,11 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     public Agence creerAgence(String localisation, String adresse) {
         return agenceFacade.creerAgence(localisation, adresse);
     }
-    
-    /*GESTION UTILISATEURS*/
-
-    @Override
-    public List listeClients() {
-        return clientFacade.findAll();
-    }
-    
-    /*GESTION ENTREPRISE*/
 
    @Override
     public List<Agence> afficherAgences() {
         return agenceFacade.rechercheAgences();
     }
-
     
     @Override
     public Agence modifierAgence(Long idAgence, String localisation, String adresse){
@@ -278,6 +268,10 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     
 /*GESTION DES COMPTES UTILISATEUR HARDIS*/
     
+    @Override
+    public List listeClients() {
+        return clientFacade.findAll();
+    }
     
     @Override
     public List rechercheUtilisateursHardis() {

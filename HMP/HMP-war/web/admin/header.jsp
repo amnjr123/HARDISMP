@@ -41,7 +41,7 @@
                                 <span data-feather="layers"></span> Agences
                             </a>
                                 <!--href a modifier-->
-                            <a href="catalogues.jsp" class="list-group-item list-group-item-action bg-light">
+                            <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=offres" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="file-text"></span> Catalogues
                             </a>
     
