@@ -1,4 +1,8 @@
 <jsp:include page="header.jsp"/>
+<%@page import="GestionUtilisateur.Entreprise"%>
+<%@page import="java.util.ArrayList"%>
+<jsp:useBean id="listeEntreprises" scope="request" class="java.util.ArrayList"></jsp:useBean>
+<% ArrayList<Entreprise> liste = listeEntreprises; %>
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 class="h2">Entreprises</h1>
@@ -59,19 +63,25 @@
                         </tr>
                     </thead>
                     <tbody>
+                                        
+                                <% 
+                    for(Entreprise e : liste){
+                        %>
                         <tr>
-                            <th scope="row">1</th>
-                            <td>15422651475448</td>
-                            <td>Orange</td>
-                            <td>Lyon</td>
-                            <td>Lyon</td>
+                            <th scope="row"><%=(e.getId())%></th>
+                            <td><%=(e.getSiret())%></td>
+                            <td><%=(e.getNom())%></td>
+                            <td><%=(e.getAdresseFacturation())%></td>
+                            <td>agence</td>
                             <td><a href="#" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="phone"></i></a>
                             <a href="#" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
                             <a href="#" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a></td>
 
 
                         </tr>
-
+                <%
+                    }
+                %>
                     </tbody>
                 </table>
             </div>
