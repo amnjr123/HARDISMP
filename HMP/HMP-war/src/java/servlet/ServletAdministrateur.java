@@ -35,8 +35,9 @@ public class ServletAdministrateur extends HttpServlet {
                 
                 
                 
-                if(act.equals("")){
-                    
+                if(act.equals("agences")){
+                    request.setAttribute("listAgences", sessionAdministrateur.afficherAgences());
+                    jspClient="/admin/agences.jsp";
                 }
                 
                /* if(act.equals("entreprises")){

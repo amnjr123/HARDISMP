@@ -82,5 +82,7 @@ public interface SessionAdministrateurLocal {
     List<Interlocuteur> rechercherInterlocuteur();
 
     List<Entreprise> rechercherEntreprisePagine(int page);
+
+    List afficherAgences();
     
 }
