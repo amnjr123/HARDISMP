@@ -104,8 +104,8 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     private AgenceFacadeLocal agenceFacade;
 
     @Override
-    public Agence creerAgence(String localisation) {
-        return agenceFacade.creerAgence(localisation);
+    public Agence creerAgence(String localisation, String adresse) {
+        return agenceFacade.creerAgence(localisation, adresse);
     }
 
     /*GESTION ENTREPRISE*/
@@ -119,7 +119,7 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         return entrepriseFacade.rechercheEntreprise();
     }
     
-    /*
+    
     public List paginer(int page,int nbreItems, List liste){
         int nblignes=liste.size();
         int nbPages=0;
@@ -142,8 +142,8 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
             }
         }
         return lr;
-    }*/
-    
+    }
+   
     @Override
     public Entreprise entrepriseExistante(String siret){
         return entrepriseFacade.rechercheEntrepriseSiret(siret);

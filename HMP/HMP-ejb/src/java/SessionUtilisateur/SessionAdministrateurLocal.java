@@ -28,8 +28,6 @@ import javax.ejb.Local;
 @Local
 public interface SessionAdministrateurLocal {
 
-    Agence creerAgence(String localisation);
-
     Interlocuteur creerInterlocuteur(String nom, String prenom, String telephone, String fonction, long idEntreprise);
 
     Entreprise creerEntreprise(String nom, String siret, String adresseFacturation, long idAgence);
@@ -105,4 +103,6 @@ public interface SessionAdministrateurLocal {
     //List paginer(int page, int nbreItems, List liste);
 
     List rechercheEntreprise();    
+
+    Agence creerAgence(String localisation, String adresse);
 }
