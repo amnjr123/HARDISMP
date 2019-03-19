@@ -16,10 +16,9 @@
         <%--href="${pageContext.request.contextPath}/home.jsp"--%>
         <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap bg-faded static-top">
             <button class="btn navbar-toggler navbar-toggler-right" style="background-color:transparent"  id="menu-toggle"><span style="width:32px;height: 32px;color : white;" data-feather="menu" ></span></button>
-            <a class="navbar-brand px-5 mx-auto " href="${pageContext.request.contextPath}/home.jsp">Hardis Work Place</a>
             <ul class="navbar-nav   ml-auto">
                 <li class="nav-item ">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/Servlet?action=logout">Se déconnecter&nbsp;<span data-feather="log-out"></span> </a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/Servlet?action=logout" style="" >Se déconnecter&nbsp;<span data-feather="log-out"></span> </a>
                 </li>
             </ul>
         </nav>

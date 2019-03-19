@@ -88,8 +88,6 @@ public interface SessionAdministrateurLocal {
 
     //List<Entreprise> rechercherEntreprisePagine(int page);
 
-    List afficherAgences();
-
     List<CV> afficherCVUtilisateur(Long idUtilisateurHardis);
 
     CV creerCV(String chemin, Long idUtilisateur, Long idOffre);
@@ -126,5 +124,7 @@ public interface SessionAdministrateurLocal {
 
     Livrable modifierLivrable(Long idLivrable, String libelle);
 
+    List<Agence> afficherAgences();
+    
     List<Devis> rechercherDevis(Long idUtilisateurHardis, Long idClient, String statutDevis);
 }
