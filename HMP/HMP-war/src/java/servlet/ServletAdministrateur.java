@@ -19,30 +19,36 @@ public class ServletAdministrateur extends HttpServlet {
 
     @EJB
     private SessionAdministrateurLocal sessionAdministrateur;
-    
-    
-    
-     private final String ATT_SESSION_ADMINISTRATEUR = "sessionAdministrateur";
-    
+
+    private final String ATT_SESSION_ADMINISTRATEUR = "sessionAdministrateur";
+
     private String jspClient = "/admin/indexAdmin.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         HttpSession sessionHttp = request.getSession();
-        
+
         if (sessionHttp.getAttribute(ATT_SESSION_ADMINISTRATEUR) != null) {
-            
+
             if (request.getParameter("action") != null) {
-                
+
                 String act = request.getParameter("action");
-                
-                
-                
-                if(act.equals("agences")){
+
+                if (act.equals("creerAgence")) {
+                    String localisation = ((String) request.getParameter("localisation")).trim().toUpperCase();
+                    String adresse = ((String) request.getParameter("adresse")).trim();
+                    if (localisation != null && adresse != null && !localisation.isEmpty() && !adresse.isEmpty()) {
+                        System.out.println("HEEEEEEELP !!!!");
+                        sessionAdministrateur.creerAgence(localisation, adresse);
+                        System.out.println("DONT HELP !!!!");
+
+                    } else {
+                        request.setAttribute("MsgError", "Une erreur s'est produite");
+                    }
                     request.setAttribute("listAgences", sessionAdministrateur.afficherAgences());
-                    jspClient="/admin/agences.jsp";
+                    jspClient = "/admin/agences.jsp";
                 }
                 
                 if(act.equals("entreprises")){
@@ -76,7 +82,7 @@ public class ServletAdministrateur extends HttpServlet {
                 
             }
         }
-        
+
         RequestDispatcher rd = getServletContext().getRequestDispatcher(jspClient);
         rd.forward(request, response);
 

@@ -5,8 +5,11 @@
  */
 package SessionUtilisateur;
 
+import GestionCatalogue.Livrable;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
+import GestionDevis.Devis;
+import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.Client;
@@ -58,4 +61,12 @@ public interface SessionClientLocal {
     Client rechercheClient(long id);
 
     List<Service> rechercherServices(Offre o);
+
+    List<Livrable> afficherLivrables(Long idService);
+
+    List<Offre> rechercherOffres();
+
+    DevisNonStandard creerDevisNonStandard(String commentaireClient, Long idServiceNonStandard, Long idClient);
+
+    List<Devis> rechercherDevis(Long idClient, String statutDevis);
 }

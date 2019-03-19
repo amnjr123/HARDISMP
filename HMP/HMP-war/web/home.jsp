@@ -111,7 +111,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     </div>
                     <div class="modal-body">
-                        <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" id="formLogin" novalidate="" method="POST" action="${pageContext.request.contextPath}/Servlet">
+                        <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" id="formLogin" method="POST" action="${pageContext.request.contextPath}/Servlet">
                             <div class="form-group">
                                 <a href="${pageContext.request.contextPath}/signup.jsp" class="float-right"  data-toggle="modal" data-target="#signUpModal">Nouveau client ?</a>
                                 <label for="email">Email</label>

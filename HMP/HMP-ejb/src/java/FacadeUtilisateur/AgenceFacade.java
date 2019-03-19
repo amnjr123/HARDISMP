@@ -41,8 +41,9 @@ public class AgenceFacade extends AbstractFacade<Agence> implements AgenceFacade
     }
     
     @Override
-    public Agence modifierAgence(Agence a, String localisation){
+    public Agence modifierAgence(Agence a, String localisation, String adresse){
         a.setLocalisation(localisation);
+        a.setAdresse(adresse);
         edit(a);
         return a;
     }

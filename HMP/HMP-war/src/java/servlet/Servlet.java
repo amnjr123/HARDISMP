@@ -29,7 +29,15 @@ public class Servlet extends HttpServlet {
 
     private String jspClient = "/home.jsp";
 
+    private void logout(HttpServletRequest request, HttpServletResponse response) {
+        request.getSession().setAttribute(ATT_SESSION_CLIENT, null); //Enlever le Token
+        request.getSession().setAttribute(ATT_SESSION_HARDIS, null); //Enlever le Token
+        request.getSession().setAttribute(ATT_SESSION_ADMINISTRATEUR, null); //Enlever le Token        
+    }
+
     private void login(String login, String mdp, HttpServletRequest request, HttpServletResponse response) {
+        logout(request, response);
+        
         Utilisateur utilisateur = sessionMain.authentification(login, mdp);
 
         if (utilisateur != null) {
@@ -57,7 +65,6 @@ public class Servlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         //sessionMain.test();
-        
         HttpSession sessionHttp = request.getSession();
         if (request.getParameter("action") != null) {
             String act = request.getParameter("action");
@@ -80,8 +87,8 @@ public class Servlet extends HttpServlet {
                                 jspClient = "/home.jsp";
                                 request.setAttribute("MsgError", "Cette adresse mail est déjà utilisée");
                                 request.setAttribute("ErrorAdds", true);
-                            }    
-                        }else{
+                            }
+                        } else {
                             jspClient = "/home.jsp";
                             request.setAttribute("MsgError", "Les deux mot de passes ne sont pas identiques");
                         }
@@ -104,9 +111,7 @@ public class Servlet extends HttpServlet {
             /*FIN AUTHENTIFICATION*/
  /*Control Deconnexion*/
             if (act.equals("logout")) {
-                sessionHttp.setAttribute(ATT_SESSION_CLIENT, null); //Enlever le Token
-                sessionHttp.setAttribute(ATT_SESSION_HARDIS, null); //Enlever le Token
-                sessionHttp.setAttribute(ATT_SESSION_ADMINISTRATEUR, null); //Enlever le Token
+                logout(request, response);
                 jspClient = "/home.jsp";
             }
             /*Fin Deconnexion*/

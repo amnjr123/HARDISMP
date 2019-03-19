@@ -6,18 +6,27 @@
 package SessionUtilisateur;
 
 import Enum.Helpers;
+import Enum.StatutDevis;
+import FacadeCatalogue.LivrableFacadeLocal;
 import FacadeCatalogue.OffreFacadeLocal;
 import FacadeCatalogue.ServiceFacadeLocal;
+import FacadeDevis.DevisFacadeLocal;
+import FacadeDevis.DevisNonStandardFacadeLocal;
+import FacadeDevis.DevisStandardFacadeLocal;
 import FacadeUtilisateur.AgenceFacadeLocal;
 import FacadeUtilisateur.CVFacadeLocal;
+import FacadeUtilisateur.ClientFacadeLocal;
 import FacadeUtilisateur.ConsultantFacadeLocal;
 import FacadeUtilisateur.PorteurOffreFacadeLocal;
 import FacadeUtilisateur.ReferentLocalFacadeLocal;
 import FacadeUtilisateur.UtilisateurFacadeLocal;
 import FacadeUtilisateur.UtilisateurHardisFacadeLocal;
+import GestionCatalogue.Livrable;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
+import GestionDevis.Devis;
 import GestionUtilisateur.CV;
+import GestionUtilisateur.Client;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import java.io.UnsupportedEncodingException;
@@ -33,6 +42,21 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class SessionHardis implements SessionHardisLocal {
+
+    @EJB
+    private ClientFacadeLocal clientFacade;
+
+    @EJB
+    private DevisFacadeLocal devisFacade;
+
+    @EJB
+    private DevisStandardFacadeLocal devisStandardFacade;
+
+    @EJB
+    private DevisNonStandardFacadeLocal devisNonStandardFacade;
+
+    @EJB
+    private LivrableFacadeLocal livrableFacade;
 
     @EJB
     private CVFacadeLocal cVFacade;
@@ -66,7 +90,8 @@ public class SessionHardis implements SessionHardisLocal {
         return utilisateurFacade.getDType(utilisateur);
     }
     
-    /*GESTION DU COMPTE*/
+/*GESTION DU COMPTE*/
+    
     @Override
     public UtilisateurHardis modifierCompte(Long id, String mail, String tel, boolean actifInactif){
         UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(id);
@@ -102,7 +127,8 @@ public class SessionHardis implements SessionHardisLocal {
         return retour;
     }
     
-    /*GESTION DU CATALOGUE*/
+/*GESTION DU CATALOGUE*/
+    
     @Override
     public List<Offre> rechercherOffres(){
         return offreFacade.rechercheOffresActuelles();
@@ -113,7 +139,13 @@ public class SessionHardis implements SessionHardisLocal {
         return serviceFacade.rechercherService(o);
     }
     
-    /*GESTION DES CV*/
+    @Override
+    public List<Livrable> afficherLivrables(Long idService){
+        Service service = serviceFacade.rechercherService(idService);
+        return livrableFacade.rechercheLivrable(service);
+    }
+    
+/*GESTION DES CV*/
     
     @Override
     public CV creerCV(String chemin, Long idUtilisateur, Long idOffre){
@@ -162,5 +194,58 @@ public class SessionHardis implements SessionHardisLocal {
         UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
         Offre o = offreFacade.rechercheOffre(idOffre);
         return cVFacade.rechercherCV(o, uh);
+    }
+    
+/*GESTION DES DEVIS*/
+    
+    @Override
+    public List<Devis> rechercherDevis(Long idUtilisateurHardis, Long idClient, String statutDevis){
+        //A TESTER
+        //Une seule méthode de recherche
+        //Envoyer null pour les paramètres non utilisés pour votre recherche
+        if(idUtilisateurHardis==null && idClient==null && statutDevis==null){
+            //Afficher tous les devis
+            return devisFacade.rechercherDevis();
+        }
+        else if(idUtilisateurHardis!=null && idClient==null && statutDevis==null){
+            //Afficher tous les devis d'un utilisateur
+            UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
+            return devisFacade.rechercherDevis(uh);
+        }
+        else if(idUtilisateurHardis==null && idClient!=null && statutDevis==null){
+            //Afficher tous les devis d'un client
+            Client c = clientFacade.rechercheClient(idClient);
+            return devisFacade.rechercherDevis(c);
+        }
+        else if(idUtilisateurHardis==null && idClient==null && statutDevis!=null){
+            //Afficher tous les devis qui ont un statut
+            StatutDevis statut = StatutDevis.valueOf(statutDevis);
+            return devisFacade.rechercherDevis(statut);
+        }
+        else if(idUtilisateurHardis!=null && idClient!=null && statutDevis==null){
+            //Afficher tous les devis d'un utilisateur et un client
+            UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
+            Client c = clientFacade.rechercheClient(idClient);
+            return devisFacade.rechercherDevis(uh,c);
+        }
+        else if(idUtilisateurHardis!=null && idClient==null && statutDevis!=null){
+            //Afficher tous les devis d'un utilisateur et un statut
+            UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
+            StatutDevis statut = StatutDevis.valueOf(statutDevis);
+            return devisFacade.rechercherDevis(uh,statut);
+        }
+        else if(idUtilisateurHardis==null && idClient!=null && statutDevis!=null){
+            //Afficher tous les devis d'un client et un statut
+            Client c = clientFacade.rechercheClient(idClient);
+            StatutDevis statut = StatutDevis.valueOf(statutDevis);
+            return devisFacade.rechercherDevis(c,statut);
+        }
+        else {
+            //Afficher tous les devis d'un utilisateur pour un client avec un statut
+            UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
+            Client c = clientFacade.rechercheClient(idClient);
+            StatutDevis statut = StatutDevis.valueOf(statutDevis);
+            return devisFacade.rechercherDevis(uh,c,statut);
+        }
     }
 }
