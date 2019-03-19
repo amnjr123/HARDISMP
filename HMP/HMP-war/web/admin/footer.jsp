@@ -1,5 +1,8 @@
-      </div>
-    </div> 
+</div>
+</div> 
+</div>
+</div>
+
 
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
@@ -27,6 +30,12 @@
                     });
                 }, false);
             })();
+            
+            //SIDEBAR
+                $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
         </script>    
     <script>
       feather.replace()
