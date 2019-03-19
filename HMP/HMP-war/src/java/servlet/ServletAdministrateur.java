@@ -18,12 +18,16 @@ import javax.servlet.http.HttpSession;
 public class ServletAdministrateur extends HttpServlet {
 
     @EJB
+    private SessionClientLocal sessionClient;
+
+    @EJB
     private SessionAdministrateurLocal sessionAdministrateur;
+    
+    
 
     private final String ATT_SESSION_ADMINISTRATEUR = "sessionAdministrateur";
 
     private String jspClient = "/admin/indexAdmin.jsp";
-
 
     protected void menuCatalogue(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("listOffres", sessionAdministrateur.afficherOffres());
@@ -48,9 +52,25 @@ public class ServletAdministrateur extends HttpServlet {
 
                 String act = request.getParameter("action");
 
+                if (act.equals("creerUtilisateurHardis")) {
+                    String prenom = request.getParameter("prenom").trim();
+                    String nom = request.getParameter("nom").trim();
+                    String mail = request.getParameter("email").trim().toLowerCase();
+                    String tel = request.getParameter("tel").trim();
+                    String mdp = request.getParameter("pw");
+                    String mdpV = request.getParameter("pwV");
+                    String plafond = request.getParameter("plafond").trim();
+                    String profilTechnique = request.getParameter("profilTechnique").trim();
+                    String profilMetier = request.getParameter("profilMetier").trim();
+                    //String agence =
+                   // String offre = re
+                   // if (prenom!=null && nom!=null && mail!=null && tel!=null && mdp!=null && mdpV!=null && plafond!=null && profilTechnique!=null && profilMetier!=null && !nom.isEmpty() && !mail.isEmpty() && !tel.isEmpty() && !mdp.isEmpty() && !mdpV.isEmpty()) {
+                      //  if(sessionAdministrateur.creer)
+                    //}
+                }
                 if (act.equals("creerAgence")) {
-                    String localisation = ((String) request.getParameter("localisation")).trim().toUpperCase();
-                    String adresse = ((String) request.getParameter("adresse")).trim();
+                    String localisation = request.getParameter("localisation").trim().toUpperCase();
+                    String adresse =  request.getParameter("adresse").trim();
                     if (localisation != null && adresse != null && !localisation.isEmpty() && !adresse.isEmpty()) {
                         sessionAdministrateur.creerAgence(localisation, adresse);
 
@@ -74,6 +94,25 @@ public class ServletAdministrateur extends HttpServlet {
                         menuEntreprise(request, response);
                     }
                 }
+
+                
+                if (act.equals("modifierDonneesClient")){
+                    String id = ((String) request.getParameter("id")).trim();
+                    String nom = ((String) request.getParameter("nom")).trim();
+                    String prenom = ((String) request.getParameter("prenom")).trim();
+                    String telephone = ((String) request.getParameter("tel")).trim();
+                    String email = ((String) request.getParameter("email")).trim();
+                    if(sessionClient.modifierClient(Long.parseLong(id), nom, prenom, email, telephone)!=null){
+                        request.setAttribute("listeClients", sessionAdministrateur.listeClients());
+                        request.setAttribute("msgSuccess", "Les données du client n° "+id+" ont bien été modifiées");
+                        jspClient = "/admin/clients.jsp";
+                    } else {
+                        request.setAttribute("listeClients", sessionAdministrateur.listeClients());
+                        request.setAttribute("msgError", "Erreur lors de la modification des données du client n° "+id);
+                        jspClient = "/admin/clients.jsp";
+                    }
+                    
+                    }
                 if (act.equals("creerOffre")) {
                     String libelle = ((String) request.getParameter("libelle")).trim().toUpperCase();
                     if (libelle != null && !libelle.isEmpty()) {
@@ -106,6 +145,7 @@ public class ServletAdministrateur extends HttpServlet {
                     }
                 }
                 if (act.equals("clients")) {
+                    
                     if (request.getParameter("recherche") != null) {
                         //Recherche
                     } else {
