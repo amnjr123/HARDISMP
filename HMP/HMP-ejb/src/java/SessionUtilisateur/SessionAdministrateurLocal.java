@@ -17,6 +17,7 @@ import GestionUtilisateur.Interlocuteur;
 import GestionUtilisateur.PorteurOffre;
 import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.Utilisateur;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -81,7 +82,7 @@ public interface SessionAdministrateurLocal {
 
     List<Interlocuteur> rechercherInterlocuteur();
 
-    List paginer(int page, int nbreItems, List liste);
+    ArrayList paginer(int page, int nbreItems, List liste);
 
     List rechercheEntreprise();
     

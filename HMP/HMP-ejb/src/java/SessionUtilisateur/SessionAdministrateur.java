@@ -38,6 +38,7 @@ import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.Utilisateur;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -112,25 +113,27 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         return entrepriseFacade.rechercheEntreprise();
     }
     
-    public List paginer(int page,int nbreItems, List liste){
+    @Override
+    public ArrayList paginer(int page,int nbreItems, List liste){
         int nblignes=liste.size();
-        int nbPages=0;
+        int nbPages=1;
         int modulo = nblignes%nbreItems;
         if (modulo!=0){
             nbPages = ((nblignes-modulo)/nbreItems)+1;
         } else {
             nbPages = nblignes/nbreItems;
         }
-        if (page>nbPages || page<0){
-            page = 1;
+        if (page>nbPages-1 || page<0){
+            page = 0;
         }
         
-        List lr = new ArrayList();
+        ArrayList lr = new ArrayList();
         for(int i=page*nbreItems; i<=(page*nbreItems+nbreItems); i++){
             try{
               lr.add(liste.get(i));
+              System.out.print(i);
             } catch (Exception e) {
-              System.out.print("out of bounds");
+              System.out.print(i+" out of bounds");
             }
         }
         return lr;
