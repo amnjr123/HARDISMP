@@ -1,5 +1,6 @@
 package servlet;
 
+import GestionCatalogue.Offre;
 import SessionUtilisateur.SessionAdministrateurLocal;
 import SessionUtilisateur.SessionClientLocal;
 import SessionUtilisateur.SessionHardisLocal;
@@ -86,6 +87,14 @@ public class ServletAdministrateur extends HttpServlet {
                 }
                 if (act.equals("offres")) {
                     menuCatalogue(request, response);
+                }
+                if (act.equals("services")){
+                    Long id = Long.parseLong(request.getParameter("id").trim());
+                    Offre offre = sessionAdministrateur.afficheOffre(id);
+                    request.setAttribute("offre", offre);
+                    request.setAttribute("listeServicesStandards", sessionAdministrateur.afficherServicesStandards(id));
+                    request.setAttribute("listeServicesNonStandards", sessionAdministrateur.afficherServicesNonStandards(id));
+                    jspClient = "/admin/services.jsp";
                 }
 
                 if (act.equals("utilisateursHardis")) {

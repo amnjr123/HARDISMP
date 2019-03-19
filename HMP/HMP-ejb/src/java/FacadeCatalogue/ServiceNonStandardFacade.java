@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -94,5 +95,12 @@ public class ServiceNonStandardFacade extends AbstractFacade<ServiceNonStandard>
     @Override
     public List<ServiceNonStandard> rechercheServiceNonStandard(){
         return findAll();
+    }
+    
+    @Override
+    public List<ServiceNonStandard> rechercherServiceNonStandard(Offre o){
+        Query requete = em.createQuery("select s from ServiceNonStandard as s where s.offre=:o ");
+        requete.setParameter("o", o);
+        return requete.getResultList();
     }
 }

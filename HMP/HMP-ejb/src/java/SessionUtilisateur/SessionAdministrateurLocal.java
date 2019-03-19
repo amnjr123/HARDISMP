@@ -130,4 +130,10 @@ public interface SessionAdministrateurLocal {
     List<Agence> afficherAgences();
     
     List<Devis> rechercherDevis(Long idUtilisateurHardis, Long idClient, String statutDevis);
+
+    List<ServiceNonStandard> afficherServicesNonStandards(Long idOffre);
+
+    List<ServiceStandard> afficherServicesStandards(Long idOffre);
+
+    Offre afficheOffre(Long id);
 }

@@ -24,11 +24,11 @@
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table">
-                    <caption>Liste des Offres</caption>
                     <thead>
                         <tr>
                             <th scope="col">id</th>
                             <th scope="col">Libellé</th>
+                            <th scope="col">Services</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -38,14 +38,12 @@
                         <tr>
                             <td><%=o.getId()%></td>
                             <td><%=o.getLibelle()%></td>
+                            <td><a href="${pageContext.request.contextPath}/ServletAdministrateur?action=services&id=<%=o.getId()%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="list"></i></a></td>
+                            
                             <td><div class="dropdown">
-                                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Action
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="modal"><i data-feather="edit-2"></i> Modifier</a>
-                                        <a class="dropdown-item" href="#"><i data-feather="trash-2"></i> Supprimmer</a>
-                                    </div>
+                            <td><a href="#" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="phone"></i></a>
+                                <a href="#" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
+                                <a href="#" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a></td>
                                 </div></td>
 
                         </tr>

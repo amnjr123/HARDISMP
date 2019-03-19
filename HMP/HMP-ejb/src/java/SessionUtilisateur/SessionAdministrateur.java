@@ -268,6 +268,8 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     
 /*GESTION DES COMPTES UTILISATEUR HARDIS*/
     
+    
+    
     @Override
     public List listeClients() {
         return clientFacade.findAll();
@@ -506,6 +508,11 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     }
     
     @Override
+    public Offre afficheOffre(Long id){
+        return offreFacade.rechercheOffre(id);
+    }
+    
+    @Override
     public ServiceStandard creerServiceStandard(String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre,  int nbJoursConsultantSenior, int nbJoursConsultantConfirme, int nbJoursConsultantJunior, int nbHeuresAtelierEntretien, int nbHeuresSupportTel, String descriptionPrestation){
         LieuIntervention lieu = LieuIntervention.valueOf(lieuString);
         Offre offre = offreFacade.rechercheOffre(idOffre);
@@ -523,6 +530,18 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     @Override
     public List<Service> afficherServices(){
         return serviceFacade.rechercherService();
+    } 
+    
+    @Override
+    public List<ServiceStandard> afficherServicesStandards(Long idOffre){
+        Offre o = offreFacade.rechercheOffre(idOffre);
+        return serviceStandardFacade.rechercherServiceStandard(o);
+    } 
+    
+    @Override
+    public List<ServiceNonStandard> afficherServicesNonStandards(Long idOffre){
+        Offre o = offreFacade.rechercheOffre(idOffre);
+        return serviceNonStandardFacade.rechercherServiceNonStandard(o);
     } 
     
  

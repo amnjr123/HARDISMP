@@ -107,5 +107,12 @@ public class ServiceStandardFacade extends AbstractFacade<ServiceStandard> imple
     public List<ServiceStandard> rechercheServiceStandard(){
         return findAll();
     }
+    
+    @Override
+    public List<ServiceStandard> rechercherServiceStandard(Offre o){
+        Query requete = em.createQuery("select s from ServiceStandard as s where s.offre=:o ");
+        requete.setParameter("o", o);
+        return requete.getResultList();
+    }
 
 }

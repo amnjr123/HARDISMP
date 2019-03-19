@@ -39,5 +39,7 @@ public interface ServiceStandardFacadeLocal {
     ServiceStandard rechercheServiceStandard(long id);
 
     List<ServiceStandard> rechercheServiceStandard();
+
+    List<ServiceStandard> rechercherServiceStandard(Offre o);
     
 }

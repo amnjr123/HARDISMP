@@ -39,5 +39,7 @@ public interface ServiceNonStandardFacadeLocal {
     ServiceNonStandard rechercheServiceNonStandard(long id);
 
     List<ServiceNonStandard> rechercheServiceNonStandard();
+
+    List<ServiceNonStandard> rechercherServiceNonStandard(Offre o);
     
 }
