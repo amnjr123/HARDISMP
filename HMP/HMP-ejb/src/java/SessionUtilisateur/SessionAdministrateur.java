@@ -515,6 +515,7 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         return serviceFacade.rechercherService();
     } 
     
+    @Override
     public ServiceNonStandard creerServiceNonStandard(String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre){
         LieuIntervention lieu = LieuIntervention.valueOf(lieuString);
         Offre offre = offreFacade.rechercheOffre(idOffre);
