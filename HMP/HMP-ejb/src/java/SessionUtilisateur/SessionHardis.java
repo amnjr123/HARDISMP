@@ -262,17 +262,20 @@ public class SessionHardis implements SessionHardisLocal {
         }
     }
     
+    @Override
     public DevisStandard envoyerDevisStandard(Long idDevisStandard){
             DevisStandard d = devisStandardFacade.rechercheDevisStandard(idDevisStandard);
             return devisStandardFacade.envoyerDevisStandard(d);
     }
     
+    @Override
     public Proposition creerProposition(Date dateDebutValidite, Date dateFinValidite, String cheminDocument, Long idUtilisateurHardis, Long idDevisNonStandard ){
         UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
         DevisNonStandard dns = devisNonStandardFacade.rechercheDevisNonStandard(idDevisNonStandard);
         return propositionFacade.creerProposition(dateDebutValidite, dateFinValidite, cheminDocument, uh, dns);
     }
     
+    @Override
     public void transfererDevisNonStandard(Long idDevisNonStandard, Long idUtilisateurHardis){
         UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
         DevisNonStandard dns = devisNonStandardFacade.rechercheDevisNonStandard(idDevisNonStandard);
