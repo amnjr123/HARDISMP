@@ -114,6 +114,12 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     public List<Agence> afficherAgences(){
         return agenceFacade.rechercheAgences();
     }
+    
+    @Override
+    public Agence modifierAgence(Long idAgence, String localisation, String adresse){
+        Agence a = agenceFacade.rechercheAgence(idAgence);
+        return agenceFacade.modifierAgence(a, localisation, adresse);
+    }
 
     /*GESTION ENTREPRISE*/
     @Override
