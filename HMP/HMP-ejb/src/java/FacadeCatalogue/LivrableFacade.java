@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -65,4 +66,10 @@ public class LivrableFacade extends AbstractFacade<Livrable> implements Livrable
         return findAll();
     }
     
+    @Override
+    public List<Livrable> rechercheLivrable(Service service){
+        Query requete = getEntityManager().createQuery("select l from Livrable as l where l.service=:service");
+        requete.setParameter("service", service);
+        return requete.getResultList();
+    }
 }

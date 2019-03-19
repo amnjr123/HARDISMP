@@ -8,8 +8,10 @@ package SessionUtilisateur;
 import Enum.Helpers;
 import Enum.LieuIntervention;
 import Enum.ProfilTechnique;
+import FacadeCatalogue.LivrableFacadeLocal;
 import FacadeCatalogue.OffreFacadeLocal;
 import FacadeCatalogue.ServiceFacadeLocal;
+import FacadeCatalogue.ServiceNonStandardFacadeLocal;
 import FacadeCatalogue.ServiceStandardFacadeLocal;
 import FacadeUtilisateur.AgenceFacadeLocal;
 import FacadeUtilisateur.CVFacadeLocal;
@@ -24,8 +26,10 @@ import FacadeUtilisateur.PorteurOffreFacadeLocal;
 import FacadeUtilisateur.ReferentLocalFacadeLocal;
 import FacadeUtilisateur.UtilisateurFacadeLocal;
 import FacadeUtilisateur.UtilisateurHardisFacadeLocal;
+import GestionCatalogue.Livrable;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
+import GestionCatalogue.ServiceNonStandard;
 import GestionCatalogue.ServiceStandard;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.CV;
@@ -55,6 +59,12 @@ import org.apache.jasper.tagplugins.jstl.ForEach;
  */
 @Stateless
 public class SessionAdministrateur implements SessionAdministrateurLocal {
+
+    @EJB
+    private LivrableFacadeLocal livrableFacade;
+
+    @EJB
+    private ServiceNonStandardFacadeLocal serviceNonStandardFacade;
 
     @EJB
     private UtilisateurHardisFacadeLocal utilisateurHardisFacade;
@@ -495,5 +505,48 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     public List<Service> afficherServices(){
         return serviceFacade.rechercherService();
     }
+    
+    @Override
+    public ServiceNonStandard creerServiceNonStandard(String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre){
+        LieuIntervention lieu = LieuIntervention.valueOf(lieuString);
+        Offre offre = offreFacade.rechercheOffre(idOffre);
+        return serviceNonStandardFacade.creerServiceNonStandard(nom, descriptionService, lieu, cout, fraisInclus, conditions, delaiRelance, offre);
+    }
+    
+    @Override
+    public ServiceNonStandard modifierServiceNonStandard(Long idServiceNonStandard, String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre){
+        LieuIntervention lieu = LieuIntervention.valueOf(lieuString);
+        Offre offre = offreFacade.rechercheOffre(idOffre);
+        ServiceNonStandard ancienService = serviceNonStandardFacade.rechercheServiceNonStandard(idServiceNonStandard);
+        return serviceNonStandardFacade.modifierServiceNonStandard(ancienService,nom, descriptionService, lieu, cout, fraisInclus, conditions, delaiRelance, offre);
+    }
+    
+    @Override
+    public Livrable creerLivrable(String libelle, Long idService){
+        Service service = serviceFacade.rechercherService(idService);
+        return livrableFacade.creerLivrable(libelle, service);
+    }
+    
+    @Override
+    public Livrable modifierLivrable(Long idLivrable, String libelle){
+        Livrable livrable = livrableFacade.rechercheLivrable(idLivrable);
+        return livrableFacade.modifierLivrable(livrable, libelle);
+    }
+    
+    @Override
+    public Livrable supprimerLivrable(Long idLivrable){
+        Livrable livrable = livrableFacade.rechercheLivrable(idLivrable);
+        return livrableFacade.supprimerLivrable(livrable);
+    }
+    
+    @Override
+    public List<Livrable> afficherLivrables(Long idService){
+        Service service = serviceFacade.rechercherService(idService);
+        return livrableFacade.rechercheLivrable(service);
+    }
+    
+    
+    
+    
     
 }

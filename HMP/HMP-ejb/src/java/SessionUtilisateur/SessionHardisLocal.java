@@ -5,6 +5,7 @@
  */
 package SessionUtilisateur;
 
+import GestionCatalogue.Livrable;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
 import GestionUtilisateur.CV;
@@ -45,5 +46,7 @@ public interface SessionHardisLocal {
     CV creerCV(String chemin, Long idUtilisateurHardis);
 
     CV creerCV(String chemin, Long idUtilisateur, Long idOffre);
+
+    List<Livrable> afficherLivrables(Long idService);
    
 }

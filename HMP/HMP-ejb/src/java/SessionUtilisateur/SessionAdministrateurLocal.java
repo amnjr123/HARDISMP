@@ -5,8 +5,10 @@
  */
 package SessionUtilisateur;
 
+import GestionCatalogue.Livrable;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
+import GestionCatalogue.ServiceNonStandard;
 import GestionCatalogue.ServiceStandard;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.CV;
@@ -111,4 +113,16 @@ public interface SessionAdministrateurLocal {
     Agence creerAgence(String localisation, String adresse);
 
     Agence modifierAgence(Long idAgence, String localisation, String adresse);
+
+    ServiceNonStandard creerServiceNonStandard(String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre);
+
+    ServiceNonStandard modifierServiceNonStandard(Long idServiceNonStandard, String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre);
+
+    Livrable creerLivrable(String libelle, Long idService);
+
+    List<Livrable> afficherLivrables(Long idService);
+
+    Livrable supprimerLivrable(Long idLivrable);
+
+    Livrable modifierLivrable(Long idLivrable, String libelle);
 }

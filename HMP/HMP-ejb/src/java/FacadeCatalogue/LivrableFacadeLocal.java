@@ -40,5 +40,7 @@ public interface LivrableFacadeLocal {
     Livrable rechercheLivrable(long id);
 
     List<Livrable> rechercheLivrable();
+
+    List<Livrable> rechercheLivrable(Service service);
     
 }
