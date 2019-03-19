@@ -103,9 +103,15 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     @EJB
     private AgenceFacadeLocal agenceFacade;
 
+    /*GESTION DES AGENCES*/
     @Override
     public Agence creerAgence(String localisation, String adresse) {
         return agenceFacade.creerAgence(localisation, adresse);
+    }
+    
+    @Override
+    public List<Agence> afficherAgences(){
+        return agenceFacade.rechercheAgences();
     }
 
     /*GESTION ENTREPRISE*/
@@ -481,13 +487,5 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     public List<Service> afficherServices(){
         return serviceFacade.rechercherService();
     }
-
-    @Override
-    public List<Agence> afficherAgences() {
-        return agenceFacade.rechercheAgences();
-    }
-  
-    
-    
     
 }
