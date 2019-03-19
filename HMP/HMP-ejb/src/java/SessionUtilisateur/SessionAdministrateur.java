@@ -513,12 +513,8 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     @Override
     public List<Service> afficherServices(){
         return serviceFacade.rechercherService();
-    }
+    } 
     
-    @Override
-    public List<Agence> afficherAgences() {
-        return agenceFacade.rechercheAgences();
-    }   
     public ServiceNonStandard creerServiceNonStandard(String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre){
         LieuIntervention lieu = LieuIntervention.valueOf(lieuString);
         Offre offre = offreFacade.rechercheOffre(idOffre);
