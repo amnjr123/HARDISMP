@@ -6,6 +6,7 @@
 package SessionUtilisateur;
 
 import Enum.Helpers;
+import Enum.StatutDevis;
 import FacadeCatalogue.LivrableFacadeLocal;
 import FacadeCatalogue.OffreFacadeLocal;
 import FacadeCatalogue.ServiceFacadeLocal;
@@ -33,6 +34,7 @@ import FacadeUtilisateur.DemandeRattachementFacadeLocal;
 import FacadeUtilisateur.InterlocuteurFacadeLocal;
 import GestionCatalogue.Livrable;
 import GestionCatalogue.ServiceNonStandard;
+import GestionDevis.Devis;
 import GestionDevis.DevisNonStandard;
 import GestionUtilisateur.Entreprise;
 import GestionUtilisateur.Interlocuteur;
@@ -99,7 +101,8 @@ public class SessionClient implements SessionClientLocal {
     @EJB
     private ClientFacadeLocal clientFacade;
 
-    /*GESTION ENTREPRISE*/
+/*GESTION ENTREPRISE*/
+    
     @Override
     public List<Agence> rechercherAgence() {
         return agenceFacade.rechercheAgences();
@@ -180,7 +183,8 @@ public class SessionClient implements SessionClientLocal {
     }
     
     
-    /*GESTION DES DEVIS*/
+/*GESTION DES DEVIS*/
+    
     @Override
     public List<Offre> rechercherOffres(){
         return offreFacade.rechercheOffresActuelles();
@@ -213,8 +217,36 @@ public class SessionClient implements SessionClientLocal {
         return devisNonStandardFacade.creerDevisNonStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence(),c);
     }
     
+    @Override
+    public List<Devis> rechercherDevis(Long idClient, String statutDevis){
+        //A TESTER
+        //Une seule méthode de recherche
+        //Envoyer null pour les paramètres non utilisés pour votre recherche
+        if(idClient==null && statutDevis==null){
+            //Afficher tous les devis
+            return devisFacade.rechercherDevis();
+        }
+        else if(idClient!=null && statutDevis==null){
+            //Afficher tous les devis d'un client
+            Client c = clientFacade.rechercheClient(idClient);
+            return devisFacade.rechercherDevis(c);
+        }
+        else if(idClient==null && statutDevis!=null){
+            //Afficher tous les devis qui ont un statut
+            StatutDevis statut = StatutDevis.valueOf(statutDevis);
+            return devisFacade.rechercherDevis(statut);
+        }
+        else {
+            //Afficher tous les devis d'un client et un statut
+            Client c = clientFacade.rechercheClient(idClient);
+            StatutDevis statut = StatutDevis.valueOf(statutDevis);
+            return devisFacade.rechercherDevis(c,statut);
+        }
+    }
+    
 
-    /*GESTION DU COMPTE*/
+/*GESTION DU COMPTE*/
+    
     @Override
     public Client modifierClient(Long id, String nom, String prenom, String mail, String tel) {
         Client c = clientFacade.rechercheClient(id);
