@@ -100,6 +100,12 @@ public class PorteurOffreFacade extends AbstractFacade<PorteurOffre> implements 
     public List<PorteurOffre> recherchePorteurOffre(){
         return findAll();
     }
+
+    @Override
+    public PorteurOffre creerPO(PorteurOffre po) {
+         em.persist(po);
+         return po;
+    }
     
     
 }

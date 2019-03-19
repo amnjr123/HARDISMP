@@ -41,7 +41,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/admin/users.jsp">
+                <a class="nav-link" href="${pageContext.request.contextPath}/ServletAdministrateur?action=utilisateurs">
                   <span data-feather="user"></span>
                   Utilisateurs
                 </a>

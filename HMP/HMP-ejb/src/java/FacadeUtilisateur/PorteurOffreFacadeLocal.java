@@ -44,5 +44,7 @@ public interface PorteurOffreFacadeLocal {
     PorteurOffre modifierPorteurOffre(PorteurOffre po, String nom, String prenom, String mail, String tel, ProfilTechnique profil, boolean actifInactif, Offre offre, Agence agence);
 
     PorteurOffre modifierPorteurOffre(PorteurOffre po, String mail, String tel, boolean actifInactif);
+
+    PorteurOffre creerPO(PorteurOffre po);
     
 }

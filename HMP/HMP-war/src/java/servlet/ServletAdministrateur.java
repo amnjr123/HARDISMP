@@ -1,6 +1,8 @@
 package servlet;
 
 import SessionUtilisateur.SessionAdministrateurLocal;
+import SessionUtilisateur.SessionClientLocal;
+import SessionUtilisateur.SessionHardisLocal;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "ServletAdministrateur", urlPatterns = {"/ServletAdministrateur"})
 public class ServletAdministrateur extends HttpServlet {
+
 
     @EJB
     private SessionAdministrateurLocal sessionAdministrateur;
@@ -47,22 +50,36 @@ public class ServletAdministrateur extends HttpServlet {
                     request.setAttribute("listAgences", sessionAdministrateur.afficherAgences());
                     jspClient = "/admin/agences.jsp";
                 }
-
-                if (act.equals("agences")) {
-                    request.setAttribute("listAgences", sessionAdministrateur.afficherAgences());
-                    jspClient = "/admin/agences.jsp";
-                }
-
-                /* if(act.equals("entreprises")){
+                
+                if(act.equals("entreprises")){
                     int p;
                     try{
                        p = Integer.parseInt(request.getParameter("p")); 
                     } catch (Exception e) {
                        p=0;
                     }
-                    request.setAttribute("listeEntreprises",sessionAdministrateur.paginer(p, 10, sessionAdministrateur.rechercheEntreprise()));
-                    jspClient="/admin/entreprises.jsp?p="+p;
-                }*/
+                    
+                    if(request.getParameter("recherche") != null){
+                        //Recherche
+                    } else {
+                        request.setAttribute("listeEntreprises",sessionAdministrateur.paginer(p, 10, sessionAdministrateur.rechercheEntreprise()));
+                        jspClient="/admin/entreprises.jsp?action=entreprises&p="+p;
+                    }
+                    
+                    
+                }
+                
+                if(act.equals("utilisateurs")){
+                    if(request.getParameter("recherche") != null){
+                        //Recherche
+                    } else {
+                        request.setAttribute("listeUtilisateursHardis",sessionAdministrateur.rechercheUtilisateursHardis());
+                        request.setAttribute("listeClients",sessionAdministrateur.listeClients());
+                        jspClient="/admin/users.jsp";
+                    }
+                    
+                }
+                
             }
         }
 

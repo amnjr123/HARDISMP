@@ -125,6 +125,15 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         return agenceFacade.creerAgence(localisation, adresse);
     }
     
+    /*GESTION UTILISATEURS*/
+
+    @Override
+    public List listeClients() {
+        return clientFacade.findAll();
+    }
+    
+    /*GESTION ENTREPRISE*/
+
    @Override
     public List<Agence> afficherAgences() {
         return agenceFacade.rechercheAgences();
@@ -148,6 +157,8 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     public List rechercheEntreprise(){
         return entrepriseFacade.rechercheEntreprise();
     }
+    
+    
     
     @Override
     public ArrayList paginer(int page,int nbreItems, List liste){
@@ -266,6 +277,12 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     }
     
 /*GESTION DES COMPTES UTILISATEUR HARDIS*/
+    
+    
+    @Override
+    public List rechercheUtilisateursHardis() {
+        return utilisateurHardisFacade.findAll();
+    }
     
     @Override
     public PorteurOffre creerPO(String nom, String prenom, String mail, String tel, String mdp, String profilTechnique, Long idOffre, Long idAgence){
@@ -529,6 +546,7 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         ServiceNonStandard ancienService = serviceNonStandardFacade.rechercheServiceNonStandard(idServiceNonStandard);
         return serviceNonStandardFacade.modifierServiceNonStandard(ancienService,nom, descriptionService, lieu, cout, fraisInclus, conditions, delaiRelance, offre);
     }
+
     
     @Override
     public Livrable creerLivrable(String libelle, Long idService){
