@@ -23,8 +23,7 @@ public class ServletAdministrateur extends HttpServlet {
 
     private String jspClient = "/admin/indexAdmin.jsp";
 
-    protected void menuEntreprise(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void menuEntreprise(HttpServletRequest request, HttpServletResponse response){
         request.setAttribute("listeEntreprises", sessionAdministrateur.rechercheEntreprises());
         request.setAttribute("listeAgences", sessionAdministrateur.afficherAgences());
         jspClient = "/admin/entreprises.jsp";

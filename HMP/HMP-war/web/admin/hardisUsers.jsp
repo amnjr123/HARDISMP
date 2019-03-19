@@ -99,7 +99,13 @@
                                     <a class="dropdown-item" href="#"><i data-feather="edit-2"></i> Modifier</a>
                                     <a class="dropdown-item" href="#"><i data-feather="trash-2"></i> Supprimmer</a>
                                 </div>
-                            </div></td>
+                            </div>
+                        </td>
+                    </tr>
+                    <%
+                            }
+                        %>
+                        
 
 
                     </tbody>
