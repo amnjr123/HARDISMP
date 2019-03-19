@@ -35,7 +35,7 @@ public interface EntrepriseFacadeLocal {
 
     Entreprise rechercheEntreprise(long id);
 
-    List<Entreprise> rechercheEntreprise();
+    List<Entreprise> rechercheEntreprises();
 
     Entreprise rechercheEntrepriseSiret(String siret);
 
