@@ -104,6 +104,14 @@ public class Devis implements Serializable {
 //Attributs
     @Column(insertable = false, updatable = false) 
     private String dtype;
+
+    public String getDtype() {
+        return dtype;
+    }
+
+    public void setDtype(String dtype) {
+        this.dtype = dtype;
+    }
     
     private static final long serialVersionUID = 1L;
     @Id

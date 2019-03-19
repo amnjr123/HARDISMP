@@ -15,6 +15,7 @@ import FacadeCatalogue.ServiceStandardFacadeLocal;
 import FacadeDevis.DevisFacadeLocal;
 import FacadeDevis.DevisNonStandardFacadeLocal;
 import FacadeDevis.DevisStandardFacadeLocal;
+import FacadeDevis.HistoriqueUtilisateurDevisFacadeLocal;
 import FacadeUtilisateur.AgenceFacadeLocal;
 import FacadeUtilisateur.ClientFacadeLocal;
 import FacadeUtilisateur.DemandeCreationEntrepriseFacadeLocal;
@@ -49,6 +50,9 @@ import javax.ejb.Stateless;
 
 @Stateless
 public class SessionClient implements SessionClientLocal {
+
+    @EJB
+    private HistoriqueUtilisateurDevisFacadeLocal historiqueUtilisateurDevisFacade;
 
     @EJB
     private ServiceNonStandardFacadeLocal serviceNonStandardFacade;
@@ -203,18 +207,43 @@ public class SessionClient implements SessionClientLocal {
 
     @Override
     public DevisStandard creerDevisStandard(String commentaireClient, Long idServiceStandard, Long idClient) {
+        //ATTENTION DANS LES SERVLETS : LE COMMENTAIRE CLIENT PEUT ETRE NUL
         Client c = clientFacade.rechercheClient(idClient);
         ServiceStandard s = serviceStandardFacade.rechercheServiceStandard(idServiceStandard);
         ReferentLocal referentLocal = referentLocalFacade.rechercheReferentLocal(c.getEntreprise().getAgence(), s.getOffre());
-        return devisStandardFacade.creerDevisStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence(),c);
+        DevisStandard d = devisStandardFacade.creerDevisStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence(),c);
+        historiqueUtilisateurDevisFacade.creerPremierHistoriqueUtilisateurDevis(d, referentLocal);
+        return d;
     }
     
     @Override
     public DevisNonStandard creerDevisNonStandard(String commentaireClient, Long idServiceNonStandard, Long idClient) {
+        //ATTENTION DANS LES SERVLETS : LE COMMENTAIRE CLIENT PEUT ETRE NUL
         Client c = clientFacade.rechercheClient(idClient);
         ServiceNonStandard s = serviceNonStandardFacade.rechercheServiceNonStandard(idServiceNonStandard);
         ReferentLocal referentLocal = referentLocalFacade.rechercheReferentLocal(c.getEntreprise().getAgence(), s.getOffre());
-        return devisNonStandardFacade.creerDevisNonStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence(),c);
+        DevisNonStandard dns = devisNonStandardFacade.creerDevisNonStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence(),c);
+        historiqueUtilisateurDevisFacade.creerPremierHistoriqueUtilisateurDevis(dns, referentLocal);
+        return dns;
+    }
+    
+    @Override
+    public Devis modifierDevisIncomplet(Long idDevis, String commentaireClient) {
+        //ATTENTION DANS LES SERVLETS : LE COMMENTAIRE CLIENT PEUT ETRE NUL
+        Devis d = devisFacade.rechercherDevis(idDevis);
+        if(d.getStatut()==StatutDevis.Incomplet){
+            if(d.getDtype().equalsIgnoreCase("devisstandard")){
+                DevisStandard ds = devisStandardFacade.rechercheDevisStandard(idDevis);
+                return devisStandardFacade.modifierDevisStandard(ds, commentaireClient);
+            }
+            else{
+                DevisNonStandard dns = devisNonStandardFacade.rechercheDevisNonStandard(idDevis);
+                return devisNonStandardFacade.modifierDevisNonStandard(dns, commentaireClient);
+            }
+        }
+        else{
+            return null;
+        }
     }
     
     @Override
