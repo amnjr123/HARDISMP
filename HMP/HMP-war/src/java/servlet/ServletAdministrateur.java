@@ -23,7 +23,7 @@ public class ServletAdministrateur extends HttpServlet {
 
     private String jspClient = "/admin/indexAdmin.jsp";
 
-    protected void menuEntreprise(HttpServletRequest request, HttpServletResponse response){
+    protected void menuEntreprise(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("listeEntreprises", sessionAdministrateur.rechercheEntreprises());
         request.setAttribute("listeAgences", sessionAdministrateur.afficherAgences());
         jspClient = "/admin/entreprises.jsp";
@@ -41,9 +41,25 @@ public class ServletAdministrateur extends HttpServlet {
 
                 String act = request.getParameter("action");
 
+                if (act.equals("creerUtilisateurHardis")) {
+                    String prenom = request.getParameter("prenom").trim();
+                    String nom = request.getParameter("nom").trim();
+                    String mail = request.getParameter("email").trim().toLowerCase();
+                    String tel = request.getParameter("tel").trim();
+                    String mdp = request.getParameter("pw");
+                    String mdpV = request.getParameter("pwV");
+                    String plafond = request.getParameter("plafond").trim();
+                    String profilTechnique = request.getParameter("profilTechnique").trim();
+                    String profilMetier = request.getParameter("profilMetier").trim();
+                    //String agence =
+                   // String offre = re
+                   // if (prenom!=null && nom!=null && mail!=null && tel!=null && mdp!=null && mdpV!=null && plafond!=null && profilTechnique!=null && profilMetier!=null && !nom.isEmpty() && !mail.isEmpty() && !tel.isEmpty() && !mdp.isEmpty() && !mdpV.isEmpty()) {
+                      //  if(sessionAdministrateur.creer)
+                    //}
+                }
                 if (act.equals("creerAgence")) {
-                    String localisation = ((String) request.getParameter("localisation")).trim().toUpperCase();
-                    String adresse = ((String) request.getParameter("adresse")).trim();
+                    String localisation = request.getParameter("localisation").trim().toUpperCase();
+                    String adresse =  request.getParameter("adresse").trim();
                     if (localisation != null && adresse != null && !localisation.isEmpty() && !adresse.isEmpty()) {
                         sessionAdministrateur.creerAgence(localisation, adresse);
 
