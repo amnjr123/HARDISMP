@@ -9,8 +9,10 @@ import Enum.Helpers;
 import FacadeCatalogue.LivrableFacadeLocal;
 import FacadeCatalogue.OffreFacadeLocal;
 import FacadeCatalogue.ServiceFacadeLocal;
+import FacadeCatalogue.ServiceNonStandardFacadeLocal;
 import FacadeCatalogue.ServiceStandardFacadeLocal;
 import FacadeDevis.DevisFacadeLocal;
+import FacadeDevis.DevisNonStandardFacadeLocal;
 import FacadeDevis.DevisStandardFacadeLocal;
 import FacadeUtilisateur.AgenceFacadeLocal;
 import FacadeUtilisateur.ClientFacadeLocal;
@@ -30,6 +32,8 @@ import GestionUtilisateur.DemandeRattachement;
 import FacadeUtilisateur.DemandeRattachementFacadeLocal;
 import FacadeUtilisateur.InterlocuteurFacadeLocal;
 import GestionCatalogue.Livrable;
+import GestionCatalogue.ServiceNonStandard;
+import GestionDevis.DevisNonStandard;
 import GestionUtilisateur.Entreprise;
 import GestionUtilisateur.Interlocuteur;
 import GestionUtilisateur.ReferentLocal;
@@ -43,6 +47,12 @@ import javax.ejb.Stateless;
 
 @Stateless
 public class SessionClient implements SessionClientLocal {
+
+    @EJB
+    private ServiceNonStandardFacadeLocal serviceNonStandardFacade;
+
+    @EJB
+    private DevisNonStandardFacadeLocal devisNonStandardFacade;
 
     @EJB
     private LivrableFacadeLocal livrableFacade;
@@ -171,6 +181,7 @@ public class SessionClient implements SessionClientLocal {
     
     
     /*GESTION DES DEVIS*/
+    @Override
     public List<Offre> rechercherOffres(){
         return offreFacade.rechercheOffresActuelles();
     }
@@ -192,6 +203,14 @@ public class SessionClient implements SessionClientLocal {
         ServiceStandard s = serviceStandardFacade.rechercheServiceStandard(idServiceStandard);
         ReferentLocal referentLocal = referentLocalFacade.rechercheReferentLocal(c.getEntreprise().getAgence(), s.getOffre());
         return devisStandardFacade.creerDevisStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence(),c);
+    }
+    
+    @Override
+    public DevisNonStandard creerDevisNonStandard(String commentaireClient, Long idServiceNonStandard, Long idClient) {
+        Client c = clientFacade.rechercheClient(idClient);
+        ServiceNonStandard s = serviceNonStandardFacade.rechercheServiceNonStandard(idServiceNonStandard);
+        ReferentLocal referentLocal = referentLocalFacade.rechercheReferentLocal(c.getEntreprise().getAgence(), s.getOffre());
+        return devisNonStandardFacade.creerDevisNonStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence(),c);
     }
     
 

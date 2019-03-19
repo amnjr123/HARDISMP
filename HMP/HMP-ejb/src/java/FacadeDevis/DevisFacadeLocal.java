@@ -5,7 +5,10 @@
  */
 package FacadeDevis;
 
+import Enum.StatutDevis;
 import GestionDevis.Devis;
+import GestionUtilisateur.Client;
+import GestionUtilisateur.UtilisateurHardis;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +32,21 @@ public interface DevisFacadeLocal {
     List<Devis> findRange(int[] range);
 
     int count();
+
+    List<Devis> rechercherDevis(UtilisateurHardis uh);
+
+    List<Devis> rechercherDevis();
+
+    List<Devis> rechercherDevis(StatutDevis statutDevis);
+
+    List<Devis> rechercherDevis(UtilisateurHardis uh, StatutDevis statutDevis);
+
+    List<Devis> rechercherDevis(Client c);
+
+    List<Devis> rechercherDevis(Client c, StatutDevis statutDevis);
+
+    List<Devis> rechercherDevis(UtilisateurHardis uh, Client c);
+
+    List<Devis> rechercherDevis(UtilisateurHardis uh, Client c, StatutDevis statutDevis);
     
 }

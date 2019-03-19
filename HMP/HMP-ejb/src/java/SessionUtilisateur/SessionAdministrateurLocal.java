@@ -10,6 +10,7 @@ import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
 import GestionCatalogue.ServiceNonStandard;
 import GestionCatalogue.ServiceStandard;
+import GestionDevis.Devis;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.CV;
 import GestionUtilisateur.Client;
@@ -125,4 +126,6 @@ public interface SessionAdministrateurLocal {
     Livrable supprimerLivrable(Long idLivrable);
 
     Livrable modifierLivrable(Long idLivrable, String libelle);
+
+    List<Devis> rechercherDevis(Long idUtilisateurHardis, Long idClient, String statutDevis);
 }
