@@ -23,6 +23,7 @@ public class ServletAdministrateur extends HttpServlet {
 
     private String jspClient = "/admin/indexAdmin.jsp";
 
+
     protected void menuCatalogue(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("listOffres", sessionAdministrateur.afficherOffres());
         jspClient = "/admin/offres.jsp";
@@ -85,6 +86,23 @@ public class ServletAdministrateur extends HttpServlet {
                 }
                 if (act.equals("offres")) {
                     menuCatalogue(request, response);
+                }
+
+                if (act.equals("utilisateursHardis")) {
+                    if (request.getParameter("recherche") != null) {
+                        //Recherche
+                    } else {
+                        request.setAttribute("listeUtilisateursHardis", sessionAdministrateur.rechercheUtilisateursHardis());
+                        jspClient = "/admin/hardisUsers.jsp";
+                    }
+                }
+                if (act.equals("clients")) {
+                    if (request.getParameter("recherche") != null) {
+                        //Recherche
+                    } else {
+                        request.setAttribute("listeClients", sessionAdministrateur.listeClients());
+                        jspClient = "/admin/clients.jsp";
+                    }
                 }
 
                 if (act.equals("agences")) {

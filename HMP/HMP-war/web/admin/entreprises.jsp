@@ -1,6 +1,5 @@
 <%@page import="GestionUtilisateur.Agence"%>
 <%@page import="GestionUtilisateur.Entreprise"%>
-
 <%@page import="java.util.Collection"%>
 <jsp:include page="header.jsp"/>
 <jsp:useBean id="listeEntreprises" scope="request" class="java.util.Collection"></jsp:useBean>
