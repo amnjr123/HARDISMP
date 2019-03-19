@@ -23,10 +23,12 @@ import FacadeUtilisateur.InterlocuteurFacadeLocal;
 import FacadeUtilisateur.PorteurOffreFacadeLocal;
 import FacadeUtilisateur.ReferentLocalFacadeLocal;
 import FacadeUtilisateur.UtilisateurFacadeLocal;
+import FacadeUtilisateur.UtilisateurHardisFacadeLocal;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
 import GestionCatalogue.ServiceStandard;
 import GestionUtilisateur.Agence;
+import GestionUtilisateur.CV;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Consultant;
 import GestionUtilisateur.DemandeCreationEntreprise;
@@ -36,6 +38,7 @@ import GestionUtilisateur.Interlocuteur;
 import GestionUtilisateur.PorteurOffre;
 import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.Utilisateur;
+import GestionUtilisateur.UtilisateurHardis;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +54,9 @@ import org.apache.jasper.tagplugins.jstl.ForEach;
  */
 @Stateless
 public class SessionAdministrateur implements SessionAdministrateurLocal {
+
+    @EJB
+    private UtilisateurHardisFacadeLocal utilisateurHardisFacade;
 
     @EJB
     private ServiceFacadeLocal serviceFacade;
@@ -125,7 +131,7 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         return entrepriseFacade.rechercheEntrepriseSiret(siret);
     }
     
-    public List<DemandeRattachement> afficherDemandesRattachement;
+    /*public List<DemandeRattachement> afficherDemandesRattachement;*/
     
     @Override
     public Entreprise validerDemandeCreationEntreprise(Long idDemande) {
@@ -364,6 +370,57 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
             Logger.getLogger(SessionClient.class.getName()).log(Level.SEVERE, null, ex);
         }
         return retour;
+    }
+    
+    /*GESTION DES CV*/
+    
+    @Override
+    public CV creerCV(String chemin, Long idUtilisateur, Long idOffre){
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateur);
+        Offre o = offreFacade.rechercheOffre(idOffre);
+        return cVFacade.creerCV(chemin, uh, o);
+    }
+    
+    @Override
+    public CV creerCV(String chemin, Long idUtilisateurHardis){
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
+        return cVFacade.creerCV(chemin, uh);
+    }
+    
+    @Override
+    public CV modifierCV(Long idCV, String chemin){
+        CV cv = cVFacade.rechercheCV(idCV);
+        return cVFacade.modifierCV(cv, chemin);
+    }
+    
+    @Override
+    public CV supprimerCV(Long idCV){
+        CV cv = cVFacade.rechercheCV(idCV);
+        return cVFacade.supprimerCV(cv);
+    }
+    
+    @Override
+    public List<CV> afficherCV(){
+        return cVFacade.rechercheCV();
+    }
+    
+    @Override
+    public List<CV> afficherCVOffre(Long idOffre){
+        Offre o = offreFacade.rechercheOffre(idOffre);
+        return cVFacade.rechercherCV(o);
+    }
+    
+    @Override
+    public List<CV> afficherCVUtilisateur(Long idUtilisateurHardis){
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
+        return cVFacade.rechercherCV(uh);
+    }
+    
+    @Override
+    public CV afficherCVOffreUtilisateur(Long idUtilisateurHardis, Long idOffre){
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
+        Offre o = offreFacade.rechercheOffre(idOffre);
+        return cVFacade.rechercherCV(o, uh);
     }
     
     /*GESTION DU CATALOGUE*/

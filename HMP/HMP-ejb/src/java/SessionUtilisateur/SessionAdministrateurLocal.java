@@ -9,6 +9,7 @@ import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
 import GestionCatalogue.ServiceStandard;
 import GestionUtilisateur.Agence;
+import GestionUtilisateur.CV;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Consultant;
 import GestionUtilisateur.DemandeCreationEntreprise;
@@ -82,5 +83,21 @@ public interface SessionAdministrateurLocal {
     List<Interlocuteur> rechercherInterlocuteur();
 
     List<Entreprise> rechercherEntreprisePagine(int page);
+
+    List<CV> afficherCVUtilisateur(Long idUtilisateurHardis);
+
+    CV creerCV(String chemin, Long idUtilisateur, Long idOffre);
+
+    CV creerCV(String chemin, Long idUtilisateurHardis);
+
+    CV modifierCV(Long idCV, String chemin);
+
+    CV supprimerCV(Long idCV);
+
+    List<CV> afficherCV();
+
+    List<CV> afficherCVOffre(Long idOffre);
+
+    CV afficherCVOffreUtilisateur(Long idUtilisateurHardis, Long idOffre);
     
 }
