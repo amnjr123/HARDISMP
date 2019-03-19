@@ -114,12 +114,27 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         return demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise();
     }
     
-    public List<Entreprise> rechercherEntreprisePagine(int page){
-        int lastPage=entrepriseFacade.rechercheEntreprise().size();
-        List<Entreprise> lr = new ArrayList<Entreprise>();
-        for(int i=page*10; i<(page*10+9); i++){
+    public List rechercheEntreprise(){
+        return entrepriseFacade.rechercheEntreprise();
+    }
+    
+    public List paginer(int page,int nbreItems, List liste){
+        int nblignes=liste.size();
+        int nbPages=0;
+        int modulo = nblignes%nbreItems;
+        if (modulo!=0){
+            nbPages = ((nblignes-modulo)/nbreItems)+1;
+        } else {
+            nbPages = nblignes/nbreItems;
+        }
+        if (page>nbPages || page<0){
+            page = 1;
+        }
+        
+        List lr = new ArrayList();
+        for(int i=page*nbreItems; i<=(page*nbreItems+nbreItems); i++){
             try{
-              lr.add(entrepriseFacade.rechercheEntreprise().get(i));
+              lr.add(liste.get(i));
             } catch (Exception e) {
               System.out.print("out of bounds");
             }

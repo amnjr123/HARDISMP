@@ -99,5 +99,9 @@ public interface SessionAdministrateurLocal {
     List<CV> afficherCVOffre(Long idOffre);
 
     CV afficherCVOffreUtilisateur(Long idUtilisateurHardis, Long idOffre);
+
+    List paginer(int page, int nbreItems, List liste);
+
+    List rechercheEntreprise();
     
 }
