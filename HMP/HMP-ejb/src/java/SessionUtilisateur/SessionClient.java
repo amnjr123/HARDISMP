@@ -87,7 +87,7 @@ public class SessionClient implements SessionClientLocal {
     /*GESTION ENTREPRISE*/
     @Override
     public List<Agence> rechercherAgence() {
-        return agenceFacade.rechercheAgence();
+        return agenceFacade.rechercheAgences();
     }
     
     @Override

@@ -58,7 +58,7 @@ public class AgenceFacade extends AbstractFacade<Agence> implements AgenceFacade
     }
     
     @Override
-    public List<Agence> rechercheAgence(){
+    public List<Agence> rechercheAgences(){
         return findAll();
     }
     

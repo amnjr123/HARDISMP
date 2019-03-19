@@ -84,6 +84,8 @@ public interface SessionAdministrateurLocal {
 
     //List<Entreprise> rechercherEntreprisePagine(int page);
 
+    List afficherAgences();
+
     List<CV> afficherCVUtilisateur(Long idUtilisateurHardis);
 
     CV creerCV(String chemin, Long idUtilisateur, Long idOffre);
@@ -102,6 +104,5 @@ public interface SessionAdministrateurLocal {
 
     //List paginer(int page, int nbreItems, List liste);
 
-    List rechercheEntreprise();
-    
+    List rechercheEntreprise();    
 }
