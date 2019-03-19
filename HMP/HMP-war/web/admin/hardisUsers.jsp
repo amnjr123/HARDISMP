@@ -27,10 +27,8 @@
                         <div class="input-group-prepend">
                             <a href="#" type="button" class="btn btn-primary"><i data-feather="search"></i></a>
                         </div>
-
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -132,84 +130,89 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                  
-                    
-                          <div class="form-group">
-                                <label for="firstName">Prénom *</label>
-                                <input name="prenom" type="text" class="form-control" id="firstName" placeholder="Votre prénom" value="" required>
-                                <div class="invalid-feedback">
-                                    Le prénom est obligatoire.
-                                </div>
+                    <div class="form-group">
+                        <label for="firstName">Prénom *</label>
+                        <input name="prenom" type="text" class="form-control" id="firstName" placeholder="Votre prénom" value="" required>
+                        <div class="invalid-feedback">
+                            Le prénom est obligatoire.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Nom *</label>
+                        <input name="nom" type="text" class="form-control" id="lastName" placeholder="Votre nom" value="" required>
+                        <div class="invalid-feedback">
+                            Le nom est obligatoire.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <div class="input-group">
+                            <input name="email" type="email" class="form-control" id="email" placeholder="vous@votreentreprise.com" required>
+                            <div class="invalid-feedback" style="width: 100%;">
+                                Veuillez entrer une adresse mail valide.
                             </div>
-                            <div class="form-group">
-                                <label for="lastName">Nom *</label>
-                                <input name="nom" type="text" class="form-control" id="lastName" placeholder="Votre nom" value="" required>
-                                <div class="invalid-feedback">
-                                    Le nom est obligatoire.
-                                </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Mot de passe *</label>
+                        <div class="input-group">
+                            <input name="pw" type="password" id="inputPassword" class="form-control" onkeyup="verif(1)" placeholder="Mot de passe" required>
+                            <div class="invalid-feedback" style="width: 100%;">
+                                Veuillez entrer un mot de passe.
                             </div>
-                            <div class="form-group">
-                                <label for="email">Email *</label>
-                                <div class="input-group">
-                                    <input name="email" type="email" class="form-control" id="email" placeholder="vous@votreentreprise.com" required>
-                                    <div class="invalid-feedback" style="width: 100%;">
-                                        Veuillez entrer une adresse mail valide.
-                                    </div>
-                                </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Verification Mot de passe *</label>
+                        <div class="input-group">
+                            <input name="pwV" type="password" id="inputPasswordVerif" class="form-control" onkeyup="verif(2)" placeholder="Vérification Mot de passe" required>
+                            <div  class="invalid-feedback" style="width: 100%;">
+                                Veuillez Répéter le mot de passe.
                             </div>
-                            <div class="form-group">
-                                <label for="inputPassword">Mot de passe *</label>
-                                <div class="input-group">
-                                    <input name="pw" type="password" id="inputPassword" class="form-control" onkeyup="verif(1)" placeholder="Mot de passe" required>
-                                    <div class="invalid-feedback" style="width: 100%;">
-                                        Veuillez entrer un mot de passe.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputPassword">Verification Mot de passe *</label>
-                                <div class="input-group">
-                                    <input name="pwV" type="password" id="inputPasswordVerif" class="form-control" onkeyup="verif(2)" placeholder="Vérification Mot de passe" required>
-                                    <div  class="invalid-feedback" style="width: 100%;">
-                                        Veuillez Répéter le mot de passe.
-                                    </div>
-                                    <div id="result" style="width: 100%;">
+                            <div id="result" style="width: 100%;">
 
-                                    </div>
-                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="telephone">Téléphone *</label>
-                                <div class="input-group">
-                                    <input name="tel" type="tel" id="telephone" class="form-control" placeholder="(+33)6xxxxxxxxx ou 00336xxxxxxxxx ou 0xxxxxxxxx" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$" required>
-                                    <div class="invalid-feedback" style="width: 100%;">
-                                        Le numéro de téléphone est obligatoire et doit être conforme
-                                    </div>
-                                </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="telephone">Téléphone *</label>
+                        <div class="input-group">
+                            <input name="tel" type="tel" id="telephone" class="form-control" placeholder="(+33)6xxxxxxxxx ou 00336xxxxxxxxx ou 0xxxxxxxxx" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$" required>
+                            <div class="invalid-feedback" style="width: 100%;">
+                                Le numéro de téléphone est obligatoire et doit être conforme
                             </div>
-                    
-                    <div class="input-group mb-3">
-                        <select class="custom-select">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <select name="profilTechnique" class="custom-select">
                             <option disabled selected>Profil Technique</option>
                             <option value="1">Administrateur</option>
                             <option value="2">Gestionnaire</option>
                             <option value="3">Visualisation</option>
                         </select>
+                        <div class="invalid-feedback">
+                            Le Profil Technique est obligatoire.
+                        </div>
                     </div>
+                    <div class="form-group">
 
-
-                    <p>
                         <label for='siret' class='sr-only'>Plafond de déléguation</label>
                         <input name="plafond" type='text' id='Plafond de déléguation' class='form-control' placeholder='Plafond de déléguation' required autofocus>
-                    </p>
-
+                        <div class="invalid-feedback">
+                            Le Profil métier est obligatoire.
+                        </div>
+                    </div>
                     <div class="input-group mb-3">
-                        <select name="" class="custom-select">
+                        <select name="profilMetier" class="custom-select">
                             <option disabled selected>Profil métier</option>
                             <option value="1">Référant local</option>
                             <option value="2">Porteur d'offre</option>
                             <option value="3">Consultant</option>
                         </select>
+                        <div class="invalid-feedback">
+                            Le Profil métier est obligatoire.
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -220,5 +223,4 @@
             </form>
         </div>
     </div>
-
 </div>
