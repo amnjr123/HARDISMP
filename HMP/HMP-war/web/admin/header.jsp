@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Interface d'administration HARDIS Work Place</title>
-
-    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
-
-    <link href="${pageContext.request.contextPath}/css/custom/dashboard.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
+    
+        <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/css/custom/dashboard.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/css/custom/simple-sidebar.css" rel="stylesheet"> 
+        
+ 
   </head>
 
   <body>
@@ -41,7 +41,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="users.jsp">
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/users.jsp">
                   <span data-feather="user"></span>
                   Utilisateurs
                 </a>

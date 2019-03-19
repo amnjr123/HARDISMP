@@ -36,7 +36,7 @@ public class ServletAdministrateur extends HttpServlet {
                     } catch (Exception e) {
                        p=0;
                     }
-                    request.setAttribute("entreprises", sessionAdministrateur.rechercherEntreprisePagine(p));
+                    request.setAttribute("entreprises",sessionAdministrateur.paginer(p, 10, sessionAdministrateur.rechercherEntreprise()));
                     jspClient="/admin/entreprises.jsp?p="+p;
                 }
                 

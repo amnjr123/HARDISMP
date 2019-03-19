@@ -81,6 +81,8 @@ public interface SessionAdministrateurLocal {
 
     List<Interlocuteur> rechercherInterlocuteur();
 
-    List<Entreprise> rechercherEntreprisePagine(int page);
+    List paginer(int page, int nbreItems, List liste);
+
+    List rechercheEntreprise();
     
 }

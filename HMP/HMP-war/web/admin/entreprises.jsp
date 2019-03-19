@@ -56,7 +56,6 @@
                             <th scope="col">Nom</th>
                             <th scope="col">Adresse</th>
                             <th scope="col">Agence</th>
-                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,16 +65,10 @@
                             <td>Orange</td>
                             <td>Lyon</td>
                             <td>Lyon</td>
-                            <td><div class="dropdown">
-                                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Action
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#"><i data-feather="edit-2"></i> Interlocuteurs</a>
-                                        <a class="dropdown-item" href="#"><i data-feather="edit-2"></i> Modifier</a>
-                                        <a class="dropdown-item" href="#"><i data-feather="trash-2"></i> Supprimmer</a>
-                                    </div>
-                                </div></td>
+                            <td><a href="#" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="phone"></i></a>
+                            <a href="#" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
+                            <a href="#" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a></td>
+
 
                         </tr>
 
@@ -115,22 +108,15 @@
                     </p>
                     <p>
                         <label for="nom" class="sr-only">Nom *</label>
-                        <input type="text" id="nom" class="form-control" placeholder="Nom" required autofocus>
+                        <input type="text" id="nom" class="form-control" placeholder="Nom" required>
                     </p>
                     <p>
                         <label for="adresse" class="sr-only">Adresse de facturation *</label>
-                        <input type="text" id="adresse" class="form-control" placeholder="Adresse" required autofocus>
+                        <input type="text" id="adresse" class="form-control" placeholder="Adresse" required>
                     </p>
                     <p>
-                    <div class="input-group mb-3">
-
-                        <label for="cle" class="sr-only">Clé de rattachement *</label>
-                        <input type="text" id="cle" class="form-control" placeholder="Clé de rattachement" disabled="true" required autofocus>
-                        <div class="input-group-prepend">
-                            <a href="#" type="button" class="btn btn-primary"><i data-feather="refresh-ccw"></i></a>
-                        </div>
-                    </div>
-
+                        <label for="cle" class="sr-only">Agence *</label>
+                        <input type="text" id="cle" class="form-control" placeholder="Agence" required>
                     </p>
 
                 </div>
