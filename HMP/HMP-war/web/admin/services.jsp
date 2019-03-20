@@ -17,7 +17,7 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
-                <h1 class="h2">Services associées</h1>
+                <h1 class="h2">Services associés</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <button  class="btn btn-sm btn-success" data-toggle="modal" data-target="#exampleModal">
                         <span data-feather="plus"></span>
@@ -174,12 +174,6 @@
                                 Le prix du service est obligatoire.
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="cout" class="sr-only">Coût</label>
-                            <input name="cout" type="text" id="cout" class="form-control" placeholder="Montant du service" required autofocus>
-                            <div class="invalid-feedback">
-                                Le prix du service est obligatoire.
-                            </div>
                         </div>
                         <!-- Default unchecked -->
                         <div class="form-group">
