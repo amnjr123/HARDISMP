@@ -11,6 +11,7 @@ import FacadeUtilisateur.AbstractFacade;
 import GestionCatalogue.Offre;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -52,11 +53,15 @@ public class ServiceNonStandardFacade extends AbstractFacade<ServiceNonStandard>
         s.setDelaiRelance(delaiRelance);
         s.setOffre(o);
         s.setDateDebutValidite(new Date());
-        try {
-            s.setDateFinValidite(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2999"));
-        } catch (ParseException ex) {
-            Logger.getLogger(ServiceNonStandardFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.MONTH, 0);
+        cal.set(Calendar.YEAR, 2100);
+        s.setDateFinValidite(cal.getTime());
         s.setAncienID(0);
         create(s);  
         return s;
@@ -74,11 +79,15 @@ public class ServiceNonStandardFacade extends AbstractFacade<ServiceNonStandard>
         nouveauService.setDelaiRelance(delaiRelance);
         nouveauService.setOffre(o);
         nouveauService.setDateDebutValidite(new Date());
-        try {
-            nouveauService.setDateFinValidite(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2999"));
-        } catch (ParseException ex) {
-            Logger.getLogger(ServiceNonStandardFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.MONTH, 0);
+        cal.set(Calendar.YEAR, 2100);
+        nouveauService.setDateFinValidite(cal.getTime());
         nouveauService.setAncienID(ancienService.getId());
         create(nouveauService);
         ancienService.setDateFinValidite(new Date());
@@ -86,6 +95,11 @@ public class ServiceNonStandardFacade extends AbstractFacade<ServiceNonStandard>
         return nouveauService;
     }
     
+    @Override
+    public ServiceNonStandard supprimerServiceNonStandard(ServiceNonStandard service){
+        service.setDateFinValidite(new Date());
+        return service;
+    }
     
     @Override
     public ServiceNonStandard rechercheServiceNonStandard(long id){
