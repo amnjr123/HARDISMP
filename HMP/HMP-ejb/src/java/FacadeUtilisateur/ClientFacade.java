@@ -6,10 +6,12 @@
 package FacadeUtilisateur;
 
 import Enum.Helpers;
+import Enum.SendMail;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.DemandeCreationEntreprise;
 import GestionUtilisateur.DemandeRattachement;
 import GestionUtilisateur.Entreprise;
+import GestionUtilisateur.Utilisateur;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
@@ -80,7 +82,6 @@ public class ClientFacade extends AbstractFacade<Client> implements ClientFacade
         edit(c);
         return c;
     }
-    
 
     @Override
     public Client supprimerClient(Client c) {

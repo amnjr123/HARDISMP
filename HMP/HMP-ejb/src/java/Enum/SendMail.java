@@ -5,6 +5,7 @@
  */
 package Enum;
 
+import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import java.util.*;
 import javax.mail.*;
@@ -69,6 +70,24 @@ public class SendMail {
         String generatedPw = buffer.toString()+complementPw;
         
         sendMail(uh.getMail(), "Création de votre compte sur Hardis Market Place", "Bonjour "+uh.getNom()+" "+uh.getPrenom()+",\nVotre compte Hardis Market Place en tant que "+typeUtilisateur+" a bien été crée.\nVotre mot de passe est : "+generatedPw+"\nÀ bientôt sur Hardis Market Place");
+        return generatedPw;
+    }
+    
+    public String sendMailMDPOublie(Utilisateur u){
+        /*Generation mdp*/
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 8;
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(targetStringLength);
+        for (int i = 0; i < targetStringLength; i++) {
+            int randomLimitedInt = leftLimit + (int) (random.nextFloat() * (rightLimit - leftLimit + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+        int complementPw = (int) (Math.random() * (99 - 10)+10);
+        String generatedPw = buffer.toString()+complementPw;
+        
+        sendMail(u.getMail(), "Mail de récupération du mot de passe", "Bonjour "+u.getNom()+" "+u.getPrenom()+",\nVotre nouveau mot de passe est : "+generatedPw+"\nNous vous invitons à le modifier dès votre prochaine connexion\n\nÀ bientôt sur Hardis Market Place");
         return generatedPw;
     }
 }

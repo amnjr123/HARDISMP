@@ -1,6 +1,8 @@
 package FacadeUtilisateur;
 
 import Enum.Helpers;
+import Enum.SendMail;
+import GestionUtilisateur.Client;
 import GestionUtilisateur.Utilisateur;
 import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
@@ -79,6 +81,20 @@ public class UtilisateurFacade extends AbstractFacade<Utilisateur> implements Ut
         /*Hashage password*/ 
         try {
             u.setMdp(Helpers.sha1(mdp));
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(ClientFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        /*End Hashage*/
+        edit(u);
+        return u;
+    }
+    
+        public Utilisateur motDePasseOublie(Utilisateur u) {
+        SendMail mdp = new SendMail();
+        String pw = mdp.sendMailMDPOublie(u);
+        /*Hashage password*/ 
+        try {
+            u.setMdp(Helpers.sha1(pw));
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(ClientFacade.class.getName()).log(Level.SEVERE, null, ex);
         }

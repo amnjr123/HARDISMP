@@ -112,7 +112,7 @@ public class ServletAdministrateur extends HttpServlet {
                         request.setAttribute("msgError", "Erreur lors de la modification des données du client n° " + id);
                         jspClient = "/admin/clients.jsp";
                     }
-                
+                }
                 if (act.equals("creerEntreprise")) {
                     String siret = request.getParameter("siret").trim().toUpperCase();
                     String nom = request.getParameter("nom").trim();
