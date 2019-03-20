@@ -118,6 +118,19 @@ public class SessionClient implements SessionClientLocal {
         return demandeCreationEntrepriseFacade.rechercheDemandeCreationEntrepriseClient(c);
     }
     
+    //Méthode lorsque qu'un utilisateur valide le formulaire d'entreprise
+    @Override
+    public void DemandeCreationOuRattachement(Long idClient, String nom, String siret, String adresse, Long idAgence){
+        Client c = clientFacade.rechercheClient(idClient);
+        Agence a = agenceFacade.rechercheAgence(idAgence);
+        Entreprise e = entrepriseFacade.rechercheEntrepriseSiret(siret);
+        if(e==null){
+            creerDemandeEntreprise(idClient, nom, siret, adresse, idAgence);
+        }
+        else{
+            creerDemandeRattachement(idClient, siret);
+        }
+    }
 
     @Override
     public DemandeCreationEntreprise creerDemandeEntreprise(Long idClient, String nom, String siret, String adresse, Long idAgence) {
@@ -125,6 +138,45 @@ public class SessionClient implements SessionClientLocal {
         Agence a = agenceFacade.rechercheAgence(idAgence);
         DemandeCreationEntreprise e = demandeCreationEntrepriseFacade.creerDemandeCreationEntreprise(nom, siret, adresse, a,c);
         return e;
+    }
+    
+    @Override
+    public DemandeRattachement creerDemandeRattachement(Long idClient, String siret){
+        Client c = clientFacade.rechercheClient(idClient);
+        Entreprise e = entrepriseFacade.rechercheEntrepriseSiret(siret);
+        DemandeRattachement d = demandeRattachementFacade.creerDemandeRattachement(c, e);
+        return d;
+    }
+    
+    //Méthode client admin
+    @Override
+    public List<DemandeRattachement> rechercherDemandeRattachementEntreprise(Long idEntreprise) {
+        Entreprise e = entrepriseFacade.rechercheEntreprise(idEntreprise);
+        return demandeRattachementFacade.rechercherDemandeRattachement(e);
+    }
+    
+    //Méthode client admin
+    @Override
+    public DemandeRattachement rechercherDemandeRattachementClient(Long idClient) {
+        Client c = clientFacade.rechercheClient(idClient);
+        return demandeRattachementFacade.rechercherDemandeRattachement(c);
+    }
+    
+    //Méthode client admin
+    @Override
+    public DemandeRattachement validerDemandeRattachement(Long idDemande) {
+        DemandeRattachement d = demandeRattachementFacade.rechercherDemandeRattachement(idDemande);
+        clientFacade.affecterEntreprise(d.getClient(), d.getEntreprise());
+        demandeRattachementFacade.supprimerDemandeRattachement(d);
+        return d;//A tester si on peut renvoyer une instance supprimée de la bdd sans provoquer de bug
+    }
+    
+    //Méthode client admin
+    @Override
+    public DemandeRattachement refuserDemandeRattachement(Long idDemande) {
+        DemandeRattachement d = demandeRattachementFacade.rechercherDemandeRattachement(idDemande);
+        demandeRattachementFacade.supprimerDemandeRattachement(d);
+        return d;//A tester si on peut renvoyer une instance supprimée de la bdd sans provoquer de bug
     }
     
     @Override
@@ -149,44 +201,6 @@ public class SessionClient implements SessionClientLocal {
         Interlocuteur i = interlocuteurFacade.rechercheInterlocuteur(idInterlocuteur);
         return interlocuteurFacade.supprimerInterlocuteur(i);
     }
-    
-
-    @Override
-    public List<DemandeRattachement> rechercherDemandeRattachementEntreprise(Long idEntreprise) {
-        Entreprise e = entrepriseFacade.rechercheEntreprise(idEntreprise);
-        return demandeRattachementFacade.rechercherDemandeRattachement(e);
-    }
-    
-    @Override
-    public DemandeRattachement rechercherDemandeRattachementClient(Long idClient) {
-        Client c = clientFacade.rechercheClient(idClient);
-        return demandeRattachementFacade.rechercherDemandeRattachement(c);
-    }
-    
-    @Override
-    public DemandeRattachement creerDemandeRattachement(Long idClient, String siret){
-        Client c = clientFacade.rechercheClient(idClient);
-        Entreprise e = entrepriseFacade.rechercheEntrepriseSiret(siret);
-        DemandeRattachement d = demandeRattachementFacade.creerDemandeRattachement(c, e);
-        return d;
-    }
-    
-    @Override
-    public DemandeRattachement validerDemandeRattachement(Long idDemande) {
-        DemandeRattachement d = demandeRattachementFacade.rechercherDemandeRattachement(idDemande);
-        clientFacade.affecterEntreprise(d.getClient(), d.getEntreprise());
-        demandeRattachementFacade.supprimerDemandeRattachement(d);
-        return d;//A tester si on peut renvoyer une instance supprimée de la bdd sans provoquer de bug
-    }
-    
-    @Override
-    public DemandeRattachement refuserDemandeRattachement(Long idDemande) {
-        DemandeRattachement d = demandeRattachementFacade.rechercherDemandeRattachement(idDemande);
-        demandeRattachementFacade.supprimerDemandeRattachement(d);
-        return d;//A tester si on peut renvoyer une instance supprimée de la bdd sans provoquer de bug
-    }
-    
-    
 /*GESTION DES DEVIS*/
     
     @Override
