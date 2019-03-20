@@ -31,9 +31,9 @@ public class Helpers {
         SendMail a = new SendMail();
         //a.sendMail("anas.boudyach@gmail.com", "test ftp mail", "you did it");
         ReferentLocal uh = new ReferentLocal();
-        uh.setNom("Louafdi");
-        uh.setPrenom("Mehdi");
-        uh.setMail("m.louafdi@gmail.com");
+        uh.setNom("Amine");
+        uh.setPrenom("njr");
+        uh.setMail("amnjr123@gmail.com");
         uh.setPlafondDelegation(Float.parseFloat("1000000"));
         uh.setProfilTechnique(ProfilTechnique.Gestionnaire);
         System.out.println(a.sendMailUtilisateurHardisMdp(uh,"Colonil Ondroskots 2.0"));

@@ -88,12 +88,12 @@
                     <div class="alert alert-danger alert-dismissible fade in show">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                         <strong>Attention !</strong>&nbsp;<%=error%>.
-                        <%if(request.getAttribute("ErrorAdds")!=null){%>
-                             <div class='text-center'>           
-                                <button type='button' class='btn btn-link' data-toggle='modal' data-target='#pwOublieModal'>
-                                    Mot de passe oublié ?
-                                </button>
-                            </div>
+                        <%if (request.getAttribute("ErrorAdds") != null) {%>
+                        <div class='text-center'>           
+                            <button type='button' class='btn btn-link' data-toggle='modal' data-target='#pwOublieModal'>
+                                Mot de passe oublié ?
+                            </button>
+                        </div>
                         <%}%>
                     </div>
                     <%}%>
@@ -227,19 +227,22 @@
         <div class="modal fade" id="pwOublieModal" tabindex="-1" role="dialog" aria-labelledby="pwOublieModal" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="pwOublieModal">Mot de passe oublié</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <label for="inputForgottenEmail" class="sr-only">Email</label>
-                        <input type="email" id="inputForgottenEmail" class="form-control" placeholder="Adresse mail" required autofocus>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                        <button type="button" class="btn btn-primary">Envoi d'un mail de récupération du mot de passe</button>
-                    </div>
+                    <form method="post" action="${pageContext.request.contextPath}/Servlet">
+                        <input type="hidden" name="action" value="motDePasseOublie">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="pwOublieModal">Mot de passe oublié</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="inputForgottenEmail" class="sr-only">Email</label>
+                            <input type="email" name="mail" id="inputForgottenEmail" class="form-control" placeholder="Adresse mail" required autofocus>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                            <button type="submit" class="btn btn-primary">Envoi d'un mail de récupération du mot de passe</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

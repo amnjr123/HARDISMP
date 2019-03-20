@@ -136,4 +136,8 @@ public interface SessionAdministrateurLocal {
     List<ServiceStandard> afficherServicesStandards(Long idOffre);
 
     Offre afficheOffre(Long id);
+
+    ServiceStandard supprimerServiceStandard(Long idServiceStandard);
+
+    ServiceNonStandard supprimerServiceNonStandard(Long idServiceNonStandard);
 }

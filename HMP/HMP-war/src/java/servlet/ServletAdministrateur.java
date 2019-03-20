@@ -1,6 +1,7 @@
 package servlet;
 
 import GestionCatalogue.Offre;
+import GestionCatalogue.ServiceNonStandard;
 import GestionCatalogue.ServiceStandard;
 import GestionUtilisateur.ReferentLocal;
 import SessionUtilisateur.SessionAdministrateurLocal;
@@ -208,6 +209,35 @@ public class ServletAdministrateur extends HttpServlet {
                     jspClient = "/admin/services.jsp";
                 }
 
+                
+                if (act.equals("creerServiceNonStandard")) {
+                    String nom = request.getParameter("nom").trim();
+                    String description = request.getParameter("description").trim();
+                    String lieu = request.getParameter("lieu").trim();
+                    String cout = request.getParameter("cout").trim();
+                    //String fraisInclus = request.getParameter("fraisInclus").trim();
+                    String conditions = request.getParameter("conditions").trim();
+                    String delai = request.getParameter("delai").trim();
+                    Long idOffre = Long.parseLong(request.getParameter("idOffre").trim());
+                    Offre offre = sessionAdministrateur.afficheOffre(idOffre);
+                    if(nom!=null && description!=null && lieu!=null && cout!=null && /*fraisInclus!=null &&*/ conditions!=null && delai!=null && !nom.equalsIgnoreCase("") && !description.equalsIgnoreCase("") && !lieu.equalsIgnoreCase("") && !cout.equalsIgnoreCase("") && !conditions.equalsIgnoreCase("") && !delai.equalsIgnoreCase("")){
+                        float coutFloat = Float.parseFloat(cout);
+                        int delaiInt = Integer.parseInt(delai);
+                        boolean fraisInclusBool = true;
+                        ServiceNonStandard snt = sessionAdministrateur.creerServiceNonStandard(nom, description, lieu, coutFloat, fraisInclusBool, conditions, delaiInt, idOffre);
+                        if(snt==null){
+                            request.setAttribute("MsgError", "Une erreur s'est produite");
+                        }
+                    }
+                    else{
+                        request.setAttribute("MsgError", "Une erreur s'est produite");
+                    }
+                    request.setAttribute("offre", offre);
+                    request.setAttribute("listeServicesStandards", sessionAdministrateur.afficherServicesStandards(idOffre));
+                    request.setAttribute("listeServicesNonStandards", sessionAdministrateur.afficherServicesNonStandards(idOffre));
+                    jspClient = "/admin/services.jsp";
+                }
+                
                 if (act.equals("creerOffre")) {
                     String libelle = ((String) request.getParameter("libelle")).trim().toUpperCase();
                     if (libelle != null && !libelle.isEmpty()) {

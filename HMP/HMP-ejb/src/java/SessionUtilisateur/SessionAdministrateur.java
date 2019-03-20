@@ -529,6 +529,12 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     }
     
     @Override
+    public ServiceStandard supprimerServiceStandard(Long idServiceStandard){
+        ServiceStandard ancienService = serviceStandardFacade.rechercheServiceStandard(idServiceStandard);
+        return serviceStandardFacade.supprimerServiceStandard(ancienService);
+    }
+    
+    @Override
     public List<Service> afficherServices(){
         return serviceFacade.rechercherService();
     } 
@@ -559,6 +565,12 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         Offre offre = offreFacade.rechercheOffre(idOffre);
         ServiceNonStandard ancienService = serviceNonStandardFacade.rechercheServiceNonStandard(idServiceNonStandard);
         return serviceNonStandardFacade.modifierServiceNonStandard(ancienService,nom, descriptionService, lieu, cout, fraisInclus, conditions, delaiRelance, offre);
+    }
+    
+    @Override
+    public ServiceNonStandard supprimerServiceNonStandard(Long idServiceNonStandard){
+        ServiceNonStandard ancienService = serviceNonStandardFacade.rechercheServiceNonStandard(idServiceNonStandard);
+        return serviceNonStandardFacade.supprimerServiceNonStandard(ancienService);
     }
 
     

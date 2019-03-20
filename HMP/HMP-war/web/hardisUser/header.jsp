@@ -38,20 +38,8 @@
                             <a href="${pageContext.request.contextPath}/hardisUser/index.jsp" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="monitor"></span> Tableau de bord
                             </a>
-                            <a href="${pageContext.request.contextPath}/hardisUser/monProfil.jsp" class="list-group-item list-group-item-action bg-light">
+                            <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=monProfil" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="user"></span> Mon profil
-                            </a>
-                            <a href="${pageContext.request.contextPath}/hardisUser/devis.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="file-text"></span> Mes devis
-                            </a>
-                            <a href="${pageContext.request.contextPath}/hardisUser/factures.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="square"></span> Mes factures
-                            </a>
-                            <a href="${pageContext.request.contextPath}/hardisUser/calendrier.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="calendar"></span> Calendrier
-                            </a>
-                            <a href="${pageContext.request.contextPath}/hardisUser/inbox.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="inbox"></span> Inbox
                             </a>
                             <%
                                 if (ua!=null){

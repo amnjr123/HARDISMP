@@ -67,6 +67,19 @@ public class Servlet extends HttpServlet {
         HttpSession sessionHttp = request.getSession();
         if (request.getParameter("action") != null) {
             String act = request.getParameter("action");
+            
+            /*MOT DE PASSE OUBLIE*/
+            
+            if(act.equals("motDePasseOublie")){
+                if (request.getParameter("mail") != null && !request.getParameter("mail").isEmpty()) {
+                    if(sessionMain.motDePasseOublie(request.getParameter("mail"))){
+                        request.setAttribute("MsgSuccess", "Le mot de passe de récupération a bien été envoyé");
+                    } else {
+                        request.setAttribute("MsgError", "L'adresse mail n'existe pas");
+                    }
+                }
+            }
+            
             /*CREATION CLIENT*/
             if (act.equals("creerClient")) {
                 if (request.getParameter("rgpd") != null && request.getParameter("rgpd").equals("oui")) {
