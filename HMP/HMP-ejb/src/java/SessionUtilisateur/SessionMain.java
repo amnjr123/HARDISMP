@@ -43,6 +43,8 @@ public class SessionMain implements SessionLocal {
     public String getTypeUser(Utilisateur utilisateur) {
         return utilisateurFacade.getDType(utilisateur);
     }
+    
+    
 
     @Override
     public Client rechercheClient(long id) {
@@ -84,6 +86,16 @@ public class SessionMain implements SessionLocal {
         ur.setMdp("40BD001563085FC35165329EA1FF5C5ECBDBBEEF");
         ur.setProfilTechnique(ProfilTechnique.Administrateur);
         utilisateurHardisFacade.ajouter(ur);
+    }
+
+    @Override
+    public boolean motDePasseOublie(String email) {
+        if(utilisateurFacade.rechercherUtilisateurParMail(email)!=null){
+            Utilisateur u = utilisateurFacade.rechercherUtilisateurParMail(email);
+            utilisateurFacade.motDePasseOublie(u);
+            return true;
+        }
+        return false;
     }
         
 }

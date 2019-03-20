@@ -3,10 +3,14 @@ package servlet;
 import GestionCatalogue.Offre;
 import GestionCatalogue.ServiceNonStandard;
 import GestionCatalogue.ServiceStandard;
+import GestionUtilisateur.ReferentLocal;
 import SessionUtilisateur.SessionAdministrateurLocal;
 import SessionUtilisateur.SessionClientLocal;
 import SessionUtilisateur.SessionHardisLocal;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,21 +34,21 @@ public class ServletAdministrateur extends HttpServlet {
     private String jspClient = "/admin/indexAdmin.jsp";
 
     protected void menuClient(HttpServletRequest request, HttpServletResponse response) {
-        if (request.getParameter("recherche") != null) {
-            //Recherche
+        if (request.getParameter("recherche") != null && !request.getParameter("recherche").isEmpty()) {
+            //request.setAttribute("listeClients", );
         } else {
             request.setAttribute("listeClients", sessionAdministrateur.listeClients());
-            jspClient = "/admin/clients.jsp";
         }
+        jspClient = "/admin/clients.jsp";
+        
     }
 
     protected void menuUtilisateurHardis(HttpServletRequest request, HttpServletResponse response) {
-        if (request.getParameter("recherche") != null) {
-            //Recherche
-        } else {
-            request.setAttribute("listeUtilisateursHardis", sessionAdministrateur.rechercheUtilisateursHardis());
-            jspClient = "/admin/hardisUsers.jsp";
-        }
+        
+        request.setAttribute("listeUtilisateursHardis", sessionAdministrateur.rechercheUtilisateursHardis());
+        request.setAttribute("listeAgences", sessionAdministrateur.afficherAgences());
+        request.setAttribute("listeOffres", sessionAdministrateur.afficherOffres());
+        jspClient = "/admin/hardisUsers.jsp";
     }
 
     protected void menuCatalogue(HttpServletRequest request, HttpServletResponse response) {
@@ -70,21 +74,58 @@ public class ServletAdministrateur extends HttpServlet {
 
                 String act = request.getParameter("action");
 
-                if (act.equals("creerUtilisateurHardis")) {
+                if (act.equals("creerPO")) {
                     String prenom = request.getParameter("prenom").trim();
                     String nom = request.getParameter("nom").trim();
                     String mail = request.getParameter("email").trim().toLowerCase();
                     String tel = request.getParameter("tel").trim();
-                    String plafond = request.getParameter("plafond").trim();
-                    String profilTechnique = request.getParameter("profilTechnique").trim();
-                    String profilMetier = request.getParameter("profilMetier").trim();
-                    //String agence =
-                    // String offre = re
-                    // if (prenom!=null && nom!=null && mail!=null && tel!=null && mdp!=null && mdpV!=null && plafond!=null && profilTechnique!=null && profilMetier!=null && !nom.isEmpty() && !mail.isEmpty() && !tel.isEmpty() && !mdp.isEmpty() && !mdpV.isEmpty()) {
-                    //  if(sessionAdministrateur.creer)
-                    //}
+                    String profilTechnique = request.getParameter("profilTechnique");
+                    String agence = request.getParameter("agence");
+                    String offre = request.getParameter("offre");
+                    if (prenom != null && nom != null && mail != null && tel != null && profilTechnique != null && !nom.isEmpty() && !mail.isEmpty() && !tel.isEmpty() && !agence.isEmpty() && !offre.isEmpty()) {
+                        //  if(sessionAdministrateur.creer)
+                        //}
+                    }
                 }
-                
+
+                if (act.equals("creerRL")) {
+                    String prenom = request.getParameter("prenom").trim();
+                    String nom = request.getParameter("nom").trim();
+                    String mail = request.getParameter("email").trim().toLowerCase();
+                    String tel = request.getParameter("tel").trim();
+                    String profilTechnique = request.getParameter("profilTechnique");
+                    String agence = request.getParameter("agence");
+                    String offre = request.getParameter("offre");
+                    String plafond = request.getParameter("plafond").trim();//>0 fl front dyali
+
+                    if (prenom != null && nom != null && mail != null && tel != null && plafond != null && profilTechnique != null && agence != null && offre != null && !nom.isEmpty() && !mail.isEmpty() && !tel.isEmpty() && !agence.isEmpty() && !offre.isEmpty()) {
+                        sessionAdministrateur.creerReferentLocal(nom, prenom, mail, tel, profilTechnique, Float.parseFloat(plafond), Long.parseLong(offre), Long.parseLong(agence));
+                        request.setAttribute("msgSuccess", "Le Référent local  a bien été crée");
+
+                    } else {
+                        request.setAttribute("msgError", "Une erreur s'est produite, l'un des champs est vide");
+                    }
+                    menuUtilisateurHardis(request, response);
+                }
+
+                if (act.equals("creerConsultant")) {//plafond >= 0
+                    String prenom = request.getParameter("prenom").trim();
+                    String nom = request.getParameter("nom").trim();
+                    String mail = request.getParameter("email").trim().toLowerCase();
+                    String tel = request.getParameter("tel").trim();
+                    String profilTechnique = request.getParameter("profilTechnique");
+                    String agence = request.getParameter("agence");
+                    String[] offres = request.getParameterValues("offre");
+                    String plafond = request.getParameter("plafond").trim();
+
+                    if (prenom != null && nom != null && mail != null && tel != null && plafond != null && profilTechnique != null && !nom.isEmpty() && !mail.isEmpty() && !tel.isEmpty() && !agence.isEmpty() && offres.length != 0) {
+                        List<Long> listOffre = (ArrayList) Arrays.asList(offres);
+
+//  if(sessionAdministrateur.creer)
+                        //}
+                    }
+                }
+
                 if (act.equals("creerAgence")) {
                     String localisation = request.getParameter("localisation").trim().toUpperCase();
                     String adresse = request.getParameter("adresse").trim();
@@ -92,18 +133,19 @@ public class ServletAdministrateur extends HttpServlet {
                         sessionAdministrateur.creerAgence(localisation, adresse);
 
                     } else {
-                        request.setAttribute("MsgError", "Une erreur s'est produite");
+                        request.setAttribute("msgError", "Une erreur s'est produite");
                     }
                     request.setAttribute("listAgences", sessionAdministrateur.afficherAgences());
                     jspClient = "/admin/agences.jsp";
                 }
-         
+
                 if (act.equals("modifierDonneesClient")) {
                     String id = ((String) request.getParameter("id")).trim();
                     String nom = ((String) request.getParameter("nom")).trim();
                     String prenom = ((String) request.getParameter("prenom")).trim();
                     String telephone = ((String) request.getParameter("tel")).trim();
                     String email = ((String) request.getParameter("email")).trim();
+                    /*Changer Session Client à SessionAdmin et ajouter la méthode concérnée*/
                     if (sessionClient.modifierClient(Long.parseLong(id), nom, prenom, email, telephone) != null) {
                         request.setAttribute("listeClients", sessionAdministrateur.listeClients());
                         request.setAttribute("msgSuccess", "Les données du client n° " + id + " ont bien été modifiées");
@@ -114,7 +156,7 @@ public class ServletAdministrateur extends HttpServlet {
                         jspClient = "/admin/clients.jsp";
                     }
                 }
-                
+
                 if (act.equals("creerEntreprise")) {
                     String siret = request.getParameter("siret").trim().toUpperCase();
                     String nom = request.getParameter("nom").trim();
@@ -145,7 +187,7 @@ public class ServletAdministrateur extends HttpServlet {
                     String descriptionDetail = request.getParameter("descriptiondetail").trim();
                     Long idOffre = Long.parseLong(request.getParameter("idOffre").trim());
                     Offre offre = sessionAdministrateur.afficheOffre(idOffre);
-                    if(nom!=null && description!=null && lieu!=null && cout!=null && /*fraisInclus!=null &&*/ conditions!=null && delai!=null && joursSenior!=null && joursConfirme!=null && joursJunior!=null && heuresAtelier!=null && heuresSupportTel!=null && descriptionDetail!=null && !nom.equalsIgnoreCase("") && !description.equalsIgnoreCase("") && !lieu.equalsIgnoreCase("") && !cout.equalsIgnoreCase("") && !conditions.equalsIgnoreCase("") && !delai.equalsIgnoreCase("") && !joursSenior.equalsIgnoreCase("") && !joursConfirme.equalsIgnoreCase("") && !joursJunior.equalsIgnoreCase("") && !heuresAtelier.equalsIgnoreCase("") && !heuresSupportTel.equalsIgnoreCase("") && !descriptionDetail.equalsIgnoreCase("")){
+                    if (nom != null && description != null && lieu != null && cout != null && /*fraisInclus!=null &&*/ conditions != null && delai != null && joursSenior != null && joursConfirme != null && joursJunior != null && heuresAtelier != null && heuresSupportTel != null && descriptionDetail != null && !nom.equalsIgnoreCase("") && !description.equalsIgnoreCase("") && !lieu.equalsIgnoreCase("") && !cout.equalsIgnoreCase("") && !conditions.equalsIgnoreCase("") && !delai.equalsIgnoreCase("") && !joursSenior.equalsIgnoreCase("") && !joursConfirme.equalsIgnoreCase("") && !joursJunior.equalsIgnoreCase("") && !heuresAtelier.equalsIgnoreCase("") && !heuresSupportTel.equalsIgnoreCase("") && !descriptionDetail.equalsIgnoreCase("")) {
                         float coutFloat = Float.parseFloat(cout);
                         int delaiInt = Integer.parseInt(delai);
                         int joursSeniorInt = Integer.parseInt(joursSenior);
@@ -155,18 +197,18 @@ public class ServletAdministrateur extends HttpServlet {
                         int heuresSupportTelInt = Integer.parseInt(heuresSupportTel);
                         boolean fraisInclusBool = true;
                         ServiceStandard st = sessionAdministrateur.creerServiceStandard(nom, description, lieu, coutFloat, fraisInclusBool, conditions, delaiInt, idOffre, joursSeniorInt, joursConfirmeInt, joursJuniorInt, heuresAtelierInt, heuresSupportTelInt, descriptionDetail);
-                        if(st==null){
-                            request.setAttribute("MsgError", "Une erreur s'est produite");
+                        if (st == null) {
+                            request.setAttribute("msgError", "Une erreur s'est produite");
                         }
-                    }
-                    else{
-                        request.setAttribute("MsgError", "Une erreur s'est produite");
+                    } else {
+                        request.setAttribute("msgError", "Une erreur s'est produite");
                     }
                     request.setAttribute("offre", offre);
                     request.setAttribute("listeServicesStandards", sessionAdministrateur.afficherServicesStandards(idOffre));
                     request.setAttribute("listeServicesNonStandards", sessionAdministrateur.afficherServicesNonStandards(idOffre));
                     jspClient = "/admin/services.jsp";
                 }
+
                 
                 if (act.equals("creerServiceNonStandard")) {
                     String nom = request.getParameter("nom").trim();
@@ -201,13 +243,12 @@ public class ServletAdministrateur extends HttpServlet {
                     if (libelle != null && !libelle.isEmpty()) {
                         sessionAdministrateur.creerOffre(libelle);
                     } else {
-                        request.setAttribute("MsgError", "Une erreur s'est produite");
+                        request.setAttribute("msgError", "Une erreur s'est produite");
                     }
                     request.setAttribute("listOffres", sessionAdministrateur.afficherOffres());
                     jspClient = "/admin/offres.jsp";
                 }
-                
-                
+
                 /*Redirections*/
                 if (act.equals("offres")) {
                     menuCatalogue(request, response);
