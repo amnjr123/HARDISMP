@@ -41,5 +41,7 @@ public interface ServiceNonStandardFacadeLocal {
     List<ServiceNonStandard> rechercheServiceNonStandard();
 
     List<ServiceNonStandard> rechercherServiceNonStandard(Offre o);
+
+    ServiceNonStandard supprimerServiceNonStandard(ServiceNonStandard service);
     
 }
