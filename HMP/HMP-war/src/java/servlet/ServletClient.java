@@ -25,6 +25,16 @@ public class ServletClient extends HttpServlet {
     private String jspClient = "/client/index.jsp";
 
     private Client c;
+    
+    protected void monProfil(HttpServletRequest request, HttpServletResponse response) {
+        if(c.getEntreprise()!=null){
+            jspClient = "/client/monProfil.jsp";
+        } else {
+            request.setAttribute("listeAgences", sessionClient.rechercherAgence());
+            jspClient = "/client/monProfil.jsp";
+        }
+        
+    }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -36,6 +46,29 @@ public class ServletClient extends HttpServlet {
             System.out.print(c);
             if (request.getParameter("action") != null) {
                 String act = request.getParameter("action");
+                
+                //Consulter le profil
+                if (act.equals("monProfil")){
+                    monProfil(request, response);
+                }
+                
+                //demande de création d'entreprise
+                if (act.equals("creerDemandeEntreprise")) {
+                    String id = ((String) request.getParameter("idClient")).trim();
+                    String siret = ((String) request.getParameter("siret")).trim().toUpperCase();
+                    String nom = ((String) request.getParameter("nom")).trim();
+                    String adresse = ((String) request.getParameter("adresse")).trim();
+                    String agence = ((String) request.getParameter("agence")).trim();
+                    if (siret != null && nom != null && adresse != null && agence != null && !siret.isEmpty() && !nom.isEmpty() && !adresse.isEmpty() && !agence.isEmpty()) {
+                        sessionClient.creerDemandeEntreprise(Long.parseLong(id), nom, siret, adresse, Long.parseLong(agence));
+                         monProfil(request, response);
+                    } else {
+                        request.setAttribute("MsgError", "Une erreur s'est produite");
+                         monProfil(request, response);
+                    }
+                }
+
+                
                 //MODIFIER LE PRENOM DU CLIENT
                 if (act.equals("modifierPrenomClient")) {
                     if (request.getParameter("nouveauPrenom") != null && !request.getParameter("nouveauPrenom").isEmpty()) {
@@ -44,10 +77,10 @@ public class ServletClient extends HttpServlet {
                         if (cli != null) {
                             request.getSession().setAttribute(ATT_SESSION_CLIENT, cli);//Attribuer le Token
                             request.setAttribute("msgSuccess", "Le prénom a bien été modifié");
-                            jspClient = "/client/monProfil.jsp";
+                            monProfil(request, response);
                         } else {
                             request.setAttribute("msgError", "Le prénom n'a pas été modifié");
-                            jspClient = "/client/monProfil.jsp";                        
+                            monProfil(request, response);                        
                         }
                     }
                 }
@@ -59,10 +92,10 @@ public class ServletClient extends HttpServlet {
                         if (cli != null) {
                             request.getSession().setAttribute(ATT_SESSION_CLIENT, cli);//Attribuer le Token
                             request.setAttribute("msgSuccess", "Le nom a bien été modifié");
-                            jspClient = "/client/monProfil.jsp";
+                            monProfil(request, response);
                         } else {
                             request.setAttribute("msgError", "Le nom n'a pas été modifié");
-                            jspClient = "/client/monProfil.jsp";                          
+                            monProfil(request, response);                          
                         }
                     }
                 }
@@ -74,10 +107,10 @@ public class ServletClient extends HttpServlet {
                         if (cli != null) {
                             request.getSession().setAttribute(ATT_SESSION_CLIENT, cli);//Attribuer le Token
                             request.setAttribute("msgSuccess", "Le téléphone a bien été modifié");
-                            jspClient = "/client/monProfil.jsp";
+                            monProfil(request, response);
                         } else {
                             request.setAttribute("msgError", "Le téléphone n'a pas été modifié");
-                            jspClient = "/client/monProfil.jsp";                           
+                            monProfil(request, response);                       
                         }
 
                     }
@@ -92,10 +125,10 @@ public class ServletClient extends HttpServlet {
                             Client cli = sessionClient.rechercheClient(uti.getId());
                             request.getSession().setAttribute(ATT_SESSION_CLIENT, cli);//Attribuer le Token
                             request.setAttribute("msgSuccess", "Le mot de passe a bien été modifié");
-                            jspClient = "/client/monProfil.jsp";
+                            monProfil(request, response);
                         } else {
                             request.setAttribute("msgError", "Le mot de passe n'a pas été modifié, l'ancien mot de passe est incorrect");
-                            jspClient = "/client/monProfil.jsp";
+                            monProfil(request, response);
                         }
 
                     }
