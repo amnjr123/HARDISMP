@@ -34,7 +34,7 @@
                             <a href="${pageContext.request.contextPath}/client/index.jsp" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="monitor"></span> Tableau de bord
                             </a>
-                            <a href="${pageContext.request.contextPath}/client/monProfil.jsp" class="list-group-item list-group-item-action bg-light">
+                            <a href="${pageContext.request.contextPath}/ServletClient?action=monProfil" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="user"></span> Mon profil
                             </a>
                             <a href="${pageContext.request.contextPath}/client/catalogue.jsp" class="list-group-item list-group-item-action bg-light">

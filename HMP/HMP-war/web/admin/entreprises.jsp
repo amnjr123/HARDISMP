@@ -115,7 +115,6 @@
                             <label for="adresse" class="sr-only">Adresse de facturation *</label>
                             <input type="text" name="adresse" id="adresse" class="form-control" placeholder="Adresse" required>
                         </p>
-                        <p>
                         <div class="form-group">
                             <label for="selectAgence"></label>
                             <select name="agence" class="form-control" id="selectAgence">
@@ -125,6 +124,7 @@
                                 <%}%>                       
                             </select>
                         </div>
+                    
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Créer l'entreprise</button>
