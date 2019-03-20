@@ -38,9 +38,9 @@ public class ConsultantFacade extends AbstractFacade<Consultant> implements Cons
     public ConsultantFacade() {
         super(Consultant.class);
     }
-    
+
     @Override
-    public Consultant creerConsultant(String nom, String prenom,String mail,String tel, ProfilTechnique profil,float plafondDelegation, Agence agence, List<Offre> offres){
+    public Consultant creerConsultant(String nom, String prenom, String mail, String tel, ProfilTechnique profil, float plafondDelegation, Agence agence, List<Offre> offres) {
         Consultant c = new Consultant();
         c.setNom(nom);
         c.setPrenom(prenom);
@@ -52,8 +52,9 @@ public class ConsultantFacade extends AbstractFacade<Consultant> implements Cons
         c.setDateCreationCompte(new Date());
         c.setAgence(agence);
         c.setOffres(offres);
-             /*MDP*/
-        /*Envoi mail avec mdp géneré*/
+        c.setDtype("Consultant");
+        /*MDP*/
+ /*Envoi mail avec mdp géneré*/
         SendMail s = new SendMail();
         String mdp = s.sendMailUtilisateurHardisMdp(c, "Consultant");
         /*Hashage password*/
@@ -62,13 +63,12 @@ public class ConsultantFacade extends AbstractFacade<Consultant> implements Cons
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(ClientFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
-        create(c);  
+        create(c);
         return c;
     }
-    
-    
+
     @Override //Méthode pour Administrateur
-    public Consultant modifierConsultant(Consultant c, String nom,String prenom,String mail,String tel,ProfilTechnique profil,boolean actifInactif,float plafondDelegation, List<Offre> offres, Agence a){
+    public Consultant modifierConsultant(Consultant c, String nom, String prenom, String mail, String tel, ProfilTechnique profil, boolean actifInactif, float plafondDelegation, List<Offre> offres, Agence a) {
         c.setNom(nom);
         c.setPrenom(prenom);
         c.setMail(mail);
@@ -81,29 +81,29 @@ public class ConsultantFacade extends AbstractFacade<Consultant> implements Cons
         edit(c);
         return c;
     }
-    
+
     @Override //Méthode pour Consultant Gestionnaire ou Visualisation
-    public Consultant modifierConsultant(Consultant c, String mail,String tel,boolean actifInactif){
+    public Consultant modifierConsultant(Consultant c, String mail, String tel, boolean actifInactif) {
         c.setMail(mail);
         c.setTelephone(tel);
         c.setActifInactif(actifInactif);
         edit(c);
         return c;
     }
-    
+
     @Override
-    public Consultant supprimerConsultant(Consultant c){
+    public Consultant supprimerConsultant(Consultant c) {
         remove(c);
         return c;
     }
-    
+
     @Override
-    public Consultant rechercheConsultant(long id){
+    public Consultant rechercheConsultant(long id) {
         return find(id);
     }
-    
+
     @Override
-    public List<Consultant> rechercheConsultant(){
+    public List<Consultant> rechercheConsultant() {
         return findAll();
     }
 }

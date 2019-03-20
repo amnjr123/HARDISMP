@@ -52,8 +52,9 @@ public class PorteurOffreFacade extends AbstractFacade<PorteurOffre> implements 
         po.setDateCreationCompte(new Date());
         po.setOffre(offre);
         po.setAgence(agence);
+        po.setDtype("PorteurOffre");
         /*MDP*/
-        /*Envoi mail avec mdp géneré*/
+ /*Envoi mail avec mdp géneré*/
         SendMail s = new SendMail();
         String mdp = s.sendMailUtilisateurHardisMdp(po, "Porteur d'Offre");
         /*Hashage password*/

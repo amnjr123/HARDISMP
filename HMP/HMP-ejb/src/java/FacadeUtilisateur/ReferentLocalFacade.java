@@ -53,6 +53,7 @@ public class ReferentLocalFacade extends AbstractFacade<ReferentLocal> implement
         rl.setDateCreationCompte(new Date());
         rl.setOffre(offre);
         rl.setAgence(agence);
+        rl.setDtype("ReferentLocal");
         /*MDP*/
  /*Envoi mail avec mdp géneré*/
         SendMail s = new SendMail();
