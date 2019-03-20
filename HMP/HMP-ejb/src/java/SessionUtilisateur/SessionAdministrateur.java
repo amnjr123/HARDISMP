@@ -8,6 +8,7 @@ package SessionUtilisateur;
 import Enum.Helpers;
 import Enum.LieuIntervention;
 import Enum.ProfilTechnique;
+import Enum.SendMail;
 import Enum.StatutDevis;
 import FacadeCatalogue.LivrableFacadeLocal;
 import FacadeCatalogue.OffreFacadeLocal;
@@ -281,16 +282,16 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     }
     
     @Override
-    public PorteurOffre creerPO(String nom, String prenom, String mail, String tel, String mdp, String profilTechnique, Long idOffre, Long idAgence){
+    public PorteurOffre creerPO(String nom, String prenom, String mail, String tel, String profilTechnique, Long idOffre, Long idAgence){
         Agence a = agenceFacade.rechercheAgence(idAgence);
         Offre o = offreFacade.rechercheOffre(idOffre);
         ProfilTechnique profil = ProfilTechnique.valueOf(profilTechnique);
-        PorteurOffre po = porteurOffreFacade.creerPorteurOffre(nom, prenom, mail, tel, mdp, profil, o, a);
+        PorteurOffre po = porteurOffreFacade.creerPorteurOffre(nom, prenom, mail, tel, profil, o, a);
         return po;
     }
     
     @Override
-    public Consultant creerConsultant(String nom, String prenom, String mail, String tel, String mdp, String profilTechnique,float plafondDelegation, Long idAgence, List<Long> listeIdOffres){
+    public Consultant creerConsultant(String nom, String prenom, String mail, String tel, String profilTechnique,float plafondDelegation, Long idAgence, List<Long> listeIdOffres){
         Agence a = agenceFacade.rechercheAgence(idAgence);
         ProfilTechnique profil = ProfilTechnique.valueOf(profilTechnique);
         Consultant c = null;
@@ -307,21 +308,21 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
             }
             //On vérifie que le plafond n'est pas négatif
             if(plafondDelegation>=0){
-                c = consultantFacade.creerConsultant(nom, prenom, mail, tel, mdp, profil, plafondDelegation, a, listeOffres);
+                c = consultantFacade.creerConsultant(nom, prenom, mail, tel, profil, plafondDelegation, a, listeOffres);
             }
         }
         return c;
     }
     
     @Override
-    public ReferentLocal creerReferentLocal(String nom, String prenom, String mail, String tel, String mdp, String profilTechnique,float plafondDelegation, Long idOffre, Long idAgence){
+    public ReferentLocal creerReferentLocal(String nom, String prenom, String mail, String tel, String profilTechnique, float plafondDelegation, Long idOffre, Long idAgence){
         Agence a = agenceFacade.rechercheAgence(idAgence);
         Offre o = offreFacade.rechercheOffre(idOffre);
         ProfilTechnique profil = ProfilTechnique.valueOf(profilTechnique);
         ReferentLocal rl = null;
         //On vérifie que le plafond est > à 0
             if(plafondDelegation>0){
-                rl = referentLocalFacade.creerReferentLocal(nom, prenom, mail, tel, mdp, profil,plafondDelegation, o, a);
+                rl = referentLocalFacade.creerReferentLocal(nom, prenom, mail, tel, profil,plafondDelegation, o, a);
             }
         return rl;
     }

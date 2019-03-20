@@ -39,7 +39,7 @@ public interface PorteurOffreFacadeLocal {
 
     List<PorteurOffre> recherchePorteurOffre();
 
-    PorteurOffre creerPorteurOffre(String nom, String prenom, String mail, String tel, String mdp, ProfilTechnique profil, Offre offre, Agence agence);
+    PorteurOffre creerPorteurOffre(String nom, String prenom, String mail, String tel, ProfilTechnique profil, Offre offre, Agence agence);
 
     PorteurOffre modifierPorteurOffre(PorteurOffre po, String nom, String prenom, String mail, String tel, ProfilTechnique profil, boolean actifInactif, Offre offre, Agence agence);
 

@@ -7,6 +7,7 @@ package FacadeUtilisateur;
 
 import Enum.Helpers;
 import Enum.ProfilTechnique;
+import Enum.SendMail;
 import GestionCatalogue.Offre;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.ReferentLocal;
@@ -38,34 +39,36 @@ public class ReferentLocalFacade extends AbstractFacade<ReferentLocal> implement
     public ReferentLocalFacade() {
         super(ReferentLocal.class);
     }
-    
+
     @Override
-    public ReferentLocal creerReferentLocal(String nom,String prenom,String mail,String tel,String mdp,ProfilTechnique profil,float plafondDelegation,Offre offre,Agence agence){
+    public ReferentLocal creerReferentLocal(String nom, String prenom, String mail, String tel, ProfilTechnique profil, float plafondDelegation, Offre offre, Agence agence) {
         ReferentLocal rl = new ReferentLocal();
         rl.setNom(nom);
         rl.setPrenom(prenom);
         rl.setMail(mail);
         rl.setTelephone(tel);
-        /*Hashage password*/ 
-        try {
-            rl.setMdp(Helpers.sha1(mdp));
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(ClientFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        /*End Hashage*/
         rl.setProfilTechnique(profil);
         rl.setActifInactif(true);
         rl.setPlafondDelegation(plafondDelegation);
         rl.setDateCreationCompte(new Date());
         rl.setOffre(offre);
         rl.setAgence(agence);
-        create(rl);  
+        /*MDP*/
+ /*Envoi mail avec mdp géneré*/
+        SendMail s = new SendMail();
+        String mdp = s.sendMailUtilisateurHardisMdp(rl, "Référent Local");
+        /*Hashage password*/
+        try {
+            rl.setMdp(Helpers.sha1(mdp));
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(ClientFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        create(rl);
         return rl;
     }
-    
-    
+
     @Override //Méthode pour Administrateur
-    public ReferentLocal modifierReferentLocal(ReferentLocal rl, String nom,String prenom,String mail,String tel,ProfilTechnique profil,boolean actifInactif,float plafondDelegation,Offre offre,Agence agence){
+    public ReferentLocal modifierReferentLocal(ReferentLocal rl, String nom, String prenom, String mail, String tel, ProfilTechnique profil, boolean actifInactif, float plafondDelegation, Offre offre, Agence agence) {
         rl.setNom(nom);
         rl.setPrenom(prenom);
         rl.setMail(mail);
@@ -78,34 +81,34 @@ public class ReferentLocalFacade extends AbstractFacade<ReferentLocal> implement
         edit(rl);
         return rl;
     }
-    
+
     @Override //Méthode pour ReferentLocal Gestionnaire ou Visualisation
-    public ReferentLocal modifierReferentLocal(ReferentLocal rl, String mail,String tel,boolean actifInactif){
+    public ReferentLocal modifierReferentLocal(ReferentLocal rl, String mail, String tel, boolean actifInactif) {
         rl.setMail(mail);
         rl.setTelephone(tel);
         rl.setActifInactif(actifInactif);
         edit(rl);
         return rl;
     }
-    
+
     @Override
-    public ReferentLocal supprimerReferentLocal(ReferentLocal rl){
+    public ReferentLocal supprimerReferentLocal(ReferentLocal rl) {
         remove(rl);
         return rl;
     }
-    
+
     @Override
-    public ReferentLocal rechercheReferentLocal(long id){
+    public ReferentLocal rechercheReferentLocal(long id) {
         return find(id);
     }
-    
+
     @Override
-    public List<ReferentLocal> rechercheReferentLocal(){
+    public List<ReferentLocal> rechercheReferentLocal() {
         return findAll();
     }
-    
+
     @Override
-    public ReferentLocal rechercheReferentLocal(Agence a, Offre o){
+    public ReferentLocal rechercheReferentLocal(Agence a, Offre o) {
         Query requete = em.createQuery("select r from ReferentLocal as r where  r.agence=:a and r.offre=:o");
         requete.setParameter("a", a);
         requete.setParameter("o", o);
@@ -115,5 +118,5 @@ public class ReferentLocalFacade extends AbstractFacade<ReferentLocal> implement
             return null;
         }
     }
-    
+
 }

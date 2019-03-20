@@ -48,11 +48,11 @@ public interface SessionAdministrateurLocal {
 
     Client rattacherClient(Long idClient, Long idEntreprise);
 
-    ReferentLocal creerReferentLocal(String nom, String prenom, String mail, String tel, String mdp, String profilTechnique, float plafondDelegation, Long idOffre, Long idAgence);
+    ReferentLocal creerReferentLocal(String nom, String prenom, String mail, String tel, String profilTechnique, float plafondDelegation, Long idOffre, Long idAgence);
 
-    Consultant creerConsultant(String nom, String prenom, String mail, String tel, String mdp, String profilTechnique, float plafondDelegation, Long idAgence, List<Long> listeIdOffres);
+    Consultant creerConsultant(String nom, String prenom, String mail, String tel, String profilTechnique, float plafondDelegation, Long idAgence, List<Long> listeIdOffres);
 
-    PorteurOffre creerPO(String nom, String prenom, String mail, String tel, String mdp, String profilTechnique, Long idOffre, Long idAgence);
+    PorteurOffre creerPO(String nom, String prenom, String mail, String tel, String profilTechnique, Long idOffre, Long idAgence);
 
     PorteurOffre modifierPO(Long idPO, String nom, String prenom, String mail, String tel, String profilTechnique, boolean actifInactif, Long idOffre, Long idAgence);
 

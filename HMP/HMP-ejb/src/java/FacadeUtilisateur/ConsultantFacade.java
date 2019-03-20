@@ -7,6 +7,7 @@ package FacadeUtilisateur;
 
 import Enum.Helpers;
 import Enum.ProfilTechnique;
+import Enum.SendMail;
 import GestionCatalogue.Offre;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.Consultant;
@@ -39,25 +40,28 @@ public class ConsultantFacade extends AbstractFacade<Consultant> implements Cons
     }
     
     @Override
-    public Consultant creerConsultant(String nom, String prenom,String mail,String tel,String mdp,ProfilTechnique profil,float plafondDelegation, Agence agence, List<Offre> offres){
+    public Consultant creerConsultant(String nom, String prenom,String mail,String tel, ProfilTechnique profil,float plafondDelegation, Agence agence, List<Offre> offres){
         Consultant c = new Consultant();
         c.setNom(nom);
         c.setPrenom(prenom);
         c.setMail(mail);
         c.setTelephone(tel);
-        /*Hashage password*/ 
-        try {
-            c.setMdp(Helpers.sha1(mdp));
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(ClientFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        /*End Hashage*/
         c.setProfilTechnique(profil);
         c.setActifInactif(true);
         c.setPlafondDelegation(plafondDelegation);
         c.setDateCreationCompte(new Date());
         c.setAgence(agence);
         c.setOffres(offres);
+             /*MDP*/
+        /*Envoi mail avec mdp géneré*/
+        SendMail s = new SendMail();
+        String mdp = s.sendMailUtilisateurHardisMdp(c, "Consultant");
+        /*Hashage password*/
+        try {
+            c.setMdp(Helpers.sha1(mdp));
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(ClientFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
         create(c);  
         return c;
     }

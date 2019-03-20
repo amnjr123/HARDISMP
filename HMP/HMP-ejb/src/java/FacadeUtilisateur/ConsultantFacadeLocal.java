@@ -41,7 +41,7 @@ public interface ConsultantFacadeLocal {
 
     List<Consultant> rechercheConsultant();
 
-    Consultant creerConsultant(String nom, String prenom, String mail, String tel, String mdp, ProfilTechnique profil, float plafondDelegation, Agence agence, List<Offre> offres);
+    Consultant creerConsultant(String nom, String prenom, String mail, String tel, ProfilTechnique profil, float plafondDelegation, Agence agence, List<Offre> offres);
 
     Consultant modifierConsultant(Consultant c, String nom, String prenom, String mail, String tel, ProfilTechnique profil, boolean actifInactif, float plafondDelegation, List<Offre> offres, Agence a);
 
