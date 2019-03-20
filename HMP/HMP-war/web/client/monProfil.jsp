@@ -1,6 +1,12 @@
 <%@page import="GestionUtilisateur.Client"%>
+<%@page import="GestionUtilisateur.Agence"%>
+<%@page import="java.util.Collection"%>
 <jsp:include page="header.jsp"/>
-<% Client c = (Client) session.getAttribute("sessionClient"); %>
+<jsp:useBean id="listeAgences" scope="request" class="java.util.Collection"></jsp:useBean>
+<%
+    Client c = (Client) session.getAttribute("sessionClient");
+    Collection<Agence> listAgences = listeAgences;
+%>
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 class="h2">Mon profil</h1>
@@ -8,60 +14,76 @@
 </main>
 
 
-
-
 <div class="container">
-    Si rattachement en attente
+    <%
+        if ((c.getDemandeCreationEntreprise() != null || c.getDemandeRattachement()!= null) && c.getEntreprise() == null) {
+    %>
     <div class="card text-white bg-warning mb-3">
         <div class="card-header"><h4>Mon entreprise</h4></div>
         <div class="card-body">
             <h4 class="card-title p-3 mb-2">L'attachement à votre entreprise est en cours de traitement</h4>
         </div>
     </div>
-
     <%
-        if (c.getEntreprise() == null) {
+        }
+    %>
+    <%
+        if (c.getEntreprise() == null && c.getDemandeCreationEntreprise() == null && c.getDemandeRattachement() == null) {
     %>
     <div class="card text-white bg-danger mb-3">
         <div class="card-header"><h4>Mon entreprise</h4></div>
         <div class="card-body">
+
             <h5 class="card-title p-3 mb-2 bg-danger text-white">Vous n'êtes rattaché à aucune enreprise<br> afin de pouvoir profiter de l'ensemble des fonctionnalités d'Hardis Market place, nous vous prions de compléter les informations suivantes:</h5>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="firstName">SIRET *</label>
-                    <div class="input-group">
-                        <input name="SIRET" type="text" class="form-control" id="firstName" placeholder="SIRET de votre entreprise" value="" required>
-                        <div class="invalid-feedback">
-                            Le SIRET Est obligatoire.
+            <form method="post" action="${pageContext.request.contextPath}/ServletClient">
+                <input type="hidden" name="action" value="creerDemandeEntreprise">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="siret">SIRET *</label>
+                        <div class="input-group">
+                            <input name="siret" type="text" class="form-control" id="firstName" placeholder="SIRET de votre entreprise" value="" required>
+                            <div class="invalid-feedback">
+                                Le SIRET Est obligatoire.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="nom">Raison sociale</label>
+                        <div class="input-group">
+                            <input name="nom" type="text" class="form-control" id="raisonSociale" placeholder="Raison sociale de votre entreprise" value="" required>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label for="raisonSociale">Raison sociale</label>
-                    <div class="input-group">
-                        <input name="nomEntreprise" type="text" class="form-control" id="raisonSociale" placeholder="Raison sociale de votre entreprise" value="" required>
-                    </div>
-                </div>
-            </div>
 
-            <div class="mb-3">
-                <label for="address">Adresse</label>
-                <input name="pwEntreprise" type="text" class="form-control" id="address" placeholder="Code de votre entreprise" required>
-            </div>
-            <div class="mb-3">
+                <div class="mb-3">
+                    <label for="adresse">Adresse</label>
+                    <input name="adresse" type="text" class="form-control" id="address" placeholder="Adresse de facturation" required>
+                </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">
-                        Attachment(s)
-                        (Attach multiple files.)
-                    </label>
-                    <div class="col-sm-9">
-                        <span class="btn btn-default btn-file">
-                            <input id="input-2" name="input2[]" type="file" class="file" multiple data-show-upload="true" data-show-caption="true">
-                        </span>
+                    <label for="agence"></label>
+                    <select name="agence" class="form-control" id="selectAgence">
+                        <option disabled selected>Choisir l'agence</option>
+                        <%for (Agence a : listAgences) {%>
+                        <option value="<%=a.getId()%>">Agence de&nbsp;<%=a.getLocalisation()%></option>
+                        <%}%>                       
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            Attachment(s)
+                            (Attach multiple files.)
+                        </label>
+                        <div class="col-sm-9">
+                            <span class="btn btn-default btn-file">
+                                <input id="input-2" name="input2[]" type="file" class="file" multiple data-show-upload="true" data-show-caption="true">
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <a href="#" class="btn btn-warning">Demande de rattachement</a>
+                <button type="submit" class="btn btn-warning">Demande de rattachement</button>
+            </form>
         </div>
     </div>
     <%
@@ -78,7 +100,7 @@
         <%}%>
 
         <% String success = (String) request.getAttribute("msgSuccess");
-                                if (request.getAttribute("msgSuccess") != null) {%>
+            if (request.getAttribute("msgSuccess") != null) {%>
         <div class="alert alert-success alert-dismissible fade in show">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <%=success%>.

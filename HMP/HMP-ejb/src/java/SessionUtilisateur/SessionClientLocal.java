@@ -71,4 +71,6 @@ public interface SessionClientLocal {
     List<Devis> rechercherDevis(Long idClient, String statutDevis);
 
     Devis modifierDevisIncomplet(Long idDevis, String commentaireClient);
+
+    void DemandeCreationOuRattachement(Long idClient, String nom, String siret, String adresse, Long idAgence);
 }

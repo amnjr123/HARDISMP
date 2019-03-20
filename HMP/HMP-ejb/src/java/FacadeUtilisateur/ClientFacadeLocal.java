@@ -6,6 +6,8 @@
 package FacadeUtilisateur;
 
 import GestionUtilisateur.Client;
+import GestionUtilisateur.DemandeCreationEntreprise;
+import GestionUtilisateur.DemandeRattachement;
 import GestionUtilisateur.Entreprise;
 import java.util.List;
 import javax.ejb.Local;
@@ -48,5 +50,9 @@ public interface ClientFacadeLocal {
     Client modifierAdmin(Client c);
 
     Client modifierAdmin(Client ancienAdmin, Client nouveauAdmin);
+
+    void demanderCreationEntreprise(Client c, DemandeCreationEntreprise demande);
+
+    void demanderRattachementEntreprise(Client c, DemandeRattachement demande);
     
 }

@@ -1,6 +1,7 @@
 package servlet;
 
 import GestionCatalogue.Offre;
+import GestionCatalogue.ServiceStandard;
 import SessionUtilisateur.SessionAdministrateurLocal;
 import SessionUtilisateur.SessionClientLocal;
 import SessionUtilisateur.SessionHardisLocal;
@@ -82,6 +83,7 @@ public class ServletAdministrateur extends HttpServlet {
                     //  if(sessionAdministrateur.creer)
                     //}
                 }
+                
                 if (act.equals("creerAgence")) {
                     String localisation = request.getParameter("localisation").trim().toUpperCase();
                     String adresse = request.getParameter("adresse").trim();
@@ -94,21 +96,7 @@ public class ServletAdministrateur extends HttpServlet {
                     request.setAttribute("listAgences", sessionAdministrateur.afficherAgences());
                     jspClient = "/admin/agences.jsp";
                 }
-
-                if (act.equals("creerEntreprise")) {
-                    String siret = ((String) request.getParameter("siret")).trim().toUpperCase();
-                    String nom = ((String) request.getParameter("nom")).trim();
-                    String adresse = ((String) request.getParameter("adresse")).trim();
-                    String agence = ((String) request.getParameter("agence")).trim();
-                    if (siret != null && nom != null && adresse != null && agence != null && !siret.isEmpty() && !nom.isEmpty() && !adresse.isEmpty() && !agence.isEmpty()) {
-                        sessionAdministrateur.creerEntreprise(siret, nom, adresse, Long.parseLong(agence));
-                        menuEntreprise(request, response);
-                    } else {
-                        request.setAttribute("MsgError", "Une erreur s'est produite");
-                        menuEntreprise(request, response);
-                    }
-                }
-
+         
                 if (act.equals("modifierDonneesClient")) {
                     String id = ((String) request.getParameter("id")).trim();
                     String nom = ((String) request.getParameter("nom")).trim();
@@ -124,6 +112,58 @@ public class ServletAdministrateur extends HttpServlet {
                         request.setAttribute("msgError", "Erreur lors de la modification des données du client n° " + id);
                         jspClient = "/admin/clients.jsp";
                     }
+                
+                if (act.equals("creerEntreprise")) {
+                    String siret = request.getParameter("siret").trim().toUpperCase();
+                    String nom = request.getParameter("nom").trim();
+                    String adresse = request.getParameter("adresse").trim();
+                    String agence = request.getParameter("agence");
+                    if (siret != null && nom != null && adresse != null && agence != null && !siret.isEmpty() && !nom.isEmpty() && !adresse.isEmpty() && !agence.isEmpty()) {
+                        sessionAdministrateur.creerEntreprise(nom, siret, adresse, Long.parseLong(agence));
+                        menuEntreprise(request, response);
+                    } else {
+                        request.setAttribute("msgError", "Une erreur s'est produite");
+                        menuEntreprise(request, response);
+                    }
+                }
+
+                if (act.equals("creerServiceStandard")) {
+                    String nom = request.getParameter("nom").trim();
+                    String description = request.getParameter("description").trim();
+                    String lieu = request.getParameter("lieu").trim();
+                    String cout = request.getParameter("cout").trim();
+                    //String fraisInclus = request.getParameter("fraisInclus").trim();
+                    String conditions = request.getParameter("conditions").trim();
+                    String delai = request.getParameter("delai").trim();
+                    String joursSenior = request.getParameter("senior").trim();
+                    String joursConfirme = request.getParameter("confirme").trim();
+                    String joursJunior = request.getParameter("junior").trim();
+                    String heuresAtelier = request.getParameter("atelier").trim();
+                    String heuresSupportTel = request.getParameter("suppottel").trim();
+                    String descriptionDetail = request.getParameter("descriptiondetail").trim();
+                    Long idOffre = Long.parseLong(request.getParameter("idOffre").trim());
+                    Offre offre = sessionAdministrateur.afficheOffre(idOffre);
+                    if(nom!=null && description!=null && lieu!=null && cout!=null && /*fraisInclus!=null &&*/ conditions!=null && delai!=null && joursSenior!=null && joursConfirme!=null && joursJunior!=null && heuresAtelier!=null && heuresSupportTel!=null && descriptionDetail!=null && !nom.equalsIgnoreCase("") && !description.equalsIgnoreCase("") && !lieu.equalsIgnoreCase("") && !cout.equalsIgnoreCase("") && !conditions.equalsIgnoreCase("") && !delai.equalsIgnoreCase("") && !joursSenior.equalsIgnoreCase("") && !joursConfirme.equalsIgnoreCase("") && !joursJunior.equalsIgnoreCase("") && !heuresAtelier.equalsIgnoreCase("") && !heuresSupportTel.equalsIgnoreCase("") && !descriptionDetail.equalsIgnoreCase("")){
+                        float coutFloat = Float.parseFloat(cout);
+                        int delaiInt = Integer.parseInt(delai);
+                        int joursSeniorInt = Integer.parseInt(joursSenior);
+                        int joursConfirmeInt = Integer.parseInt(joursConfirme);
+                        int joursJuniorInt = Integer.parseInt(joursJunior);
+                        int heuresAtelierInt = Integer.parseInt(heuresAtelier);
+                        int heuresSupportTelInt = Integer.parseInt(heuresSupportTel);
+                        boolean fraisInclusBool = true;
+                        ServiceStandard st = sessionAdministrateur.creerServiceStandard(nom, description, lieu, coutFloat, fraisInclusBool, conditions, delaiInt, idOffre, joursSeniorInt, joursConfirmeInt, joursJuniorInt, heuresAtelierInt, heuresSupportTelInt, descriptionDetail);
+                        if(st==null){
+                            request.setAttribute("MsgError", "Une erreur s'est produite");
+                        }
+                    }
+                    else{
+                        request.setAttribute("MsgError", "Une erreur s'est produite");
+                    }
+                    request.setAttribute("offre", offre);
+                    request.setAttribute("listeServicesStandards", sessionAdministrateur.afficherServicesStandards(idOffre));
+                    request.setAttribute("listeServicesNonStandards", sessionAdministrateur.afficherServicesNonStandards(idOffre));
+                    jspClient = "/admin/services.jsp";
                 }
                 
                 if (act.equals("creerOffre")) {
@@ -156,6 +196,7 @@ public class ServletAdministrateur extends HttpServlet {
                 }
                 if (act.equals("clients")) {
                     menuClient(request, response);
+
                 }
 
                 if (act.equals("agences")) {

@@ -7,6 +7,8 @@ package FacadeUtilisateur;
 
 import Enum.Helpers;
 import GestionUtilisateur.Client;
+import GestionUtilisateur.DemandeCreationEntreprise;
+import GestionUtilisateur.DemandeRattachement;
 import GestionUtilisateur.Entreprise;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -118,6 +120,22 @@ public class ClientFacade extends AbstractFacade<Client> implements ClientFacade
         edit(nouveauAdmin);
         return nouveauAdmin;
     }
+
+    @Override
+    public void demanderCreationEntreprise(Client c, DemandeCreationEntreprise demande) {
+        c.setDemandeCreationEntreprise(demande);
+        edit(c);
+    }
+
+    @Override
+    public void demanderRattachementEntreprise(Client c, DemandeRattachement demande) {
+        c.setDemandeRattachement(demande);
+        edit(c);
+    }
+    
+    
+    
+    
     
     
     

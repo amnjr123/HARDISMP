@@ -10,10 +10,25 @@
 %>
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1 class="h2">Entreprises</h1>
+        <h1 class="h2">Gestion des Entreprises</h1>
     </div>
 
     <div class="card">
+             <% String error = (String) request.getAttribute("msgError");
+            if (request.getAttribute("msgError") != null) {%>
+        <div class="alert alert-danger alert-dismissible fade in show">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Attention !</strong>&nbsp;<%=error%>.
+        </div>
+        <%}%>
+
+        <% String success = (String) request.getAttribute("msgSuccess");
+            if (request.getAttribute("msgSuccess") != null) {%>
+        <div class="alert alert-success alert-dismissible fade in show">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <%=success%>.
+        </div>
+        <%}%>
         <div class="card-header">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
                 <h1 class="h2">Entreprises</h1>
@@ -77,7 +92,7 @@
                             <td><%=(e.getSiret())%></td>
                             <td><%=(e.getNom())%></td>
                             <td><%=(e.getAdresseFacturation())%></td>
-                            <td>agence</td>
+                            <td><%=(e.getAgence().getLocalisation())%></td>
                             <td><a href="#" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="phone"></i></a>
                                 <a href="#" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
                                 <a href="#" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a></td>
@@ -115,7 +130,6 @@
                             <label for="adresse" class="sr-only">Adresse de facturation *</label>
                             <input type="text" name="adresse" id="adresse" class="form-control" placeholder="Adresse" required>
                         </p>
-                        <p>
                         <div class="form-group">
                             <label for="selectAgence"></label>
                             <select name="agence" class="form-control" id="selectAgence">
@@ -125,6 +139,7 @@
                                 <%}%>                       
                             </select>
                         </div>
+                    
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Créer l'entreprise</button>
