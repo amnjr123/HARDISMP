@@ -5,7 +5,7 @@
 <%Collection<Offre> list = listOffres;%>
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1 class="h2">Offres</h1>
+        <h1 class="h2">Gestion du catalogue</h1>
     </div>
 
     <div class="card">
