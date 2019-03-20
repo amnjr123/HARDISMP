@@ -72,7 +72,7 @@ public class SessionMain implements SessionLocal {
         ReferentLocal uh = new ReferentLocal();
         uh.setNom("Gestionnaire");
         uh.setPrenom("test");
-        uh.setMail("test1@gmail.com");
+        uh.setMail("test@gmail.com");
         uh.setMdp("40BD001563085FC35165329EA1FF5C5ECBDBBEEF");
         uh.setPlafondDelegation(Float.parseFloat("1000000"));
         uh.setProfilTechnique(ProfilTechnique.Gestionnaire);
