@@ -87,7 +87,7 @@ public class ServletAdministrateur extends HttpServlet {
                     String adresse = ((String) request.getParameter("adresse")).trim();
                     String agence = ((String) request.getParameter("agence")).trim();
                     if (siret != null && nom != null && adresse != null && agence != null && !siret.isEmpty() && !nom.isEmpty() && !adresse.isEmpty() && !agence.isEmpty()) {
-                        sessionAdministrateur.creerEntreprise(siret, nom, adresse, Long.parseLong(agence));
+                        sessionAdministrateur.creerEntreprise(nom, siret, adresse, Long.parseLong(agence));
                         menuEntreprise(request, response);
                     } else {
                         request.setAttribute("MsgError", "Une erreur s'est produite");

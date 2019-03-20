@@ -122,7 +122,10 @@ public class SessionClient implements SessionClientLocal {
     @Override
     public void DemandeCreationOuRattachement(Long idClient, String nom, String siret, String adresse, Long idAgence){
         Client c = clientFacade.rechercheClient(idClient);
-        Agence a = agenceFacade.rechercheAgence(idAgence);
+        Agence a = null;
+        if(idAgence!=null){
+            a = agenceFacade.rechercheAgence(idAgence);
+        }
         Entreprise e = entrepriseFacade.rechercheEntrepriseSiret(siret);
         if(e==null){
             creerDemandeEntreprise(idClient, nom, siret, adresse, idAgence);
@@ -135,8 +138,12 @@ public class SessionClient implements SessionClientLocal {
     @Override
     public DemandeCreationEntreprise creerDemandeEntreprise(Long idClient, String nom, String siret, String adresse, Long idAgence) {
         Client c = clientFacade.rechercheClient(idClient);
-        Agence a = agenceFacade.rechercheAgence(idAgence);
+        Agence a = null;
+        if(idAgence!=null){
+           a = agenceFacade.rechercheAgence(idAgence); 
+        }
         DemandeCreationEntreprise e = demandeCreationEntrepriseFacade.creerDemandeCreationEntreprise(nom, siret, adresse, a,c);
+        clientFacade.demanderCreationEntreprise(c, e);
         return e;
     }
     
@@ -145,6 +152,7 @@ public class SessionClient implements SessionClientLocal {
         Client c = clientFacade.rechercheClient(idClient);
         Entreprise e = entrepriseFacade.rechercheEntrepriseSiret(siret);
         DemandeRattachement d = demandeRattachementFacade.creerDemandeRattachement(c, e);
+        clientFacade.demanderRattachementEntreprise(c, d);
         return d;
     }
     

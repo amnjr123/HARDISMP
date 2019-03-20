@@ -25,15 +25,11 @@ public class ServletClient extends HttpServlet {
     private String jspClient = "/client/index.jsp";
 
     private Client c;
-    
+
     protected void monProfil(HttpServletRequest request, HttpServletResponse response) {
-        if(c.getEntreprise()!=null){
-            jspClient = "/client/monProfil.jsp";
-        } else {
-            request.setAttribute("listeAgences", sessionClient.rechercherAgence());
-            jspClient = "/client/monProfil.jsp";
-        }
-        
+        request.setAttribute("listeAgences", sessionClient.rechercherAgence());
+        jspClient = "/client/monProfil.jsp";
+
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -46,29 +42,42 @@ public class ServletClient extends HttpServlet {
             System.out.print(c);
             if (request.getParameter("action") != null) {
                 String act = request.getParameter("action");
-                
+
                 //Consulter le profil
-                if (act.equals("monProfil")){
+                if (act.equals("monProfil")) {
                     monProfil(request, response);
                 }
-                
-                //demande de création d'entreprise
+                System.out.print(act);
+                //demande de création ou rattachaement à une entreprise
                 if (act.equals("creerDemandeEntreprise")) {
-                    String id = ((String) request.getParameter("idClient")).trim();
-                    String siret = ((String) request.getParameter("siret")).trim().toUpperCase();
-                    String nom = ((String) request.getParameter("nom")).trim();
-                    String adresse = ((String) request.getParameter("adresse")).trim();
-                    String agence = ((String) request.getParameter("agence")).trim();
-                    if (siret != null && nom != null && adresse != null && agence != null && !siret.isEmpty() && !nom.isEmpty() && !adresse.isEmpty() && !agence.isEmpty()) {
-                        sessionClient.creerDemandeEntreprise(Long.parseLong(id), nom, siret, adresse, Long.parseLong(agence));
-                         monProfil(request, response);
+                    if (request.getParameter("siret") != null) {
+                        Long id = c.getId();
+                        String siret = ((String) request.getParameter("siret")).trim().toUpperCase();
+                        String nom = request.getParameter("nom");
+                        String adresse = request.getParameter("adresse");
+                        Long idAgence=null;
+                        String agence = request.getParameter("agence");
+                        if(agence!= null && !agence.isEmpty()){
+                            idAgence=Long.parseLong(agence);
+                        }
+                        
+                        System.out.print(id);
+                        if (siret != null && !siret.isEmpty()) {
+                            sessionClient.DemandeCreationOuRattachement(id, nom, siret, adresse, idAgence);
+                            request.getSession().setAttribute(ATT_SESSION_CLIENT, sessionClient.rechercheClient(id));
+                            request.setAttribute("msgSuccess", "La demande a bien été effectuée");
+                            monProfil(request, response);
+                        } else {
+                            request.setAttribute("msgError", "Une erreur s'est produite");
+                            monProfil(request, response);
+                        }
                     } else {
-                        request.setAttribute("MsgError", "Une erreur s'est produite");
-                         monProfil(request, response);
+                        request.setAttribute("msgError", "le SIRET est Obligatoire");
+                        monProfil(request, response);
                     }
+
                 }
 
-                
                 //MODIFIER LE PRENOM DU CLIENT
                 if (act.equals("modifierPrenomClient")) {
                     if (request.getParameter("nouveauPrenom") != null && !request.getParameter("nouveauPrenom").isEmpty()) {
@@ -80,7 +89,7 @@ public class ServletClient extends HttpServlet {
                             monProfil(request, response);
                         } else {
                             request.setAttribute("msgError", "Le prénom n'a pas été modifié");
-                            monProfil(request, response);                        
+                            monProfil(request, response);
                         }
                     }
                 }
@@ -95,7 +104,7 @@ public class ServletClient extends HttpServlet {
                             monProfil(request, response);
                         } else {
                             request.setAttribute("msgError", "Le nom n'a pas été modifié");
-                            monProfil(request, response);                          
+                            monProfil(request, response);
                         }
                     }
                 }
@@ -110,7 +119,7 @@ public class ServletClient extends HttpServlet {
                             monProfil(request, response);
                         } else {
                             request.setAttribute("msgError", "Le téléphone n'a pas été modifié");
-                            monProfil(request, response);                       
+                            monProfil(request, response);
                         }
 
                     }
