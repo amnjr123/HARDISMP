@@ -17,15 +17,11 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
-                <h1 class="h2">Services associés</h1>
+                <h1 class="h2">Services standards</h1>
                 <div class="btn-toolbar">
                     <button  class="btn btn-sm btn-success " data-toggle="modal" data-target="#serviceStandard">
                         <span data-feather="folder-plus"></span>
                         Ajouter un service Standard
-                    </button>
-                    <button  style="margin-left:1em" class="btn btn-sm btn-success " data-toggle="modal" data-target="#serviceNonStandard">
-                        <span data-feather="folder-plus"></span>
-                        Ajouter un service Personnalisé
                     </button>
                 </div>
             </div>
@@ -41,17 +37,8 @@
                             <th scope="col">Description</th>
                             <th scope="col">Lieu</th>
                             <th scope="col">Coût</th>
-                            <th scope="col">Frais inclus ou non</th>
-                            <th scope="col">Conditions</th>
-                            <th scope="col">Délai de relance</th>
-                            <th scope="col">Début de validité</th>
-                            <th scope="col">Fin de validité</th>
-                            <th scope="col">Jours Consultant Senior</th>
-                            <th scope="col">Jours Consultant Confirmé</th>
-                            <th scope="col">Jours Consultant Junior</th>
-                            <th scope="col">Heures Ateliers/Entretiens</th>
-                            <th scope="col">Heures support téléphonique</th>
-                            <th scope="col">Détails description</th>
+                            <th scope="col">Actif ou obsolète</th>
+                            <th scope="col"></th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -85,6 +72,22 @@
                 </table>
             </div>
         </div>
+    </div>
+                            
+    
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
+                <h1 class="h2">Services Non Standards</h1>
+                <div class="btn-toolbar">
+                    <button  style="" class="btn btn-sm btn-success " data-toggle="modal" data-target="#serviceNonStandard">
+                        <span data-feather="folder-plus"></span>
+                        Ajouter un service Personnalisé
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table">
@@ -120,7 +123,8 @@
                             <td><div class="dropdown">
                                     <td><a data-toggle="modal" data-target="#modificationserviceNonStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
                                         <a href="#" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a></td>
-                                </div></td>
+                                </div>
+                            </td>
                         </tr>
                         <%}%>
                     </tbody>
@@ -177,11 +181,11 @@
                         <div class="form-group">
                             <label for="fraisInclus">Frais inclus ?</label><br>
                             <div class="text-center">
-                            <input type="radio" style=""  id="defaultUnchecked" name="fraisInclus">
-                            <label for="defaultUnchecked">Oui</label>
-                            <!-- Default checked -->
-                            <input style="margin-left: 2em" type="radio" id="defaultChecked" name="fraisInclus" checked>
-                            <label for="defaultChecked">Non</label>
+                                <input type="radio" style=""  id="defaultUnchecked" name="fraisInclus" value="true">
+                                <label for="defaultUnchecked">Oui</label>
+                                <!-- Default checked -->
+                                <input style="margin-left: 2em" type="radio" id="defaultChecked" name="fraisInclus" checked value="false">
+                                <label for="defaultChecked">Non</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -284,11 +288,11 @@
                         <div class="form-group">
                             <label for="fraisInclus">Frais inclus ?</label><br>
                             <div class="text-center">
-                            <input type="radio" style=""  id="defaultUnchecked" name="fraisInclus">
-                            <label for="defaultUnchecked">Oui</label>
-                            <!-- Default checked -->
-                            <input style="margin-left: 2em" type="radio" id="defaultChecked" name="fraisInclus" checked>
-                            <label for="defaultChecked">Non</label>
+                                <input type="radio" style="" id="defaultUnchecked" name="fraisInclus" value="true">
+                                <label for="defaultUnchecked">Oui</label>
+                                <!-- Default checked -->
+                                <input style="margin-left: 2em" type="radio" id="defaultChecked" name="fraisInclus" checked value="false">
+                                <label for="defaultChecked">Non</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -346,11 +350,11 @@ for (ServiceStandard st : listServicesStandards) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="description">Lieu intervention *</label>
-                            <select name="lieu" class="custom-select">
-                                <option <%if(st.getLieuIntervention().equals("Agence_Hardis")){out.print("selected");}%> value="Agence_Hardis">Agence Hardis</option>
-                                <option <%if(st.getLieuIntervention().equals("Site_Client")){out.print("selected");}%> value="Site_Client">Site Client</option>
-                                <option <%if(st.getLieuIntervention().equals("Mixte")){out.print("selected");}%> value="Mixte">Mixte</option>
+                            <label for="lieu">Lieu intervention *</label>
+                            <select name="lieu" class="custom-select" >
+                                <option <%if(st.getLieuIntervention().toString().equals("Agence_Hardis")){%>selected<%}%> value="Agence_Hardis">Agence Hardis</option>
+                                <option <%if(st.getLieuIntervention().toString().equals("Site_Client")){%>selected<%}%>  value="Site_Client">Site Client</option>
+                                <option <%if(st.getLieuIntervention().toString().equals("Mixte")){%>selected<%}%> value="Mixte">Mixte</option>
                             </select>
                             <div class="invalid-feedback">
                                 Le lieu de l'intervention est obligatoire.
@@ -367,11 +371,11 @@ for (ServiceStandard st : listServicesStandards) {
                         <div class="form-group">
                             <label for="fraisInclus">Frais inclus ?</label><br>
                             <div class="text-center">
-                            <input type="radio" style=""  id="defaultUnchecked" name="fraisInclus">
-                            <label for="defaultUnchecked">Oui</label>
-                            <!-- Default checked -->
-                            <input style="margin-left: 2em" type="radio" id="defaultChecked" name="fraisInclus" checked>
-                            <label for="defaultChecked">Non</label>
+                                <input type="radio" style="" <%if(st.getFraisInclus()==true){%>checked<%}%> id="defaultUnchecked" name="fraisInclus" value="true">
+                                <label for="defaultUnchecked">Oui</label>
+                                <!-- Default checked -->
+                                <input style="margin-left: 2em" type="radio" <%if(st.getFraisInclus()==false){%>checked<%}%> id="defaultChecked" name="fraisInclus" value="false">
+                                <label for="defaultChecked">Non</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -457,7 +461,7 @@ for (ServiceNonStandard st : listServicesNonStandards) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="description">Lieu intervention *</label>
+                            <label for="lieu">Lieu intervention *</label>
                             <select name="lieu" class="custom-select" >
                                 <option <%if(st.getLieuIntervention().toString().equals("Agence_Hardis")){%>selected<%}%> value="Agence_Hardis">Agence Hardis</option>
                                 <option <%if(st.getLieuIntervention().toString().equals("Site_Client")){%>selected<%}%>  value="Site_Client">Site Client</option>
@@ -478,11 +482,11 @@ for (ServiceNonStandard st : listServicesNonStandards) {
                         <div class="form-group">
                             <label for="fraisInclus">Frais inclus ?</label><br>
                             <div class="text-center">
-                            <input type="radio" style=""  id="defaultUnchecked" name="fraisInclus">
-                            <label for="defaultUnchecked">Oui</label>
-                            <!-- Default checked -->
-                            <input style="margin-left: 2em" type="radio" id="defaultChecked" name="fraisInclus" checked>
-                            <label for="defaultChecked">Non</label>
+                                <input type="radio" style="" <%if(st.getFraisInclus()==true){%>checked<%}%> id="defaultUnchecked" name="fraisInclus" value="true">
+                                <label for="defaultUnchecked">Oui</label>
+                                <!-- Default checked -->
+                                <input style="margin-left: 2em" type="radio" <%if(st.getFraisInclus()==false){%>checked<%}%> id="defaultChecked" name="fraisInclus" value="false">
+                                <label for="defaultChecked">Non</label>
                             </div>
                         </div>
                         <div class="form-group">

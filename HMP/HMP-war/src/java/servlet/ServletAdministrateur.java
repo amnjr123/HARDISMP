@@ -195,7 +195,7 @@ public class ServletAdministrateur extends HttpServlet {
                         int joursJuniorInt = Integer.parseInt(joursJunior);
                         int heuresAtelierInt = Integer.parseInt(heuresAtelier);
                         int heuresSupportTelInt = Integer.parseInt(heuresSupportTel);
-                        boolean fraisInclusBool = true;
+                        boolean fraisInclusBool = Boolean.parseBoolean(request.getParameter("fraisInclus"));
                         ServiceStandard st = sessionAdministrateur.creerServiceStandard(nom, description, lieu, coutFloat, fraisInclusBool, conditions, delaiInt, idOffre, joursSeniorInt, joursConfirmeInt, joursJuniorInt, heuresAtelierInt, heuresSupportTelInt, descriptionDetail);
                         if (st == null) {
                             request.setAttribute("msgError", "Une erreur s'est produite");
