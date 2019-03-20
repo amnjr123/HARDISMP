@@ -18,16 +18,16 @@
         <div class="card-header">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
                 <h1 class="h2">Services associés</h1>
-                <div class="btn-toolbar mb-2 mb-md-0">
-                    <button  class="btn btn-sm btn-success" data-toggle="modal" data-target="#exampleModal">
-                        <span data-feather="plus"></span>
-                        Ajouter un service Standard
-                    </button>
-                    <button  class="btn btn-sm btn-success" data-toggle="modal" data-target="#exampleModal">
-                        <span data-feather="plus"></span>
-                        Ajouter un service Personnalisé
-                    </button>
-                </div>
+                    <div class="btn-toolbar">
+                            <button  class="btn btn-sm btn-success " data-toggle="modal" data-target="#exampleModal">
+                                <span data-feather="folder-plus"></span>
+                                Ajouter un service Standard
+                            </button>
+                            <button  style="margin-left:1em" class="btn btn-sm btn-success " data-toggle="modal" data-target="#exampleModal">
+                                <span data-feather="folder-plus"></span>
+                                Ajouter un service Personnalisé
+                            </button>
+                    </div>
             </div>
         </div>
 
@@ -174,7 +174,6 @@
                                 Le prix du service est obligatoire.
                             </div>
                         </div>
-                        </div>
                         <!-- Default unchecked -->
                         <div class="form-group">
                             <input type="radio" class="custom-control-input" id="defaultUnchecked" name="fraisInclus">
@@ -192,7 +191,7 @@
                         </div>
                         <div class="form-group">
                             <label for="delai" class="sr-only">Délais de relance (en jours)</label>
-                            <input name="delai" type="text" id="delai" class="form-control" placeholder="delai" required autofocus>
+                            <input name="delai" pattern="[0-9][0-9][0-9]" type="tel" id="delai" class="form-control" placeholder="delai" required autofocus>
                             <div class="invalid-feedback">
                                 Le délai de relance est obligatoire.
                             </div>
@@ -225,7 +224,8 @@
                     <div class="modal-footer ">
                         <button type="submit" class="btn btn-success">Créer le service</button>
                         <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
-                        <input type="hidden" name="action" value="creerService">
+                        <input type="hidden" name="idOffre" value="<%=o.getId()%>">
+                        <input type="hidden" name="action" value="creerServiceStandard">
                     </div>
                 </form>
             </div>
