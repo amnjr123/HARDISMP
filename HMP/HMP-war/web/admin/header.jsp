@@ -41,10 +41,10 @@
                             <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=clients" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="user"></span> Clients
                             </a>
-                            <a  class="list-group-item list-group-item-action bg-light" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <a  class="list-group-item list-group-item-action bg-light" data-toggle="collapse" href="#collapseEntreprise" role="button" aria-expanded="false" aria-controls="collapseEntreprise">
                                 <span data-feather="user"></span> Entreprises
                             </a>
-                            <div class="collapse" id="collapseExample">
+                            <div class="collapse" id="collapseEntreprise">
                                 <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=entreprises&p=0" class="list-group-item list-group-item-action bg-light">
                                     <span data-feather="file-text"></span> Entreprises
                                 </a>
