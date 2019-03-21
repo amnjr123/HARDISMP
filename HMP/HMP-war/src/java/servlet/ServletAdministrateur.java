@@ -308,6 +308,7 @@ public class ServletAdministrateur extends HttpServlet {
                     jspClient = "/admin/services.jsp";
                 }
                 
+
                 if(act.equals("supprimerService")){
                     String idServiceStandardString = request.getParameter("idServiceStandard");
                     String idServiceNonStandardString = request.getParameter("idServiceNonStandard");
