@@ -49,6 +49,7 @@ import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -168,6 +169,31 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     @Override
     public List rechercheEntreprises(){
         return entrepriseFacade.rechercheEntreprises();
+    }
+    
+    public List rechercheEntreprise(String recherche){
+        if(recherche!= null && !recherche.isEmpty()){
+            List resultat = new ArrayList();
+            if(entrepriseFacade.rechercheEntrepriseNom(recherche)!=null){
+                resultat.add(entrepriseFacade.rechercheEntrepriseNom(recherche));
+            }
+            if (entrepriseFacade.rechercheEntrepriseSiret(recherche)!=null){
+                resultat.add(entrepriseFacade.rechercheEntrepriseSiret(recherche));
+            }
+            try{
+                Long id = Long.parseLong(recherche);
+                if (entrepriseFacade.rechercheEntreprise(id)!=null){
+                    resultat.add(entrepriseFacade.rechercheEntreprise(id));
+                }
+            } catch (Exception e) {
+                //Pas de resultat pour l'id
+            }
+            System.out.print("trouve");
+            return resultat;
+        } else {
+            System.out.print("pas trouve");
+            return entrepriseFacade.rechercheEntreprises();
+        }
     }
 
     @Override

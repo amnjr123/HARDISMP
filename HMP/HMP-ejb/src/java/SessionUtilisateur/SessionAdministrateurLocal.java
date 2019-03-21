@@ -150,4 +150,6 @@ public interface SessionAdministrateurLocal {
 
     List<DemandeRattachement> rechercheDemandeRattachements();
     Offre reactiverOffre(Long idOffre);
+
+    List rechercheEntreprise(String recherche);
 }
