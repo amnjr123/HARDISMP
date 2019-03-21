@@ -282,12 +282,19 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     }
     
     @Override
-    public PorteurOffre creerPO(String nom, String prenom, String mail, String tel, String profilTechnique, Long idOffre, Long idAgence){
+    public boolean creerPO(String nom, String prenom, String mail, String tel, String profilTechnique, Long idOffre, Long idAgence){
         Agence a = agenceFacade.rechercheAgence(idAgence);
         Offre o = offreFacade.rechercheOffre(idOffre);
         ProfilTechnique profil = ProfilTechnique.valueOf(profilTechnique);
-        PorteurOffre po = porteurOffreFacade.creerPorteurOffre(nom, prenom, mail, tel, profil, o, a);
-        return po;
+        boolean existant = false;
+        //On vérifie qu'il n'y a pas déjà un porteur d'offre pour cette offre
+        PorteurOffre po = porteurOffreFacade.recherchePorteurOffre(o);
+        if(po==null){
+            //Si non on le crée
+            porteurOffreFacade.creerPorteurOffre(nom, prenom, mail, tel, profil, o, a);
+            existant = true;
+        }
+        return existant;
     }
     
     @Override
@@ -315,16 +322,23 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     }
     
     @Override
-    public ReferentLocal creerReferentLocal(String nom, String prenom, String mail, String tel, String profilTechnique, float plafondDelegation, Long idOffre, Long idAgence){
+    public boolean creerReferentLocal(String nom, String prenom, String mail, String tel, String profilTechnique, float plafondDelegation, Long idOffre, Long idAgence){
         Agence a = agenceFacade.rechercheAgence(idAgence);
         Offre o = offreFacade.rechercheOffre(idOffre);
         ProfilTechnique profil = ProfilTechnique.valueOf(profilTechnique);
-        ReferentLocal rl = null;
-        //On vérifie que le plafond est > à 0
+        boolean existant = false;
+        //On vérifie qu'il n'y a pas déjà un référent local pour cette offre à cette agence
+        ReferentLocal rlexistant = referentLocalFacade.rechercheReferentLocal(a, o);
+        if(rlexistant==null){
+            //S'il n'existe pas alors on le crée
+            //On vérifie que le plafond est > à 0
             if(plafondDelegation>0){
-                rl = referentLocalFacade.creerReferentLocal(nom, prenom, mail, tel, profil,plafondDelegation, o, a);
+                referentLocalFacade.creerReferentLocal(nom, prenom, mail, tel, profil,plafondDelegation, o, a);
+                existant = true;
             }
-        return rl;
+        }
+        //Pour message erreur : si rlexistant est null alors la création a bien été faite, sinon c'est qu'il existait déjà et la création est rejetée
+        return existant;
     }
     
     @Override
