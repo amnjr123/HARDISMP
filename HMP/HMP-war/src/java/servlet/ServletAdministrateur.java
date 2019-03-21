@@ -307,12 +307,22 @@ public class ServletAdministrateur extends HttpServlet {
                 }
                 
                 if(act.equals("supprimerService")){
-                    Long idServiceNonStandard = Long.parseLong(request.getParameter("idServiceNonStandard").trim());
-                    ServiceNonStandard snt = sessionAdministrateur.supprimerServiceNonStandard(idServiceNonStandard);
-                    Offre offre = sessionAdministrateur.afficheOffre(snt.getOffre().getId());
+                    String idServiceStandardString = request.getParameter("idServiceStandard");
+                    String idServiceNonStandardString = request.getParameter("idServiceNonStandard");
+                    Offre offre;
+                    if(idServiceStandardString==null||idServiceStandardString.equalsIgnoreCase("")){
+                        Long idService = Long.parseLong(request.getParameter("idServiceNonStandard"));
+                        ServiceNonStandard snt = sessionAdministrateur.supprimerServiceNonStandard(idService);
+                        offre = sessionAdministrateur.afficheOffre(snt.getOffre().getId());
+                    }
+                    else{
+                        Long idService = Long.parseLong(request.getParameter("idServiceStandard"));
+                        ServiceStandard st = sessionAdministrateur.supprimerServiceStandard(idService);
+                        offre = sessionAdministrateur.afficheOffre(st.getOffre().getId());
+                    }
                     request.setAttribute("offre", offre);
-                    request.setAttribute("listeServicesStandards", sessionAdministrateur.afficherServicesStandards(snt.getOffre().getId()));
-                    request.setAttribute("listeServicesNonStandards", sessionAdministrateur.afficherServicesNonStandards(snt.getOffre().getId()));
+                    request.setAttribute("listeServicesStandards", sessionAdministrateur.afficherServicesStandards(offre.getId()));
+                    request.setAttribute("listeServicesNonStandards", sessionAdministrateur.afficherServicesNonStandards(offre.getId()));
                     jspClient = "/admin/services.jsp";
                 }
                 

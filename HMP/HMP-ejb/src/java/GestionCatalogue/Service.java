@@ -78,6 +78,7 @@ public class Service implements Serializable {
         this.nom = nom;
     }
 
+    @Column(columnDefinition = "TEXT")
     private String descriptionService;
 
     public String getDescriptionService() {
