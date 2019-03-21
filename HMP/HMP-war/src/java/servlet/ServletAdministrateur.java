@@ -176,7 +176,6 @@ public class ServletAdministrateur extends HttpServlet {
                     String description = request.getParameter("description").trim();
                     String lieu = request.getParameter("lieu").trim();
                     String cout = request.getParameter("cout").trim();
-                    //String fraisInclus = request.getParameter("fraisInclus").trim();
                     String conditions = request.getParameter("conditions").trim();
                     String delai = request.getParameter("delai").trim();
                     String joursSenior = request.getParameter("senior").trim();
@@ -215,7 +214,6 @@ public class ServletAdministrateur extends HttpServlet {
                     String description = request.getParameter("description").trim();
                     String lieu = request.getParameter("lieu").trim();
                     String cout = request.getParameter("cout").trim();
-                    //String fraisInclus = request.getParameter("fraisInclus").trim();
                     String conditions = request.getParameter("conditions").trim();
                     String delai = request.getParameter("delai").trim();
                     Long idOffre = Long.parseLong(request.getParameter("idOffre").trim());
@@ -235,6 +233,83 @@ public class ServletAdministrateur extends HttpServlet {
                     request.setAttribute("offre", offre);
                     request.setAttribute("listeServicesStandards", sessionAdministrateur.afficherServicesStandards(idOffre));
                     request.setAttribute("listeServicesNonStandards", sessionAdministrateur.afficherServicesNonStandards(idOffre));
+                    jspClient = "/admin/services.jsp";
+                }
+                
+                if(act.equals("modifierServiceStandard")){
+                    String nom = request.getParameter("nom").trim();
+                    String description = request.getParameter("description").trim();
+                    String lieu = request.getParameter("lieu").trim();
+                    String cout = request.getParameter("cout").trim();
+                    String conditions = request.getParameter("conditions").trim();
+                    String delai = request.getParameter("delai").trim();
+                    String joursSenior = request.getParameter("senior").trim();
+                    String joursConfirme = request.getParameter("confirme").trim();
+                    String joursJunior = request.getParameter("junior").trim();
+                    String heuresAtelier = request.getParameter("atelier").trim();
+                    String heuresSupportTel = request.getParameter("supporttel").trim();
+                    String descriptionDetail = request.getParameter("descriptiondetail").trim();
+                    Long idOffre = Long.parseLong(request.getParameter("idOffre").trim());
+                    Offre offre = sessionAdministrateur.afficheOffre(idOffre);
+                    Long idServiceStandard = Long.parseLong(request.getParameter("idServiceStandard").trim());
+                    if (nom != null && description != null && lieu != null && cout != null && /*fraisInclus!=null &&*/ conditions != null && delai != null && joursSenior != null && joursConfirme != null && joursJunior != null && heuresAtelier != null && heuresSupportTel != null && descriptionDetail != null && !nom.equalsIgnoreCase("") && !description.equalsIgnoreCase("") && !lieu.equalsIgnoreCase("") && !cout.equalsIgnoreCase("") && !conditions.equalsIgnoreCase("") && !delai.equalsIgnoreCase("") && !joursSenior.equalsIgnoreCase("") && !joursConfirme.equalsIgnoreCase("") && !joursJunior.equalsIgnoreCase("") && !heuresAtelier.equalsIgnoreCase("") && !heuresSupportTel.equalsIgnoreCase("") && !descriptionDetail.equalsIgnoreCase("")) {
+                        float coutFloat = Float.parseFloat(cout);
+                        int delaiInt = Integer.parseInt(delai);
+                        int joursSeniorInt = Integer.parseInt(joursSenior);
+                        int joursConfirmeInt = Integer.parseInt(joursConfirme);
+                        int joursJuniorInt = Integer.parseInt(joursJunior);
+                        int heuresAtelierInt = Integer.parseInt(heuresAtelier);
+                        int heuresSupportTelInt = Integer.parseInt(heuresSupportTel);
+                        boolean fraisInclusBool = Boolean.parseBoolean(request.getParameter("fraisInclus"));
+                        ServiceStandard st = sessionAdministrateur.modifierServiceStandard(idServiceStandard,nom, description, lieu, coutFloat, fraisInclusBool, conditions, delaiInt, idOffre, joursSeniorInt, joursConfirmeInt, joursJuniorInt, heuresAtelierInt, heuresSupportTelInt, descriptionDetail);
+                        if(st==null){
+                            request.setAttribute("MsgError", "Une erreur s'est produite");
+                        }
+                    }
+                    else{
+                        request.setAttribute("MsgError", "Une erreur s'est produite");
+                    }
+                    request.setAttribute("offre", offre);
+                    request.setAttribute("listeServicesStandards", sessionAdministrateur.afficherServicesStandards(idOffre));
+                    request.setAttribute("listeServicesNonStandards", sessionAdministrateur.afficherServicesNonStandards(idOffre));
+                    jspClient = "/admin/services.jsp";
+                }
+                
+                if(act.equals("modifierServiceNonStandard")){
+                    String nom = request.getParameter("nom").trim();
+                    String description = request.getParameter("description").trim();
+                    String lieu = request.getParameter("lieu").trim();
+                    String cout = request.getParameter("cout").trim();
+                    String conditions = request.getParameter("conditions").trim();
+                    String delai = request.getParameter("delai").trim();
+                    Long idOffre = Long.parseLong(request.getParameter("idOffre").trim());
+                    Offre offre = sessionAdministrateur.afficheOffre(idOffre);
+                    Long idServiceNonStandard = Long.parseLong(request.getParameter("idServiceStandard").trim());
+                    if(nom!=null && description!=null && lieu!=null && cout!=null && /*fraisInclus!=null &&*/ conditions!=null && delai!=null && !nom.equalsIgnoreCase("") && !description.equalsIgnoreCase("") && !lieu.equalsIgnoreCase("") && !cout.equalsIgnoreCase("") && !conditions.equalsIgnoreCase("") && !delai.equalsIgnoreCase("")){
+                        float coutFloat = Float.parseFloat(cout);
+                        int delaiInt = Integer.parseInt(delai);
+                        boolean fraisInclusBool = true;
+                        ServiceNonStandard snt = sessionAdministrateur.modifierServiceNonStandard(idServiceNonStandard, nom, description, lieu, coutFloat, fraisInclusBool, conditions, delaiInt, idOffre);
+                        if(snt==null){
+                            request.setAttribute("MsgError", "Une erreur s'est produite");
+                        }
+                    }
+                    else{
+                        request.setAttribute("MsgError", "Une erreur s'est produite");
+                    }
+                    request.setAttribute("offre", offre);
+                    request.setAttribute("listeServicesStandards", sessionAdministrateur.afficherServicesStandards(idOffre));
+                    request.setAttribute("listeServicesNonStandards", sessionAdministrateur.afficherServicesNonStandards(idOffre));
+                    jspClient = "/admin/services.jsp";
+                }
+                
+                if(act.equals("supprimerService")){
+                    Long idServiceNonStandard = Long.parseLong(request.getParameter("idServiceNonStandard").trim());
+                    ServiceNonStandard snt = sessionAdministrateur.supprimerServiceNonStandard(idServiceNonStandard);
+                    Offre offre = sessionAdministrateur.afficheOffre(snt.getOffre().getId());
+                    request.setAttribute("offre", offre);
+                    request.setAttribute("listeServicesStandards", sessionAdministrateur.afficherServicesStandards(snt.getOffre().getId()));
+                    request.setAttribute("listeServicesNonStandards", sessionAdministrateur.afficherServicesNonStandards(snt.getOffre().getId()));
                     jspClient = "/admin/services.jsp";
                 }
                 
