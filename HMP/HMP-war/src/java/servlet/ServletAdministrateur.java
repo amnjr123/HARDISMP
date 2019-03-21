@@ -55,9 +55,19 @@ public class ServletAdministrateur extends HttpServlet {
     }
     
     protected void menuEntreprise(HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("listeEntreprises", sessionAdministrateur.rechercheEntreprises());
-        request.setAttribute("listeAgences", sessionAdministrateur.afficherAgences());
-        jspClient = "/admin/entreprises.jsp";
+        if (request.getParameter("recherche") != null && !request.getParameter("recherche").isEmpty()) {
+            
+            System.out.print("recherche");
+            String recherche = request.getParameter("recherche");
+            
+            request.setAttribute("listeEntreprises", sessionAdministrateur.rechercheEntreprise(recherche));
+            request.setAttribute("listeAgences", sessionAdministrateur.afficherAgences());
+            jspClient = "/admin/entreprises.jsp";
+        } else {
+            request.setAttribute("listeEntreprises", sessionAdministrateur.rechercheEntreprises());
+            request.setAttribute("listeAgences", sessionAdministrateur.afficherAgences());
+            jspClient = "/admin/entreprises.jsp";
+        }
     }
     
     protected void menuDemandeCreationEntreprise(HttpServletRequest request, HttpServletResponse response) {
