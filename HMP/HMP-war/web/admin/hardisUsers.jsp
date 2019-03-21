@@ -180,7 +180,7 @@
 
                     <div class="form-group">
                         <label for='plafond' >Plafond de déléguation</label>
-                        <input pattern="[1-9]*" name="plafond" type='tel' id='plafond' class='form-control' placeholder='Plafond de déléguation' required autofocus>
+                        <input pattern="^[1-9][0-9]*$" name="plafond" type='tel' id='plafond' class='form-control' placeholder='Plafond de déléguation' required autofocus>
                         <div class="invalid-feedback">
                             Le Profil métier doit être plus de 0.
                         </div>

@@ -20,17 +20,17 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "ServletAdministrateur", urlPatterns = {"/ServletAdministrateur"})
 public class ServletAdministrateur extends HttpServlet {
-
+    
     @EJB
     private SessionClientLocal sessionClient;
-
+    
     @EJB
     private SessionAdministrateurLocal sessionAdministrateur;
-
+    
     private final String ATT_SESSION_ADMINISTRATEUR = "sessionAdministrateur";
-
+    
     private String jspClient = "/admin/indexAdmin.jsp";
-
+    
     protected void menuClient(HttpServletRequest request, HttpServletResponse response) {
         if (request.getParameter("recherche") != null && !request.getParameter("recherche").isEmpty()) {
             //request.setAttribute("listeClients", );
@@ -38,58 +38,58 @@ public class ServletAdministrateur extends HttpServlet {
             request.setAttribute("listeClients", sessionAdministrateur.listeClients());
         }
         jspClient = "/admin/clients.jsp";
-
+        
     }
-
+    
     protected void menuUtilisateurHardis(HttpServletRequest request, HttpServletResponse response) {
-
+        
         request.setAttribute("listeUtilisateursHardis", sessionAdministrateur.rechercheUtilisateursHardis());
         request.setAttribute("listeAgences", sessionAdministrateur.afficherAgences());
         request.setAttribute("listeOffres", sessionAdministrateur.afficherOffres());
         jspClient = "/admin/hardisUsers.jsp";
     }
-
+    
     protected void menuCatalogue(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("listOffres", sessionAdministrateur.afficherOffres());
         jspClient = "/admin/offres.jsp";
     }
-
+    
     protected void menuEntreprise(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("listeEntreprises", sessionAdministrateur.rechercheEntreprises());
         request.setAttribute("listeAgences", sessionAdministrateur.afficherAgences());
         jspClient = "/admin/entreprises.jsp";
     }
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        
         HttpSession sessionHttp = request.getSession();
-
+        
         if (sessionHttp.getAttribute(ATT_SESSION_ADMINISTRATEUR) != null) {
-
+            
             if (request.getParameter("action") != null) {
-
+                
                 String act = request.getParameter("action");
-
+                
                 if (act.equals("creerPO")) {
-                        String prenom = request.getParameter("prenom").trim();
+                    String prenom = request.getParameter("prenom").trim();
                     String nom = request.getParameter("nom").trim();
                     String mail = request.getParameter("email").trim().toLowerCase();
                     String tel = request.getParameter("tel").trim();
                     String profilTechnique = request.getParameter("profilTechnique");
                     String agence = request.getParameter("agence");
                     String offre = request.getParameter("offre");
-
+                    
                     if (prenom != null && nom != null && mail != null && tel != null && profilTechnique != null && agence != null && offre != null && !nom.isEmpty() && !mail.isEmpty() && !tel.isEmpty() && !agence.isEmpty() && !offre.isEmpty()) {
                         sessionAdministrateur.creerPO(nom, prenom, mail, tel, profilTechnique, Long.parseLong(offre), Long.parseLong(agence));
-                        request.setAttribute("msgSuccess", "Le Porteur d'offre "+ nom + " " + prenom +" a bien été crée.");
+                        request.setAttribute("msgSuccess", "Le Porteur d'offre " + nom + " " + prenom + " a bien été crée.");
                     } else {
                         request.setAttribute("msgError", "Une erreur s'est produite, l'un des champs est vide.");
                     }
                     menuUtilisateurHardis(request, response);
                 }
-
+                
                 if (act.equals("creerRL")) {
                     String prenom = request.getParameter("prenom").trim();
                     String nom = request.getParameter("nom").trim();
@@ -102,14 +102,14 @@ public class ServletAdministrateur extends HttpServlet {
 
                     if (prenom != null && nom != null && mail != null && tel != null && plafond != null && profilTechnique != null && agence != null && offre != null && !nom.isEmpty() && !mail.isEmpty() && !tel.isEmpty() && !agence.isEmpty() && !offre.isEmpty()) {
                         sessionAdministrateur.creerReferentLocal(nom, prenom, mail, tel, profilTechnique, Float.parseFloat(plafond), Long.parseLong(offre), Long.parseLong(agence));
-                        request.setAttribute("msgSuccess", "Le Référent Local "+ nom + " " + prenom +" a bien été crée");
-
+                        request.setAttribute("msgSuccess", "Le Référent Local " + nom + " " + prenom + " a bien été crée");
+                        
                     } else {
                         request.setAttribute("msgError", "Une erreur s'est produite, l'un des champs est vide.");
                     }
                     menuUtilisateurHardis(request, response);
                 }
-
+                
                 if (act.equals("creerConsultant")) {//plafond >= 0
                     String prenom = request.getParameter("prenom").trim();
                     String nom = request.getParameter("nom").trim();
@@ -119,31 +119,35 @@ public class ServletAdministrateur extends HttpServlet {
                     String agence = request.getParameter("agence");
                     String[] offres = request.getParameterValues("offres");
                     String plafond = request.getParameter("plafond").trim();
-
-                    if (prenom != null && nom != null && mail != null && tel != null && plafond != null && profilTechnique != null && agence != null && offres != null && !nom.isEmpty() && !mail.isEmpty() && !tel.isEmpty() && !agence.isEmpty() && offres.length != 0) {
-                        List<Long> listOffre = (ArrayList) Arrays.asList(offres);
+                    
+                    if (prenom != null && nom != null && mail != null && tel != null && plafond != null && profilTechnique != null && agence != null && offres != null && !nom.isEmpty() && !mail.isEmpty() && !tel.isEmpty() && !agence.isEmpty() && offres.length != 0) {                        
+                        List<Long> listOffre = new ArrayList<>();
+                        for (String idOffre : offres) {
+                            System.out.println("idOffre : " + Long.parseLong(idOffre));
+                            listOffre.add(Long.parseLong(idOffre));
+                        }
                         sessionAdministrateur.creerConsultant(nom, prenom, mail, tel, profilTechnique, Float.parseFloat(plafond), Long.parseLong(agence), listOffre);
-                        request.setAttribute("msgSuccess", "Le Consultant "+ nom + " " + prenom +" a bien été crée.");
-
+                        request.setAttribute("msgSuccess", "Le Consultant " + nom + " " + prenom + " a bien été crée.");
+                        
                     } else {
                         request.setAttribute("msgError", "Une erreur s'est produite, l'un des champs est vide.");
                     }
                     menuUtilisateurHardis(request, response);
                 }
-
+                
                 if (act.equals("creerAgence")) {
                     String localisation = request.getParameter("localisation").trim().toUpperCase();
                     String adresse = request.getParameter("adresse").trim();
                     if (localisation != null && adresse != null && !localisation.isEmpty() && !adresse.isEmpty()) {
                         sessionAdministrateur.creerAgence(localisation, adresse);
-
+                        
                     } else {
                         request.setAttribute("msgError", "Une erreur s'est produite");
                     }
                     request.setAttribute("listAgences", sessionAdministrateur.afficherAgences());
                     jspClient = "/admin/agences.jsp";
                 }
-
+                
                 if (act.equals("modifierDonneesClient")) {
                     String id = ((String) request.getParameter("id")).trim();
                     String nom = ((String) request.getParameter("nom")).trim();
@@ -161,7 +165,7 @@ public class ServletAdministrateur extends HttpServlet {
                         jspClient = "/admin/clients.jsp";
                     }
                 }
-
+                
                 if (act.equals("creerEntreprise")) {
                     String siret = request.getParameter("siret").trim().toUpperCase();
                     String nom = request.getParameter("nom").trim();
@@ -175,7 +179,7 @@ public class ServletAdministrateur extends HttpServlet {
                         menuEntreprise(request, response);
                     }
                 }
-
+                
                 if (act.equals("creerServiceStandard")) {
                     String nom = request.getParameter("nom").trim();
                     String description = request.getParameter("description").trim();
@@ -212,7 +216,7 @@ public class ServletAdministrateur extends HttpServlet {
                     request.setAttribute("listeServicesNonStandards", sessionAdministrateur.afficherServicesNonStandards(idOffre));
                     jspClient = "/admin/services.jsp";
                 }
-
+                
                 if (act.equals("creerServiceNonStandard")) {
                     String nom = request.getParameter("nom").trim();
                     String description = request.getParameter("description").trim();
@@ -239,7 +243,7 @@ public class ServletAdministrateur extends HttpServlet {
                     jspClient = "/admin/services.jsp";
                 }
                 
-                if(act.equals("modifierServiceStandard")){
+                if (act.equals("modifierServiceStandard")) {
                     String nom = request.getParameter("nom").trim();
                     String description = request.getParameter("description").trim();
                     String lieu = request.getParameter("lieu").trim();
@@ -264,12 +268,11 @@ public class ServletAdministrateur extends HttpServlet {
                         int heuresAtelierInt = Integer.parseInt(heuresAtelier);
                         int heuresSupportTelInt = Integer.parseInt(heuresSupportTel);
                         boolean fraisInclusBool = Boolean.parseBoolean(request.getParameter("fraisInclus"));
-                        ServiceStandard st = sessionAdministrateur.modifierServiceStandard(idServiceStandard,nom, description, lieu, coutFloat, fraisInclusBool, conditions, delaiInt, idOffre, joursSeniorInt, joursConfirmeInt, joursJuniorInt, heuresAtelierInt, heuresSupportTelInt, descriptionDetail);
-                        if(st==null){
+                        ServiceStandard st = sessionAdministrateur.modifierServiceStandard(idServiceStandard, nom, description, lieu, coutFloat, fraisInclusBool, conditions, delaiInt, idOffre, joursSeniorInt, joursConfirmeInt, joursJuniorInt, heuresAtelierInt, heuresSupportTelInt, descriptionDetail);
+                        if (st == null) {
                             request.setAttribute("MsgError", "Une erreur s'est produite");
                         }
-                    }
-                    else{
+                    } else {
                         request.setAttribute("MsgError", "Une erreur s'est produite");
                     }
                     request.setAttribute("offre", offre);
@@ -278,7 +281,7 @@ public class ServletAdministrateur extends HttpServlet {
                     jspClient = "/admin/services.jsp";
                 }
                 
-                if(act.equals("modifierServiceNonStandard")){
+                if (act.equals("modifierServiceNonStandard")) {
                     String nom = request.getParameter("nom").trim();
                     String description = request.getParameter("description").trim();
                     String lieu = request.getParameter("lieu").trim();
@@ -288,16 +291,15 @@ public class ServletAdministrateur extends HttpServlet {
                     Long idOffre = Long.parseLong(request.getParameter("idOffre").trim());
                     Offre offre = sessionAdministrateur.afficheOffre(idOffre);
                     Long idServiceNonStandard = Long.parseLong(request.getParameter("idServiceStandard").trim());
-                    if(nom!=null && description!=null && lieu!=null && cout!=null && /*fraisInclus!=null &&*/ conditions!=null && delai!=null && !nom.equalsIgnoreCase("") && !description.equalsIgnoreCase("") && !lieu.equalsIgnoreCase("") && !cout.equalsIgnoreCase("") && !conditions.equalsIgnoreCase("") && !delai.equalsIgnoreCase("")){
+                    if (nom != null && description != null && lieu != null && cout != null && /*fraisInclus!=null &&*/ conditions != null && delai != null && !nom.equalsIgnoreCase("") && !description.equalsIgnoreCase("") && !lieu.equalsIgnoreCase("") && !cout.equalsIgnoreCase("") && !conditions.equalsIgnoreCase("") && !delai.equalsIgnoreCase("")) {
                         float coutFloat = Float.parseFloat(cout);
                         int delaiInt = Integer.parseInt(delai);
                         boolean fraisInclusBool = true;
                         ServiceNonStandard snt = sessionAdministrateur.modifierServiceNonStandard(idServiceNonStandard, nom, description, lieu, coutFloat, fraisInclusBool, conditions, delaiInt, idOffre);
-                        if(snt==null){
+                        if (snt == null) {
                             request.setAttribute("MsgError", "Une erreur s'est produite");
                         }
-                    }
-                    else{
+                    } else {
                         request.setAttribute("MsgError", "Une erreur s'est produite");
                     }
                     request.setAttribute("offre", offre);
@@ -349,31 +351,31 @@ public class ServletAdministrateur extends HttpServlet {
                     request.setAttribute("listeServicesNonStandards", sessionAdministrateur.afficherServicesNonStandards(id));
                     jspClient = "/admin/services.jsp";
                 }
-
+                
                 if (act.equals("utilisateursHardis")) {
                     menuUtilisateurHardis(request, response);
                 }
                 if (act.equals("clients")) {
                     menuClient(request, response);
-
+                    
                 }
-
+                
                 if (act.equals("agences")) {
                     request.setAttribute("listAgences", sessionAdministrateur.afficherAgences());
                     jspClient = "/admin/agences.jsp";
                 }
-
+                
                 if (act.equals("entreprises")) {
                     menuEntreprise(request, response);
                 }
             }
         }
-
+        
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         RequestDispatcher rd = getServletContext().getRequestDispatcher(jspClient);
         rd.forward(request, response);
-
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
