@@ -28,7 +28,7 @@ import javax.persistence.Temporal;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Service implements Serializable {
 //Clés étrangères
-    
+
     @ManyToOne
     private Offre offre;
 
@@ -50,11 +50,21 @@ public class Service implements Serializable {
     public void setLivrables(List<Livrable> livrables) {
         this.livrables = livrables;
     }
-    
+
 //Attributs
-    @Column(insertable = false, updatable = false) 
+    @Column(insertable = false, updatable = false)
     private String dtype;
+
+    public String getDtype() {
+        return dtype;
+    }
+
+    public void setDtype(String dtype) {
+        this.dtype = dtype;
+    }
     
+    
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -78,7 +88,7 @@ public class Service implements Serializable {
         this.nom = nom;
     }
 
-    @Column(columnDefinition = "TEXT")
+    @Column(length = 2500)
     private String descriptionService;
 
     public String getDescriptionService() {
@@ -98,7 +108,7 @@ public class Service implements Serializable {
     public void setLieuIntervention(LieuIntervention lieuIntervention) {
         this.lieuIntervention = lieuIntervention;
     }
-    
+
     private Float cout;
 
     public Float getCout() {
@@ -119,6 +129,7 @@ public class Service implements Serializable {
         this.fraisInclus = fraisInclus;
     }
 
+    @Column(length = 2500)
     private String conditions;
 
     public String getConditions() {
@@ -139,7 +150,7 @@ public class Service implements Serializable {
         this.delaiRelance = delaiRelance;
     }
     //Attributs pour Historisation
-    
+
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateDebutValidite;
 
@@ -150,7 +161,7 @@ public class Service implements Serializable {
     public void setDateDebutValidite(Date dateDebutValidite) {
         this.dateDebutValidite = dateDebutValidite;
     }
-    
+
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateFinValidite;
 
@@ -196,5 +207,5 @@ public class Service implements Serializable {
     public String toString() {
         return "GestionCatalogue.Service[ id=" + id + " ]";
     }
-    
+
 }

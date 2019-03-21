@@ -119,320 +119,333 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     @EJB
     private AgenceFacadeLocal agenceFacade;
 
-/*GESTION DES AGENCES*/
-    
+    /*GESTION DES AGENCES*/
     @Override
     public Agence creerAgence(String localisation, String adresse) {
         return agenceFacade.creerAgence(localisation, adresse);
     }
 
-   @Override
+    @Override
     public List<Agence> afficherAgences() {
         return agenceFacade.rechercheAgences();
     }
-    
+
     @Override
-    public Agence modifierAgence(Long idAgence, String localisation, String adresse){
+    public Agence modifierAgence(Long idAgence, String localisation, String adresse) {
         Agence a = agenceFacade.rechercheAgence(idAgence);
         return agenceFacade.modifierAgence(a, localisation, adresse);
     }
 
 /*GESTION ENTREPRISE*/
     
+    
     @Override
-    public List<DemandeCreationEntreprise> rechercheDemandeCreationEntreprise(){
+    public DemandeRattachement validerDemandeRattachement(Long idDemande) {
+        DemandeRattachement d = demandeRattachementFacade.rechercherDemandeRattachement(idDemande);
+        clientFacade.affecterEntreprise(d.getClient(), d.getEntreprise());
+        demandeRattachementFacade.supprimerDemandeRattachement(d);
+        return d;//A tester si on peut renvoyer une instance supprimée de la bdd sans provoquer de bug
+    }
+    
+    
+    @Override
+    public DemandeRattachement refuserDemandeRattachement(Long idDemande) {
+        DemandeRattachement d = demandeRattachementFacade.rechercherDemandeRattachement(idDemande);
+        demandeRattachementFacade.supprimerDemandeRattachement(d);
+        return d;//A tester si on peut renvoyer une instance supprimée de la bdd sans provoquer de bug
+    }
+    
+    @Override
+    public List<DemandeCreationEntreprise> rechercheDemandeCreationEntreprise() {
         return demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise();
+    }
+
+    @Override
+    public List<DemandeRattachement> rechercheDemandeRattachements(){
+        return demandeRattachementFacade.rechercherDemandeRattachement();
     }
     
     @Override
     public List rechercheEntreprises(){
         return entrepriseFacade.rechercheEntreprises();
     }
-    
-    
-    
+
     @Override
-    public ArrayList paginer(int page,int nbreItems, List liste){
-        int nblignes=liste.size();
-        int nbPages=1;
-        int modulo = nblignes%nbreItems;
-        if (modulo!=0){
-            nbPages = ((nblignes-modulo)/nbreItems)+1;
+    public ArrayList paginer(int page, int nbreItems, List liste) {
+        int nblignes = liste.size();
+        int nbPages = 1;
+        int modulo = nblignes % nbreItems;
+        if (modulo != 0) {
+            nbPages = ((nblignes - modulo) / nbreItems) + 1;
         } else {
-            nbPages = nblignes/nbreItems;
+            nbPages = nblignes / nbreItems;
         }
-        if (page>nbPages-1 || page<0){
+        if (page > nbPages - 1 || page < 0) {
             page = 0;
         }
-        
+
         ArrayList lr = new ArrayList();
-        for(int i=page*nbreItems; i<=(page*nbreItems+nbreItems); i++){
-            try{
-              lr.add(liste.get(i));
-              System.out.print(i);
+        for (int i = page * nbreItems; i <= (page * nbreItems + nbreItems); i++) {
+            try {
+                lr.add(liste.get(i));
+                System.out.print(i);
             } catch (Exception e) {
-              System.out.print(i+" out of bounds");
+                System.out.print(i + " out of bounds");
             }
         }
         return lr;
     }
-   
+
     @Override
-    public Entreprise entrepriseExistante(String siret){
+    public Entreprise entrepriseExistante(String siret) {
         return entrepriseFacade.rechercheEntrepriseSiret(siret);
     }
-    
+
     /*public List<DemandeRattachement> afficherDemandesRattachement;*/
-    
     @Override
-    public Entreprise validerDemandeCreationEntreprise(Long idDemande) {
+    public Entreprise validerDemandeCreationEntreprise(Long idDemande, String nom, String siret, String adresse, Long idAgence) {
         DemandeCreationEntreprise d = demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise(idDemande);
         //Vérification si entreprise déjà existante
         Entreprise e = entrepriseFacade.rechercheEntrepriseSiret(d.getSiret());
         if(e==null){
+            Agence agence = agenceFacade.rechercheAgence(idAgence);
             // Si non alors on la crée
-            e = entrepriseFacade.creerEntreprise(d.getNom(), d.getSiret(), d.getAdresseFacturation(), d.getAgence());
+            e = entrepriseFacade.creerEntreprise(nom, siret, adresse, agence);
             //On affecte l'entreprise au client
             clientFacade.affecterEntreprise(d.getClient(), e);
             //Le client devient client Admin de l'enteprise
             clientFacade.modifierAdmin(d.getClient());
             //On supprime la demande de création
             demandeCreationEntrepriseFacade.supprimerDemandeCreationEntreprise(d);
-        }
-        else{
+        } else {
             //Si l'entreprise existe alors on transforme en demande de rattachement qui sera envoyée à l'admin Client
-            DemandeRattachement dr = demandeRattachementFacade.creerDemandeRattachement(d.getClient(),e);
+            DemandeRattachement dr = demandeRattachementFacade.creerDemandeRattachement(d.getClient(), e);
             //On supprime la demande de création
             demandeCreationEntrepriseFacade.supprimerDemandeCreationEntreprise(d);
         }
         return e;
     }
-    
+
     @Override
     public DemandeCreationEntreprise refuserDemandeCreationEntreprise(Long idDemande) {
         DemandeCreationEntreprise d = demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise(idDemande);
         return demandeCreationEntrepriseFacade.supprimerDemandeCreationEntreprise(d);
     }
-    
+
     @Override
     public Entreprise creerEntreprise(String nom, String siret, String adresseFacturation, long idAgence) {
         //Méthode pour que l'admin crée manuellement une enteprise
         return entrepriseFacade.creerEntreprise(nom, siret, adresseFacturation, agenceFacade.rechercheAgence(idAgence));
     }
-    
+
     @Override
     public Client rattacherClientAdmin(Long idClient, Long idEntreprise) {
         //Méthode pour que l'admin rattache manuellement le Client Admin à une entreprise
         Client c = clientFacade.rechercheClient(idClient);
         Entreprise e = entrepriseFacade.rechercheEntreprise(idEntreprise);
-        c = clientFacade.affecterEntreprise(c,e);
+        c = clientFacade.affecterEntreprise(c, e);
         clientFacade.modifierAdmin(c);
         return c;
     }
-    
+
     @Override
     public Client rattacherClient(Long idClient, Long idEntreprise) {
         //Méthode pour que l'admin rattache manuellement les clients à une entreprise
         Client c = clientFacade.rechercheClient(idClient);
         Entreprise e = entrepriseFacade.rechercheEntreprise(idEntreprise);
-        c = clientFacade.affecterEntreprise(c,e);
+        c = clientFacade.affecterEntreprise(c, e);
         return c;
     }
-    
+
     @Override
-    public List<Interlocuteur> rechercherInterlocuteur(){
+    public List<Interlocuteur> rechercherInterlocuteur() {
         return interlocuteurFacade.rechercheInterlocuteur();
     }
-    
+
     @Override
-    public List<Interlocuteur> rechercherInterlocuteur(Long idEntreprise){
+    public List<Interlocuteur> rechercherInterlocuteur(Long idEntreprise) {
         Entreprise e = entrepriseFacade.rechercheEntreprise(idEntreprise);
         return interlocuteurFacade.rechercheInterlocuteur(e);
     }
-    
+
     @Override
     public Interlocuteur creerInterlocuteur(String nom, String prenom, String telephone, String fonction, long idEntreprise) {
         return interlocuteurFacade.creerInterlocuteur(nom, prenom, nom, telephone, fonction, entrepriseFacade.rechercheEntreprise(idEntreprise));
     }
-    
+
     @Override
     public Interlocuteur modifierInterlocuteur(Long idInterlocuteur, String nom, String prenom, String telephone, String fonction) {
         Interlocuteur i = interlocuteurFacade.rechercheInterlocuteur(idInterlocuteur);
-        return interlocuteurFacade.modifierInterlocuteur(i,nom, prenom, nom, telephone, fonction);
+        return interlocuteurFacade.modifierInterlocuteur(i, nom, prenom, nom, telephone, fonction);
     }
-    
+
     @Override
     public Interlocuteur supprimerInterlocuteur(Long idInterlocuteur) {
         Interlocuteur i = interlocuteurFacade.rechercheInterlocuteur(idInterlocuteur);
         return interlocuteurFacade.supprimerInterlocuteur(i);
     }
-    
-/*GESTION DES COMPTES UTILISATEUR HARDIS*/
-    
-    
-    
+
+    /*GESTION DES COMPTES UTILISATEUR HARDIS*/
     @Override
     public List listeClients() {
         return clientFacade.findAll();
     }
-    
+
     @Override
     public List rechercheUtilisateursHardis() {
         return utilisateurHardisFacade.findAll();
     }
-    
+
     @Override
-    public boolean creerPO(String nom, String prenom, String mail, String tel, String profilTechnique, Long idOffre, Long idAgence){
+    public boolean creerPO(String nom, String prenom, String mail, String tel, String profilTechnique, Long idOffre, Long idAgence) {
         Agence a = agenceFacade.rechercheAgence(idAgence);
         Offre o = offreFacade.rechercheOffre(idOffre);
         ProfilTechnique profil = ProfilTechnique.valueOf(profilTechnique);
         boolean existant = false;
         //On vérifie qu'il n'y a pas déjà un porteur d'offre pour cette offre
         PorteurOffre po = porteurOffreFacade.recherchePorteurOffre(o);
-        if(po==null){
+        if (po == null) {
             //Si non on le crée
             porteurOffreFacade.creerPorteurOffre(nom, prenom, mail, tel, profil, o, a);
             existant = true;
         }
         return existant;
     }
-    
+
     @Override
-    public Consultant creerConsultant(String nom, String prenom, String mail, String tel, String profilTechnique,float plafondDelegation, Long idAgence, List<Long> listeIdOffres){
+    public Consultant creerConsultant(String nom, String prenom, String mail, String tel, String profilTechnique, float plafondDelegation, Long idAgence, List<Long> listeIdOffres) {
         Agence a = agenceFacade.rechercheAgence(idAgence);
         ProfilTechnique profil = ProfilTechnique.valueOf(profilTechnique);
         Consultant c = null;
         //On vérifie que la liste d'offres n'est pas vide
-        if(!listeIdOffres.isEmpty()){
-            int i = 0;
+        if (!listeIdOffres.isEmpty()) {
+            System.out.println("Inside Session");
+
             List<Offre> listeOffres = new ArrayList<Offre>();
-            for(i=0;i>=listeIdOffres.size();i++){
-                Long id = listeIdOffres.get(i);
-                Offre o = offreFacade.rechercheOffre(id);
-                if(o!=null){
-                   listeOffres.add(o);
+           for(Long idOffre : listeIdOffres){ 
+               Offre o = offreFacade.rechercheOffre(idOffre);
+                if (o != null) {
+                    listeOffres.add(o);
+                    System.out.println("Inside Session id offre " + o.getId() + " " + o.getLibelle());
                 }
-            }
+           }            
             //On vérifie que le plafond n'est pas négatif
-            if(plafondDelegation>=0){
+            if (plafondDelegation >= 0) {
                 c = consultantFacade.creerConsultant(nom, prenom, mail, tel, profil, plafondDelegation, a, listeOffres);
             }
         }
         return c;
     }
-    
+
     @Override
-    public boolean creerReferentLocal(String nom, String prenom, String mail, String tel, String profilTechnique, float plafondDelegation, Long idOffre, Long idAgence){
+    public boolean creerReferentLocal(String nom, String prenom, String mail, String tel, String profilTechnique, float plafondDelegation, Long idOffre, Long idAgence) {
         Agence a = agenceFacade.rechercheAgence(idAgence);
         Offre o = offreFacade.rechercheOffre(idOffre);
         ProfilTechnique profil = ProfilTechnique.valueOf(profilTechnique);
         boolean existant = false;
         //On vérifie qu'il n'y a pas déjà un référent local pour cette offre à cette agence
         ReferentLocal rlexistant = referentLocalFacade.rechercheReferentLocal(a, o);
-        if(rlexistant==null){
+        if (rlexistant == null) {
             //S'il n'existe pas alors on le crée
             //On vérifie que le plafond est > à 0
-            if(plafondDelegation>0){
-                referentLocalFacade.creerReferentLocal(nom, prenom, mail, tel, profil,plafondDelegation, o, a);
+            if (plafondDelegation > 0) {
+                referentLocalFacade.creerReferentLocal(nom, prenom, mail, tel, profil, plafondDelegation, o, a);
                 existant = true;
             }
         }
         //Pour message erreur : si rlexistant est null alors la création a bien été faite, sinon c'est qu'il existait déjà et la création est rejetée
         return existant;
     }
-    
+
     @Override
-    public PorteurOffre modifierPO(Long idPO, String nom, String prenom, String mail, String tel, String profilTechnique, boolean actifInactif, Long idOffre, Long idAgence){
+    public PorteurOffre modifierPO(Long idPO, String nom, String prenom, String mail, String tel, String profilTechnique, boolean actifInactif, Long idOffre, Long idAgence) {
         Agence a = agenceFacade.rechercheAgence(idAgence);
         Offre o = offreFacade.rechercheOffre(idOffre);
         PorteurOffre po = porteurOffreFacade.recherchePorteurOffre(idPO);
         ProfilTechnique profil = ProfilTechnique.valueOf(profilTechnique);
         if (po.getMail().equalsIgnoreCase(mail)) {
             //Si le mail n'a pas changé alors on peut modifier
-            return porteurOffreFacade.modifierPorteurOffre(po,nom, prenom, mail, tel, profil, actifInactif, o, a);
+            return porteurOffreFacade.modifierPorteurOffre(po, nom, prenom, mail, tel, profil, actifInactif, o, a);
         } else {
             //Si le mail a changé alors on vérifie qu'il n'est pas déjà utilisé
             Utilisateur u = utilisateurFacade.rechercherUtilisateurParMail(mail);
             if (u == null) {
                 //Si pas utilisé alors on peut modifier
-                return porteurOffreFacade.modifierPorteurOffre(po,nom, prenom, mail, tel, profil, actifInactif, o, a);
+                return porteurOffreFacade.modifierPorteurOffre(po, nom, prenom, mail, tel, profil, actifInactif, o, a);
             } else {
                 //Si déjà utilisé alors on renvoie null pour message erreur
                 return null;
             }
         }
     }
-    
+
     @Override
-    public Consultant modifierConsultant(Long idConsultant, String nom, String prenom, String mail, String tel, String profilTechnique,boolean actifInactif, float plafondDelegation, Long idAgence, List<Long> listeIdOffres){
+    public Consultant modifierConsultant(Long idConsultant, String nom, String prenom, String mail, String tel, String profilTechnique, boolean actifInactif, float plafondDelegation, Long idAgence, List<Long> listeIdOffres) {
         Agence a = agenceFacade.rechercheAgence(idAgence);
         Consultant c = consultantFacade.rechercheConsultant(idConsultant);
         ProfilTechnique profil = ProfilTechnique.valueOf(profilTechnique);
         //On vérifie que la liste d'offres n'est pas vide
-        if(!listeIdOffres.isEmpty()){
+        if (!listeIdOffres.isEmpty()) {
             int i = 0;
             List<Offre> listeOffres = new ArrayList<Offre>();
-            for(i=0;i>=listeIdOffres.size();i++){
+            for (i = 0; i >= listeIdOffres.size(); i++) {
                 Long id = listeIdOffres.get(i);
                 Offre o = offreFacade.rechercheOffre(id);
-                if(o!=null){
-                   listeOffres.add(o);
+                if (o != null) {
+                    listeOffres.add(o);
                 }
             }
             //On vérifie que le plafond n'est pas négatif
-            if(plafondDelegation>=0){
+            if (plafondDelegation >= 0) {
                 if (c.getMail().equalsIgnoreCase(mail)) {
                     //Si le mail n'a pas changé alors on peut modifier
-                    return consultantFacade.modifierConsultant(c,nom, prenom, mail, tel, profil, actifInactif,plafondDelegation, listeOffres, a);
+                    return consultantFacade.modifierConsultant(c, nom, prenom, mail, tel, profil, actifInactif, plafondDelegation, listeOffres, a);
                 } else {
                     //Si le mail a changé alors on vérifie qu'il n'est pas déjà utilisé
                     Utilisateur u = utilisateurFacade.rechercherUtilisateurParMail(mail);
                     if (u == null) {
                         //Si pas utilisé alors on peut modifier
-                        return consultantFacade.modifierConsultant(c,nom, prenom, mail, tel, profil, actifInactif,plafondDelegation, listeOffres, a);
+                        return consultantFacade.modifierConsultant(c, nom, prenom, mail, tel, profil, actifInactif, plafondDelegation, listeOffres, a);
                     } else {
                         //Si déjà utilisé alors on renvoie null pour message erreur
                         return null;
                     }
                 }
-            }
-            else{
+            } else {
                 return null;
             }
-        }
-        else{
+        } else {
             return null;
         }
     }
-    
+
     @Override
-    public ReferentLocal modifierReferentLocal(Long idReferentLocal, String nom, String prenom, String mail, String tel, String profilTechnique, boolean actifInactif,float plafondDelegation, Long idOffre, Long idAgence){
+    public ReferentLocal modifierReferentLocal(Long idReferentLocal, String nom, String prenom, String mail, String tel, String profilTechnique, boolean actifInactif, float plafondDelegation, Long idOffre, Long idAgence) {
         Agence a = agenceFacade.rechercheAgence(idAgence);
         Offre o = offreFacade.rechercheOffre(idOffre);
         ReferentLocal rl = referentLocalFacade.rechercheReferentLocal(idReferentLocal);
         ProfilTechnique profil = ProfilTechnique.valueOf(profilTechnique);
         //On vérifie que le plafond est > à 0
-        if(plafondDelegation>0){
+        if (plafondDelegation > 0) {
             if (rl.getMail().equalsIgnoreCase(mail)) {
                 //Si le mail n'a pas changé alors on peut modifier
-                return referentLocalFacade.modifierReferentLocal(rl,nom, prenom, mail, tel, profil, actifInactif,plafondDelegation, o, a);
+                return referentLocalFacade.modifierReferentLocal(rl, nom, prenom, mail, tel, profil, actifInactif, plafondDelegation, o, a);
             } else {
                 //Si le mail a changé alors on vérifie qu'il n'est pas déjà utilisé
                 Utilisateur u = utilisateurFacade.rechercherUtilisateurParMail(mail);
                 if (u == null) {
                     //Si pas utilisé alors on peut modifier
-                    return referentLocalFacade.modifierReferentLocal(rl,nom, prenom, mail, tel, profil, actifInactif,plafondDelegation, o, a);
+                    return referentLocalFacade.modifierReferentLocal(rl, nom, prenom, mail, tel, profil, actifInactif, plafondDelegation, o, a);
                 } else {
                     //Si déjà utilisé alors on renvoie null pour message erreur
                     return null;
                 }
             }
-        }
-        else{
+        } else {
             return null;
         }
     }
-    
+
     @Override
     public Utilisateur modifierUtilisateurMDP(Long id, String ancienMdp, String nouveauMdp) {
         Utilisateur u = utilisateurFacade.rechercheUtilisateur(id);
@@ -448,75 +461,73 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         }
         return retour;
     }
-    
-/*GESTION DES CV*/
-    
+
+    /*GESTION DES CV*/
     @Override
-    public CV creerCV(String chemin, Long idUtilisateur, Long idOffre){
+    public CV creerCV(String chemin, Long idUtilisateur, Long idOffre) {
         UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateur);
         Offre o = offreFacade.rechercheOffre(idOffre);
         return cVFacade.creerCV(chemin, uh, o);
     }
-    
+
     @Override
-    public CV creerCV(String chemin, Long idUtilisateurHardis){
+    public CV creerCV(String chemin, Long idUtilisateurHardis) {
         UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
         return cVFacade.creerCV(chemin, uh);
     }
-    
+
     @Override
-    public CV modifierCV(Long idCV, String chemin){
+    public CV modifierCV(Long idCV, String chemin) {
         CV cv = cVFacade.rechercheCV(idCV);
         return cVFacade.modifierCV(cv, chemin);
     }
-    
+
     @Override
-    public CV supprimerCV(Long idCV){
+    public CV supprimerCV(Long idCV) {
         CV cv = cVFacade.rechercheCV(idCV);
         return cVFacade.supprimerCV(cv);
     }
-    
+
     @Override
-    public List<CV> afficherCV(){
+    public List<CV> afficherCV() {
         return cVFacade.rechercheCV();
     }
-    
+
     @Override
-    public List<CV> afficherCVOffre(Long idOffre){
+    public List<CV> afficherCVOffre(Long idOffre) {
         Offre o = offreFacade.rechercheOffre(idOffre);
         return cVFacade.rechercherCV(o);
     }
-    
+
     @Override
-    public List<CV> afficherCVUtilisateur(Long idUtilisateurHardis){
+    public List<CV> afficherCVUtilisateur(Long idUtilisateurHardis) {
         UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
         return cVFacade.rechercherCV(uh);
     }
-    
+
     @Override
-    public CV afficherCVOffreUtilisateur(Long idUtilisateurHardis, Long idOffre){
+    public CV afficherCVOffreUtilisateur(Long idUtilisateurHardis, Long idOffre) {
         UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
         Offre o = offreFacade.rechercheOffre(idOffre);
         return cVFacade.rechercherCV(o, uh);
     }
-    
-/*GESTION DU CATALOGUE*/
-    
+
+    /*GESTION DU CATALOGUE*/
     @Override
-    public Offre creerOffre(String nom){
+    public Offre creerOffre(String nom) {
         return offreFacade.creerOffre(nom);
     }
-    
+
     @Override
-    public Offre modifierOffre(Long idOffre, String nom){
-        return offreFacade.modifierOffre(offreFacade.rechercheOffre(idOffre),nom);
+    public Offre modifierOffre(Long idOffre, String nom) {
+        return offreFacade.modifierOffre(offreFacade.rechercheOffre(idOffre), nom);
     }
-    
+
     @Override
-    public Offre supprimerOffre(Long idOffre){
+    public Offre supprimerOffre(Long idOffre) {
         return offreFacade.supprimerOffre(offreFacade.rechercheOffre(idOffre));
     }
-    
+
     @Override
     public Offre reactiverOffre(Long idOffre){
         return offreFacade.reactiverOffre(offreFacade.rechercheOffre(idOffre));
@@ -526,149 +537,138 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     public List<Offre> afficherOffres(){
         return offreFacade.rechercheOffre();
     }
-    
+
     @Override
-    public Offre afficheOffre(Long id){
+    public Offre afficheOffre(Long id) {
         return offreFacade.rechercheOffre(id);
     }
-    
+
     @Override
-    public ServiceStandard creerServiceStandard(String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre,  int nbJoursConsultantSenior, int nbJoursConsultantConfirme, int nbJoursConsultantJunior, int nbHeuresAtelierEntretien, int nbHeuresSupportTel, String descriptionPrestation){
+    public ServiceStandard creerServiceStandard(String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre, int nbJoursConsultantSenior, int nbJoursConsultantConfirme, int nbJoursConsultantJunior, int nbHeuresAtelierEntretien, int nbHeuresSupportTel, String descriptionPrestation) {
         LieuIntervention lieu = LieuIntervention.valueOf(lieuString);
         Offre offre = offreFacade.rechercheOffre(idOffre);
         return serviceStandardFacade.creerServiceStandard(nom, descriptionService, lieu, cout, fraisInclus, conditions, delaiRelance, offre, nbJoursConsultantSenior, nbJoursConsultantConfirme, nbJoursConsultantJunior, nbHeuresAtelierEntretien, nbHeuresSupportTel, descriptionPrestation);
     }
-    
+
     @Override
-    public ServiceStandard modifierServiceStandard(Long idServiceStandard, String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre,  int nbJoursConsultantSenior, int nbJoursConsultantConfirme, int nbJoursConsultantJunior, int nbHeuresAtelierEntretien, int nbHeuresSupportTel, String descriptionPrestation){
+    public ServiceStandard modifierServiceStandard(Long idServiceStandard, String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre, int nbJoursConsultantSenior, int nbJoursConsultantConfirme, int nbJoursConsultantJunior, int nbHeuresAtelierEntretien, int nbHeuresSupportTel, String descriptionPrestation) {
         LieuIntervention lieu = LieuIntervention.valueOf(lieuString);
         Offre offre = offreFacade.rechercheOffre(idOffre);
         ServiceStandard ancienService = serviceStandardFacade.rechercheServiceStandard(idServiceStandard);
         return serviceStandardFacade.modifierServiceStandard(ancienService, nom, descriptionService, lieu, cout, fraisInclus, conditions, delaiRelance, offre, nbJoursConsultantSenior, nbJoursConsultantConfirme, nbJoursConsultantJunior, nbHeuresAtelierEntretien, nbHeuresSupportTel, descriptionPrestation);
     }
-    
+
     @Override
-    public ServiceStandard supprimerServiceStandard(Long idServiceStandard){
+    public ServiceStandard supprimerServiceStandard(Long idServiceStandard) {
         ServiceStandard ancienService = serviceStandardFacade.rechercheServiceStandard(idServiceStandard);
         return serviceStandardFacade.supprimerServiceStandard(ancienService);
     }
-    
+
     @Override
-    public List<Service> afficherServices(){
+    public List<Service> afficherServices() {
         return serviceFacade.rechercherService();
-    } 
-    
+    }
+
     @Override
-    public List<ServiceStandard> afficherServicesStandards(Long idOffre){
+    public List<ServiceStandard> afficherServicesStandards(Long idOffre) {
         Offre o = offreFacade.rechercheOffre(idOffre);
         return serviceStandardFacade.rechercherServiceStandard(o);
-    } 
-    
+    }
+
     @Override
-    public List<ServiceNonStandard> afficherServicesNonStandards(Long idOffre){
+    public List<ServiceNonStandard> afficherServicesNonStandards(Long idOffre) {
         Offre o = offreFacade.rechercheOffre(idOffre);
         return serviceNonStandardFacade.rechercherServiceNonStandard(o);
-    } 
-    
- 
+    }
+
     @Override
-    public ServiceNonStandard creerServiceNonStandard(String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre){
+    public ServiceNonStandard creerServiceNonStandard(String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre) {
         LieuIntervention lieu = LieuIntervention.valueOf(lieuString);
         Offre offre = offreFacade.rechercheOffre(idOffre);
         return serviceNonStandardFacade.creerServiceNonStandard(nom, descriptionService, lieu, cout, fraisInclus, conditions, delaiRelance, offre);
     }
-    
+
     @Override
-    public ServiceNonStandard modifierServiceNonStandard(Long idServiceNonStandard, String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre){
+    public ServiceNonStandard modifierServiceNonStandard(Long idServiceNonStandard, String nom, String descriptionService, String lieuString, float cout, boolean fraisInclus, String conditions, int delaiRelance, Long idOffre) {
         LieuIntervention lieu = LieuIntervention.valueOf(lieuString);
         Offre offre = offreFacade.rechercheOffre(idOffre);
         ServiceNonStandard ancienService = serviceNonStandardFacade.rechercheServiceNonStandard(idServiceNonStandard);
-        return serviceNonStandardFacade.modifierServiceNonStandard(ancienService,nom, descriptionService, lieu, cout, fraisInclus, conditions, delaiRelance, offre);
+        return serviceNonStandardFacade.modifierServiceNonStandard(ancienService, nom, descriptionService, lieu, cout, fraisInclus, conditions, delaiRelance, offre);
     }
-    
+
     @Override
-    public ServiceNonStandard supprimerServiceNonStandard(Long idServiceNonStandard){
+    public ServiceNonStandard supprimerServiceNonStandard(Long idServiceNonStandard) {
         ServiceNonStandard ancienService = serviceNonStandardFacade.rechercheServiceNonStandard(idServiceNonStandard);
         return serviceNonStandardFacade.supprimerServiceNonStandard(ancienService);
     }
 
-    
     @Override
-    public Livrable creerLivrable(String libelle, Long idService){
+    public Livrable creerLivrable(String libelle, Long idService) {
         Service service = serviceFacade.rechercherService(idService);
         return livrableFacade.creerLivrable(libelle, service);
     }
-    
+
     @Override
-    public Livrable modifierLivrable(Long idLivrable, String libelle){
+    public Livrable modifierLivrable(Long idLivrable, String libelle) {
         Livrable livrable = livrableFacade.rechercheLivrable(idLivrable);
         return livrableFacade.modifierLivrable(livrable, libelle);
     }
-    
+
     @Override
-    public Livrable supprimerLivrable(Long idLivrable){
+    public Livrable supprimerLivrable(Long idLivrable) {
         Livrable livrable = livrableFacade.rechercheLivrable(idLivrable);
         return livrableFacade.supprimerLivrable(livrable);
     }
-    
+
     @Override
-    public List<Livrable> afficherLivrables(Long idService){
+    public List<Livrable> afficherLivrables(Long idService) {
         Service service = serviceFacade.rechercherService(idService);
         return livrableFacade.rechercheLivrable(service);
     }
-    
-/*GESTION DES DEVIS*/
-    
+
+    /*GESTION DES DEVIS*/
     @Override
-    public List<Devis> rechercherDevis(Long idUtilisateurHardis, Long idClient, String statutDevis){
+    public List<Devis> rechercherDevis(Long idUtilisateurHardis, Long idClient, String statutDevis) {
         //A TESTER
         //Une seule méthode de recherche
         //Envoyer null pour les paramètres non utilisés pour votre recherche
-        if(idUtilisateurHardis==null && idClient==null && statutDevis==null){
+        if (idUtilisateurHardis == null && idClient == null && statutDevis == null) {
             //Afficher tous les devis
             return devisFacade.rechercherDevis();
-        }
-        else if(idUtilisateurHardis!=null && idClient==null && statutDevis==null){
+        } else if (idUtilisateurHardis != null && idClient == null && statutDevis == null) {
             //Afficher tous les devis d'un utilisateur
             UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
             return devisFacade.rechercherDevis(uh);
-        }
-        else if(idUtilisateurHardis==null && idClient!=null && statutDevis==null){
+        } else if (idUtilisateurHardis == null && idClient != null && statutDevis == null) {
             //Afficher tous les devis d'un client
             Client c = clientFacade.rechercheClient(idClient);
             return devisFacade.rechercherDevis(c);
-        }
-        else if(idUtilisateurHardis==null && idClient==null && statutDevis!=null){
+        } else if (idUtilisateurHardis == null && idClient == null && statutDevis != null) {
             //Afficher tous les devis qui ont un statut
             StatutDevis statut = StatutDevis.valueOf(statutDevis);
             return devisFacade.rechercherDevis(statut);
-        }
-        else if(idUtilisateurHardis!=null && idClient!=null && statutDevis==null){
+        } else if (idUtilisateurHardis != null && idClient != null && statutDevis == null) {
             //Afficher tous les devis d'un utilisateur et un client
             UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
             Client c = clientFacade.rechercheClient(idClient);
-            return devisFacade.rechercherDevis(uh,c);
-        }
-        else if(idUtilisateurHardis!=null && idClient==null && statutDevis!=null){
+            return devisFacade.rechercherDevis(uh, c);
+        } else if (idUtilisateurHardis != null && idClient == null && statutDevis != null) {
             //Afficher tous les devis d'un utilisateur et un statut
             UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
             StatutDevis statut = StatutDevis.valueOf(statutDevis);
-            return devisFacade.rechercherDevis(uh,statut);
-        }
-        else if(idUtilisateurHardis==null && idClient!=null && statutDevis!=null){
+            return devisFacade.rechercherDevis(uh, statut);
+        } else if (idUtilisateurHardis == null && idClient != null && statutDevis != null) {
             //Afficher tous les devis d'un client et un statut
             Client c = clientFacade.rechercheClient(idClient);
             StatutDevis statut = StatutDevis.valueOf(statutDevis);
-            return devisFacade.rechercherDevis(c,statut);
-        }
-        else {
+            return devisFacade.rechercherDevis(c, statut);
+        } else {
             //Afficher tous les devis d'un utilisateur pour un client avec un statut
             UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
             Client c = clientFacade.rechercheClient(idClient);
             StatutDevis statut = StatutDevis.valueOf(statutDevis);
-            return devisFacade.rechercherDevis(uh,c,statut);
+            return devisFacade.rechercherDevis(uh, c, statut);
         }
     }
-    
-    
+
 }
