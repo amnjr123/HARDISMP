@@ -18,9 +18,7 @@ public class ServletUtilisateurHardis extends HttpServlet {
 
     @EJB
     private SessionHardisLocal sessionHardis;
-    
-    
-    
+
     private final String ATT_SESSION_HARDIS = "sessionHardis";
 
     private String jspClient = "/hardisUser/index.jsp";
@@ -31,16 +29,16 @@ public class ServletUtilisateurHardis extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sessionHttp = request.getSession();
-        
+
         if (sessionHttp.getAttribute(ATT_SESSION_HARDIS) != null) {
             uh = (UtilisateurHardis) sessionHttp.getAttribute(ATT_SESSION_HARDIS);
-            if (request.getParameter("action") != null && !request.getParameter("action").isEmpty() ) {
+            if (request.getParameter("action") != null && !request.getParameter("action").isEmpty()) {
                 String act = request.getParameter("action");
-                
-                if(act.equals("monProfil")){
-                    jspClient="/hardisUser/monProfil.jsp";
+
+                if (act.equals("monProfil")) {
+                    jspClient = "/hardisUser/monProfil.jsp";
                 }
-                
+
                 //MODIFIER LE MOT DE PASSE DE LUTILISATEUR HARDIS
                 if (act.equals("modifierMDPClient")) {
                     if (request.getParameter("ancienMDP") != null && request.getParameter("nouveauMDP") != null && !request.getParameter("ancienMDP").isEmpty() && !request.getParameter("nouveauMDP").isEmpty()) {
@@ -49,21 +47,23 @@ public class ServletUtilisateurHardis extends HttpServlet {
                         Utilisateur uti = sessionHardis.modifierUtilisateurMDP(uh.getId(), ancien, nouveau);
                         if (uti != null) {
                             request.setAttribute("msgSuccess", "Le mot de passe a bien été modifié");
-                            jspClient="/hardisUser/monProfil.jsp";
+                            jspClient = "/hardisUser/monProfil.jsp";
                         } else {
                             request.setAttribute("msgError", "Le mot de passe n'a pas été modifié, l'ancien mot de passe est incorrect");
-                            jspClient="/hardisUser/monProfil.jsp";
+                            jspClient = "/hardisUser/monProfil.jsp";
                         }
 
                     }
                 }
-                
+
             }
         }
-        
+
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         RequestDispatcher rd = getServletContext().getRequestDispatcher(jspClient);
         rd.forward(request, response);
-       
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -129,6 +129,9 @@ public class Servlet extends HttpServlet {
             /*Fin Deconnexion*/
 
         }
+        
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         RequestDispatcher rd = getServletContext().getRequestDispatcher(jspClient);
         rd.forward(request, response);
 
