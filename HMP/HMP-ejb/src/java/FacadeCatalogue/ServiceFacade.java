@@ -66,6 +66,7 @@ public class ServiceFacade extends AbstractFacade<Service> implements ServiceFac
         requete.setParameter("offre", o);
         return requete.getResultList();
     }
+    
     @Override
     public List<Service> rechercheServicesActuels() {
         Query requete = getEntityManager().createQuery("select s from Service as s where s.dateFinValidite>:date");

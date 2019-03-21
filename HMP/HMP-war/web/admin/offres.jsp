@@ -30,8 +30,8 @@
                         <tr>
                             <th scope="col">id</th>
                             <th scope="col">Libellé</th>
-                            <th scope="col">Actif ou obsolète</th>
-                            <th scope="col">Services</th>
+                            <th scope="col" class="text-center">Actif ou obsolète</th>
+                            <th scope="col" class="text-center">Services</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -50,8 +50,8 @@
                         <tr>
                             <td><%=o.getId()%></td>
                             <td><%=o.getLibelle()%></td>
-                            <td><%if(o.getDateFinValidite().after(date)){%><i data-feather="check-circle" style="color:green"></i><%}else{%><i data-feather="x" style="color:red"></i><%}%></td>
-                            <td><a href="${pageContext.request.contextPath}/ServletAdministrateur?action=services&id=<%=o.getId()%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="list"></i></a></td>
+                            <td class="text-center"><%if(o.getDateFinValidite().after(date)){%><i data-feather="check-circle" style="color:green"></i><%}else{%><i data-feather="x" style="color:red"></i><%}%></td>
+                            <td class="text-center"><a href="${pageContext.request.contextPath}/ServletAdministrateur?action=services&id=<%=o.getId()%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="list"></i></a></td>
                             <td>
                                 <div class="dropdown">
                                     <a href="#" data-toggle="modal" data-target="#modifierOffre<%=(o.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>

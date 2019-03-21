@@ -345,21 +345,16 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         Consultant c = null;
         //On vérifie que la liste d'offres n'est pas vide
         if (!listeIdOffres.isEmpty()) {
-            int i = 0;
             System.out.println("Inside Session");
 
             List<Offre> listeOffres = new ArrayList<Offre>();
-            for(Long idOffre : listeIdOffres){
-                
-            }
-            for (i = 0; i >= listeIdOffres.size(); i++) {
-                Long id = listeIdOffres.get(i);
-                Offre o = offreFacade.rechercheOffre(id);
+           for(Long idOffre : listeIdOffres){ 
+               Offre o = offreFacade.rechercheOffre(idOffre);
                 if (o != null) {
                     listeOffres.add(o);
                     System.out.println("Inside Session id offre " + o.getId() + " " + o.getLibelle());
                 }
-            }
+           }            
             //On vérifie que le plafond n'est pas négatif
             if (plafondDelegation >= 0) {
                 c = consultantFacade.creerConsultant(nom, prenom, mail, tel, profil, plafondDelegation, a, listeOffres);

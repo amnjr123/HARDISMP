@@ -42,6 +42,9 @@
                             <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=monProfil" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="user"></span> Mon profil
                             </a>
+                            <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=offres" class="list-group-item list-group-item-action bg-light">
+                                <span data-feather="layers"></span> Catalogue
+                            </a>
                             <%
                                 if (ua!=null){
                             %>
