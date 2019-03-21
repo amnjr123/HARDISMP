@@ -64,10 +64,12 @@
                             <td><%=st.getCout()%></td>
                             <td><%if(st.getDateFinValidite().after(date)){%><i data-feather="check-circle" style="color:green"></i><%}else{%><i data-feather="x" style="color:red"></i><%}%></td>
                             <td><a data-toggle="modal" data-target="#detailServiceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="list"></i></a></td>
-                            <td><div class="dropdown">
-                                    <td><a href="#" data-toggle="modal" data-target="#modificationserviceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
-                                        <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=supprimerServices&id=<%=st.getId()%>" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a></td>
-                                </div></td>
+                            <td>
+                                <div class="dropdown">
+                                    <a href="#" data-toggle="modal" data-target="#modificationserviceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
+                                    <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=supprimerService&idServiceStandard=<%=st.getId()%>" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a>
+                                </div>
+                            </td>
                         </tr>
                         <%}%>
                     </tbody>
@@ -116,10 +118,12 @@
                             <td><%=st.getCout()%></td>
                             <td><%if(st.getDateFinValidite().after(date)){%><i data-feather="check-circle" style="color:green"></i><%}else{%><i data-feather="x" style="color:red"></i><%}%></td>
                             <td><a data-toggle="modal" data-target="#detailServiceNonStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="list"></i></a></td>
-                            <td><div class="dropdown">
-                                    <td><a href="#" data-toggle="modal" data-target="#modificationserviceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
-                                        <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=supprimerServices&id=<%=st.getId()%>" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a></td>
-                                </div></td>
+                            <td>
+                                <div class="dropdown">
+                                    <a href="#" data-toggle="modal" data-target="#modificationserviceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
+                                    <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=supprimerService&idServiceNonStandard=<%=st.getId()%>" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a>
+                                </div>
+                            </td>
                         </tr>
                         <%}%>
                     </tbody>
@@ -184,13 +188,6 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="conditions" >Conditions *</label>
-                            <textarea rows="2" name="conditions" type="text" id="conditions" class="form-control" placeholder="conditions" required autofocus></textarea>
-                            <div class="invalid-feedback">
-                                Le conditions sont obligatoires.
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label for="delai">Délai de relance (en jours)</label>
                             <input name="delai" pattern="[0-9]+" maxlength="3" type="tel" id="delai" class="form-control" placeholder="délai" required autofocus>
                             <div class="invalid-feedback">
@@ -220,6 +217,13 @@
                             <textarea rows="2" name="descriptiondetail" type="text" id="descriptiondetail" class="form-control" placeholder="Description détaillée du service" required autofocus></textarea>
                             <div class="invalid-feedback">
                                 Les détails sont obligatoires.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="conditions" >Conditions *</label>
+                            <textarea rows="2" name="conditions" type="text" id="conditions" class="form-control" placeholder="conditions" required autofocus></textarea>
+                            <div class="invalid-feedback">
+                                Le conditions sont obligatoires.
                             </div>
                         </div>
                     </div>
@@ -291,17 +295,17 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="conditions" >Conditions *</label>
-                            <textarea rows="2" name="conditions" type="text" id="conditions" class="form-control" placeholder="conditions" required autofocus></textarea>
-                            <div class="invalid-feedback">
-                                Le conditions sont obligatoires.
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label for="delai">Délai de relance (en jours)</label>
                             <input name="delai" pattern="[0-9]+" maxlength="3" type="tel" id="delai" class="form-control" placeholder="délai" required autofocus>
                             <div class="invalid-feedback">
                                 Le délai de relance est obligatoire.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="conditions" >Conditions *</label>
+                            <textarea rows="2" name="conditions" type="text" id="conditions" class="form-control" placeholder="conditions" required autofocus></textarea>
+                            <div class="invalid-feedback">
+                                Le conditions sont obligatoires.
                             </div>
                         </div>
                     </div>
@@ -311,6 +315,7 @@
                         <input type="hidden" name="idOffre" value="<%=o.getId()%>">
                         <input type="hidden" name="action" value="creerServiceNonStandard">
                     </div>
+                        
                 </form>
             </div>
         </div>
@@ -374,13 +379,6 @@ for (ServiceStandard st : listServicesStandards) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="conditions" >Conditions *</label>
-                            <textarea rows="2" name="conditions" type="text" id="conditions" class="form-control" placeholder="conditions" required autofocus><%=(st.getConditions())%></textarea>
-                            <div class="invalid-feedback">
-                                Le conditions sont obligatoires.
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label for="delai">Délai de relance (en jours)</label>
                             <input name="delai" pattern="[0-9]+" maxlength="3" type="tel" id="delai" class="form-control" placeholder="délai" required autofocus value="<%=(st.getDelaiRelance())%>">
                             <div class="invalid-feedback">
@@ -409,6 +407,13 @@ for (ServiceStandard st : listServicesStandards) {
                             <textarea rows="2" name="descriptiondetail" type="text" id="descriptiondetail" class="form-control" placeholder="Description détaillée du service" required autofocus><%=(st.getDescriptionPrestation())%></textarea>
                             <div class="invalid-feedback">
                                 Les détails sont obligatoires.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="conditions" >Conditions *</label>
+                            <textarea rows="2" name="conditions" type="text" id="conditions" class="form-control" placeholder="conditions" required autofocus><%=(st.getConditions())%></textarea>
+                            <div class="invalid-feedback">
+                                Les conditions sont obligatoires.
                             </div>
                         </div>
                     </div>
@@ -485,17 +490,17 @@ for (ServiceNonStandard st : listServicesNonStandards) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="conditions" >Conditions *</label>
-                            <textarea rows="2" name="conditions" type="text" id="conditions" class="form-control" placeholder="conditions" required autofocus><%=(st.getConditions())%></textarea>
-                            <div class="invalid-feedback">
-                                Le conditions sont obligatoires.
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label for="delai">Délai de relance (en jours)</label>
                             <input name="delai" pattern="[0-9]+" maxlength="3" type="tel" id="delai" class="form-control" placeholder="délai" required autofocus value="<%=(st.getDelaiRelance())%>">
                             <div class="invalid-feedback">
                                 Le délai de relance est obligatoire.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="conditions" >Conditions *</label>
+                            <textarea rows="2" name="conditions" type="text" id="conditions" class="form-control" placeholder="conditions" required autofocus><%=(st.getConditions())%></textarea>
+                            <div class="invalid-feedback">
+                                Les conditions sont obligatoires.
                             </div>
                         </div>
                     </div>
@@ -535,12 +540,17 @@ for (ServiceStandard st : listServicesStandards) {
                             <p><span class="font-weight-bold">Lieu de l'intervention : </span><span class="font-weight-light"><%if(st.getLieuIntervention().toString().equals("Agence_Hardis")){%>Agence Hardis<%}else if(st.getLieuIntervention().toString().equals("Site_Client")){%>Site Client<%}else{%>Mixte<%}%></span></p>
                             <p><span class="font-weight-bold">Prix : </span><span class="font-weight-light"><%=(st.getCout())%> euros, <%if(st.getFraisInclus()==true){%>Frais inclus<%}else{%>Frais non inclus<%}%></span></p>
                             <p><span class="font-weight-bold">Délai de relance : </span><span class="font-weight-light"><%=(st.getDelaiRelance())%> jours</span></p>
-                            <p>Nombre de jours de travail - Consultant Senior : <%=(st.getNbrJoursConsultantSenior())%> jours</p>
-                            <p>Nombre de jours de travail - Consultant Confirmé : <%=(st.getNbrJoursConsultantConfirme())%> jours</p>
-                            <p>Nombre de jours de travail - Consultant Junior : <%=(st.getNbrJoursConsultantJunior())%> jours</p>
-                            <p>Nombre d'heures d'atelier et d'entretien : <%=(st.getNbrHeuresAtelierEntretienPrevu())%> heures</p>
-                            <p>Nombre d'heures de support téléphonique : <%=(st.getNbrHeuresSupportTel())%> heures</p>
-                            <p>Conditions générales : <%=(st.getConditions())%></p>
+                            <p class="font-weight-bold">Nombre de jours de travail</p>
+                            <p class="font-weight-light"> Consultant Senior : <%=(st.getNbrJoursConsultantSenior())%> jours</p>
+                            <p class="font-weight-light">Consultant Confirmé : <%=(st.getNbrJoursConsultantConfirme())%> jours</p>
+                            <p class="font-weight-light">Consultant Junior : <%=(st.getNbrJoursConsultantJunior())%> jours</p>
+                            <p class="font-weight-bold">Nombre d'heures</p>
+                            <p class="font-weight-light">Ateliers et entretiens : <%=(st.getNbrHeuresAtelierEntretienPrevu())%> heures</p>
+                            <p class="font-weight-light">Support téléphonique : <%=(st.getNbrHeuresSupportTel())%> heures</p>
+                            <p class="font-weight-bold">Conditions générales</p>
+                            <div style="overflow-y: scroll; height:3em"> 
+                                <p class="font-weight-light"><%=(st.getConditions())%></p>
+                            </div>
                     </div>
                     <div class="modal-footer ">
                         <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>

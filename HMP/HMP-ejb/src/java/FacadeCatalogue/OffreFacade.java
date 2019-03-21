@@ -67,6 +67,20 @@ public class OffreFacade extends AbstractFacade<Offre> implements OffreFacadeLoc
     }
     
     @Override
+    public Offre reactiverOffre(Offre o){
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.MONTH, 0);
+        cal.set(Calendar.YEAR, 2100);
+        o.setDateFinValidite(cal.getTime());        edit(o);
+        return o;
+    }
+    
+    @Override
     public Offre rechercheOffre(long id){
         return find(id);
     }
