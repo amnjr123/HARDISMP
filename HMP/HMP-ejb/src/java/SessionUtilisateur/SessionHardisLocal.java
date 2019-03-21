@@ -8,6 +8,8 @@ package SessionUtilisateur;
 import GestionCatalogue.Livrable;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
+import GestionCatalogue.ServiceNonStandard;
+import GestionCatalogue.ServiceStandard;
 import GestionDevis.Devis;
 import GestionDevis.DevisStandard;
 import GestionDevis.Proposition;
@@ -31,10 +33,6 @@ public interface SessionHardisLocal {
     UtilisateurHardis modifierCompte(Long id, String mail, String tel, boolean actifInactif);
 
     Utilisateur modifierUtilisateurMDP(Long id, String ancienMdp, String nouveauMdp);
-
-    List<Service> rechercherService(Offre o);
-
-    List<Offre> rechercherOffres();
 
     CV afficherCVOffreUtilisateur(Long idUtilisateurHardis, Long idOffre);
 
@@ -65,5 +63,13 @@ public interface SessionHardisLocal {
     Disponibilite creerDisponibilite(Long idUtilisateurHardis, Date dateDispo);
 
     Disponibilite supprimerDisponibilite(Long idDispo);
+
+    List<Offre> afficherOffres();
+
+    List<ServiceStandard> afficherServicesStandards(Long idOffre);
+
+    List<ServiceNonStandard> afficherServicesNonStandards(Long idOffre);
+
+    Offre afficheOffre(Long id);
    
 }

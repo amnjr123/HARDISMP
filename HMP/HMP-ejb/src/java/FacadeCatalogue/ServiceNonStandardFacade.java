@@ -117,4 +117,12 @@ public class ServiceNonStandardFacade extends AbstractFacade<ServiceNonStandard>
         requete.setParameter("o", o);
         return requete.getResultList();
     }
+    
+    @Override
+    public List<ServiceNonStandard> rechercheServicesNonStandardsActuels(Offre o) {
+        Query requete = getEntityManager().createQuery("select s from ServiceNonStandard as s where s.dateFinValidite>:date AND s.offre=:offre");
+        requete.setParameter("date", new Date());
+        requete.setParameter("offre", o);
+        return requete.getResultList();
+    }
 }

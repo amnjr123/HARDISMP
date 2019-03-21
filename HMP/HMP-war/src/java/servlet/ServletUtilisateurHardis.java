@@ -1,5 +1,6 @@
 package servlet;
 
+import GestionCatalogue.Offre;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import SessionUtilisateur.SessionHardisLocal;
@@ -54,6 +55,20 @@ public class ServletUtilisateurHardis extends HttpServlet {
                         }
 
                     }
+                }
+                
+                /*CATALOGUE*/
+                 if (act.equals("offres")) {
+                    request.setAttribute("listOffres", sessionHardis.afficherOffres());
+                    jspClient = "/hardisUser/offres.jsp";
+                }
+                if (act.equals("services")) {
+                    Long id = Long.parseLong(request.getParameter("id").trim());
+                    Offre offre = sessionHardis.afficheOffre(id);
+                    request.setAttribute("offre", offre);
+                    request.setAttribute("listeServicesStandards", sessionHardis.afficherServicesStandards(id));
+                    request.setAttribute("listeServicesNonStandards", sessionHardis.afficherServicesNonStandards(id));
+                    jspClient = "/hardisUser/services.jsp";
                 }
 
             }

@@ -39,8 +39,8 @@
                             <th scope="col">Description</th>
                             <th scope="col">Lieu</th>
                             <th scope="col">Coût</th>
-                            <th scope="col">Actif ou obsolète</th>
-                            <th scope="col">Voir le détail</th>
+                            <th scope="col" class="text-center">Actif ou obsolète</th>
+                            <th scope="col" class="text-center">Voir le détail</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -62,8 +62,8 @@
                             <td><%=st.getDescriptionService()%></td>
                             <td><%if(st.getLieuIntervention().toString().equals("Agence_Hardis")){%>Agence Hardis<%}else if(st.getLieuIntervention().toString().equals("Site_Client")){%>Site Client<%}else{%>Mixte<%}%></td>
                             <td><%=st.getCout()%></td>
-                            <td><%if(st.getDateFinValidite().after(date)){%><i data-feather="check-circle" style="color:green"></i><%}else{%><i data-feather="x" style="color:red"></i><%}%></td>
-                            <td><a data-toggle="modal" data-target="#detailServiceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="list"></i></a></td>
+                            <td class="text-center"><%if(st.getDateFinValidite().after(date)){%><i data-feather="check-circle" style="color:green"></i><%}else{%><i data-feather="x" style="color:red"></i><%}%></td>
+                            <td class="text-center"><a data-toggle="modal" data-target="#detailServiceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="list"></i></a></td>
                             <td>
                                 <div class="dropdown">
                                     <a href="#" data-toggle="modal" data-target="#modificationserviceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
@@ -102,8 +102,8 @@
                             <th scope="col">Description</th>
                             <th scope="col">Lieu</th>
                             <th scope="col">Coût</th>
-                            <th scope="col">Actif ou obsolète</th>
-                            <th scope="col">Voir le détail</th>
+                            <th class="text-center" scope="col">Actif ou obsolète</th>
+                            <th class="text-center" scope="col">Voir le détail</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -116,8 +116,8 @@
                             <td><%=st.getDescriptionService()%></td>
                             <td><%if(st.getLieuIntervention().toString().equals("Agence_Hardis")){%>Agence Hardis<%}else if(st.getLieuIntervention().toString().equals("Site_Client")){%>Site Client<%}else{%>Mixte<%}%></td>
                             <td><%=st.getCout()%></td>
-                            <td><%if(st.getDateFinValidite().after(date)){%><i data-feather="check-circle" style="color:green"></i><%}else{%><i data-feather="x" style="color:red"></i><%}%></td>
-                            <td><a data-toggle="modal" data-target="#detailServiceNonStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="list"></i></a></td>
+                            <td class="text-center"><%if(st.getDateFinValidite().after(date)){%><i data-feather="check-circle" style="color:green"></i><%}else{%><i data-feather="x" style="color:red"></i><%}%></td>
+                            <td class="text-center"><a data-toggle="modal" data-target="#detailServiceNonStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="list"></i></a></td>
                             <td>
                                 <div class="dropdown">
                                     <a href="#" data-toggle="modal" data-target="#modificationserviceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
@@ -548,7 +548,7 @@ for (ServiceStandard st : listServicesStandards) {
                             <p class="font-weight-light">Ateliers et entretiens : <%=(st.getNbrHeuresAtelierEntretienPrevu())%> heures</p>
                             <p class="font-weight-light">Support téléphonique : <%=(st.getNbrHeuresSupportTel())%> heures</p>
                             <p class="font-weight-bold">Conditions générales</p>
-                            <div style="overflow-y: scroll; height:3em"> 
+                            <div style="overflow-y: scroll; height:4em"> 
                                 <p class="font-weight-light"><%=(st.getConditions())%></p>
                             </div>
                     </div>
@@ -565,7 +565,7 @@ for (ServiceStandard st : listServicesStandards) {
 <%
 for (ServiceNonStandard st : listServicesNonStandards) {
 %>
-    <div class="modal fade" id="detailServiceStandard<%=(st.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="detailServiceNonStandard<%=(st.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
 
             <div class="modal-content">
@@ -580,7 +580,10 @@ for (ServiceNonStandard st : listServicesNonStandards) {
                             <p><span class="font-weight-bold">Lieu de l'intervention : </span><span class="font-weight-light"><%if(st.getLieuIntervention().toString().equals("Agence_Hardis")){%>Agence Hardis<%}else if(st.getLieuIntervention().toString().equals("Site_Client")){%>Site Client<%}else{%>Mixte<%}%></span></p>
                             <p><span class="font-weight-bold">Prix : </span><span class="font-weight-light"><%=(st.getCout())%> euros, <%if(st.getFraisInclus()==true){%>Frais inclus<%}else{%>Frais non inclus<%}%></span></p>
                             <p><span class="font-weight-bold">Délai de relance : </span><span class="font-weight-light"><%=(st.getDelaiRelance())%> jours</span></p>
-                            <p>Conditions générales : <%=(st.getConditions())%></p>
+                            <p class="font-weight-bold">Conditions générales</p>
+                            <div style="overflow-y: scroll; height:4em"> 
+                                <p class="font-weight-light"><%=(st.getConditions())%></p>
+                            </div>
                     </div>
                     <div class="modal-footer ">
                         <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>

@@ -43,5 +43,7 @@ public interface ServiceStandardFacadeLocal {
     List<ServiceStandard> rechercherServiceStandard(Offre o);
 
     ServiceStandard supprimerServiceStandard(ServiceStandard service);
+
+    List<ServiceStandard> rechercheServicesStandardsActuels(Offre o);
     
 }

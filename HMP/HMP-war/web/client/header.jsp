@@ -38,7 +38,7 @@
                             <a href="${pageContext.request.contextPath}/ServletClient?action=monProfil" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="user"></span> Mon profil
                             </a>
-                            <a href="${pageContext.request.contextPath}/client/catalogue.jsp" class="list-group-item list-group-item-action bg-light">
+                            <a href="${pageContext.request.contextPath}/ServletClient?action=offres" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="layers"></span> Catalogue
                             </a>
                             <a href="${pageContext.request.contextPath}/client/devis.jsp" class="list-group-item list-group-item-action bg-light">

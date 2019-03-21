@@ -8,6 +8,8 @@ package SessionUtilisateur;
 import GestionCatalogue.Livrable;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
+import GestionCatalogue.ServiceNonStandard;
+import GestionCatalogue.ServiceStandard;
 import GestionDevis.Devis;
 import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
@@ -60,8 +62,6 @@ public interface SessionClientLocal {
 
     Client rechercheClient(long id);
 
-    List<Service> rechercherServices(Offre o);
-
     List<Livrable> afficherLivrables(Long idService);
 
     List<Offre> rechercherOffres();
@@ -73,4 +73,10 @@ public interface SessionClientLocal {
     Devis modifierDevisIncomplet(Long idDevis, String commentaireClient);
 
     void DemandeCreationOuRattachement(Long idClient, String nom, String siret, String adresse, Long idAgence);
+
+    Offre rechercherOffre(Long idOffre);
+
+    List<ServiceStandard> rechercherServicesStandards(Long idOffre);
+
+    List<ServiceNonStandard> rechercherServicesNonStandards(Long idOffre);
 }
