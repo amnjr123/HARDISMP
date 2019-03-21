@@ -70,7 +70,7 @@
                         <hr class="divider my-4">
                     </div>
                     <div class="col-lg-8 align-self-baseline">
-                        <p class="text-white-75 font-weight-light mb-5">Il s'agit d'un Market Place, dotée de fonctionnalités que vous pourrez utiliser dans vos projets futurs.</p>
+                        <p class="text-white-75 font-weight-light mb-5">Il s'agit d'un Market Place, doté de fonctionnalités que vous pourrez utiliser dans vos projets futurs.</p>
                         <p class="text-white-75 font-weight-light mb-5">Découvrez nos fonctionnalités pour parler avec nos équipes et découvrir nos offres & services.</p>
                         <%if (sessionUtilisateur != null) {
                                 if (sessionUtilisateur.equalsIgnoreCase("UtilisateurHardis")) {
