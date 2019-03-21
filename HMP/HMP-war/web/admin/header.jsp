@@ -10,6 +10,9 @@
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/custom/dashboard.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/custom/simple-sidebar.css" rel="stylesheet"> 
+        <link href="${pageContext.request.contextPath}/css/bootstrap-select.css" rel="stylesheet">
+
+
     </head>
 
 
@@ -44,7 +47,7 @@
                                 <span data-feather="layers"></span> Agences
                             </a>
 
-                                <!--href a modifier-->
+                            <!--href a modifier-->
                             <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=offres" class="list-group-item list-group-item-action bg-light">
 
                                 <span data-feather="file-text"></span> Catalogue
