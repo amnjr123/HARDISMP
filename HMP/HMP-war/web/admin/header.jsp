@@ -41,15 +41,20 @@
                             <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=clients" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="user"></span> Clients
                             </a>
-                            <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=entreprises&p=0" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="file-text"></span> Entreprises
+                            <a  class="list-group-item list-group-item-action bg-light" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <span data-feather="user"></span> Entreprises
                             </a>
-                            <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=menuCreationEntreprise" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="file-text"></span> Demandes de création d'entreprises
-                            </a>
-                            <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=menuRattachementEntreprise" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="file-text"></span> Demandes de rattachement
-                            </a>
+                            <div class="collapse" id="collapseExample">
+                                <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=entreprises&p=0" class="list-group-item list-group-item-action bg-light">
+                                    <span data-feather="file-text"></span> Entreprises
+                                </a>
+                                <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=menuCreationEntreprise" class="list-group-item list-group-item-action bg-light">
+                                    <span data-feather="file-text"></span> Demandes de création d'entreprises
+                                </a>
+                                <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=menuRattachementEntreprise" class="list-group-item list-group-item-action bg-light">
+                                    <span data-feather="file-text"></span> Demandes de rattachement
+                                </a>
+                            </div>
                             <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=agences" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="layers"></span> Agences
                             </a>
