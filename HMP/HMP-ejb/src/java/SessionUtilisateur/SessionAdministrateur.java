@@ -139,9 +139,31 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
 
 /*GESTION ENTREPRISE*/
     
+    
+    @Override
+    public DemandeRattachement validerDemandeRattachement(Long idDemande) {
+        DemandeRattachement d = demandeRattachementFacade.rechercherDemandeRattachement(idDemande);
+        clientFacade.affecterEntreprise(d.getClient(), d.getEntreprise());
+        demandeRattachementFacade.supprimerDemandeRattachement(d);
+        return d;//A tester si on peut renvoyer une instance supprimée de la bdd sans provoquer de bug
+    }
+    
+    
+    @Override
+    public DemandeRattachement refuserDemandeRattachement(Long idDemande) {
+        DemandeRattachement d = demandeRattachementFacade.rechercherDemandeRattachement(idDemande);
+        demandeRattachementFacade.supprimerDemandeRattachement(d);
+        return d;//A tester si on peut renvoyer une instance supprimée de la bdd sans provoquer de bug
+    }
+    
     @Override
     public List<DemandeCreationEntreprise> rechercheDemandeCreationEntreprise(){
         return demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise();
+    }
+    
+    @Override
+    public List<DemandeRattachement> rechercheDemandeRattachements(){
+        return demandeRattachementFacade.rechercherDemandeRattachement();
     }
     
     @Override
@@ -185,13 +207,14 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     /*public List<DemandeRattachement> afficherDemandesRattachement;*/
     
     @Override
-    public Entreprise validerDemandeCreationEntreprise(Long idDemande) {
+    public Entreprise validerDemandeCreationEntreprise(Long idDemande, String nom, String siret, String adresse, Long idAgence) {
         DemandeCreationEntreprise d = demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise(idDemande);
         //Vérification si entreprise déjà existante
         Entreprise e = entrepriseFacade.rechercheEntrepriseSiret(d.getSiret());
         if(e==null){
+            Agence agence = agenceFacade.rechercheAgence(idAgence);
             // Si non alors on la crée
-            e = entrepriseFacade.creerEntreprise(d.getNom(), d.getSiret(), d.getAdresseFacturation(), d.getAgence());
+            e = entrepriseFacade.creerEntreprise(nom, siret, adresse, agence);
             //On affecte l'entreprise au client
             clientFacade.affecterEntreprise(d.getClient(), e);
             //Le client devient client Admin de l'enteprise

@@ -16,6 +16,7 @@ import GestionUtilisateur.CV;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Consultant;
 import GestionUtilisateur.DemandeCreationEntreprise;
+import GestionUtilisateur.DemandeRattachement;
 import GestionUtilisateur.Entreprise;
 import GestionUtilisateur.Interlocuteur;
 import GestionUtilisateur.PorteurOffre;
@@ -36,7 +37,7 @@ public interface SessionAdministrateurLocal {
 
     Entreprise creerEntreprise(String nom, String siret, String adresseFacturation, long idAgence);
 
-    Entreprise validerDemandeCreationEntreprise(Long idDemande);
+    //Entreprise validerDemandeCreationEntreprise(Long idDemande);
 
     Interlocuteur modifierInterlocuteur(Long idInterlocuteur, String nom, String prenom, String telephone, String fonction);
 
@@ -140,4 +141,12 @@ public interface SessionAdministrateurLocal {
     ServiceStandard supprimerServiceStandard(Long idServiceStandard);
 
     ServiceNonStandard supprimerServiceNonStandard(Long idServiceNonStandard);
+
+    Entreprise validerDemandeCreationEntreprise(Long idDemande, String nom, String siret, String adresse, Long idAgence);
+
+    DemandeRattachement refuserDemandeRattachement(Long idDemande);
+
+    DemandeRattachement validerDemandeRattachement(Long idDemande);
+
+    List<DemandeRattachement> rechercheDemandeRattachements();
 }
