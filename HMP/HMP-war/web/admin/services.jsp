@@ -1,3 +1,5 @@
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.Date"%>
 <%@page import="GestionCatalogue.Offre"%>
 <%@page import="GestionCatalogue.ServiceStandard"%>
 <%@page import="GestionCatalogue.ServiceNonStandard"%>
@@ -17,13 +19,70 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
-                <h1 class="h2">Services associés</h1>
+                <h1 class="h2">Services standards</h1>
                 <div class="btn-toolbar">
                     <button  class="btn btn-sm btn-success " data-toggle="modal" data-target="#serviceStandard">
                         <span data-feather="folder-plus"></span>
                         Ajouter un service Standard
                     </button>
-                    <button  style="margin-left:1em" class="btn btn-sm btn-success " data-toggle="modal" data-target="#serviceNonStandard">
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Lieu</th>
+                            <th scope="col">Coût</th>
+                            <th scope="col">Actif ou obsolète</th>
+                            <th scope="col">Voir le détail</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%  int i = 0;
+                            Calendar cal = Calendar.getInstance();
+                            cal.set(Calendar.MILLISECOND, 0);
+                            cal.set(Calendar.SECOND, 0);
+                            cal.set(Calendar.MINUTE, 0);
+                            cal.set(Calendar.HOUR_OF_DAY, 0);
+                            cal.set(Calendar.DAY_OF_MONTH, 1);
+                            cal.set(Calendar.MONTH, 0);
+                            cal.set(Calendar.YEAR, 2099);
+                            Date date = cal.getTime();
+                            for (ServiceStandard st : listServicesStandards) {%>                                      
+                        <tr>
+                            <td><%=st.getId()%></td>
+                            <td><%=st.getNom()%></td>
+                            <td><%=st.getDescriptionService()%></td>
+                            <td><%if(st.getLieuIntervention().toString().equals("Agence_Hardis")){%>Agence Hardis<%}else if(st.getLieuIntervention().toString().equals("Site_Client")){%>Site Client<%}else{%>Mixte<%}%></td>
+                            <td><%=st.getCout()%></td>
+                            <td><%if(st.getDateFinValidite().after(date)){%><i data-feather="check-circle" style="color:green"></i><%}else{%><i data-feather="x" style="color:red"></i><%}%></td>
+                            <td><a data-toggle="modal" data-target="#detailServiceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="list"></i></a></td>
+                            <td><div class="dropdown">
+                                    <td><a href="#" data-toggle="modal" data-target="#modificationserviceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
+                                        <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=supprimerServices&id=<%=st.getId()%>" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a></td>
+                                </div></td>
+                        </tr>
+                        <%}%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+                            
+    
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
+                <h1 class="h2">Services Non Standards</h1>
+                <div class="btn-toolbar">
+                    <button  style="" class="btn btn-sm btn-success " data-toggle="modal" data-target="#serviceNonStandard">
                         <span data-feather="folder-plus"></span>
                         Ajouter un service Personnalisé
                     </button>
@@ -41,65 +100,8 @@
                             <th scope="col">Description</th>
                             <th scope="col">Lieu</th>
                             <th scope="col">Coût</th>
-                            <th scope="col">Frais inclus ou non</th>
-                            <th scope="col">Conditions</th>
-                            <th scope="col">Délai de relance</th>
-                            <th scope="col">Début de validité</th>
-                            <th scope="col">Fin de validité</th>
-                            <th scope="col">Jours Consultant Senior</th>
-                            <th scope="col">Jours Consultant Confirmé</th>
-                            <th scope="col">Jours Consultant Junior</th>
-                            <th scope="col">Heures Ateliers/Entretiens</th>
-                            <th scope="col">Heures support téléphonique</th>
-                            <th scope="col">Détails description</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <%  int i = 0;
-                            for (ServiceStandard st : listServicesStandards) {%>                                      
-                        <tr>
-                            <td><%=st.getId()%></td>
-                            <td><%=st.getNom()%></td>
-                            <td><%=st.getDescriptionService()%></td>
-                            <td><%=st.getLieuIntervention()%></td>
-                            <td><%=st.getCout()%></td>
-                            <td><%=st.getFraisInclus()%></td>
-                            <td><%=st.getConditions()%></td>
-                            <td><%=st.getDelaiRelance()%></td>
-                            <td><%=st.getDateDebutValidite()%></td>
-                            <td><%=st.getDateFinValidite()%></td>
-                            <td><%=st.getNbrJoursConsultantSenior()%></td>
-                            <td><%=st.getNbrJoursConsultantConfirme()%></td>
-                            <td><%=st.getNbrJoursConsultantJunior()%></td>
-                            <td><%=st.getNbrHeuresAtelierEntretienPrevu()%></td>
-                            <td><%=st.getNbrHeuresSupportTel()%></td>
-                            <td><%=st.getDescriptionPrestation()%></td>
-                            <td><div class="dropdown">
-                                    <td><a href="#" data-toggle="modal" data-target="#modificationserviceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
-                                        <a href="#" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a></td>
-                                </div></td>
-                        </tr>
-                        <%}%>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Nom</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Lieu</th>
-                            <th scope="col">Coût</th>
-                            <th scope="col">Frais inclus ou non</th>
-                            <th scope="col">Conditions</th>
-                            <th scope="col">Délai de relance</th>
-                            <th scope="col">Début de validité</th>
-                            <th scope="col">Fin de validité</th>
+                            <th scope="col">Actif ou obsolète</th>
+                            <th scope="col">Voir le détail</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -110,16 +112,13 @@
                             <td><%=st.getId()%></td>
                             <td><%=st.getNom()%></td>
                             <td><%=st.getDescriptionService()%></td>
-                            <td><%=st.getLieuIntervention()%></td>
+                            <td><%if(st.getLieuIntervention().toString().equals("Agence_Hardis")){%>Agence Hardis<%}else if(st.getLieuIntervention().toString().equals("Site_Client")){%>Site Client<%}else{%>Mixte<%}%></td>
                             <td><%=st.getCout()%></td>
-                            <td><%=st.getFraisInclus()%></td>
-                            <td><%=st.getConditions()%></td>
-                            <td><%=st.getDelaiRelance()%></td>
-                            <td><%=st.getDateDebutValidite()%></td>
-                            <td><%=st.getDateFinValidite()%></td>
+                            <td><%if(st.getDateFinValidite().after(date)){%><i data-feather="check-circle" style="color:green"></i><%}else{%><i data-feather="x" style="color:red"></i><%}%></td>
+                            <td><a data-toggle="modal" data-target="#detailServiceNonStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="list"></i></a></td>
                             <td><div class="dropdown">
-                                    <td><a data-toggle="modal" data-target="#modificationserviceNonStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
-                                        <a href="#" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a></td>
+                                    <td><a href="#" data-toggle="modal" data-target="#modificationserviceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
+                                        <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=supprimerServices&id=<%=st.getId()%>" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a></td>
                                 </div></td>
                         </tr>
                         <%}%>
@@ -177,11 +176,11 @@
                         <div class="form-group">
                             <label for="fraisInclus">Frais inclus ?</label><br>
                             <div class="text-center">
-                            <input type="radio" style=""  id="defaultUnchecked" name="fraisInclus">
-                            <label for="defaultUnchecked">Oui</label>
-                            <!-- Default checked -->
-                            <input style="margin-left: 2em" type="radio" id="defaultChecked" name="fraisInclus" checked>
-                            <label for="defaultChecked">Non</label>
+                                <input type="radio" style=""  id="defaultUnchecked" name="fraisInclus" value="true">
+                                <label for="defaultUnchecked">Oui</label>
+                                <!-- Default checked -->
+                                <input style="margin-left: 2em" type="radio" id="defaultChecked" name="fraisInclus" checked value="false">
+                                <label for="defaultChecked">Non</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -284,11 +283,11 @@
                         <div class="form-group">
                             <label for="fraisInclus">Frais inclus ?</label><br>
                             <div class="text-center">
-                            <input type="radio" style=""  id="defaultUnchecked" name="fraisInclus">
-                            <label for="defaultUnchecked">Oui</label>
-                            <!-- Default checked -->
-                            <input style="margin-left: 2em" type="radio" id="defaultChecked" name="fraisInclus" checked>
-                            <label for="defaultChecked">Non</label>
+                                <input type="radio" style="" id="defaultUnchecked" name="fraisInclus" value="true">
+                                <label for="defaultUnchecked">Oui</label>
+                                <!-- Default checked -->
+                                <input style="margin-left: 2em" type="radio" id="defaultChecked" name="fraisInclus" checked value="false">
+                                <label for="defaultChecked">Non</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -346,11 +345,11 @@ for (ServiceStandard st : listServicesStandards) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="description">Lieu intervention *</label>
-                            <select name="lieu" class="custom-select">
-                                <option <%if(st.getLieuIntervention().equals("Agence_Hardis")){out.print("selected");}%> value="Agence_Hardis">Agence Hardis</option>
-                                <option <%if(st.getLieuIntervention().equals("Site_Client")){out.print("selected");}%> value="Site_Client">Site Client</option>
-                                <option <%if(st.getLieuIntervention().equals("Mixte")){out.print("selected");}%> value="Mixte">Mixte</option>
+                            <label for="lieu">Lieu intervention *</label>
+                            <select name="lieu" class="custom-select" >
+                                <option <%if(st.getLieuIntervention().toString().equals("Agence_Hardis")){%>selected<%}%> value="Agence_Hardis">Agence Hardis</option>
+                                <option <%if(st.getLieuIntervention().toString().equals("Site_Client")){%>selected<%}%>  value="Site_Client">Site Client</option>
+                                <option <%if(st.getLieuIntervention().toString().equals("Mixte")){%>selected<%}%> value="Mixte">Mixte</option>
                             </select>
                             <div class="invalid-feedback">
                                 Le lieu de l'intervention est obligatoire.
@@ -367,11 +366,11 @@ for (ServiceStandard st : listServicesStandards) {
                         <div class="form-group">
                             <label for="fraisInclus">Frais inclus ?</label><br>
                             <div class="text-center">
-                            <input type="radio" style=""  id="defaultUnchecked" name="fraisInclus">
-                            <label for="defaultUnchecked">Oui</label>
-                            <!-- Default checked -->
-                            <input style="margin-left: 2em" type="radio" id="defaultChecked" name="fraisInclus" checked>
-                            <label for="defaultChecked">Non</label>
+                                <input type="radio" style="" <%if(st.getFraisInclus()==true){%>checked<%}%> id="defaultUnchecked" name="fraisInclus" value="true">
+                                <label for="defaultUnchecked">Oui</label>
+                                <!-- Default checked -->
+                                <input style="margin-left: 2em" type="radio" <%if(st.getFraisInclus()==false){%>checked<%}%> id="defaultChecked" name="fraisInclus" value="false">
+                                <label for="defaultChecked">Non</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -457,7 +456,7 @@ for (ServiceNonStandard st : listServicesNonStandards) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="description">Lieu intervention *</label>
+                            <label for="lieu">Lieu intervention *</label>
                             <select name="lieu" class="custom-select" >
                                 <option <%if(st.getLieuIntervention().toString().equals("Agence_Hardis")){%>selected<%}%> value="Agence_Hardis">Agence Hardis</option>
                                 <option <%if(st.getLieuIntervention().toString().equals("Site_Client")){%>selected<%}%>  value="Site_Client">Site Client</option>
@@ -478,11 +477,11 @@ for (ServiceNonStandard st : listServicesNonStandards) {
                         <div class="form-group">
                             <label for="fraisInclus">Frais inclus ?</label><br>
                             <div class="text-center">
-                            <input type="radio" style=""  id="defaultUnchecked" name="fraisInclus">
-                            <label for="defaultUnchecked">Oui</label>
-                            <!-- Default checked -->
-                            <input style="margin-left: 2em" type="radio" id="defaultChecked" name="fraisInclus" checked>
-                            <label for="defaultChecked">Non</label>
+                                <input type="radio" style="" <%if(st.getFraisInclus()==true){%>checked<%}%> id="defaultUnchecked" name="fraisInclus" value="true">
+                                <label for="defaultUnchecked">Oui</label>
+                                <!-- Default checked -->
+                                <input style="margin-left: 2em" type="radio" <%if(st.getFraisInclus()==false){%>checked<%}%> id="defaultChecked" name="fraisInclus" value="false">
+                                <label for="defaultChecked">Non</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -508,6 +507,73 @@ for (ServiceNonStandard st : listServicesNonStandards) {
                         <input type="hidden" name="action" value="modifierServiceNonStandard">
                     </div>
                 </form>
+            </div>
+        </div>
+
+    </div>
+<%
+}
+%>
+
+<%
+for (ServiceStandard st : listServicesStandards) {
+%>
+    <div class="modal fade" id="detailServiceStandard<%=(st.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+
+            <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><%=(st.getNom())%></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                            <label for="description">Description *</label>
+                            <p><%=(st.getDescriptionService())%></p>
+                            <p><%=(st.getDescriptionPrestation())%></p>
+                            <p>Lieu de l'intervention : <%=(st.getLieuIntervention())%></p>
+                            <p>Prix : <%=(st.getDescriptionService())%> euros, <%if(st.getFraisInclus()==true){%>Frais inclus<%}else{%>Frais non inclus<%}%></p>
+                            <p>Délai de relance : <%=(st.getDelaiRelance())%> jours</p>
+                            <p>Nombre de jours de travail - Consultant Senior : <%=(st.getNbrJoursConsultantSenior())%> jours</p>
+                            <p>Nombre de jours de travail - Consultant Confirmé : <%=(st.getNbrJoursConsultantConfirme())%> jours</p>
+                            <p>Nombre de jours de travail - Consultant Junior : <%=(st.getNbrJoursConsultantJunior())%> jours</p>
+                            <p>Nombre d'heures d'atelier et d'entretien : <%=(st.getNbrHeuresAtelierEntretienPrevu())%> heures</p>
+                            <p>Nombre d'heures de support téléphonique : <%=(st.getNbrHeuresSupportTel())%> heures</p>
+                            <p>Conditions générales : <%=(st.getConditions())%></p>
+                    </div>
+                    <div class="modal-footer ">
+                        <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
+                    </div>
+            </div>
+        </div>
+
+    </div>
+<%
+}
+%>
+<%
+for (ServiceNonStandard st : listServicesNonStandards) {
+%>
+    <div class="modal fade" id="detailServiceStandard<%=(st.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+
+            <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><%=(st.getNom())%></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                            <label for="description">Description *</label>
+                            <p><%=(st.getDescriptionService())%></p>
+                            <p>Lieu de l'intervention : <%=(st.getLieuIntervention())%></p>
+                            <p>Prix : <%=(st.getDescriptionService())%> euros, <%if(st.getFraisInclus()==true){%>Frais inclus<%}else{%>Frais non inclus<%}%></p>
+                            <p>Délai de relance : <%=(st.getDelaiRelance())%> jours</p>
+                            <p>Conditions générales : <%=(st.getConditions())%></p>
+                    </div>
+                    <div class="modal-footer ">
+                        <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
+                    </div>
             </div>
         </div>
 
