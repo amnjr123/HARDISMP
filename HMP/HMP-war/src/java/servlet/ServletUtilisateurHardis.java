@@ -25,6 +25,10 @@ public class ServletUtilisateurHardis extends HttpServlet {
 
     private UtilisateurHardis uh;
 
+    protected void menuPlanning(HttpServletRequest request, HttpServletResponse response) {
+        
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -52,8 +56,11 @@ public class ServletUtilisateurHardis extends HttpServlet {
                             request.setAttribute("msgError", "Le mot de passe n'a pas été modifié, l'ancien mot de passe est incorrect");
                             jspClient = "/hardisUser/monProfil.jsp";
                         }
-
                     }
+                }
+                if (act.equals("planning")) {
+                    menuPlanning(request, response);
+
                 }
 
             }

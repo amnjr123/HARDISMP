@@ -150,4 +150,6 @@ public interface SessionAdministrateurLocal {
 
     List<DemandeRattachement> rechercheDemandeRattachements();
     Offre reactiverOffre(Long idOffre);
+
+     Client modifierClient(Long id, String nom, String prenom, String mail, String tel);
 }

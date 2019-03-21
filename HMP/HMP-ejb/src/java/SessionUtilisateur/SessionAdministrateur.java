@@ -136,9 +136,7 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         return agenceFacade.modifierAgence(a, localisation, adresse);
     }
 
-/*GESTION ENTREPRISE*/
-    
-    
+    /*GESTION ENTREPRISE*/
     @Override
     public DemandeRattachement validerDemandeRattachement(Long idDemande) {
         DemandeRattachement d = demandeRattachementFacade.rechercherDemandeRattachement(idDemande);
@@ -146,27 +144,26 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         demandeRattachementFacade.supprimerDemandeRattachement(d);
         return d;//A tester si on peut renvoyer une instance supprimée de la bdd sans provoquer de bug
     }
-    
-    
+
     @Override
     public DemandeRattachement refuserDemandeRattachement(Long idDemande) {
         DemandeRattachement d = demandeRattachementFacade.rechercherDemandeRattachement(idDemande);
         demandeRattachementFacade.supprimerDemandeRattachement(d);
         return d;//A tester si on peut renvoyer une instance supprimée de la bdd sans provoquer de bug
     }
-    
+
     @Override
     public List<DemandeCreationEntreprise> rechercheDemandeCreationEntreprise() {
         return demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise();
     }
 
     @Override
-    public List<DemandeRattachement> rechercheDemandeRattachements(){
+    public List<DemandeRattachement> rechercheDemandeRattachements() {
         return demandeRattachementFacade.rechercherDemandeRattachement();
     }
-    
+
     @Override
-    public List rechercheEntreprises(){
+    public List rechercheEntreprises() {
         return entrepriseFacade.rechercheEntreprises();
     }
 
@@ -207,7 +204,7 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         DemandeCreationEntreprise d = demandeCreationEntrepriseFacade.rechercheDemandeCreationEntreprise(idDemande);
         //Vérification si entreprise déjà existante
         Entreprise e = entrepriseFacade.rechercheEntrepriseSiret(d.getSiret());
-        if(e==null){
+        if (e == null) {
             Agence agence = agenceFacade.rechercheAgence(idAgence);
             // Si non alors on la crée
             e = entrepriseFacade.creerEntreprise(nom, siret, adresse, agence);
@@ -322,13 +319,13 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
             System.out.println("Inside Session");
 
             List<Offre> listeOffres = new ArrayList<Offre>();
-           for(Long idOffre : listeIdOffres){ 
-               Offre o = offreFacade.rechercheOffre(idOffre);
+            for (Long idOffre : listeIdOffres) {
+                Offre o = offreFacade.rechercheOffre(idOffre);
                 if (o != null) {
                     listeOffres.add(o);
                     System.out.println("Inside Session id offre " + o.getId() + " " + o.getLibelle());
                 }
-           }            
+            }
             //On vérifie que le plafond n'est pas négatif
             if (plafondDelegation >= 0) {
                 c = consultantFacade.creerConsultant(nom, prenom, mail, tel, profil, plafondDelegation, a, listeOffres);
@@ -529,12 +526,12 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     }
 
     @Override
-    public Offre reactiverOffre(Long idOffre){
+    public Offre reactiverOffre(Long idOffre) {
         return offreFacade.reactiverOffre(offreFacade.rechercheOffre(idOffre));
     }
-    
+
     @Override
-    public List<Offre> afficherOffres(){
+    public List<Offre> afficherOffres() {
         return offreFacade.rechercheOffre();
     }
 
@@ -671,4 +668,22 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         }
     }
 
+    @Override
+    public Client modifierClient(Long id, String nom, String prenom, String mail, String tel) {
+        Client c = clientFacade.rechercheClient(id);
+        if (c.getMail().equalsIgnoreCase(mail)) {
+            //Si le mail n'a pas changé alors on peut modifier
+            return clientFacade.modifierClient(c, nom, prenom, mail, tel);
+        } else {
+            //Si le mail a changé alors on vérifie qu'il n'est pas déjà utilisé
+            Utilisateur u = utilisateurFacade.rechercherUtilisateurParMail(mail);
+            if (u == null) {
+                //Si pas utilisé alors on peut modifier
+                return clientFacade.modifierClient(c, nom, prenom, mail, tel);
+            } else {
+                //Si déjà utilisé alors on renvoie null pour message erreur
+                return null;
+            }
+        }
+    }
 }

@@ -33,21 +33,22 @@
             </div>
         </div>
         <div class="card-body">
-                                                <% String error = (String) request.getAttribute("msgError");
-            if (request.getAttribute("msgError") != null) {%>
-        <div class="alert alert-danger alert-dismissible fade in show">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Attention !</strong>&nbsp;<%=error%>.
-        </div>
-        <%}%>
+            <%
+                String error = (String) request.getAttribute("msgError");
+                if (request.getAttribute("msgError") != null) {%>
+            <div class="alert alert-danger alert-dismissible fade in show">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Attention !</strong>&nbsp;<%=error%>.
+            </div>
+            <%}%>
 
-        <% String success = (String) request.getAttribute("msgSuccess");
-                                if (request.getAttribute("msgSuccess") != null) {%>
-        <div class="alert alert-success alert-dismissible fade in show">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <%=success%>.
-        </div>
-        <%}%>
+            <% String success = (String) request.getAttribute("msgSuccess");
+                if (request.getAttribute("msgSuccess") != null) {%>
+            <div class="alert alert-success alert-dismissible fade in show">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <%=success%>.
+            </div>
+            <%}%>
             <div class="table-responsive">
                 <table class="table">
                     <caption>Liste des clients </caption>
@@ -74,15 +75,15 @@
                             <td>
                                 <% if (c.getEntreprise() != null) {%>
                                 <%=(c.getEntreprise().getNom())%>
-                                <% } else  if (c.getEntreprise() == null && c.getDemandeCreationEntreprise() == null && c.getDemandeRattachement() == null) { %>
+                                <% } else if (c.getEntreprise() == null && c.getDemandeCreationEntreprise() == null && c.getDemandeRattachement() == null) { %>
                                 <span style="color: #c0392b">Aucune entreprise associée</span>
                                 <%
-                                } else if ((c.getDemandeCreationEntreprise() != null || c.getDemandeRattachement()!= null) && c.getEntreprise() == null) {
-                                    if (c.getDemandeCreationEntreprise() != null){
-                                        out.print("<span style='color: #e67e22'>Demande création ("+c.getDemandeCreationEntreprise().getNom()+") en cours</span>");
-                                    } else if(c.getDemandeRattachement()!= null){
-                                        out.print("<span style='color: #e67e22'>Demande rattachement ("+c.getDemandeRattachement().getEntreprise().getNom()+") en cours</span>");
-                                    }
+                                    } else if ((c.getDemandeCreationEntreprise() != null || c.getDemandeRattachement() != null) && c.getEntreprise() == null) {
+                                        if (c.getDemandeCreationEntreprise() != null) {
+                                            out.print("<span style='color: #e67e22'>Demande création (" + c.getDemandeCreationEntreprise().getNom() + ") en cours</span>");
+                                        } else if (c.getDemandeRattachement() != null) {
+                                            out.print("<span style='color: #e67e22'>Demande rattachement (" + c.getDemandeRattachement().getEntreprise().getNom() + ") en cours</span>");
+                                        }
                                     }
                                 %>
                             </td>
@@ -102,10 +103,10 @@
         </div>
     </div>
 </main>
-                        
+
 <!--MODALS-->
 <%
-for (Client c : listeCli) {
+    for (Client c : listeCli) {
 %>
 <div class="modal fade" id="modalClient<%=(c.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -163,10 +164,10 @@ for (Client c : listeCli) {
     </div>
 </div>
 <%
-}
+    }
 %>
-                        
-                        
-                        
-                        
+
+
+
+
 <jsp:include page="footer.jsp"/>

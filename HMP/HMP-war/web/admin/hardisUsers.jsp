@@ -26,6 +26,22 @@
                 <h1 class="h2">Utilisateurs HARDIS</h1>                
             </div>
         </div>
+                         <%--Warning Or Sucess--%>   
+                    <% String error = (String) request.getAttribute("msgError");
+            if (request.getAttribute("msgError") != null) {%>
+        <div class="alert alert-danger alert-dismissible fade in show">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Attention !</strong>&nbsp;<%=(error)%>.
+        </div>
+        <%}%>
+
+        <% String success = (String) request.getAttribute("msgSuccess");
+            if (request.getAttribute("msgSuccess") != null) {%>
+        <div class="alert alert-success alert-dismissible fade in show">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <%=(success)%>.
+        </div>
+        <%}%>
         <div class="card">
             <div class="card-body">
                 <div class="row ">
@@ -117,22 +133,7 @@
             </div>
         </div>
     </div>
-                 <%--Warning Or Sucess--%>   
-                    <% String error = (String) request.getAttribute("msgError");
-            if (request.getAttribute("msgError") != null) {%>
-        <div class="alert alert-danger alert-dismissible fade in show">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Attention !</strong>&nbsp;<%=(error)%>.
-        </div>
-        <%}%>
 
-        <% String success = (String) request.getAttribute("msgSuccess");
-            if (request.getAttribute("msgSuccess") != null) {%>
-        <div class="alert alert-success alert-dismissible fade in show">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <%=(success)%>.
-        </div>
-        <%}%>
 </div>
 <!--Modals-->
 <div class="modal fade" id="addRL" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -177,7 +178,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for='plafond' >Plafond de déléguation</label>
                         <input pattern="^[1-9][0-9]*$" name="plafond" type='tel' id='plafond' class='form-control' placeholder='Plafond de déléguation' required autofocus>
@@ -185,7 +185,6 @@
                             Le Profil métier doit être plus de 0.
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for='siret'>Profil *</label>
                         <select name="profilTechnique" class="selectpicker" data-width="auto" show-tick>
@@ -195,7 +194,6 @@
                             <option value="Visualisation">Visualisation</option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label for="selectOffre">Offre *</label>
                         <select name="offre" class="form-control selectpicker" id="selectOffre" data-width="auto" show-tick>
@@ -205,7 +203,6 @@
                             <%}%>                       
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label for="selectAgence">Agence *</label>
                         <select name="agence" class="form-control selectpicker" id="selectAgence" data-width="auto" show-tick>
@@ -215,7 +212,6 @@
                             <%}%>                       
                         </select>
                     </div>
-
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Créer l'Utilisateur Hardis</button>
                         <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
@@ -224,7 +220,6 @@
                 </div>
             </form>
         </div>
-
     </div>
 </div>
 
@@ -270,7 +265,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for='siret'>Profil *</label>
                         <select name="profilTechnique" class="selectpicker" show-tick data-width="auto">
@@ -280,7 +274,6 @@
                             <option value="Visualisation">Visualisation</option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label for="selectOffre ">Offre *</label>
                         <select name="offre" class="form-control selectpicker" id="selectOffre" data-width="auto" show-tick>
@@ -290,7 +283,6 @@
                             <%}%>                       
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label for="selectAgence">Agence *</label>
                         <select name="agence" class="form-control selectpicker" id="selectAgence" data-width="auto" show-tick>
@@ -300,7 +292,6 @@
                             <%}%>                       
                         </select>
                     </div>
-
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Créer l'Utilisateur Hardis</button>
                         <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
@@ -309,7 +300,6 @@
                 </div>
             </form>
         </div>
-
     </div>
 </div>
 
@@ -355,7 +345,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for='plafond' >Plafond de déléguation</label>
                         <input pattern="[0-9]*" name="plafond" type='tel' id='plafond' class='form-control' placeholder='Plafond de déléguation' required autofocus>
@@ -363,7 +352,6 @@
                             Le Profil métier est obligatoire.
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for='siret'>Profil *</label>
                         <select name="profilTechnique" class="form-control selectpicker" data-width="auto" show-tick>
@@ -373,7 +361,6 @@
                             <option value="Visualisation">Visualisation</option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label for="selectOffre">Offre *</label>
                         <select name="offres" class="form-control selectpicker" id="selectOffre" data-width="auto" multiple show-tick>
@@ -383,7 +370,6 @@
                             <%}%>                       
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label for="selectAgence">Agence *</label>
                         <select name="agence" class="form-control selectpicker" data-width="auto" id="selectAgence" show-tick>
@@ -393,7 +379,6 @@
                             <%}%>                       
                         </select>
                     </div>
-
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Créer l'Utilisateur Hardis</button>
                         <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>

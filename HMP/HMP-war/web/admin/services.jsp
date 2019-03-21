@@ -28,7 +28,22 @@
                 </div>
             </div>
         </div>
+        <%--Warning Or Sucess--%>   
+        <% String error = (String) request.getAttribute("msgError");
+            if (request.getAttribute("msgError") != null) {%>
+        <div class="alert alert-danger alert-dismissible fade in show">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Attention !</strong>&nbsp;<%=(error)%>.
+        </div>
+        <%}%>
 
+        <% String success = (String) request.getAttribute("msgSuccess");
+            if (request.getAttribute("msgSuccess") != null) {%>
+        <div class="alert alert-success alert-dismissible fade in show">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <%=(success)%>.
+        </div>
+        <%}%>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table">
@@ -77,8 +92,8 @@
             </div>
         </div>
     </div>
-                            
-    
+
+
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
@@ -315,15 +330,15 @@
                         <input type="hidden" name="idOffre" value="<%=o.getId()%>">
                         <input type="hidden" name="action" value="creerServiceNonStandard">
                     </div>
-                        
+
                 </form>
             </div>
         </div>
     </div>
-        
-<%
-for (ServiceStandard st : listServicesStandards) {
-%>
+
+    <%
+    for (ServiceStandard st : listServicesStandards) {
+    %>
     <div class="modal fade" id="modificationserviceStandard<%=(st.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
 
@@ -429,12 +444,12 @@ for (ServiceStandard st : listServicesStandards) {
         </div>
 
     </div>
-<%
-}
-%>
-<%
-for (ServiceNonStandard st : listServicesNonStandards) {
-%>
+    <%
+    }
+    %>
+    <%
+    for (ServiceNonStandard st : listServicesNonStandards) {
+    %>
     <div class="modal fade" id="modificationserviceNonStandard<%=(st.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
 
@@ -516,85 +531,81 @@ for (ServiceNonStandard st : listServicesNonStandards) {
         </div>
 
     </div>
-<%
-}
-%>
+    <%
+    }
+    %>
 
-<%
-for (ServiceStandard st : listServicesStandards) {
-%>
+    <%
+    for (ServiceStandard st : listServicesStandards) {
+    %>
     <div class="modal fade" id="detailServiceStandard<%=(st.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
 
             <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"><%=(st.getNom())%></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        </button>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><%=(st.getNom())%></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <p class="font-weight-bold">Description du service</p>
+                    <p class="font-weight-light"><%=(st.getDescriptionService())%></p>
+                    <p class="font-weight-light"><%=(st.getDescriptionPrestation())%></p>
+                    <p><span class="font-weight-bold">Lieu de l'intervention : </span><span class="font-weight-light"><%if(st.getLieuIntervention().toString().equals("Agence_Hardis")){%>Agence Hardis<%}else if(st.getLieuIntervention().toString().equals("Site_Client")){%>Site Client<%}else{%>Mixte<%}%></span></p>
+                    <p><span class="font-weight-bold">Prix : </span><span class="font-weight-light"><%=(st.getCout())%> euros, <%if(st.getFraisInclus()==true){%>Frais inclus<%}else{%>Frais non inclus<%}%></span></p>
+                    <p><span class="font-weight-bold">Délai de relance : </span><span class="font-weight-light"><%=(st.getDelaiRelance())%> jours</span></p>
+                    <p class="font-weight-bold">Nombre de jours de travail</p>
+                    <p class="font-weight-light"> Consultant Senior : <%=(st.getNbrJoursConsultantSenior())%> jours</p>
+                    <p class="font-weight-light">Consultant Confirmé : <%=(st.getNbrJoursConsultantConfirme())%> jours</p>
+                    <p class="font-weight-light">Consultant Junior : <%=(st.getNbrJoursConsultantJunior())%> jours</p>
+                    <p class="font-weight-bold">Nombre d'heures</p>
+                    <p class="font-weight-light">Ateliers et entretiens : <%=(st.getNbrHeuresAtelierEntretienPrevu())%> heures</p>
+                    <p class="font-weight-light">Support téléphonique : <%=(st.getNbrHeuresSupportTel())%> heures</p>
+                    <p class="font-weight-bold">Conditions générales</p>
+                    <div style="overflow-y: scroll; height:3em"> 
+                        <p class="font-weight-light"><%=(st.getConditions())%></p>
                     </div>
-                    <div class="modal-body">
-                        
-                            <p class="font-weight-bold">Description du service</p>
-                            <p class="font-weight-light"><%=(st.getDescriptionService())%></p>
-                            <p class="font-weight-light"><%=(st.getDescriptionPrestation())%></p>
-                            <p><span class="font-weight-bold">Lieu de l'intervention : </span><span class="font-weight-light"><%if(st.getLieuIntervention().toString().equals("Agence_Hardis")){%>Agence Hardis<%}else if(st.getLieuIntervention().toString().equals("Site_Client")){%>Site Client<%}else{%>Mixte<%}%></span></p>
-                            <p><span class="font-weight-bold">Prix : </span><span class="font-weight-light"><%=(st.getCout())%> euros, <%if(st.getFraisInclus()==true){%>Frais inclus<%}else{%>Frais non inclus<%}%></span></p>
-                            <p><span class="font-weight-bold">Délai de relance : </span><span class="font-weight-light"><%=(st.getDelaiRelance())%> jours</span></p>
-                            <p class="font-weight-bold">Nombre de jours de travail</p>
-                            <p class="font-weight-light"> Consultant Senior : <%=(st.getNbrJoursConsultantSenior())%> jours</p>
-                            <p class="font-weight-light">Consultant Confirmé : <%=(st.getNbrJoursConsultantConfirme())%> jours</p>
-                            <p class="font-weight-light">Consultant Junior : <%=(st.getNbrJoursConsultantJunior())%> jours</p>
-                            <p class="font-weight-bold">Nombre d'heures</p>
-                            <p class="font-weight-light">Ateliers et entretiens : <%=(st.getNbrHeuresAtelierEntretienPrevu())%> heures</p>
-                            <p class="font-weight-light">Support téléphonique : <%=(st.getNbrHeuresSupportTel())%> heures</p>
-                            <p class="font-weight-bold">Conditions générales</p>
-                            <div style="overflow-y: scroll; height:3em"> 
-                                <p class="font-weight-light"><%=(st.getConditions())%></p>
-                            </div>
-                    </div>
-                    <div class="modal-footer ">
-                        <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
-                    </div>
+                </div>
+                <div class="modal-footer ">
+                    <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
+                </div>
             </div>
         </div>
 
     </div>
-<%
-}
-%>
-<%
-for (ServiceNonStandard st : listServicesNonStandards) {
-%>
+    <%
+    }
+    %>
+    <%
+    for (ServiceNonStandard st : listServicesNonStandards) {
+    %>
     <div class="modal fade" id="detailServiceStandard<%=(st.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
 
             <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"><%=(st.getNom())%></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                            <p class="font-weight-bold">Description du service</p>
-                            <p class="font-weight-light"><%=(st.getDescriptionService())%></p>
-                            <p><span class="font-weight-bold">Lieu de l'intervention : </span><span class="font-weight-light"><%if(st.getLieuIntervention().toString().equals("Agence_Hardis")){%>Agence Hardis<%}else if(st.getLieuIntervention().toString().equals("Site_Client")){%>Site Client<%}else{%>Mixte<%}%></span></p>
-                            <p><span class="font-weight-bold">Prix : </span><span class="font-weight-light"><%=(st.getCout())%> euros, <%if(st.getFraisInclus()==true){%>Frais inclus<%}else{%>Frais non inclus<%}%></span></p>
-                            <p><span class="font-weight-bold">Délai de relance : </span><span class="font-weight-light"><%=(st.getDelaiRelance())%> jours</span></p>
-                            <p>Conditions générales : <%=(st.getConditions())%></p>
-                    </div>
-                    <div class="modal-footer ">
-                        <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
-                    </div>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><%=(st.getNom())%></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="font-weight-bold">Description du service</p>
+                    <p class="font-weight-light"><%=(st.getDescriptionService())%></p>
+                    <p><span class="font-weight-bold">Lieu de l'intervention : </span><span class="font-weight-light"><%if(st.getLieuIntervention().toString().equals("Agence_Hardis")){%>Agence Hardis<%}else if(st.getLieuIntervention().toString().equals("Site_Client")){%>Site Client<%}else{%>Mixte<%}%></span></p>
+                    <p><span class="font-weight-bold">Prix : </span><span class="font-weight-light"><%=(st.getCout())%> euros, <%if(st.getFraisInclus()==true){%>Frais inclus<%}else{%>Frais non inclus<%}%></span></p>
+                    <p><span class="font-weight-bold">Délai de relance : </span><span class="font-weight-light"><%=(st.getDelaiRelance())%> jours</span></p>
+                    <p>Conditions générales : <%=(st.getConditions())%></p>
+                </div>
+                <div class="modal-footer ">
+                    <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
+                </div>
             </div>
         </div>
 
     </div>
-<%
-}
-%>
-
-
+    <%
+    }
+    %>
 </main>
-
-
 <jsp:include page="footer.jsp"/>

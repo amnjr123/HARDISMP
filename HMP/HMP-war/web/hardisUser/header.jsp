@@ -1,13 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="GestionUtilisateur.UtilisateurHardis"%>
 <% UtilisateurHardis u = (UtilisateurHardis) session.getAttribute("sessionHardis"); %>
-<% UtilisateurHardis ua = (UtilisateurHardis) session.getAttribute("sessionAdministrateur"); %>
+<% UtilisateurHardis ua = (UtilisateurHardis) session.getAttribute("sessionAdministrateur");%>
 <!doctype html>
 <html lang="en">
     <head>
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title><%=(u.getNom().toUpperCase()+' '+u.getPrenom())%></title>
+        <title><%=(u.getNom().toUpperCase() + ' ' + u.getPrenom())%></title>
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/custom/dashboard.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/custom/simple-sidebar.css" rel="stylesheet">
@@ -34,7 +34,7 @@
 
                     <!-- Sidebar -->
                     <div class="bg-light border-right" id="sidebar-wrapper">
-                        <div class="sidebar-heading"><%=(u.getNom().toUpperCase()+' '+u.getPrenom())%></div>
+                        <div class="sidebar-heading"><%=(u.getNom().toUpperCase() + ' ' + u.getPrenom())%></div>
                         <div class="list-group list-group-flush">
                             <a href="${pageContext.request.contextPath}/hardisUser/index.jsp" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="monitor"></span> Tableau de bord
@@ -42,8 +42,11 @@
                             <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=monProfil" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="user"></span> Mon profil
                             </a>
+                            <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=planning" class="list-group-item list-group-item-action bg-light">
+                                <span data-feather="calendar"></span> Planning
+                            </a>
                             <%
-                                if (ua!=null){
+                                if (ua != null) {
                             %>
                             <a href="${pageContext.request.contextPath}/admin/indexAdmin.jsp" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="sliders"></span> Interface d'administration

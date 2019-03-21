@@ -20,7 +20,22 @@
                 </div>
             </div>
         </div>
+                 <%--Warning Or Sucess--%>   
+                    <% String error = (String) request.getAttribute("msgError");
+            if (request.getAttribute("msgError") != null) {%>
+        <div class="alert alert-danger alert-dismissible fade in show">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Attention !</strong>&nbsp;<%=(error)%>.
+        </div>
+        <%}%>
 
+        <% String success = (String) request.getAttribute("msgSuccess");
+            if (request.getAttribute("msgSuccess") != null) {%>
+        <div class="alert alert-success alert-dismissible fade in show">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <%=(success)%>.
+        </div>
+        <%}%>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table">

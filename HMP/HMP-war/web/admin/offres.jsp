@@ -22,7 +22,22 @@
                 </div>
             </div>
         </div>
+        <%--Warning Or Sucess--%>   
+        <% String error = (String) request.getAttribute("msgError");
+                        if (request.getAttribute("msgError") != null) {%>
+        <div class="alert alert-danger alert-dismissible fade in show">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Attention !</strong>&nbsp;<%=(error)%>.
+        </div>
+        <%}%>
 
+        <% String success = (String) request.getAttribute("msgSuccess");
+            if (request.getAttribute("msgSuccess") != null) {%>
+        <div class="alert alert-success alert-dismissible fade in show">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <%=(success)%>.
+        </div>
+        <%}%>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table">
@@ -50,16 +65,16 @@
                         <tr>
                             <td><%=o.getId()%></td>
                             <td><%=o.getLibelle()%></td>
-                            <td><%if(o.getDateFinValidite().after(date)){%><i data-feather="check-circle" style="color:green"></i><%}else{%><i data-feather="x" style="color:red"></i><%}%></td>
+                            <td><%if (o.getDateFinValidite().after(date)) {%><i data-feather="check-circle" style="color:green"></i><%} else {%><i data-feather="x" style="color:red"></i><%}%></td>
                             <td><a href="${pageContext.request.contextPath}/ServletAdministrateur?action=services&id=<%=o.getId()%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="list"></i></a></td>
                             <td>
                                 <div class="dropdown">
                                     <a href="#" data-toggle="modal" data-target="#modifierOffre<%=(o.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
-                                    <%if(o.getDateFinValidite().after(date)){%>
+                                        <%if (o.getDateFinValidite().after(date)) {%>
                                     <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=supprimerOffre&idOffre=<%=o.getId()%>" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a>
-                                    <%}else{%>
+                                        <%} else {%>
                                     <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=reactiverOffre&idOffre=<%=o.getId()%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="check-circle"></i></a>
-                                    <%}%>
+                                        <%}%>
                                 </div>
                             </td>
                         </tr>
@@ -99,7 +114,7 @@
         </div>
 
     </div>
-<%  int n = 0;
+    <%  int n = 0;
     for (Offre o : list) {%>     
     <div class="modal fade" id="modifierOffre<%=o.getId()%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -130,9 +145,9 @@
             </div>
         </div>
     </div>
-<%
-}
-%>
+    <%
+        }
+    %>
 
 </main>
 
