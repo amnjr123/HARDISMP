@@ -49,11 +49,11 @@ public interface SessionAdministrateurLocal {
 
     Client rattacherClient(Long idClient, Long idEntreprise);
 
-    ReferentLocal creerReferentLocal(String nom, String prenom, String mail, String tel, String profilTechnique, float plafondDelegation, Long idOffre, Long idAgence);
+    boolean creerReferentLocal(String nom, String prenom, String mail, String tel, String profilTechnique, float plafondDelegation, Long idOffre, Long idAgence);
 
     Consultant creerConsultant(String nom, String prenom, String mail, String tel, String profilTechnique, float plafondDelegation, Long idAgence, List<Long> listeIdOffres);
 
-    PorteurOffre creerPO(String nom, String prenom, String mail, String tel, String profilTechnique, Long idOffre, Long idAgence);
+    boolean creerPO(String nom, String prenom, String mail, String tel, String profilTechnique, Long idOffre, Long idAgence);
 
     PorteurOffre modifierPO(Long idPO, String nom, String prenom, String mail, String tel, String profilTechnique, boolean actifInactif, Long idOffre, Long idAgence);
 
@@ -149,4 +149,5 @@ public interface SessionAdministrateurLocal {
     DemandeRattachement validerDemandeRattachement(Long idDemande);
 
     List<DemandeRattachement> rechercheDemandeRattachements();
+    Offre reactiverOffre(Long idOffre);
 }

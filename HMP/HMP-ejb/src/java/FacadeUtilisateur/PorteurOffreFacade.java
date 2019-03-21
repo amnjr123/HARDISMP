@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -54,8 +55,8 @@ public class PorteurOffreFacade extends AbstractFacade<PorteurOffre> implements 
         po.setAgence(agence);
         po.setDtype("PorteurOffre");
         /*MDP*/
- /*Envoi mail avec mdp géneré*/
         SendMail s = new SendMail();
+        /*Envoi mail avec mdp géneré*/
         String mdp = s.sendMailUtilisateurHardisMdp(po, "Porteur d'Offre");
         /*Hashage password*/
         try {
@@ -110,6 +111,17 @@ public class PorteurOffreFacade extends AbstractFacade<PorteurOffre> implements 
     public PorteurOffre creerPO(PorteurOffre po) {
         em.persist(po);
         return po;
+    }
+    
+    @Override
+    public PorteurOffre recherchePorteurOffre(Offre o) {
+        Query requete = em.createQuery("select p from PorteurOffre as p where p.offre=:o");
+        requete.setParameter("o", o);
+        if (!requete.getResultList().isEmpty()) {
+            return (PorteurOffre) requete.getSingleResult();
+        } else {
+            return null;
+        }
     }
 
 }
