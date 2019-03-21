@@ -140,4 +140,6 @@ public interface SessionAdministrateurLocal {
     ServiceStandard supprimerServiceStandard(Long idServiceStandard);
 
     ServiceNonStandard supprimerServiceNonStandard(Long idServiceNonStandard);
+
+    Offre reactiverOffre(Long idOffre);
 }

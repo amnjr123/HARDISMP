@@ -339,6 +339,32 @@ public class ServletAdministrateur extends HttpServlet {
                     request.setAttribute("listOffres", sessionAdministrateur.afficherOffres());
                     jspClient = "/admin/offres.jsp";
                 }
+                
+                if (act.equals("modifierOffre")) {
+                    String libelle = ((String) request.getParameter("libelle")).trim().toUpperCase();
+                    Long idOffre = Long.parseLong(request.getParameter("idOffre").trim());
+                    if (libelle != null && !libelle.isEmpty()) {
+                        sessionAdministrateur.modifierOffre(idOffre,libelle);
+                    } else {
+                        request.setAttribute("msgError", "Une erreur s'est produite");
+                    }
+                    request.setAttribute("listOffres", sessionAdministrateur.afficherOffres());
+                    jspClient = "/admin/offres.jsp";
+                }
+                
+                if (act.equals("supprimerOffre")) {
+                    Long idOffre = Long.parseLong(request.getParameter("idOffre").trim());
+                    sessionAdministrateur.supprimerOffre(idOffre);
+                    request.setAttribute("listOffres", sessionAdministrateur.afficherOffres());
+                    jspClient = "/admin/offres.jsp";
+                }
+                
+                if (act.equals("reactiverOffre")) {
+                    Long idOffre = Long.parseLong(request.getParameter("idOffre").trim());
+                    sessionAdministrateur.reactiverOffre(idOffre);
+                    request.setAttribute("listOffres", sessionAdministrateur.afficherOffres());
+                    jspClient = "/admin/offres.jsp";
+                }
 
                 /*Redirections*/
                 if (act.equals("offres")) {

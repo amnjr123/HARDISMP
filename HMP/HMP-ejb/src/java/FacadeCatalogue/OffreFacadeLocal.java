@@ -44,5 +44,7 @@ public interface OffreFacadeLocal {
     List<Offre> rechercheOffresActuelles();
 
     List<Offre> rechercheOffresAnciennes();
+
+    Offre reactiverOffre(Offre o);
     
 }

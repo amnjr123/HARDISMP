@@ -518,6 +518,11 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     }
     
     @Override
+    public Offre reactiverOffre(Long idOffre){
+        return offreFacade.reactiverOffre(offreFacade.rechercheOffre(idOffre));
+    }
+    
+    @Override
     public List<Offre> afficherOffres(){
         return offreFacade.rechercheOffre();
     }

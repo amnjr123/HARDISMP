@@ -64,10 +64,12 @@
                             <td><%=st.getCout()%></td>
                             <td><%if(st.getDateFinValidite().after(date)){%><i data-feather="check-circle" style="color:green"></i><%}else{%><i data-feather="x" style="color:red"></i><%}%></td>
                             <td><a data-toggle="modal" data-target="#detailServiceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="list"></i></a></td>
-                            <td><div class="dropdown">
-                                    <td><a href="#" data-toggle="modal" data-target="#modificationserviceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
-                                        <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=supprimerService&idServiceStandard=<%=st.getId()%>" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a></td>
-                                </div></td>
+                            <td>
+                                <div class="dropdown">
+                                    <a href="#" data-toggle="modal" data-target="#modificationserviceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
+                                    <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=supprimerService&idServiceStandard=<%=st.getId()%>" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a>
+                                </div>
+                            </td>
                         </tr>
                         <%}%>
                     </tbody>
@@ -116,10 +118,12 @@
                             <td><%=st.getCout()%></td>
                             <td><%if(st.getDateFinValidite().after(date)){%><i data-feather="check-circle" style="color:green"></i><%}else{%><i data-feather="x" style="color:red"></i><%}%></td>
                             <td><a data-toggle="modal" data-target="#detailServiceNonStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="list"></i></a></td>
-                            <td><div class="dropdown">
-                                    <td><a href="#" data-toggle="modal" data-target="#modificationserviceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
-                                        <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=supprimerService&idServiceNonStandard=<%=st.getId()%>" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a></td>
-                                </div></td>
+                            <td>
+                                <div class="dropdown">
+                                    <a href="#" data-toggle="modal" data-target="#modificationserviceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
+                                    <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=supprimerService&idServiceNonStandard=<%=st.getId()%>" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a>
+                                </div>
+                            </td>
                         </tr>
                         <%}%>
                     </tbody>
