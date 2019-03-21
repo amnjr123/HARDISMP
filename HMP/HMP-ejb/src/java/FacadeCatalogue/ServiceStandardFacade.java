@@ -128,5 +128,13 @@ public class ServiceStandardFacade extends AbstractFacade<ServiceStandard> imple
         requete.setParameter("o", o);
         return requete.getResultList();
     }
+    
+    @Override
+    public List<ServiceStandard> rechercheServicesStandardsActuels(Offre o) {
+        Query requete = getEntityManager().createQuery("select s from ServiceStandard as s where s.dateFinValidite>:date AND s.offre=:offre");
+        requete.setParameter("date", new Date());
+        requete.setParameter("offre", o);
+        return requete.getResultList();
+    }
 
 }

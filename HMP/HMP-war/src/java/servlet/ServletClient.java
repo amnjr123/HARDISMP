@@ -1,5 +1,6 @@
 package servlet;
 
+import GestionCatalogue.Offre;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Utilisateur;
 import SessionUtilisateur.SessionClientLocal;
@@ -140,6 +141,20 @@ public class ServletClient extends HttpServlet {
                         }
 
                     }
+                }
+                
+                /*CATALOGUE*/
+                 if (act.equals("offres")) {
+                    request.setAttribute("listOffres", sessionClient.rechercherOffres());
+                    jspClient = "/client/offres.jsp";
+                }
+                if (act.equals("services")) {
+                    Long id = Long.parseLong(request.getParameter("id").trim());
+                    Offre offre = sessionClient.rechercherOffre(id);
+                    request.setAttribute("offre", offre);
+                    request.setAttribute("listeServicesStandards", sessionClient.rechercherServicesStandards(id));
+                    request.setAttribute("listeServicesNonStandards", sessionClient.rechercherServicesNonStandards(id));
+                    jspClient = "/client/services.jsp";
                 }
 
             }

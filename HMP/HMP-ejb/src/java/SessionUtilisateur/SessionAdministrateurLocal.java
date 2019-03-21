@@ -149,7 +149,10 @@ public interface SessionAdministrateurLocal {
     DemandeRattachement validerDemandeRattachement(Long idDemande);
 
     List<DemandeRattachement> rechercheDemandeRattachements();
+    
     Offre reactiverOffre(Long idOffre);
 
-     Client modifierClient(Long id, String nom, String prenom, String mail, String tel);
+    Client modifierClient(Long id, String nom, String prenom, String mail, String tel);
+
+    List rechercheEntreprise(String recherche);
 }

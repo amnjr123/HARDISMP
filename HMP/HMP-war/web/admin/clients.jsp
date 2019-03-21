@@ -22,7 +22,7 @@
                         <div class="input-group mb-3">
 
                             <label for="nom" class="sr-only">Rechercher</label>
-                            <input type="text" id="nom" class="form-control" placeholder="Nom, prénom, identifiant ou email" required autofocus>
+                            <input type="text" id="nom" class="form-control" placeholder="Nom, prï¿½nom, identifiant ou email" required autofocus>
                             <div class="input-group-prepend">
                                 <a href="#" type="button" class="btn btn-primary"><i data-feather="search"></i></a>
                             </div>
@@ -57,7 +57,7 @@
                             <th scope="col">id</th>
                             <th scope="col">Nom</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Téléphone</th>
+                            <th scope="col">Tï¿½lï¿½phone</th>
                             <th scope="col">Entreprise</th>
                             <th scope="col"></th>
                         </tr>
@@ -74,16 +74,28 @@
 
                             <td>
                                 <% if (c.getEntreprise() != null) {%>
-                                <%=(c.getEntreprise().getNom())%>
+                                <form method="post" action="${pageContext.request.contextPath}/ServletAdministrateur">
+                                    <input type="hidden" name="action" value="entreprises">
+                                    <input type="hidden" name="recherche" value="<%=(c.getEntreprise().getId().toString())%>">
+                                    <button type='submit' class="btn btn-link btn-sm"><%=(c.getEntreprise().getNom())%></button>
+                                </form>
+
                                 <% } else if (c.getEntreprise() == null && c.getDemandeCreationEntreprise() == null && c.getDemandeRattachement() == null) { %>
-                                <span style="color: #c0392b">Aucune entreprise associée</span>
+                                <span style="color: #c0392b">Aucune entreprise associï¿½e</span>
                                 <%
                                     } else if ((c.getDemandeCreationEntreprise() != null || c.getDemandeRattachement() != null) && c.getEntreprise() == null) {
                                         if (c.getDemandeCreationEntreprise() != null) {
-                                            out.print("<span style='color: #e67e22'>Demande création (" + c.getDemandeCreationEntreprise().getNom() + ") en cours</span>");
-                                        } else if (c.getDemandeRattachement() != null) {
-                                            out.print("<span style='color: #e67e22'>Demande rattachement (" + c.getDemandeRattachement().getEntreprise().getNom() + ") en cours</span>");
-                                        }
+                                            out.print("<span style='color: #e67e22'>Demande crï¿½ation (" + c.getDemandeCreationEntreprise().getNom() + ") en cours</span>");
+
+                                        } else if (c.getDemandeRattachement() != null) { %>
+                                            <form method="post" action="${pageContext.request.contextPath}/ServletAdministrateur">
+                                                <input type="hidden" name="action" value="entreprises">
+                                                <input type="hidden" name="recherche" value="<%=(c.getDemandeRattachement().getEntreprise().getId().toString())%>">
+                                                Demande rattachement (<button type='submit' class="btn btn-link btn-sm"><%=(c.getDemandeRattachement().getEntreprise().getNom())%></button>) en cours
+                                            </form>
+                                            
+                                        <% }
+
                                     }
                                 %>
                             </td>
@@ -113,16 +125,16 @@
         <div class="modal-content">
             <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletAdministrateur">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modifier les données de l'utilisateur <%=(c.getId())%> </h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Modifier les donnï¿½es de l'utilisateur <%=(c.getId())%> </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="firstName">Prénom *</label>
-                        <input name="prenom" type="text" class="form-control" id="firstName" placeholder="Prénom du client" value="<%=(c.getPrenom())%>" required>
+                        <label for="firstName">Prï¿½nom *</label>
+                        <input name="prenom" type="text" class="form-control" id="firstName" placeholder="Prï¿½nom du client" value="<%=(c.getPrenom())%>" required>
                         <div class="invalid-feedback">
-                            Le prénom est obligatoire.
+                            Le prï¿½nom est obligatoire.
                         </div>
                     </div>
                     <div class="form-group">
@@ -143,11 +155,11 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="telephone">Téléphone *</label>
+                        <label for="telephone">Tï¿½lï¿½phone *</label>
                         <div class="input-group">
                             <input name="tel" type="tel" id="telephone" class="form-control" placeholder="(+33)6xxxxxxxxx ou 00336xxxxxxxxx ou 0xxxxxxxxx" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$" value="<%=(c.getTelephone())%>" required>
                             <div class="invalid-feedback" style="width: 100%;">
-                                Le numéro de téléphone est obligatoire et doit être conforme
+                                Le numï¿½ro de tï¿½lï¿½phone est obligatoire et doit ï¿½tre conforme
                             </div>
                         </div>
                     </div>
@@ -166,8 +178,5 @@
 <%
     }
 %>
-
-
-
 
 <jsp:include page="footer.jsp"/>

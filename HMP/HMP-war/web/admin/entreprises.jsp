@@ -4,7 +4,7 @@
 <jsp:include page="header.jsp"/>
 <jsp:useBean id="listeEntreprises" scope="request" class="java.util.Collection"></jsp:useBean>
 <jsp:useBean id="listeAgences" scope="request" class="java.util.Collection"></jsp:useBean>
-<% 
+<%
     Collection<Entreprise> listEntreprises = listeEntreprises;
     Collection<Agence> listAgences = listeAgences;
 %>
@@ -14,7 +14,7 @@
     </div>
 
     <div class="card">
-             <% String error = (String) request.getAttribute("msgError");
+        <% String error = (String) request.getAttribute("msgError");
             if (request.getAttribute("msgError") != null) {%>
         <div class="alert alert-danger alert-dismissible fade in show">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -44,28 +44,16 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <div class="input-group mb-3">
-
-                            <label for="siret" class="sr-only">SIRET *</label>
-                            <input type="text" id="siret" class="form-control" placeholder="SIRET" required autofocus>
-                            <div class="input-group-prepend">
-                                <a href="#" type="button" class="btn btn-primary"><i data-feather="search"></i></a>
+                        <form method="post" action="${pageContext.request.contextPath}/ServletAdministrateur">
+                            <div class="input-group mb-3">
+                                <input type="hidden" name="action" value="entreprises">
+                                <input type="text" name="recherche" class="form-control" placeholder="Id, Raison sociale ou SIRET">
+                                <div class="input-group-prepend">
+                                    <button type='submit' class="btn btn-primary"><i data-feather="search"></i></button>
+                                </div>
                             </div>
-
-                        </div>
+                        </form>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="input-group mb-3">
-
-                            <label for="nom" class="sr-only">Nom *</label>
-                            <input type="text" id="nom" class="form-control" placeholder="Nom" required autofocus>
-                            <div class="input-group-prepend">
-                                <a href="#" type="button" class="btn btn-primary"><i data-feather="search"></i></a>
-                            </div>
-
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -134,12 +122,12 @@
                             <label for="selectAgence"></label>
                             <select name="agence" class="form-control" id="selectAgence">
                                 <option disabled selected>Choisir l'agence</option>
-                                <%for(Agence a : listAgences){%>
-                                    <option value="<%=a.getId()%>">Agence de&nbsp;<%=a.getLocalisation()%></option>
+                                <%for (Agence a : listAgences) {%>
+                                <option value="<%=a.getId()%>">Agence de&nbsp;<%=a.getLocalisation()%></option>
                                 <%}%>                       
                             </select>
                         </div>
-                    
+
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Créer l'entreprise</button>

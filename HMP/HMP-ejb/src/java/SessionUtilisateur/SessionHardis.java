@@ -10,6 +10,8 @@ import Enum.StatutDevis;
 import FacadeCatalogue.LivrableFacadeLocal;
 import FacadeCatalogue.OffreFacadeLocal;
 import FacadeCatalogue.ServiceFacadeLocal;
+import FacadeCatalogue.ServiceNonStandardFacadeLocal;
+import FacadeCatalogue.ServiceStandardFacadeLocal;
 import FacadeDevis.DevisFacadeLocal;
 import FacadeDevis.DevisNonStandardFacadeLocal;
 import FacadeDevis.DevisStandardFacadeLocal;
@@ -27,6 +29,8 @@ import FacadeUtilisateur.UtilisateurHardisFacadeLocal;
 import GestionCatalogue.Livrable;
 import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
+import GestionCatalogue.ServiceNonStandard;
+import GestionCatalogue.ServiceStandard;
 import GestionDevis.Devis;
 import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
@@ -53,6 +57,12 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class SessionHardis implements SessionHardisLocal {
+
+    @EJB
+    private ServiceNonStandardFacadeLocal serviceNonStandardFacade;
+
+    @EJB
+    private ServiceStandardFacadeLocal serviceStandardFacade;
 
     @EJB
     private DisponibiliteFacadeLocal disponibiliteFacade;
@@ -208,13 +218,25 @@ public class SessionHardis implements SessionHardisLocal {
 /*GESTION DU CATALOGUE*/
     
     @Override
-    public List<Offre> rechercherOffres(){
-        return offreFacade.rechercheOffresActuelles();
+    public List<Offre> afficherOffres(){
+        return offreFacade.rechercheOffre();
     }
     
     @Override
-    public List<Service> rechercherService(Offre o) {
-        return serviceFacade.rechercherService(o);
+    public Offre afficheOffre(Long id){
+        return offreFacade.rechercheOffre(id);
+    }
+    
+    @Override
+    public List<ServiceStandard> afficherServicesStandards(Long idOffre){
+        Offre o = offreFacade.rechercheOffre(idOffre);
+        return serviceStandardFacade.rechercherServiceStandard(o);
+    } 
+    
+    @Override
+    public List<ServiceNonStandard> afficherServicesNonStandards(Long idOffre){
+        Offre o = offreFacade.rechercheOffre(idOffre);
+        return serviceNonStandardFacade.rechercherServiceNonStandard(o);
     }
     
     @Override
