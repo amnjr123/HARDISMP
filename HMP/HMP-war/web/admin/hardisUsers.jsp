@@ -26,21 +26,6 @@
                 <h1 class="h2">Utilisateurs HARDIS</h1>                
             </div>
         </div>
-        <% String error = (String) request.getAttribute("msgError");
-            if (request.getAttribute("msgError") != null) {%>
-        <div class="alert alert-danger alert-dismissible fade in show">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Attention !</strong>&nbsp;<%=(error)%>.
-        </div>
-        <%}%>
-
-        <% String success = (String) request.getAttribute("msgSuccess");
-            if (request.getAttribute("msgSuccess") != null) {%>
-        <div class="alert alert-success alert-dismissible fade in show">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <%=(success)%>.
-        </div>
-        <%}%>
         <div class="card">
             <div class="card-body">
                 <div class="row ">
@@ -132,6 +117,22 @@
             </div>
         </div>
     </div>
+                 <%--Warning Or Sucess--%>   
+                    <% String error = (String) request.getAttribute("msgError");
+            if (request.getAttribute("msgError") != null) {%>
+        <div class="alert alert-danger alert-dismissible fade in show">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Attention !</strong>&nbsp;<%=(error)%>.
+        </div>
+        <%}%>
+
+        <% String success = (String) request.getAttribute("msgSuccess");
+            if (request.getAttribute("msgSuccess") != null) {%>
+        <div class="alert alert-success alert-dismissible fade in show">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <%=(success)%>.
+        </div>
+        <%}%>
 </div>
 <!--Modals-->
 <div class="modal fade" id="addRL" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -181,13 +182,13 @@
                         <label for='plafond' >Plafond de déléguation</label>
                         <input pattern="[1-9]*" name="plafond" type='tel' id='plafond' class='form-control' placeholder='Plafond de déléguation' required autofocus>
                         <div class="invalid-feedback">
-                            Le Profil métier est obligatoire.
+                            Le Profil métier doit être plus de 0.
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for='siret'>Profil *</label>
-                        <select name="profilTechnique" class="selectpicker">
+                        <select name="profilTechnique" class="selectpicker" data-width="auto" show-tick>
                             <option disabled selected>Choisir Profil Technique</option>
                             <option value="Administrateur">Administrateur</option>
                             <option value="Gestionnaire">Gestionnaire</option>
@@ -197,7 +198,7 @@
 
                     <div class="form-group">
                         <label for="selectOffre">Offre *</label>
-                        <select name="offre" class="form-control selectpicker" id="selectOffre">
+                        <select name="offre" class="form-control selectpicker" id="selectOffre" data-width="auto" show-tick>
                             <option disabled selected>Choisir l'offre</option>
                             <%for (Offre o : listOffres) {%>
                             <option value="<%=o.getId()%>"><%=o.getLibelle()%></option>
@@ -207,7 +208,7 @@
 
                     <div class="form-group">
                         <label for="selectAgence">Agence *</label>
-                        <select name="agence" class="form-control selectpicker" id="selectAgence">
+                        <select name="agence" class="form-control selectpicker" id="selectAgence" data-width="auto" show-tick>
                             <option disabled selected>Choisir l'agence</option>
                             <%for (Agence a : listAgences) {%>
                             <option value="<%=a.getId()%>">Agence de&nbsp;<%=a.getLocalisation()%></option>
@@ -272,7 +273,7 @@
 
                     <div class="form-group">
                         <label for='siret'>Profil *</label>
-                        <select name="profilTechnique" class="selectpicker">
+                        <select name="profilTechnique" class="selectpicker" show-tick data-width="auto">
                             <option disabled selected>Choisir Profil Technique</option>
                             <option value="Administrateur">Administrateur</option>
                             <option value="Gestionnaire">Gestionnaire</option>
@@ -282,7 +283,7 @@
 
                     <div class="form-group">
                         <label for="selectOffre ">Offre *</label>
-                        <select name="offre" class="form-control selectpicker" id="selectOffre" >
+                        <select name="offre" class="form-control selectpicker" id="selectOffre" data-width="auto" show-tick>
                             <option disabled selected>Choisir l'offre</option>
                             <%for (Offre o : listOffres) {%>
                             <option value="<%=o.getId()%>"><%=o.getLibelle()%></option>
@@ -292,7 +293,7 @@
 
                     <div class="form-group">
                         <label for="selectAgence">Agence *</label>
-                        <select name="agence" class="form-control selectpicker" id="selectAgence">
+                        <select name="agence" class="form-control selectpicker" id="selectAgence" data-width="auto" show-tick>
                             <option disabled selected>Choisir l'agence</option>
                             <%for (Agence a : listAgences) {%>
                             <option value="<%=a.getId()%>">Agence de&nbsp;<%=a.getLocalisation()%></option>
@@ -365,7 +366,7 @@
 
                     <div class="form-group">
                         <label for='siret'>Profil *</label>
-                        <select name="profilTechnique" class="form-control selectpicker">
+                        <select name="profilTechnique" class="form-control selectpicker" data-width="auto" show-tick>
                             <option disabled selected>Choisir Profil Technique</option>
                             <option value="Administrateur">Administrateur</option>
                             <option value="Gestionnaire">Gestionnaire</option>
@@ -375,7 +376,7 @@
 
                     <div class="form-group">
                         <label for="selectOffre">Offre *</label>
-                        <select name="offre" class="form-control selectpicker" id="selectOffre" multiple>
+                        <select name="offres" class="form-control selectpicker" id="selectOffre" data-width="auto" multiple show-tick>
                             <option disabled>Choisir l'offre</option>
                             <%for (Offre o : listOffres) {%>
                             <option value="<%=o.getId()%>"><%=o.getLibelle()%></option>
@@ -385,7 +386,7 @@
 
                     <div class="form-group">
                         <label for="selectAgence">Agence *</label>
-                        <select name="agence" class="form-control selectpicker" id="selectAgence">
+                        <select name="agence" class="form-control selectpicker" data-width="auto" id="selectAgence" show-tick>
                             <option disabled selected>Choisir l'agence</option>
                             <%for (Agence a : listAgences) {%>
                             <option value="<%=a.getId()%>">Agence de&nbsp;<%=a.getLocalisation()%></option>

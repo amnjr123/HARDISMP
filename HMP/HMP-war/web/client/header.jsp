@@ -1,9 +1,10 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="GestionUtilisateur.Client"%>
 <% Client c = (Client) session.getAttribute("sessionClient");%>
 <!doctype html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title><%=(c.getNom() + ' ' + c.getPrenom())%></title>
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
@@ -18,7 +19,7 @@
             <button class="btn navbar-toggler navbar-toggler-right" style="background-color:transparent"  id="menu-toggle"><span style="width:32px;height: 32px;color : white;" data-feather="menu" ></span></button>
             <ul class="navbar-nav   ml-auto">
                 <li class="nav-item ">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/Servlet?action=logout" style="" >Se déconnecter&nbsp;<span data-feather="log-out"></span> </a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/Servlet?action=logout" style="" >Se dÃ©connecter&nbsp;<span data-feather="log-out"></span> </a>
                 </li>
             </ul>
         </nav>

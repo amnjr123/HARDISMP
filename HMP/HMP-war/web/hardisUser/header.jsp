@@ -1,10 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="GestionUtilisateur.UtilisateurHardis"%>
 <% UtilisateurHardis u = (UtilisateurHardis) session.getAttribute("sessionHardis"); %>
 <% UtilisateurHardis ua = (UtilisateurHardis) session.getAttribute("sessionAdministrateur"); %>
 <!doctype html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title><%=(u.getNom().toUpperCase()+' '+u.getPrenom())%></title>
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
@@ -19,7 +20,7 @@
             <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
             <ul class="navbar-nav px-3">
                 <li class="nav-item text-nowrap">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/Servlet?action=logout">Se déconnecter <span data-feather="log-out"></span> </a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/Servlet?action=logout">Se dÃ©connecter <span data-feather="log-out"></span> </a>
                 </li>
             </ul>
         </nav>

@@ -1,9 +1,10 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="GestionUtilisateur.UtilisateurHardis"%>
 <% UtilisateurHardis u = (UtilisateurHardis) session.getAttribute("sessionHardis");%>
 <!doctype html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Interface d'administration HARDIS Work Place</title>
 
