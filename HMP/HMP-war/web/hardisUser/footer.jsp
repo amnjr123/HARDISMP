@@ -8,10 +8,9 @@
     <!-- Placed at the end of the document so the pages load faster -->
 
     <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
-    <!-- Icons -->
-    <script src="${pageContext.request.contextPath}/js/feather.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/feather.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap-select.min.js"></script>
     <script>
       feather.replace()
     </script>

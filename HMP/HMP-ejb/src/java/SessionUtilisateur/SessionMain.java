@@ -32,8 +32,6 @@ public class SessionMain implements SessionLocal {
     @EJB
     private UtilisateurFacadeLocal utilisateurFacade;
 
-    
-    
     @Override
     public Utilisateur authentification(String mail, String mdp) {
         return utilisateurFacade.authentification(mail, mdp);
@@ -43,8 +41,6 @@ public class SessionMain implements SessionLocal {
     public String getTypeUser(Utilisateur utilisateur) {
         return utilisateurFacade.getDType(utilisateur);
     }
-    
-    
 
     @Override
     public Client rechercheClient(long id) {
@@ -62,12 +58,22 @@ public class SessionMain implements SessionLocal {
     }
 
     @Override
-    public Utilisateur rechercherUtilisateurExistant(String mail){
+    public Utilisateur rechercherUtilisateurExistant(String mail) {
         return utilisateurFacade.rechercherUtilisateurParMail(mail);
     }
-    
+
     @Override
-    public void test(){
+    public boolean motDePasseOublie(String email) {
+        if (utilisateurFacade.rechercherUtilisateurParMail(email) != null) {
+            Utilisateur u = utilisateurFacade.rechercherUtilisateurParMail(email);
+            utilisateurFacade.motDePasseOublie(u);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void test() {
         //this.creerClient("NEJJARI","Amine","amnjr123@gmail.com","123456","0624318857");
         ReferentLocal uh = new ReferentLocal();
         uh.setNom("Gestionnaire");
@@ -76,10 +82,10 @@ public class SessionMain implements SessionLocal {
         uh.setMdp("40BD001563085FC35165329EA1FF5C5ECBDBBEEF");
         uh.setPlafondDelegation(Float.parseFloat("1000000"));
         uh.setProfilTechnique(ProfilTechnique.Gestionnaire);
-        
+
         referentLocalFacade.create(uh);
-                
-          UtilisateurHardis ur = new UtilisateurHardis();
+
+        UtilisateurHardis ur = new UtilisateurHardis();
         ur.setNom("Admin");
         ur.setPrenom("test");
         ur.setMail("amnjr123@gmail.com");
@@ -87,15 +93,4 @@ public class SessionMain implements SessionLocal {
         ur.setProfilTechnique(ProfilTechnique.Administrateur);
         utilisateurHardisFacade.ajouter(ur);
     }
-
-    @Override
-    public boolean motDePasseOublie(String email) {
-        if(utilisateurFacade.rechercherUtilisateurParMail(email)!=null){
-            Utilisateur u = utilisateurFacade.rechercherUtilisateurParMail(email);
-            utilisateurFacade.motDePasseOublie(u);
-            return true;
-        }
-        return false;
-    }
-        
 }

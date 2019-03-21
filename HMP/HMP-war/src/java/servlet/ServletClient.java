@@ -54,12 +54,12 @@ public class ServletClient extends HttpServlet {
                         String siret = ((String) request.getParameter("siret")).trim().toUpperCase();
                         String nom = request.getParameter("nom");
                         String adresse = request.getParameter("adresse");
-                        Long idAgence=null;
+                        Long idAgence = null;
                         String agence = request.getParameter("agence");
-                        if(agence!= null && !agence.isEmpty()){
-                            idAgence=Long.parseLong(agence);
+                        if (agence != null && !agence.isEmpty()) {
+                            idAgence = Long.parseLong(agence);
                         }
-                        
+
                         System.out.print(id);
                         if (siret != null && !siret.isEmpty()) {
                             sessionClient.DemandeCreationOuRattachement(id, nom, siret, adresse, idAgence);
@@ -146,6 +146,8 @@ public class ServletClient extends HttpServlet {
 
         }
 
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         RequestDispatcher rd = getServletContext().getRequestDispatcher(jspClient);
         rd.forward(request, response);
 

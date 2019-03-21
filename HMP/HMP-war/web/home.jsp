@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="GestionUtilisateur.UtilisateurHardis"%>
 <%@page import="GestionUtilisateur.Client"%>
 <%
@@ -13,9 +14,9 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="Il s'agit d'un Market Place, dotée de fonctionnalités que vous pourrez utiliser dans vos projets futurs.">
+        <meta name="description" content="Il s'agit d'un Market Place, dotÃ©e de fonctionnalitÃ©s que vous pourrez utiliser dans vos projets futurs.">
         <meta name="author" content="M2SIA">
         <title>Bienvenue Work Place Hardis-Group</title>
         <!-- Theme CSS - Includes Bootstrap -->
@@ -65,12 +66,12 @@
             <div class="container h-100">
                 <div class="row h-100 align-items-center justify-content-center text-center">
                     <div class="col-lg-10 align-self-end">
-                        <h1 class="text-uppercase text-white font-weight-bold">Demandez votre devis dès aujourd'hui</h1>
+                        <h1 class="text-uppercase text-white font-weight-bold">Demandez votre devis dÃ¨s aujourd'hui</h1>
                         <hr class="divider my-4">
                     </div>
                     <div class="col-lg-8 align-self-baseline">
-                        <p class="text-white-75 font-weight-light mb-5">Il s'agit d'un Market Place, dotée de fonctionnalités que vous pourrez utiliser dans vos projets futurs.</p>
-                        <p class="text-white-75 font-weight-light mb-5">Découvrez nos fonctionnalités pour parler avec nos équipes et découvrir nos offres & services.</p>
+                        <p class="text-white-75 font-weight-light mb-5">Il s'agit d'un Market Place, dotÃ©e de fonctionnalitÃ©s que vous pourrez utiliser dans vos projets futurs.</p>
+                        <p class="text-white-75 font-weight-light mb-5">DÃ©couvrez nos fonctionnalitÃ©s pour parler avec nos Ã©quipes et dÃ©couvrir nos offres & services.</p>
                         <%if (sessionUtilisateur != null) {
                                 if (sessionUtilisateur.equalsIgnoreCase("UtilisateurHardis")) {
                                     out.print("<a class='btn btn-light btn-xl' href='" + request.getContextPath() + "/hardisUser/index.jsp'>" + u.getNom() + " " + u.getPrenom() + "</a>");
@@ -91,7 +92,7 @@
                         <%if (request.getAttribute("ErrorAdds") != null) {%>
                         <div class='text-center'>           
                             <button type='button' class='btn btn-link' data-toggle='modal' data-target='#pwOublieModal'>
-                                Mot de passe oublié ?
+                                Mot de passe oubliÃ© ?
                             </button>
                         </div>
                         <%}%>
@@ -108,7 +109,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h3>Connexion</h3>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">Ã—</button>
                     </div>
                     <div class="modal-body">
                         <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" id="formLogin" method="POST" action="${pageContext.request.contextPath}/Servlet">
@@ -129,7 +130,7 @@
                             </div>
                             <div class="text-center">           
                                 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#pwOublieModal">
-                                    Mot de passe oublié ?
+                                    Mot de passe oubliÃ© ?
                                 </button>
                             </div>
                             <div class="form-group py-4 text-center">
@@ -148,15 +149,15 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h3>Inscription</h3>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">Ã—</button>
                     </div>
                     <div class="modal-body">
                         <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" id="formLogin" novalidate="" method="POST" action="${pageContext.request.contextPath}/Servlet">
                             <div class="form-group">
-                                <label for="firstName">Prénom *</label>
-                                <input name="prenom" type="text" class="form-control" id="firstName" placeholder="Votre prénom" value="" required>
+                                <label for="firstName">PrÃ©nom *</label>
+                                <input name="prenom" type="text" class="form-control" id="firstName" placeholder="Votre prÃ©nom" value="" required>
                                 <div class="invalid-feedback">
-                                    Le prénom est obligatoire.
+                                    Le prÃ©nom est obligatoire.
                                 </div>
                             </div>
                             <div class="form-group">
@@ -187,9 +188,9 @@
                             <div class="form-group">
                                 <label for="inputPassword">Verification Mot de passe *</label>
                                 <div class="input-group">
-                                    <input name="pwV" type="password" id="inputPasswordVerif" class="form-control" onkeyup="verif(2)" placeholder="Vérification Mot de passe" required>
+                                    <input name="pwV" type="password" id="inputPasswordVerif" class="form-control" onkeyup="verif(2)" placeholder="VÃ©rification Mot de passe" required>
                                     <div  class="invalid-feedback" style="width: 100%;">
-                                        Veuillez Répéter le mot de passe.
+                                        Veuillez RÃ©pÃ©ter le mot de passe.
                                     </div>
                                     <div id="result" style="width: 100%;">
 
@@ -197,24 +198,24 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="telephone">Téléphone *</label>
+                                <label for="telephone">TÃ©lÃ©phone *</label>
                                 <div class="input-group">
                                     <input name="tel" type="tel" id="telephone" class="form-control" placeholder="(+33)6xxxxxxxxx ou 00336xxxxxxxxx ou 0xxxxxxxxx" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$" required>
                                     <div class="invalid-feedback" style="width: 100%;">
-                                        Le numéro de téléphone est obligatoire et doit être conforme
+                                        Le numÃ©ro de tÃ©lÃ©phone est obligatoire et doit Ãªtre conforme
                                     </div>
                                 </div>
                             </div>
                             <div class="text-center">
                                 <input name="rgpd" data-toggle="toggle" data-size="lg" type="checkbox" value="oui" required="true" data-onstyle="success" data-on="J'accepte" data-off="Je n'accepte pas" data-width="200" >
-                                <label for="rgpd"> que mes données à caractère personnel soient collectées et traitées selon les conditions décrites à la page&nbsp;<a href="https://www.hardis-group.com/respect-des-donnees-personnelles">"respect des données personnelles"</a></label>
+                                <label for="rgpd"> que mes donnÃ©es Ã  caractÃ¨re personnel soient collectÃ©es et traitÃ©es selon les conditions dÃ©crites Ã  la page&nbsp;<a href="https://www.hardis-group.com/respect-des-donnees-personnelles">"respect des donnÃ©es personnelles"</a></label>
                                 <div class="invalid-feedback" style="width: 100%;">
                                     Il est obligatoire d'accepter la RGPD.
                                 </div>
                             </div>
                             <div class="form-group  text-center">
                                 <input type="hidden" name="action" value="creerClient">
-                                <button type="submit" class="btn btn-success btn-lg " id="btnLogin" >Créer mon compte</button>
+                                <button type="submit" class="btn btn-success btn-lg " id="btnLogin" >CrÃ©er mon compte</button>
                                 <button style="margin-left: 1em" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" aria-hidden="true">Annuler</button>
                             </div>
                         </form>
@@ -222,7 +223,7 @@
                 </div>
             </div>
         </div>
-        <!--Modal mdp oublié-->
+        <!--Modal mdp oubliÃ©-->
 
         <div class="modal fade" id="pwOublieModal" tabindex="-1" role="dialog" aria-labelledby="pwOublieModal" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -230,7 +231,7 @@
                     <form method="post" action="${pageContext.request.contextPath}/Servlet">
                         <input type="hidden" name="action" value="motDePasseOublie">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="pwOublieModal">Mot de passe oublié</h5>
+                            <h5 class="modal-title" id="pwOublieModal">Mot de passe oubliÃ©</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             </button>
                         </div>
@@ -240,7 +241,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                            <button type="submit" class="btn btn-primary">Envoi d'un mail de récupération du mot de passe</button>
+                            <button type="submit" class="btn btn-primary">Envoi d'un mail de rÃ©cupÃ©ration du mot de passe</button>
                         </div>
                     </form>
                 </div>
@@ -258,11 +259,11 @@
                     if (unOuDeux == 1) {
                         result.innerHTML = "Veuillez retaper le mot de passe ici !";
                     } else {
-                        result.innerHTML = "Ne correspond pas au mot de passe entré !";
+                        result.innerHTML = "Ne correspond pas au mot de passe entrÃ© !";
                     }
                 } else {
                     result.style.color = "green";
-                    result.innerHTML = "Identique au mot de passe entré";
+                    result.innerHTML = "Identique au mot de passe entrÃ©";
                 }
             }
         </script>
