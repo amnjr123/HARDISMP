@@ -51,8 +51,10 @@ public class ConsultantFacade extends AbstractFacade<Consultant> implements Cons
         c.setPlafondDelegation(plafondDelegation);
         c.setDateCreationCompte(new Date());
         c.setAgence(agence);
-        for(Offre o : offres){
+        for (Offre o : offres) {
             c.getOffres().add(o);
+            System.out.println("Inside Facade id offre " + o.getId() + " " + o.getLibelle());
+
         }
         c.setDtype("Consultant");
         /*MDP*/

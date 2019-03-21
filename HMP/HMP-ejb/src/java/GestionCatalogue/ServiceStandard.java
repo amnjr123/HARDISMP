@@ -8,9 +8,11 @@ package GestionCatalogue;
 import GestionDevis.DevisStandard;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.print.DocFlavor;
 
 /**
  *
@@ -20,7 +22,8 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @PrimaryKeyJoinColumn(name = "id")
 public class ServiceStandard extends Service implements Serializable {
 //Clés étrangères
-@OneToMany(mappedBy = "serviceStandard")
+
+    @OneToMany(mappedBy = "serviceStandard")
     private List<DevisStandard> devisStandards;
 
     public List<DevisStandard> getDevisStandards() {
@@ -81,7 +84,8 @@ public class ServiceStandard extends Service implements Serializable {
     public void setNbrHeuresSupportTel(int nbrHeuresSupportTel) {
         this.nbrHeuresSupportTel = nbrHeuresSupportTel;
     }
-
+    
+    @Column(length = 2500)
     private String descriptionPrestation;
 
     public String getDescriptionPrestation() {
@@ -91,5 +95,5 @@ public class ServiceStandard extends Service implements Serializable {
     public void setDescriptionPrestation(String descriptionPrestation) {
         this.descriptionPrestation = descriptionPrestation;
     }
-    
+
 }
