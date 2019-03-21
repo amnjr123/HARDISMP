@@ -27,7 +27,7 @@ public class ServletUtilisateurHardis extends HttpServlet {
     private UtilisateurHardis uh;
 
     protected void menuPlanning(HttpServletRequest request, HttpServletResponse response) {
-        
+
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -62,21 +62,21 @@ public class ServletUtilisateurHardis extends HttpServlet {
                 if (act.equals("planning")) {
                     menuPlanning(request, response);
 
-                
-                /*CATALOGUE*/
-                 if (act.equals("offres")) {
-                    request.setAttribute("listOffres", sessionHardis.afficherOffres());
-                    jspClient = "/hardisUser/offres.jsp";
-                }
-                if (act.equals("services")) {
-                    Long id = Long.parseLong(request.getParameter("id").trim());
-                    Offre offre = sessionHardis.afficheOffre(id);
-                    request.setAttribute("offre", offre);
-                    request.setAttribute("listeServicesStandards", sessionHardis.afficherServicesStandards(id));
-                    request.setAttribute("listeServicesNonStandards", sessionHardis.afficherServicesNonStandards(id));
-                    jspClient = "/hardisUser/services.jsp";
-                }
+                    /*CATALOGUE*/
+                    if (act.equals("offres")) {
+                        request.setAttribute("listOffres", sessionHardis.afficherOffres());
+                        jspClient = "/hardisUser/offres.jsp";
+                    }
+                    if (act.equals("services")) {
+                        Long id = Long.parseLong(request.getParameter("id").trim());
+                        Offre offre = sessionHardis.afficheOffre(id);
+                        request.setAttribute("offre", offre);
+                        request.setAttribute("listeServicesStandards", sessionHardis.afficherServicesStandards(id));
+                        request.setAttribute("listeServicesNonStandards", sessionHardis.afficherServicesNonStandards(id));
+                        jspClient = "/hardisUser/services.jsp";
+                    }
 
+                }
             }
         }
 
