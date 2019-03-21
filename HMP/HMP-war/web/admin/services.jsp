@@ -528,12 +528,13 @@ for (ServiceStandard st : listServicesStandards) {
                         </button>
                     </div>
                     <div class="modal-body">
-                            <label for="description">Description *</label>
-                            <p><%=(st.getDescriptionService())%></p>
-                            <p><%=(st.getDescriptionPrestation())%></p>
-                            <p>Lieu de l'intervention : <%=(st.getLieuIntervention())%></p>
-                            <p>Prix : <%=(st.getDescriptionService())%> euros, <%if(st.getFraisInclus()==true){%>Frais inclus<%}else{%>Frais non inclus<%}%></p>
-                            <p>Délai de relance : <%=(st.getDelaiRelance())%> jours</p>
+                        
+                            <p class="font-weight-bold">Description du service</p>
+                            <p class="font-weight-light"><%=(st.getDescriptionService())%></p>
+                            <p class="font-weight-light"><%=(st.getDescriptionPrestation())%></p>
+                            <p><span class="font-weight-bold">Lieu de l'intervention : </span><span class="font-weight-light"><%if(st.getLieuIntervention().toString().equals("Agence_Hardis")){%>Agence Hardis<%}else if(st.getLieuIntervention().toString().equals("Site_Client")){%>Site Client<%}else{%>Mixte<%}%></span></p>
+                            <p><span class="font-weight-bold">Prix : </span><span class="font-weight-light"><%=(st.getCout())%> euros, <%if(st.getFraisInclus()==true){%>Frais inclus<%}else{%>Frais non inclus<%}%></span></p>
+                            <p><span class="font-weight-bold">Délai de relance : </span><span class="font-weight-light"><%=(st.getDelaiRelance())%> jours</span></p>
                             <p>Nombre de jours de travail - Consultant Senior : <%=(st.getNbrJoursConsultantSenior())%> jours</p>
                             <p>Nombre de jours de travail - Consultant Confirmé : <%=(st.getNbrJoursConsultantConfirme())%> jours</p>
                             <p>Nombre de jours de travail - Consultant Junior : <%=(st.getNbrJoursConsultantJunior())%> jours</p>
@@ -564,11 +565,11 @@ for (ServiceNonStandard st : listServicesNonStandards) {
                         </button>
                     </div>
                     <div class="modal-body">
-                            <label for="description">Description *</label>
-                            <p><%=(st.getDescriptionService())%></p>
-                            <p>Lieu de l'intervention : <%=(st.getLieuIntervention())%></p>
-                            <p>Prix : <%=(st.getDescriptionService())%> euros, <%if(st.getFraisInclus()==true){%>Frais inclus<%}else{%>Frais non inclus<%}%></p>
-                            <p>Délai de relance : <%=(st.getDelaiRelance())%> jours</p>
+                            <p class="font-weight-bold">Description du service</p>
+                            <p class="font-weight-light"><%=(st.getDescriptionService())%></p>
+                            <p><span class="font-weight-bold">Lieu de l'intervention : </span><span class="font-weight-light"><%if(st.getLieuIntervention().toString().equals("Agence_Hardis")){%>Agence Hardis<%}else if(st.getLieuIntervention().toString().equals("Site_Client")){%>Site Client<%}else{%>Mixte<%}%></span></p>
+                            <p><span class="font-weight-bold">Prix : </span><span class="font-weight-light"><%=(st.getCout())%> euros, <%if(st.getFraisInclus()==true){%>Frais inclus<%}else{%>Frais non inclus<%}%></span></p>
+                            <p><span class="font-weight-bold">Délai de relance : </span><span class="font-weight-light"><%=(st.getDelaiRelance())%> jours</span></p>
                             <p>Conditions générales : <%=(st.getConditions())%></p>
                     </div>
                     <div class="modal-footer ">
