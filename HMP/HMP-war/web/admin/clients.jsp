@@ -74,10 +74,16 @@
                             <td>
                                 <% if (c.getEntreprise() != null) {%>
                                 <%=(c.getEntreprise().getNom())%>
-                                <% } else { %>
-                                Aucune entreprise associée
+                                <% } else  if (c.getEntreprise() == null && c.getDemandeCreationEntreprise() == null && c.getDemandeRattachement() == null) { %>
+                                <span style="color: #c0392b">Aucune entreprise associée</span>
                                 <%
-                                }
+                                } else if ((c.getDemandeCreationEntreprise() != null || c.getDemandeRattachement()!= null) && c.getEntreprise() == null) {
+                                    if (c.getDemandeCreationEntreprise() != null){
+                                        out.print("<span style='color: #e67e22'>Demande création ("+c.getDemandeCreationEntreprise().getNom()+") en cours</span>");
+                                    } else if(c.getDemandeRattachement()!= null){
+                                        out.print("<span style='color: #e67e22'>Demande rattachement ("+c.getDemandeRattachement().getEntreprise().getNom()+") en cours</span>");
+                                    }
+                                    }
                                 %>
                             </td>
                             <td>
