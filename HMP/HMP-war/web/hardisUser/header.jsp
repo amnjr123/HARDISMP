@@ -45,7 +45,7 @@
                             <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=planning" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="calendar"></span> Planning
                             <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=offres" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="layers"></span> Catalogue
+                                <span data-feather="book-open"></span> Catalogue
                             </a>
                             <%
                                 if (ua != null) {

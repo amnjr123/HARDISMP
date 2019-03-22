@@ -39,16 +39,27 @@
                                 <span data-feather="user"></span> Mon profil
                             </a>
                             <a href="${pageContext.request.contextPath}/ServletClient?action=offres" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="layers"></span> Catalogue
+                                <span data-feather="book-open"></span> Catalogue
                             </a>
-                            <a href="${pageContext.request.contextPath}/client/devis.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="file-text"></span> Mes devis
+                            <a  class="list-group-item d-flex justify-content-between align-items-center bg-light" data-toggle="collapse" href="#collapseDevis" role="button" aria-expanded="false" aria-controls="collapseDevis" >
+                                <span><span data-feather="clipboard"></span> Devis</span>
+                                <span><span data-feather="chevron-down"></span></span>  
                             </a>
+                            <div class="collapse" id="collapseDevis">
+                                <a href="${pageContext.request.contextPath}/client/devis.jsp" class="list-group-item list-group-item-action bg-light">
+                                    <span data-feather="file-plus"></span> Demander un devis
+                                </a>
+                                <a href="${pageContext.request.contextPath}/client/devis.jsp" class="list-group-item list-group-item-action align-items-center bg-light">
+                                    <span data-feather="file-text"></span> Devis en cours
+                                    <span class="badge badge-primary badge-pill"></span>
+                                </a>
+                                <a href="${pageContext.request.contextPath}/client/devis.jsp" class="list-group-item list-group-item-action bg-light">
+                                    <span data-feather="check-square"></span> Devis terminés
+                                    <span class="badge badge-primary badge-pill"></span>
+                                </a>
+                            </div>
                             <a href="${pageContext.request.contextPath}/client/factures.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="square"></span> Mes factures
-                            </a>
-                            <a href="${pageContext.request.contextPath}/client/calendrier.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="calendar"></span> Calendrier
+                                <span data-feather="shopping-cart"></span> Mes factures
                             </a>
                             <a href="${pageContext.request.contextPath}/client/inbox.jsp" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="inbox"></span> Inbox
