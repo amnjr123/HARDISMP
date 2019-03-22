@@ -53,6 +53,17 @@
                             <a href="${pageContext.request.contextPath}/client/inbox.jsp" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="inbox"></span> Inbox
                             </a>
+                            <%
+                                if( c.getEntreprise()!=null && c.getAdministrateur()){
+                                
+                            %> 
+                            <a href="${pageContext.request.contextPath}/client/inbox.jsp" class="list-group-item list-group-item-action bg-light">
+                                <span data-feather="inbox"></span> Demandes de rattachement
+                            </a>
+                            <%
+                                }
+                            %>  
+                            
                         </div>
                     </div>
                     <div id="page-content-wrapper">

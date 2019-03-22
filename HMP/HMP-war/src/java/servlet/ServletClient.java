@@ -3,9 +3,12 @@ package servlet;
 import GestionCatalogue.Offre;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Utilisateur;
+import GestionUtilisateur.Interlocuteur;
 import SessionUtilisateur.SessionClientLocal;
 import SessionUtilisateur.SessionLocal;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,6 +31,12 @@ public class ServletClient extends HttpServlet {
     private Client c;
 
     protected void monProfil(HttpServletRequest request, HttpServletResponse response) {
+        
+        try {
+            request.setAttribute("listeInterlocuteurs", sessionClient.rechercherInterlocuteur(c.getEntreprise().getId()));
+        } catch (Exception e) {
+            request.setAttribute("listeInterlocuteurs", new ArrayList());
+        }
         request.setAttribute("listeAgences", sessionClient.rechercherAgence());
         jspClient = "/client/monProfil.jsp";
 
@@ -73,6 +82,24 @@ public class ServletClient extends HttpServlet {
                         }
                     } else {
                         request.setAttribute("msgError", "le SIRET est Obligatoire");
+                        monProfil(request, response);
+                    }
+
+                }
+                //CREER UN INTERLOCUTEUR
+                if (act.equals("creerInterlocuteur")) {
+                    String nom = request.getParameter("nom");
+                    String prenom = request.getParameter("prenom");
+                    String email = request.getParameter("email");
+                    String telephone = request.getParameter("telephone");
+                    String fonction = request.getParameter("fonction");
+                    String idEntreprise = request.getParameter("idEntreprise");
+                    if (nom != null && prenom != null && email != null && telephone != null && fonction != null && idEntreprise != null && !nom.isEmpty() && !prenom.isEmpty() && !email.isEmpty() && !telephone.isEmpty() && !fonction.isEmpty() && !idEntreprise.isEmpty()) {
+                        sessionClient.creerInterlocuteur(nom, prenom, telephone, fonction, Long.parseLong(idEntreprise));
+                        request.setAttribute("msgSuccess", "L'interlocuteur a bien été créé");
+                        monProfil(request, response);
+                    } else {
+                        request.setAttribute("msgError", "Erreurs lors de la création de l'interlocuteur");
                         monProfil(request, response);
                     }
 
@@ -142,9 +169,9 @@ public class ServletClient extends HttpServlet {
 
                     }
                 }
-                
+
                 /*CATALOGUE*/
-                 if (act.equals("offres")) {
+                if (act.equals("offres")) {
                     request.setAttribute("listOffres", sessionClient.rechercherOffres());
                     jspClient = "/client/offres.jsp";
                 }

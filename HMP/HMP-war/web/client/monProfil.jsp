@@ -1,11 +1,14 @@
+<%@page import="GestionUtilisateur.Interlocuteur"%>
 <%@page import="GestionUtilisateur.Client"%>
 <%@page import="GestionUtilisateur.Agence"%>
 <%@page import="java.util.Collection"%>
 <jsp:include page="header.jsp"/>
 <jsp:useBean id="listeAgences" scope="request" class="java.util.Collection"></jsp:useBean>
+<jsp:useBean id="listeInterlocuteurs" scope="request" class="java.util.Collection"></jsp:useBean>
 <%
     Client c = (Client) session.getAttribute("sessionClient");
     Collection<Agence> listAgences = listeAgences;
+    Collection<Interlocuteur> interlocuteurs = listeInterlocuteurs;
 %>
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
@@ -16,7 +19,7 @@
 
 <div class="container">
     <%
-        if ((c.getDemandeCreationEntreprise() != null || c.getDemandeRattachement()!= null) && c.getEntreprise() == null) {
+        if ((c.getDemandeCreationEntreprise() != null || c.getDemandeRattachement() != null) && c.getEntreprise() == null) {
     %>
     <div class="card text-white bg-warning mb-3">
         <div class="card-header"><h4>Mon entreprise</h4></div>
@@ -175,7 +178,18 @@
         if (c.getEntreprise() != null) {
     %>
     <div class="card text-white bg-dark mb-3">
-        <div class="card-header"><h4><%=c.getEntreprise().getNom()%> : Agence <%=c.getEntreprise().getAgence().getLocalisation()%></h4></div>
+        <div class="card-header">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
+                <h4><%=c.getEntreprise().getNom()%> : Agence <%=c.getEntreprise().getAgence().getLocalisation()%></h4>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <button  class="btn btn-sm btn-success" data-toggle="modal" data-target="#interlocuteursModal">
+                        <span data-feather="plus"></span>
+                        Interlocuteur
+                    </button>
+                </div>
+            </div>
+
+        </div>
         <div class="card-body">
             <h4 class="card-header">Interlocuteurs</h4>
             <div class="table-responsive">
@@ -191,13 +205,26 @@
                         </tr>
                     </thead>
                     <tbody>
+
+                        <%
+                            if (interlocuteurs != null && !interlocuteurs.isEmpty()) {
+                                System.out.print("machi empty");
+                                for (Interlocuteur i : interlocuteurs) {
+
+
+                        %>
                         <tr>
-                            <th scope="row">1</th>
-                            <td>NEJJARI Amine</td>
-                            <td>amnjr123@gmail.com</td>
-                            <td>06 24 31 88 57</td>
-                            <td>Gestionnaire RH</td>
+                            <th scope="row"><%=(i.getId())%></th>
+                            <td><%=(i.getNom())%> <%=(i.getPrenom())%></td>
+                            <td><%=(i.getMail())%></td>
+                            <td><%=(i.getTelephone())%></td>
+                            <td><%=(i.getFonction())%></td>
                         </tr>
+                        <%
+                                }
+                            }
+                        %>
+
 
                     </tbody>
                 </table>
@@ -257,6 +284,74 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
                     <button type="button" class="btn btn-primary">Envoyer un mail de validation</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="interlocuteursModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Changer votre adresse mail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <%
+                    if (c.getEntreprise() != null) {
+                %>
+                <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" id="formInterlocuteur" novalidate="" method="POST" action="${pageContext.request.contextPath}/ServletClient">
+                    <input type="hidden" name="action" value="creerInterlocuteur">
+                    <input type="hidden" name="idEntreprise" value="<%=(c.getEntreprise().getId())%>">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="prenom">Prénom *</label>
+                            <input name="prenom" type="text" class="form-control" id="firstName" placeholder="Votre prénom" value="" required>
+                            <div class="invalid-feedback">
+                                Le prénom est obligatoire.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nom">Nom *</label>
+                            <input name="nom" type="text" class="form-control" id="lastName" placeholder="Votre nom" value="" required>
+                            <div class="invalid-feedback">
+                                Le nom est obligatoire.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <div class="input-group">
+                                <input name="email" type="email" class="form-control" id="email" placeholder="vous@votreentreprise.com" required>
+                                <div class="invalid-feedback" style="width: 100%;">
+                                    Veuillez entrer une adresse mail valide.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="telephone">Téléphone *</label>
+                            <div class="input-group">
+                                <input name="telephone" type="tel" id="telephone" class="form-control" placeholder="(+33)6xxxxxxxxx ou 00336xxxxxxxxx ou 0xxxxxxxxx" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$" required>
+                                <div class="invalid-feedback" style="width: 100%;">
+                                    Le numéro de téléphone est obligatoire et doit être conforme
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fonction">Fonction *</label>
+                            <input name="fonction" type="text" class="form-control" id="lastName" placeholder="Fonction de l'interlocuteur" value="" required>
+                            <div class="invalid-feedback">
+                                Le nom est obligatoire.
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Ajouter l'interlocuteur</button>
+                    </div>
+                </form>
+                <%
+                    }
+                %>
             </div>
         </div>
     </div>
