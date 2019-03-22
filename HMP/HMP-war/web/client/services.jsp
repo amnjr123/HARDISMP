@@ -115,6 +115,16 @@ for (ServiceStandard st : listServicesStandards) {
                             <p class="font-weight-bold">Nombre d'heures</p>
                             <p class="font-weight-light">Ateliers et entretiens : <%=(st.getNbrHeuresAtelierEntretienPrevu())%> heures</p>
                             <p class="font-weight-light">Support téléphonique : <%=(st.getNbrHeuresSupportTel())%> heures</p>
+                            <p class="font-weight-bold">Livrables :</p>
+                            <%
+                                if (st.getLivrables().size() > 0) {
+                                    for (Livrable l : st.getLivrables()) {
+                                        %>
+                                        <p class="font-weight-light"><%=l.getLibelle()%></p>
+                                        <%
+                                    }
+                                }
+                            %>
                             <p class="font-weight-bold">Conditions générales</p>
                             <div style="overflow-y: scroll; height:4em"> 
                                 <p class="font-weight-light"><%=(st.getConditions())%></p>

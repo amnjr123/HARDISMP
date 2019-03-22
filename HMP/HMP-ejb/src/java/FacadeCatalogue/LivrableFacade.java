@@ -39,6 +39,7 @@ public class LivrableFacade extends AbstractFacade<Livrable> implements Livrable
         Livrable l = new Livrable();
         l.setLibelle(libelle);
         l.setService(service);
+        service.getLivrables().add(l);
         create(l);  
         return l;
     }

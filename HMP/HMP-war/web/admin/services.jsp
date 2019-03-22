@@ -125,7 +125,7 @@
                     </thead>
                     <tbody>
                         <%  int n = 0;
-                                for (ServiceNonStandard st : listServicesNonStandards) {%>                                      
+                            for (ServiceNonStandard st : listServicesNonStandards) {%>                                      
                         <tr>
                             <td><%=st.getId()%></td>
                             <td><%=st.getNom()%></td>
@@ -239,44 +239,32 @@
                             <label for="conditions" >Conditions *</label>
                             <textarea rows="2" name="conditions" type="text" id="conditions" class="form-control" placeholder="conditions" required autofocus></textarea>
                             <div class="invalid-feedback">
-                                Le conditions sont obligatoires.
+                                Les conditions sont obligatoires.
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer ">
-                        <button  class="btn btn-sm btn-success " data-toggle="modal" data-target="#creerLivrableSS">
-                            <span data-feather="folder-plus"></span>
-                            Suivant
-                        </button>
-                        <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
-                        <input type="hidden" name="idOffre" value="<%=o.getId()%>">
-                        <input type="hidden" name="action" value="creerServiceStandard">
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="modal fade" id="creerLivrableSS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" >Ajouter des livrables au service</h5>
-                        <button type="button" class="btn btn-success" id="addLivrableSS"><i data-feather="plus"></i></button>
-                        <button type="button" class="btn btn-danger" id="removeLivrableSS"><i data-feather="minus"></i></button>    
-                    </div>
-                    <div class="modal-body">
+                        <div class="form-group">
+                                <h5 class="modal-title" >Ajouter des livrables au service</h5>
+                                <div class="form-row mt-2">
+                                    <div class="col-md">
+                                        <button type="button" class="btn btn-success btn-block" id="addLivrableSS"><i data-feather="plus"></i></button>
+                                    </div>
+                                    <div class="col-md">
+                                        <button type="button" class="btn btn-danger btn-block" id="removeLivrableSS"><i data-feather="minus"></i></button>    
+                                    </div>
+                                </div>
+                        </div>
                         <div id="zoneAjoutInputsSS" class="form-group">
                             <input name="livrable" type="text" id="livrableSS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>
                         </div>
-                    </div>
-                    <div class="modal-footer ">
-                        <button type="submit" class="btn btn-success">Valider</button>
-                        <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
+                        <div class="modal-footer ">
+                            <input type="hidden" name="idOffre" value="<%=o.getId()%>">
+                            <input type="hidden" name="action" value="creerServiceStandard">
+                            <button type="submit" class="btn btn-success">Valider</button>
+                            <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </form>
 
@@ -350,40 +338,28 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer ">
-                        <button  class="btn btn-sm btn-success " data-toggle="modal" data-target="#creerLivrableSNS">
-                            <span data-feather="folder-plus"></span>
-                            Suivant
-                        </button>
-                        <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
-                        <input type="hidden" name="idOffre" value="<%=o.getId()%>">
-                        <input type="hidden" name="action" value="creerServiceNonStandard">
+                    <div class="form-group">
+                            <h5 class="modal-title" >Ajouter des livrables au service</h5>
+                            <div class="form-row mt-2">
+                                <div class="col-md">
+                                    <button type="button" class="btn btn-success btn-block" id="addLivrableSNS"><i data-feather="plus"></i></button>
+                                </div>
+                                <div class="col-md">
+                                    <button type="button" class="btn btn-danger btn-block" id="removeLivrableSNS"><i data-feather="minus"></i></button>    
+                                </div>
+                            </div>
                     </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="modal fade" id="creerLivrableSNS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Ajouter des livrables au service</h5>
-                        <button type="button" class="btn btn-success" id="addLivrableSNS"><i data-feather="plus"></i></button>
-                        <button type="button" class="btn btn-danger" id="removeLivrableSNS"><i data-feather="minus"></i></button>    
-                    </div>
-                    <div class="modal-body">
                         <div id="zoneAjoutInputsSNS" class="form-group">
                             <input name="livrable" type="text" id="livrableSNS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>
                         </div>
-                    </div>
                     <div class="modal-footer ">
+                        <input type="hidden" name="idOffre" value="<%=o.getId()%>">
+                        <input type="hidden" name="action" value="creerServiceNonStandard">
                         <button type="submit" class="btn btn-success">Valider</button>
                         <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
                     </div>
                 </div>
             </div>
-
         </div>
     </form>
 
@@ -428,7 +404,7 @@
                         </div>
                         <div class="form-group">
                             <label for="cout">Coût</label>
-                            <input name="cout" pattern="[0-9]+" maxlength="7" id="cout" class="form-control" placeholder="Montant du service" required autofocus value="<%=(st.getCout())%>">
+                            <input name="cout" pattern="^\d*\.?\d*$" maxlength="7" id="cout" class="form-control" placeholder="Montant du service" required autofocus value="<%=(st.getCout())%>">
                             <div class="invalid-feedback">
                                 Le prix du service est obligatoire.
                             </div>
@@ -482,44 +458,34 @@
                                 Les conditions sont obligatoires.
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer ">
-                        <button  class="btn btn-sm btn-success " data-toggle="modal" data-target="#modifierLivrableSS<%=(st.getId())%>">
-                            <span data-feather="folder-plus"></span>
-                            Suivant
-                        </button>
-                        <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
-                        <input type="hidden" name="idOffre" value="<%=o.getId()%>">
-                        <input type="hidden" name="idServiceStandard" value="<%=st.getId()%>">
-                        <input type="hidden" name="action" value="modifierServiceStandard">
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="modal fade" id="modifierLivrableSS<%=(st.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Ajouter des livrables au service</h5>
-                        <button type="button" class="btn btn-success" id="addLivrableModifierSS"><i data-feather="plus"></i></button>
-                        <button type="button" class="btn btn-danger" id="removeLivrableModifierSS"><i data-feather="minus"></i></button>    
-                    </div>
-                    <div class="modal-body">
-                        <div id="zoneAjoutInputsModifierSS" class="form-group">
+                        <div class="form-group">
+                            <h5 class="modal-title" >Ajouter des livrables au service</h5>
+                            <div class="form-row mt-2">
+                                <div class="col-md">
+                                    <button type="button" class="btn btn-success btn-block" id="addLivrableModifierSS<%=st.getId()%>"><i data-feather="plus"></i></button>
+                                </div>
+                                <div class="col-md">
+                                    <button type="button" class="btn btn-danger btn-block" id="removeLivrableModifierSS<%=st.getId()%>"><i data-feather="minus"></i></button>    
+                                </div>
+                            </div>
+                        </div>
+                        <div id="zoneAjoutInputsModifierSS<%=st.getId()%>" class="form-group">
                             <%
-                            for (Livrable l : st.getLivrables()) {
+                                if (st.getLivrables().size() > 0) {
+                                    for (Livrable l : st.getLivrables()) {
                             %>
-                            <input name="livrable" type="text" id="livrableSS" class="form-control mb-2" required autofocus value="<%=(l.getLibelle())%>">
+                            <input name="livrable" type="text" class="form-control mb-2" required autofocus value="<%=(l.getLibelle())%>">
                             <%
-                            }
+                                    }
+                                }
                             %>
                         </div>
                     </div>
                     <div class="modal-footer ">
-                        <button type="submit" class="btn btn-success">Modifier le service</button>
+                        <input type="hidden" name="idOffre" value="<%=o.getId()%>">
+                        <input type="hidden" name="idServiceStandard" value="<%=st.getId()%>">
+                        <input type="hidden" name="action" value="modifierServiceStandard">
+                        <button type="submit" class="btn btn-success" >Modifier le service</button>
                         <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
                     </div>
                 </div>
@@ -570,7 +536,7 @@
                         </div>
                         <div class="form-group">
                             <label for="cout">Coût</label>
-                            <input name="cout" pattern="[0-9]+" maxlength="7" id="cout" class="form-control" placeholder="Montant du service" required autofocus value="<%=(st.getCout())%>">
+                            <input name="cout" pattern="^\d*\.?\d*$" maxlength="7" id="cout" class="form-control" placeholder="Montant du service" required autofocus value="<%=(st.getCout())%>">
                             <div class="invalid-feedback">
                                 Le prix du service est obligatoire.
                             </div>
@@ -600,51 +566,41 @@
                                 Les conditions sont obligatoires.
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer ">
-                        <button  class="btn btn-sm btn-success " data-toggle="modal" data-target="#modifierLivrableSNS<%=(st.getId())%>">
-                            <span data-feather="folder-plus"></span>
-                            Suivant
-                        </button>
-                        <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
-                        <input type="hidden" name="idOffre" value="<%=o.getId()%>">
-                        <input type="hidden" name="idServiceNonStandard" value="<%=st.getId()%>">
-                        <input type="hidden" name="action" value="modifierServiceNonStandard">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="modifierLivrableSNS<%=(st.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" >Ajouter des livrables au service</h5>
-                        <button type="button" class="btn btn-success" id="addLivrableModifierSNS"><i data-feather="plus"></i></button>
-                        <button type="button" class="btn btn-danger" id="removeLivrableModifierSNS"><i data-feather="minus"></i></button>    
-                    </div>
-                    <div class="modal-body">
-                        <div id="zoneAjoutInputsModifierSNS" class="form-group">
+                        <div class="form-group">
+                            <h5 class="modal-title" >Ajouter des livrables au service</h5>
+                            <div class="form-row mt-2">
+                                <div class="col-md">
+                                    <button type="button" class="btn btn-success btn-block" id="addLivrableModifierSNS<%=st.getId()%>"><i data-feather="plus"></i></button>
+                                </div>
+                                <div class="col-md">
+                                    <button type="button" class="btn btn-danger btn-block" id="removeLivrableModifierSNS<%=st.getId()%>"><i data-feather="minus"></i></button>    
+                                </div>
+                            </div>
+                        </div>
+                        <div id="zoneAjoutInputsModifierSNS<%=st.getId()%>" class="form-group">
                             <%
-                            for (Livrable l : st.getLivrables()) {
+                                if (st.getLivrables().size() > 0) {
+                                    for (Livrable l : st.getLivrables()) {
                             %>
-                            <input name="livrable" type="text" id="livrableSNS" class="form-control mb-2" required autofocus value="<%=(l.getLibelle())%>">
+                            <input name="livrable" type="text" class="form-control mb-2" required autofocus value="<%=(l.getLibelle())%>">
                             <%
-                            }
+                                    }
+                                }
                             %>
                         </div>
                     </div>
                     <div class="modal-footer ">
+                        <input type="hidden" name="idOffre" value="<%=o.getId()%>">
+                        <input type="hidden" name="idServiceNonStandard" value="<%=st.getId()%>">
+                        <input type="hidden" name="action" value="modifierServiceNonStandard">
                         <button type="submit" class="btn btn-success">Modifier le service</button>
                         <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
                     </div>
                 </div>
             </div>
-
         </div>
     </form>
     <%
-
         }
     %>
 
@@ -661,7 +617,6 @@
                     </button>
                 </div>
                 <div class="modal-body">
-
                     <p class="font-weight-bold">Description du service</p>
                     <p class="font-weight-light"><%=(st.getDescriptionService())%></p>
                     <p class="font-weight-light"><%=(st.getDescriptionPrestation())%></p>
@@ -675,8 +630,17 @@
                     <p class="font-weight-bold">Nombre d'heures</p>
                     <p class="font-weight-light">Ateliers et entretiens : <%=(st.getNbrHeuresAtelierEntretienPrevu())%> heures</p>
                     <p class="font-weight-light">Support téléphonique : <%=(st.getNbrHeuresSupportTel())%> heures</p>
+                    <p class="font-weight-bold">Livrables :</p>
+                    <%
+                        if (st.getLivrables().size() > 0) {
+                            for (Livrable l : st.getLivrables()) {
+                                %>
+                                <p class="font-weight-light"><%=l.getLibelle()%></p>
+                                <%
+                            }
+                        }
+                    %>
                     <p class="font-weight-bold">Conditions générales</p>
-
                     <div style="overflow-y: scroll; height:4em"> 
                         <p class="font-weight-light"><%=(st.getConditions())%></p>
                     </div>
@@ -709,6 +673,16 @@
                     <p><span class="font-weight-bold">Lieu de l'intervention : </span><span class="font-weight-light"><%if (st.getLieuIntervention().toString().equals("Agence_Hardis")) {%>Agence Hardis<%} else if (st.getLieuIntervention().toString().equals("Site_Client")) {%>Site Client<%} else {%>Mixte<%}%></span></p>
                     <p><span class="font-weight-bold">Prix : </span><span class="font-weight-light"><%=(st.getCout())%> euros, <%if (st.getFraisInclus() == true) {%>Frais inclus<%} else {%>Frais non inclus<%}%></span></p>
                     <p><span class="font-weight-bold">Délai de relance : </span><span class="font-weight-light"><%=(st.getDelaiRelance())%> jours</span></p>
+                    <p class="font-weight-bold">Livrables</p>
+                    <%
+                        if (st.getLivrables().size() > 0) {
+                            for (Livrable l : st.getLivrables()) {
+                                %>
+                                <p class="font-weight-light"><%=l.getLibelle()%></p>
+                                <%
+                            }
+                        }
+                    %>
                     <p class="font-weight-bold">Conditions générales</p>
                     <div style="overflow-y: scroll; height:4em"> 
                         <p class="font-weight-light"><%=(st.getConditions())%></p>
@@ -747,49 +721,32 @@
             $('#zoneAjoutInputsSNS').children().last().remove();
         })
         /*Modification Service Standard*/
-        $('#addLivrableModifierSS').on("click", function (e) {
-            $('#zoneAjoutInputsModifierSS').append('<input name="livrable" type="text" id="livrableSNS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>');
-        })
-
-
-        $('#removeLivrableModifierSS').on("click", function (e) {
-            $('#zoneAjoutInputsModifierSS').children().last().remove();
-        })
-        /*Modification Service Non Standard*/
-        $('#addLivrableModifierSNS').on("click", function (e) {
-            $('#zoneAjoutInputsModifierSNS').append('<input name="livrable" type="text" id="livrableSNS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>');
-        })
-
-        $('#removeLivrableModifierSNS').on("click", function (e) {
-            $('#zoneAjoutInputsModifierSNS').children().last().remove();
-        })
-
-        /*Toggle Class*/
-        $("#creerLivrableSS").on('show.bs.modal', function (e) {
-            $('#serviceStandard').modal('hide')
-        })
-        $("#creerLivrableSNS").on('show.bs.modal', function (e) {
-            $('#serviceNonStandard').modal('hide')
-        })
-        
-        <%
+    <%
         for (ServiceStandard st : listServicesStandards) {
-        %>
-                $("#modifierLivrableSS<%=st.getId()%>").on('show.bs.modal', function (e) {
-                    $('#modificationserviceStandard<%=st.getId()%>').modal('hide')
-                })
-        <%
-        }
-        %>
+    %>
+        $('#addLivrableModifierSS<%=st.getId()%>').on("click", function (e) {
+            $('#zoneAjoutInputsModifierSS<%=st.getId()%>').append('<input name="livrable" type="text" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>');
+        })
 
-        <%
-        for (ServiceNonStandard st : listServicesNonStandards) {
-        %>
-                $("#modifierLivrableSNS<%=st.getId()%>").on('show.bs.modal', function (e) {
-                    $('#modificationserviceNonStandard<%=st.getId()%>').modal('hide')
-                })
-        <%
+        $('#removeLivrableModifierSS<%=st.getId()%>').on("click", function (e) {
+            $('#zoneAjoutInputsModifierSS<%=st.getId()%>').children().last().remove();
+        })
+    <%
         }
-        %>                
+    %>
+        /*Modification Service Non Standard*/
+    <%
+        for (ServiceNonStandard st : listServicesNonStandards) {
+    %>
+        $('#addLivrableModifierSNS<%=st.getId()%>').on("click", function (e) {
+            $('#zoneAjoutInputsModifierSNS<%=st.getId()%>').append('<input name="livrable" type="text" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>');
+        })
+
+        $('#removeLivrableModifierSNS<%=st.getId()%>').on("click", function (e) {
+            $('#zoneAjoutInputsModifierSNS<%=st.getId()%>').children().last().remove();
+        })
+    <%
+        }
+    %>
     })
 </script>
