@@ -59,7 +59,7 @@
                             <th scope="col">Email</th>
                             <th scope="col">Téléphone</th>
                             <th scope="col">Entreprise</th>
-                            <th scope="col"></th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>

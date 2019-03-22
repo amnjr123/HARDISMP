@@ -30,6 +30,9 @@ public class Servlet extends HttpServlet {
     private String jspClient = "/home.jsp";
 
     private void logout(HttpServletRequest request, HttpServletResponse response) {
+        request.getSession().setAttribute("nbrDemandesRattachement", 0);
+        request.getSession().setAttribute("nbrDemandesRattachementClientAdmin", 0);
+        
         request.getSession().setAttribute(ATT_SESSION_CLIENT, null); //Enlever le Token
         request.getSession().setAttribute(ATT_SESSION_HARDIS, null); //Enlever le Token
         request.getSession().setAttribute(ATT_SESSION_ADMINISTRATEUR, null); //Enlever le Token        
@@ -43,7 +46,7 @@ public class Servlet extends HttpServlet {
             if (sessionMain.getTypeUser(utilisateur).equalsIgnoreCase("Client")) {//verif type utilisateur
                 Client c = sessionMain.rechercheClient(utilisateur.getId());// recherche Client
                 request.getSession().setAttribute(ATT_SESSION_CLIENT, c);//Attribuer le Token
-                jspClient = "/client/index.jsp";
+                jspClient = "/ServletClient";
             } else {
                 jspClient = "/hardisUser/index.jsp";
                 UtilisateurHardis uh = sessionMain.rechercheUtilisateurHardis(utilisateur.getId());// Chercher l'utilisateur Hardis
@@ -62,7 +65,7 @@ public class Servlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        jspClient = "/home.jsp";
         //sessionMain.test();
         HttpSession sessionHttp = request.getSession();
         if (request.getParameter("action") != null) {

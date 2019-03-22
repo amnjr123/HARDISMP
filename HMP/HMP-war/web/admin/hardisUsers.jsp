@@ -86,7 +86,7 @@
                             <!--th scope="col">Activité</th-->
                             <th scope="col">Plafond de délégation</th>
                             <th scope="col">Type</th>
-                            <th scope="col"></th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>

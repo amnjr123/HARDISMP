@@ -1,6 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="GestionUtilisateur.Client"%>
-<% Client c = (Client) session.getAttribute("sessionClient");%>
+<%
+    Client c = (Client) session.getAttribute("sessionClient");
+
+    int nbrDemandesRattachement = (Integer) session.getAttribute("nbrDemandesRattachementClientAdmin");
+    int notifications = 0;
+    if (c.getEntreprise() == null) {
+        notifications += 1;
+    } else if (c.getAdministrateur()) {
+        notifications += nbrDemandesRattachement;
+    }
+
+%>
 <!doctype html>
 <html lang="en">
     <head>
@@ -30,13 +41,32 @@
 
                     <!-- Sidebar -->
                     <div class="bg-light border-right" id="sidebar-wrapper">
-                        <div class="sidebar-heading"><span style="width:24px;height: 28px;color : grey;" data-feather="user" ></span>&nbsp;<%=(c.getNom() + ' ' + c.getPrenom())%></div>
+                        <div class="sidebar-heading"><span style="width:24px;height: 28px;color : grey;" data-feather="<% if (c.getAdministrateur()) { out.print("user-check"); } else {out.print("user");}%>" ></span>&nbsp;<%=(c.getNom() + ' ' + c.getPrenom())%></div>
                         <div class="list-group list-group-flush">
                             <a href="${pageContext.request.contextPath}/client/index.jsp" class="list-group-item d-flex justify-content-between bg-light">
                                 <span><span data-feather="monitor"></span> Tableau de bord</span>
                             </a>
                             <a href="${pageContext.request.contextPath}/ServletClient?action=monProfil" class="list-group-item d-flex justify-content-between bg-light">
                                 <span><span data-feather="user"></span> Mon profil</span>
+                                <%
+                                    if (notifications > 0) {
+
+                                        if (c.getEntreprise() == null && c.getDemandeCreationEntreprise() == null && c.getDemandeRattachement() == null) {
+                                %>
+                                <span class="badge badge-danger badge-pill"><%=(notifications)%></span>
+                                <%
+                                } else if (c.getDemandeCreationEntreprise() != null || c.getDemandeRattachement() != null) {
+                                %>
+                                <span class="badge badge-warning badge-pill"><%=(notifications)%></span>
+                                <%
+                                } else {
+                                %>
+                                <span class="badge badge-primary badge-pill"><%=(notifications)%></span>
+                                <%
+                                        }
+                                    }
+                                %>
+
                             </a>
                             <a href="${pageContext.request.contextPath}/ServletClient?action=offres" class="list-group-item d-flex justify-content-between bg-light">
                                 <span><span data-feather="book-open"></span> Catalogue</span>
@@ -46,7 +76,7 @@
                                 <span><span data-feather="chevron-down"></span></span>  
                             </a>
                             <div class="collapse" id="collapseDevis">
-                                <a href="${pageContext.request.contextPath}/client/devis.jsp" class="list-group-item list-group-item-action bg-light">
+                                <a href="${pageContext.request.contextPath}/ServletClient?action=creerDevisOffres" class="list-group-item list-group-item-action bg-light">
                                     <span data-feather="file-plus"></span> Demander un devis
                                 </a>
                                 <a href="${pageContext.request.contextPath}/client/devis.jsp" class="list-group-item list-group-item-action align-items-center bg-light">
@@ -64,17 +94,6 @@
                             <a href="${pageContext.request.contextPath}/client/inbox.jsp" class="list-group-item d-flex justify-content-between bg-light">
                                 <span><span data-feather="inbox"></span> Inbox</span>
                             </a>
-                            <%
-                                if( c.getEntreprise()!=null && c.getAdministrateur()){
-                                
-                            %> 
-                            <a href="${pageContext.request.contextPath}/client/inbox.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="inbox"></span> Demandes de rattachement
-                            </a>
-                            <%
-                                }
-                            %>  
-                            
                         </div>
                     </div>
                     <div id="page-content-wrapper">

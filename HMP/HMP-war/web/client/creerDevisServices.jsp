@@ -14,13 +14,13 @@
 <%Offre o = offre;%>
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1 class="h2">Catalogue des services Hardis : Offre <%=o.getLibelle()%></h1>
+        <h1 class="h2">Demander un devis</h1>
     </div>
 
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
-                <h1 class="h2">Services standards</h1>
+                <h1 class="h2">Choisir un service standard</h1>
             </div>
         </div>
 
@@ -29,35 +29,24 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
                             <th scope="col">Nom</th>
                             <th scope="col">Description</th>
                             <th scope="col">Lieu</th>
                             <th scope="col">Coût</th>
-                            <th scope="col" class="text-center">Actif ou obsolète</th>
-                            <th scope="col" class="text-center">Voir le détail</th>
+                            <th scope="col">Voir le détail</th>
+                            <th scope="col">Choisir</th>
                         </tr>
                     </thead>
                     <tbody>
-                       <%  int i = 0;
-                            Calendar cal = Calendar.getInstance();
-                            cal.set(Calendar.MILLISECOND, 0);
-                            cal.set(Calendar.SECOND, 0);
-                            cal.set(Calendar.MINUTE, 0);
-                            cal.set(Calendar.HOUR_OF_DAY, 0);
-                            cal.set(Calendar.DAY_OF_MONTH, 1);
-                            cal.set(Calendar.MONTH, 0);
-                            cal.set(Calendar.YEAR, 2099);
-                            Date date = cal.getTime();
+                        <%  int i = 0;
                             for (ServiceStandard st : listServicesStandards) {%>                                      
                         <tr>
-                            <td><%=st.getId()%></td>
                             <td><%=st.getNom()%></td>
                             <td><%=st.getDescriptionService()%></td>
                             <td><%if(st.getLieuIntervention().toString().equals("Agence_Hardis")){%>Agence Hardis<%}else if(st.getLieuIntervention().toString().equals("Site_Client")){%>Site Client<%}else{%>Mixte<%}%></td>
                             <td><%=st.getCout()%></td>
-                            <td class="text-center"><%if(st.getDateFinValidite().after(date)){%><i data-feather="check-circle" style="color:green"></i><%}else{%><i data-feather="x" style="color:red"></i><%}%></td>
-                            <td class="text-center"><a data-toggle="modal" data-target="#detailServiceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="zoom-in"></i></a></td>
+                            <td><a data-toggle="modal" data-target="#detailServiceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="zoom-in"></i></a></td>
+                            <td><a href="${pageContext.request.contextPath}/ServletClient?action=creerDevisStandard&id=<%=st.getId()%>"" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="check-circle"></i></a></td>
                         </tr>
                         <%}%>
                     </tbody>
@@ -70,7 +59,7 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
-                <h1 class="h2">Services Non Standards</h1>
+                <h1 class="h2">Choisir un service personnalisé</h1>
             </div>
         </div>
 
@@ -79,26 +68,24 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
                             <th scope="col">Nom</th>
                             <th scope="col">Description</th>
                             <th scope="col">Lieu</th>
                             <th scope="col">Coût</th>
-                            <th class="text-center" scope="col">Actif ou obsolète</th>
-                            <th class="text-center" scope="col">Voir le détail</th>
+                            <th scope="col">Voir le détail</th>
+                            <th scope="col">Choisir</th>
                         </tr>
                     </thead>
                     <tbody>
                         <%  int n = 0;
                             for (ServiceNonStandard st : listServicesNonStandards) {%>                                      
                         <tr>
-                         <td><%=st.getId()%></td>
                             <td><%=st.getNom()%></td>
                             <td><%=st.getDescriptionService()%></td>
                             <td><%if(st.getLieuIntervention().toString().equals("Agence_Hardis")){%>Agence Hardis<%}else if(st.getLieuIntervention().toString().equals("Site_Client")){%>Site Client<%}else{%>Mixte<%}%></td>
                             <td><%=st.getCout()%></td>
-                            <td class="text-center"><%if(st.getDateFinValidite().after(date)){%><i data-feather="check-circle" style="color:green"></i><%}else{%><i data-feather="x" style="color:red"></i><%}%></td>
-                            <td class="text-center"><a data-toggle="modal" data-target="#detailServiceNonStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="zoom-in"></i></a></td>
+                            <td><a data-toggle="modal" data-target="#detailServiceNonStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="zoom-in"></i></a></td>
+                            <td><a href="${pageContext.request.contextPath}/ServletClient?action=creerDevisNonStandard&id=<%=st.getId()%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="check-circle"></i></a></td>                        
                         </tr>
                         <%}%>
                     </tbody>

@@ -41,7 +41,7 @@ public class ServletUtilisateurHardis extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sessionHttp = request.getSession();
-
+        jspClient = "/hardisUser/index.jsp";
         if (sessionHttp.getAttribute(ATT_SESSION_HARDIS) != null) {
             uh = (UtilisateurHardis) sessionHttp.getAttribute(ATT_SESSION_HARDIS);
             if (request.getParameter("action") != null && !request.getParameter("action").isEmpty()) {

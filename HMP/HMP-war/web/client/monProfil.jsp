@@ -1,3 +1,4 @@
+<%@page import="GestionUtilisateur.DemandeRattachement"%>
 <%@page import="GestionUtilisateur.Interlocuteur"%>
 <%@page import="GestionUtilisateur.Client"%>
 <%@page import="GestionUtilisateur.Agence"%>
@@ -5,10 +6,12 @@
 <jsp:include page="header.jsp"/>
 <jsp:useBean id="listeAgences" scope="request" class="java.util.Collection"></jsp:useBean>
 <jsp:useBean id="listeInterlocuteurs" scope="request" class="java.util.Collection"></jsp:useBean>
+<jsp:useBean id="demandesRattachement" scope="request" class="java.util.Collection"></jsp:useBean>
 <%
     Client c = (Client) session.getAttribute("sessionClient");
     Collection<Agence> listAgences = listeAgences;
     Collection<Interlocuteur> interlocuteurs = listeInterlocuteurs;
+    Collection<DemandeRattachement> demandes = demandesRattachement;
 %>
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
@@ -197,21 +200,18 @@
                     <caption>Interlocuteurs de votre entreprises </caption>
                     <thead>
                         <tr>
-                            <th scope="col">id</th>
-                            <th scope="col">Nom</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Téléphone</th>
-                            <th scope="col">Fonction</th>
+                            <th>id</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Fonction</th>
                         </tr>
                     </thead>
                     <tbody>
 
                         <%
                             if (interlocuteurs != null && !interlocuteurs.isEmpty()) {
-                                System.out.print("machi empty");
                                 for (Interlocuteur i : interlocuteurs) {
-
-
                         %>
                         <tr>
                             <th scope="row"><%=(i.getId())%></th>
@@ -219,6 +219,7 @@
                             <td><%=(i.getMail())%></td>
                             <td><%=(i.getTelephone())%></td>
                             <td><%=(i.getFonction())%></td>
+
                         </tr>
                         <%
                                 }
@@ -231,7 +232,59 @@
             </div>
         </div>
     </div>
+
     <%
+        if (c.getAdministrateur()) {
+    %>                   
+
+    <div class="card text-white bg-dark mb-3">
+        <div class="card-header">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
+                <h4>Demandes de rattachement à mon entreprise</h4>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <h4 class="card-header">Demandes</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <caption>Demandes de rattachement</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">email</th>
+                            <th scope="col">telephone</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <%
+                                for (DemandeRattachement d : demandes) {
+                        %>
+                        <tr>
+                            <th scope="row"><%=(d.getId())%></th>
+                            <td><%=(d.getClient().getNom())%> <%=(d.getClient().getPrenom())%></td>
+                            <td><%=(d.getClient().getMail())%></td>
+                            <td><%=(d.getClient().getTelephone())%></td>
+                                                        <td>
+                                <a href="#" type="button" data-toggle="modal" data-target="#modalDemande<%=(d.getId())%>" class="btn" style="background-color:transparent; color:#27ae60"><i data-feather="check-circle"></i></a>
+                                <a href="#" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="x"></i></a>
+                            </td>
+                        </tr>
+                        <%
+                              
+                            }
+                        %>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <%
+            }
         }
     %>
 
@@ -355,6 +408,37 @@
             </div>
         </div>
     </div>
+            
+<%
+for (DemandeRattachement d : demandes) {
+%>
+<div class="modal fade" id="modalDemande<%=(d.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletClient">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Demande n° <%=(d.getId())%></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h4 class="modal-title" id="exampleModalLabel">Demande n° <%=(d.getId())%> de rattachement du client <%=(d.getClient().getId()+" : "+d.getClient().getNom()+" "+d.getClient().getPrenom())%> à l'entreprise <%=(d.getEntreprise().getNom())%></h4>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Valider la demande</button>
+                    <input type="hidden" name="action" value="validerDemandeRattachementEntreprise">
+                    <input type="hidden" name="idDemande" value="<%=(d.getId())%>">
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<%
+}
+%>
+
 
 
 

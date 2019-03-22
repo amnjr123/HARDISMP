@@ -228,6 +228,16 @@ public class SessionClient implements SessionClientLocal {
     }
     
     @Override
+    public ServiceStandard rechercherServiceStandard(Long idService) {
+        return serviceStandardFacade.rechercheServiceStandard(idService);
+    }
+    
+    @Override
+    public ServiceNonStandard rechercherServiceNonStandard(Long idService) {
+        return serviceNonStandardFacade.rechercheServiceNonStandard(idService);
+    }
+    
+    @Override
     public List<ServiceNonStandard> rechercherServicesNonStandards(Long idOffre) {
         Offre o = offreFacade.rechercheOffre(idOffre);
         return serviceNonStandardFacade.rechercheServicesNonStandardsActuels(o);
