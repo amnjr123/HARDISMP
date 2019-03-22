@@ -45,7 +45,6 @@
                             <th scope="col">id</th>
                             <th scope="col">Localisation</th>
                             <th scope="col">Adresse</th>
-                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,15 +54,6 @@
                             <td><%=a.getId()%></td>
                             <td><%=a.getLocalisation()%></td>
                             <td><%=a.getAdresse()%></td>
-                            <td><div class="dropdown">
-                                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Action
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="modal"><i data-feather="edit-2"></i> Modifier</a>
-                                        <a class="dropdown-item" href="#"><i data-feather="trash-2"></i> Supprimmer</a>
-                                    </div>
-                                </div></td>
 
                         </tr>
                         <%}%>
