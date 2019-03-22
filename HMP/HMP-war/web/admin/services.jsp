@@ -53,9 +53,9 @@
                             <th scope="col">Nom</th>
                             <th scope="col">Description</th>
                             <th scope="col">Lieu</th>
-                            <th scope="col">Coï¿½t</th>
-                            <th scope="col" class="text-center">Actif ou obsolï¿½te</th>
-                            <th scope="col" class="text-center">Voir le dï¿½tail</th>
+                            <th scope="col">Coût</th>
+                            <th scope="col" class="text-center">Actif ou obsolète</th>
+                            <th scope="col" class="text-center">Voir le détail</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -101,7 +101,7 @@
                 <div class="btn-toolbar">
                     <button class="btn btn-sm btn-success " data-toggle="modal" data-target="#serviceNonStandard">
                         <span data-feather="folder-plus"></span>
-                        Ajouter un service Personnalisï¿½
+                        Ajouter un service Personnalisé
                     </button>
                 </div>
             </div>
@@ -116,15 +116,15 @@
                             <th scope="col">Nom</th>
                             <th scope="col">Description</th>
                             <th scope="col">Lieu</th>
-                            <th scope="col">Coï¿½t</th>
-                            <th class="text-center" scope="col">Actif ou obsolï¿½te</th>
-                            <th class="text-center" scope="col">Voir le dï¿½tail</th>
+                            <th scope="col">Coût</th>
+                            <th class="text-center" scope="col">Actif ou obsoléte</th>
+                            <th class="text-center" scope="col">Voir le détail</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <%  int n = 0;
-                            for (ServiceNonStandard st : listServicesNonStandards) {%>                                      
+                                for (ServiceNonStandard st : listServicesNonStandards) {%>                                      
                         <tr>
                             <td><%=st.getId()%></td>
                             <td><%=st.getNom()%></td>
@@ -185,7 +185,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="cout">Coï¿½t</label>
+                            <label for="cout">Coût</label>
                             <input name="cout" pattern="[0-9]+" maxlength="7" id="cout" class="form-control" placeholder="Montant du service" required autofocus>
                             <div class="invalid-feedback">
                                 Le prix du service est obligatoire.
@@ -203,16 +203,16 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="delai">Dï¿½lai de relance (en jours)</label>
-                            <input name="delai" pattern="[0-9]+" maxlength="3" type="tel" id="delai" class="form-control" placeholder="dï¿½lai" required autofocus>
+                            <label for="delai">Délai de relance (en jours)</label>
+                            <input name="delai" pattern="[0-9]+" maxlength="3" type="tel" id="delai" class="form-control" placeholder="délai" required autofocus>
                             <div class="invalid-feedback">
-                                Le dï¿½lai de relance est obligatoire.
+                                Le délai de relance est obligatoire.
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="nbjours">Nombre de jours requis :</label>
                             <input name="senior" pattern="[0-9]+" maxlength="3" type="tel" id="senior" class="form-control mb-2" placeholder="Consultant senior" required autofocus>
-                            <input name="confirme" pattern="[0-9]+" maxlength="3" type="tel" id="confirme" class="form-control mb-2" placeholder="Consultant confirmï¿½" required autofocus>
+                            <input name="confirme" pattern="[0-9]+" maxlength="3" type="tel" id="confirme" class="form-control mb-2" placeholder="Consultant confirmé" required autofocus>
                             <input name="junior" pattern="[0-9]+" maxlength="3" type="tel" id="junior" class="form-control mb-2" placeholder="Consultant junior" required autofocus>
                             <div class="invalid-feedback">
                                 Le nombre de jours pour chaque consultant sont obligatoires.
@@ -221,17 +221,17 @@
                         <div class="form-group">
                             <label for="nbjours">Nombre d'heures :</label>
                             <input name="atelier" pattern="[0-9]+" maxlength="3" type="tel" id="atelier" class="form-control mb-2" placeholder="Ateliers et entretiens" required autofocus>
-                            <input name="supporttel" pattern="[0-9]+" maxlength="3" type="tel" id="supporttel" class="form-control mb-2" placeholder="Support tï¿½lï¿½phonique" required autofocus>
+                            <input name="supporttel" pattern="[0-9]+" maxlength="3" type="tel" id="supporttel" class="form-control mb-2" placeholder="Support téléphonique" required autofocus>
                             <div class="invalid-feedback">
                                 Les nombres d'heures sont obligatoires.
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="descriptiondetail" >Description dï¿½taillï¿½e </label>
+                            <label for="descriptiondetail" >Description détaillée </label>
 
-                            <textarea rows="2" name="descriptiondetail" type="text" id="descriptiondetail" class="form-control" placeholder="Description dï¿½taillï¿½e du service" required autofocus></textarea>
+                            <textarea rows="2" name="descriptiondetail" type="text" id="descriptiondetail" class="form-control" placeholder="Description détaillée du service" required autofocus></textarea>
                             <div class="invalid-feedback">
-                                Les dï¿½tails sont obligatoires.
+                                Les détails sont obligatoires.
                             </div>
                         </div>
                         <div class="form-group">
@@ -259,31 +259,31 @@
             <div class="modal-dialog" role="document">
 
                 <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Ajouter des livrables au services</h5>
-                            <button type="button" class="btn btn-success" id="addLivrableSS"><i data-feather="plus"></i></button>
-                            <button type="button" class="btn btn-danger" id="removeLivrableSS"><i data-feather="minus"></i></button>    
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter des livrables au services</h5>
+                        <button type="button" class="btn btn-success" id="addLivrableSS"><i data-feather="plus"></i></button>
+                        <button type="button" class="btn btn-danger" id="removeLivrableSS"><i data-feather="minus"></i></button>    
+                    </div>
+                    <div class="modal-body">
+                        <div id="zoneAjoutInputsSS" class="form-group">
+                            <input name="livrable" type="text" id="livrableSS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>
                         </div>
-                        <div class="modal-body">
-                            <div id="zoneAjoutInputsSS" class="form-group">
-                                <input name="livrable" type="text" id="livrableSS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>
-                            </div>
-                        </div>
-                        <div class="modal-footer ">
-                            <button type="submit" class="btn btn-success">Valider</button>
-                            <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer ">
+                        <button type="submit" class="btn btn-success">Valider</button>
+                        <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
+                    </div>
                 </div>
             </div>
 
         </div>
     </form>
 
-<form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletAdministrateur">                     
-    <div class="modal fade" id="serviceNonStandard" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletAdministrateur">                     
+        <div class="modal fade" id="serviceNonStandard" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
 
-            <div class="modal-content">
+                <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Nouveau service non standard</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -317,7 +317,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="cout">Coï¿½t</label>
+                            <label for="cout">Coût</label>
                             <input name="cout" pattern="[0-9]+" maxlength="7" id="cout" class="form-control" placeholder="Montant du service" required autofocus>
                             <div class="invalid-feedback">
                                 Le prix du service est obligatoire.
@@ -335,17 +335,17 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="delai">Dï¿½lai de relance (en jours)</label>
-                            <input name="delai" pattern="[0-9]+" maxlength="3" type="tel" id="delai" class="form-control" placeholder="dï¿½lai" required autofocus>
+                            <label for="delai">Délai de relance (en jours)</label>
+                            <input name="delai" pattern="[0-9]+" maxlength="3" type="tel" id="delai" class="form-control" placeholder="délai" required autofocus>
                             <div class="invalid-feedback">
-                                Le dï¿½lai de relance est obligatoire.
+                                Le délai de relance est obligatoire.
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="conditions" >Conditions *</label>
                             <textarea rows="2" name="conditions" type="text" id="conditions" class="form-control" placeholder="conditions" required autofocus></textarea>
                             <div class="invalid-feedback">
-                                Le conditions sont obligatoires.
+                                Les conditions sont obligatoires.
                             </div>
                         </div>
                     </div>
@@ -356,7 +356,7 @@
                         </button>
                         <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
                         <input type="hidden" name="idOffre" value="<%=o.getId()%>">
-                        <input type="hidden" name="action" value="creerServiceStandard">
+                        <input type="hidden" name="action" value="creerServiceNonStandard">
                     </div>
                 </div>
             </div>
@@ -366,20 +366,20 @@
             <div class="modal-dialog" role="document">
 
                 <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Ajouter des livrables au services</h5>
-                            <button type="button" class="btn btn-success" id="addLivrableSNS"><i data-feather="plus"></i></button>
-                            <button type="button" class="btn btn-danger" id="removeLivrableSNS"><i data-feather="minus"></i></button>    
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter des livrables au services</h5>
+                        <button type="button" class="btn btn-success" id="addLivrableSNS"><i data-feather="plus"></i></button>
+                        <button type="button" class="btn btn-danger" id="removeLivrableSNS"><i data-feather="minus"></i></button>    
+                    </div>
+                    <div class="modal-body">
+                        <div id="zoneAjoutInputsSNS" class="form-group">
+                            <input name="livrable" type="text" id="livrableSNS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>
                         </div>
-                        <div class="modal-body">
-                            <div id="zoneAjoutInputsSNS" class="form-group">
-                                <input name="livrable" type="text" id="livrableSNS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>
-                            </div>
-                        </div>
-                        <div class="modal-footer ">
-                            <button type="submit" class="btn btn-success">Valider</button>
-                            <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer ">
+                        <button type="submit" class="btn btn-success">Valider</button>
+                        <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
+                    </div>
                 </div>
             </div>
 
@@ -389,11 +389,11 @@
     <%
         for (ServiceStandard st : listServicesStandards) {
     %>
-    <div class="modal fade" id="modificationserviceStandard<%=(st.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletAdministrateur">
+        <div class="modal fade" id="modificationserviceStandard<%=(st.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
 
-            <div class="modal-content">
-                <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletAdministrateur">
+                <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Modifier le service standard</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -426,7 +426,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="cout">Coï¿½t</label>
+                            <label for="cout">Coût</label>
                             <input name="cout" pattern="[0-9]+" maxlength="7" id="cout" class="form-control" placeholder="Montant du service" required autofocus value="<%=(st.getCout())%>">
                             <div class="invalid-feedback">
                                 Le prix du service est obligatoire.
@@ -444,16 +444,16 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="delai">Dï¿½lai de relance (en jours)</label>
-                            <input name="delai" pattern="[0-9]+" maxlength="3" type="tel" id="delai" class="form-control" placeholder="dï¿½lai" required autofocus value="<%=(st.getDelaiRelance())%>">
+                            <label for="delai">Délai de relance (en jours)</label>
+                            <input name="delai" pattern="[0-9]+" maxlength="3" type="tel" id="delai" class="form-control" placeholder="délai" required autofocus value="<%=(st.getDelaiRelance())%>">
                             <div class="invalid-feedback">
-                                Le dï¿½lai de relance est obligatoire.
+                                Le délai de relance est obligatoire.
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="nbjours">Nombre de jours requis :</label>
                             <input name="senior" pattern="[0-9]+" maxlength="3" type="tel" id="senior" class="form-control mb-2" placeholder="Consultant senior" required autofocus value="<%=(st.getNbrJoursConsultantSenior())%>">
-                            <input name="confirme" pattern="[0-9]+" maxlength="3" type="tel" id="confirme" class="form-control mb-2" placeholder="Consultant confirmï¿½" required autofocus value="<%=(st.getNbrJoursConsultantConfirme())%>">
+                            <input name="confirme" pattern="[0-9]+" maxlength="3" type="tel" id="confirme" class="form-control mb-2" placeholder="Consultant confirmé" required autofocus value="<%=(st.getNbrJoursConsultantConfirme())%>">
                             <input name="junior" pattern="[0-9]+" maxlength="3" type="tel" id="junior" class="form-control mb-2" placeholder="Consultant junior" required autofocus value="<%=(st.getNbrJoursConsultantJunior())%>">
                             <div class="invalid-feedback">
                                 Le nombre de jours pour chaque consultant sont obligatoires.
@@ -462,16 +462,16 @@
                         <div class="form-group">
                             <label for="nbjours">Nombre d'heures :</label>
                             <input name="atelier" pattern="[0-9]+" maxlength="3" type="tel" id="atelier" class="form-control mb-2" placeholder="Ateliers et entretiens" required autofocus value="<%=(st.getNbrHeuresAtelierEntretienPrevu())%>">
-                            <input name="supporttel" pattern="[0-9]+" maxlength="3" type="tel" id="supporttel" class="form-control mb-2" placeholder="Support tï¿½lï¿½phonique" required autofocus value="<%=(st.getNbrHeuresSupportTel())%>">
+                            <input name="supporttel" pattern="[0-9]+" maxlength="3" type="tel" id="supporttel" class="form-control mb-2" placeholder="Support téléphonique" required autofocus value="<%=(st.getNbrHeuresSupportTel())%>">
                             <div class="invalid-feedback">
                                 Les nombres d'heures sont obligatoires.
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="descriptiondetail" >Description dï¿½taillï¿½e </label>
-                            <textarea rows="2" name="descriptiondetail" type="text" id="descriptiondetail" class="form-control" placeholder="Description dï¿½taillï¿½e du service" required autofocus><%=(st.getDescriptionPrestation())%></textarea>
+                            <label for="descriptiondetail" >Description détaillée </label>
+                            <textarea rows="2" name="descriptiondetail" type="text" id="descriptiondetail" class="form-control" placeholder="Description détaillée du service" required autofocus><%=(st.getDescriptionPrestation())%></textarea>
                             <div class="invalid-feedback">
-                                Les dï¿½tails sont obligatoires.
+                                Les détails sont obligatoires.
                             </div>
                         </div>
                         <div class="form-group">
@@ -483,17 +483,43 @@
                         </div>
                     </div>
                     <div class="modal-footer ">
-                        <button type="submit" class="btn btn-success">Modifier le service</button>
+                        <button  class="btn btn-sm btn-success " data-toggle="modal" data-target="#modifierLivrableSS<%=(st.getId())%>">
+                            <span data-feather="folder-plus"></span>
+                            Suivant
+                        </button>
                         <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
                         <input type="hidden" name="idOffre" value="<%=o.getId()%>">
                         <input type="hidden" name="idServiceStandard" value="<%=st.getId()%>">
                         <input type="hidden" name="action" value="modifierServiceStandard">
-                    </div>
-                </form>
-            </div>
-        </div>
 
-    </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal fade" id="modifierLivrableSS<%=(st.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter des livrables au services</h5>
+                        <button type="button" class="btn btn-success" id="addLivrableModifierSS"><i data-feather="plus"></i></button>
+                        <button type="button" class="btn btn-danger" id="removeLivrableModifierSS"><i data-feather="minus"></i></button>    
+                    </div>
+                    <div class="modal-body">
+                        <div id="zoneAjoutInputsModifierSS" class="form-group">
+                            <input name="livrable" type="text" id="livrableSS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>
+                        </div>
+                    </div>
+                    <div class="modal-footer ">
+                        <button type="submit" class="btn btn-success">Modifier le service</button>
+                        <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
     <%
 
         }
@@ -501,11 +527,11 @@
     <%
         for (ServiceNonStandard st : listServicesNonStandards) {
     %>
-    <div class="modal fade" id="modificationserviceNonStandard<%=(st.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletAdministrateur">
+        <div class="modal fade" id="modificationserviceNonStandard<%=(st.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
 
-            <div class="modal-content">
-                <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletAdministrateur">
+                <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Modifier le service non standard</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -538,7 +564,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="cout">Coï¿½t</label>
+                            <label for="cout">Coût</label>
                             <input name="cout" pattern="[0-9]+" maxlength="7" id="cout" class="form-control" placeholder="Montant du service" required autofocus value="<%=(st.getCout())%>">
                             <div class="invalid-feedback">
                                 Le prix du service est obligatoire.
@@ -556,10 +582,10 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="delai">Dï¿½lai de relance (en jours)</label>
-                            <input name="delai" pattern="[0-9]+" maxlength="3" type="tel" id="delai" class="form-control" placeholder="dï¿½lai" required autofocus value="<%=(st.getDelaiRelance())%>">
+                            <label for="delai">Délai de relance (en jours)</label>
+                            <input name="delai" pattern="[0-9]+" maxlength="3" type="tel" id="delai" class="form-control" placeholder="délai" required autofocus value="<%=(st.getDelaiRelance())%>">
                             <div class="invalid-feedback">
-                                Le dï¿½lai de relance est obligatoire.
+                                Le délai de relance est obligatoire.
                             </div>
                         </div>
                         <div class="form-group">
@@ -571,17 +597,41 @@
                         </div>
                     </div>
                     <div class="modal-footer ">
-                        <button type="submit" class="btn btn-success">Modifier le service</button>
+                        <button  class="btn btn-sm btn-success " data-toggle="modal" data-target="#modifierLivrableSNS<%=(st.getId())%>">
+                            <span data-feather="folder-plus"></span>
+                            Suivant
+                        </button>
                         <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
                         <input type="hidden" name="idOffre" value="<%=o.getId()%>">
                         <input type="hidden" name="idServiceNonStandard" value="<%=st.getId()%>">
                         <input type="hidden" name="action" value="modifierServiceNonStandard">
                     </div>
-                </form>
+                </div>
             </div>
         </div>
+        <div class="modal fade" id="modifierLivrableSNS<%=(st.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
 
-    </div>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter des livrables au services</h5>
+                        <button type="button" class="btn btn-success" id="addLivrableModifierSNS"><i data-feather="plus"></i></button>
+                        <button type="button" class="btn btn-danger" id="removeLivrableModifierSNS"><i data-feather="minus"></i></button>    
+                    </div>
+                    <div class="modal-body">
+                        <div id="zoneAjoutInputsModifierSNS" class="form-group">
+                            <input name="livrable" type="text" id="livrableSNS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>
+                        </div>
+                    </div>
+                    <div class="modal-footer ">
+                        <button type="submit" class="btn btn-success">Modifier le service</button>
+                        <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
     <%
 
         }
@@ -606,15 +656,15 @@
                     <p class="font-weight-light"><%=(st.getDescriptionPrestation())%></p>
                     <p><span class="font-weight-bold">Lieu de l'intervention : </span><span class="font-weight-light"><%if (st.getLieuIntervention().toString().equals("Agence_Hardis")) {%>Agence Hardis<%} else if (st.getLieuIntervention().toString().equals("Site_Client")) {%>Site Client<%} else {%>Mixte<%}%></span></p>
                     <p><span class="font-weight-bold">Prix : </span><span class="font-weight-light"><%=(st.getCout())%> euros, <%if (st.getFraisInclus() == true) {%>Frais inclus<%} else {%>Frais non inclus<%}%></span></p>
-                    <p><span class="font-weight-bold">Dï¿½lai de relance : </span><span class="font-weight-light"><%=(st.getDelaiRelance())%> jours</span></p>
+                    <p><span class="font-weight-bold">Délai de relance : </span><span class="font-weight-light"><%=(st.getDelaiRelance())%> jours</span></p>
                     <p class="font-weight-bold">Nombre de jours de travail</p>
                     <p class="font-weight-light"> Consultant Senior : <%=(st.getNbrJoursConsultantSenior())%> jours</p>
-                    <p class="font-weight-light">Consultant Confirmï¿½ : <%=(st.getNbrJoursConsultantConfirme())%> jours</p>
+                    <p class="font-weight-light">Consultant Confirmé : <%=(st.getNbrJoursConsultantConfirme())%> jours</p>
                     <p class="font-weight-light">Consultant Junior : <%=(st.getNbrJoursConsultantJunior())%> jours</p>
                     <p class="font-weight-bold">Nombre d'heures</p>
                     <p class="font-weight-light">Ateliers et entretiens : <%=(st.getNbrHeuresAtelierEntretienPrevu())%> heures</p>
-                    <p class="font-weight-light">Support tï¿½lï¿½phonique : <%=(st.getNbrHeuresSupportTel())%> heures</p>
-                    <p class="font-weight-bold">Conditions gï¿½nï¿½rales</p>
+                    <p class="font-weight-light">Support téléphonique : <%=(st.getNbrHeuresSupportTel())%> heures</p>
+                    <p class="font-weight-bold">Conditions générales</p>
 
                     <div style="overflow-y: scroll; height:4em"> 
                         <p class="font-weight-light"><%=(st.getConditions())%></p>
@@ -647,8 +697,8 @@
                     <p class="font-weight-light"><%=(st.getDescriptionService())%></p>
                     <p><span class="font-weight-bold">Lieu de l'intervention : </span><span class="font-weight-light"><%if (st.getLieuIntervention().toString().equals("Agence_Hardis")) {%>Agence Hardis<%} else if (st.getLieuIntervention().toString().equals("Site_Client")) {%>Site Client<%} else {%>Mixte<%}%></span></p>
                     <p><span class="font-weight-bold">Prix : </span><span class="font-weight-light"><%=(st.getCout())%> euros, <%if (st.getFraisInclus() == true) {%>Frais inclus<%} else {%>Frais non inclus<%}%></span></p>
-                    <p><span class="font-weight-bold">Dï¿½lai de relance : </span><span class="font-weight-light"><%=(st.getDelaiRelance())%> jours</span></p>
-                    <p class="font-weight-bold">Conditions gï¿½nï¿½rales</p>
+                    <p><span class="font-weight-bold">Délai de relance : </span><span class="font-weight-light"><%=(st.getDelaiRelance())%> jours</span></p>
+                    <p class="font-weight-bold">Conditions générales</p>
                     <div style="overflow-y: scroll; height:4em"> 
                         <p class="font-weight-light"><%=(st.getConditions())%></p>
                     </div>
@@ -668,7 +718,8 @@
 <jsp:include page="footer.jsp"/>
 <script>
     window.addEventListener("load", function (event) {            /*Toggle deuxieme Modal*/
-/*Cracher du html dans DOM*/
+        /*Cracher du html dans DOM*/
+        /*Création Service Standard*/
         $('#addLivrableSS').on("click", function (e) {
             $('#zoneAjoutInputsSS').append('<input name="livrable" type="text" id="livrableSS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>');
         })
@@ -676,6 +727,7 @@
         $('#removeLivrableSS').on("click", function (e) {
             $('#zoneAjoutInputsSS').children().last().remove();
         })
+        /*Création Service Non Standard*/
         $('#addLivrableSNS').on("click", function (e) {
             $('#zoneAjoutInputsSNS').append('<input name="livrable" type="text" id="livrableSNS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>');
         })
@@ -683,17 +735,44 @@
         $('#removeLivrableSNS').on("click", function (e) {
             $('#zoneAjoutInputsSNS').children().last().remove();
         })
+        /*Modification Service Standard*/
+        $('#addLivrableModifierSS').on("click", function (e) {
+            $('#zoneAjoutInputsModifierSS').append('<input name="livrable" type="text" id="livrableSNS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>');
+        })
 
-/*Toggle Class*/
+        $('#removeLivrableModifierSS').on("click", function (e) {
+            $('#zoneAjoutInputsModifierSS').children().last().remove();
+        })
+        /*Modification Service Non Standard*/
+        $('#addLivrableModifierSNS').on("click", function (e) {
+            $('#zoneAjoutInputsModifierSNS').append('<input name="livrable" type="text" id="livrableSNS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>');
+        })
+
+        $('#removeLivrableModifierSNS').on("click", function (e) {
+            $('#zoneAjoutInputsModifierSNS').children().last().remove();
+        })
+
+        /*Toggle Class*/
         $("#creerLivrableSS").on('show.bs.modal', function (e) {
             $('#serviceStandard').modal('hide')
         })
         $("#creerLivrableSNS").on('show.bs.modal', function (e) {
             $('#serviceNonStandard').modal('hide')
         })
+        
+        <%
+        for (ServiceStandard st : listServicesStandards) {
+        %>
+                $("#modifierLivrableSS<%=st.getId()%>").on('show.bs.modal', function (e) {
+                    $('#modificationserviceStandard<%=st.getId()%>').modal('hide')
+                })
+        <%
+        }
+        %>
 
-      
-
-
+                $("#modifierLivrableSNS").on('show.bs.modal', function (e) {
+                    $('#modificationserviceNonStandard').modal('hide')
+                })
+                
     })
 </script>

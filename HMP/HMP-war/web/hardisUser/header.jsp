@@ -50,7 +50,7 @@
                             <%
                                 if (ua != null) {
                             %>
-                            <a href="${pageContext.request.contextPath}/admin/indexAdmin.jsp" class="list-group-item list-group-item-action bg-light">
+                            <a href="${pageContext.request.contextPath}/ServletAdministrateur" class="list-group-item list-group-item-action bg-light">
                                 <span data-feather="sliders"></span> Interface d'administration
                             </a>
                             <%

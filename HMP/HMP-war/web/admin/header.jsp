@@ -1,7 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="GestionUtilisateur.UtilisateurHardis"%>
-<% UtilisateurHardis u = (UtilisateurHardis) session.getAttribute("sessionHardis");%>
-<!doctype html>
+<%
+    UtilisateurHardis u = (UtilisateurHardis) session.getAttribute("sessionHardis");
+    int nbrDemandesCreation =  (Integer) session.getAttribute("nbrDemandesCreation");
+    int nbrDemandesRattachement = (Integer) session.getAttribute("nbrDemandesRattachement");
+%>
+<!DOCTYPE HTML>
 <html lang="en">
     <head>
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
@@ -20,7 +24,7 @@
     <body>
         <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap bg-faded static-top">
             <button class="btn navbar-toggler navbar-toggler-right" style="background-color:transparent"  id="menu-toggle"><span style="width:32px;height: 32px;color : white;" data-feather="menu" ></span></button>
-            <ul class="navbar-nav   ml-auto">
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item ">
                     <a class="nav-link" href="${pageContext.request.contextPath}/Servlet" style="" >Quitter l'interface d'administration&nbsp;<span data-feather="log-out"></span> </a>
                 </li>
@@ -51,11 +55,11 @@
                                 </a>
                                 <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=menuCreationEntreprise" class="list-group-item list-group-item-action align-items-center bg-light">
                                     <span data-feather="file-text"></span> Demandes de création
-                                    <span class="badge badge-primary badge-pill">0</span>
+                                    <span class="badge badge-primary badge-pill"><%=nbrDemandesCreation%></span>
                                 </a>
                                 <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=menuRattachementEntreprise" class="list-group-item list-group-item-action bg-light">
                                     <span data-feather="file-text"></span> Rattachement
-                                    <span class="badge badge-primary badge-pill">0</span>
+                                    <span class="badge badge-primary badge-pill"><%=nbrDemandesRattachement%></span>
                                 </a>
                             </div>
                             <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=agences" class="list-group-item d-flex justify-content-between bg-light">

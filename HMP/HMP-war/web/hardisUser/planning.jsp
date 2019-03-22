@@ -4,6 +4,5 @@
         <h1 class="h2">Dashboard</h1>
     </div>
     
-    
 </main>
 <jsp:include page="footer.jsp"/>
