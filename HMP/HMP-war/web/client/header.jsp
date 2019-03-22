@@ -46,7 +46,7 @@
                                 <span><span data-feather="chevron-down"></span></span>  
                             </a>
                             <div class="collapse" id="collapseDevis">
-                                <a href="${pageContext.request.contextPath}/client/devis.jsp" class="list-group-item list-group-item-action bg-light">
+                                <a href="${pageContext.request.contextPath}/ServletClient?action=creerDevisOffres" class="list-group-item list-group-item-action bg-light">
                                     <span data-feather="file-plus"></span> Demander un devis
                                 </a>
                                 <a href="${pageContext.request.contextPath}/client/devis.jsp" class="list-group-item list-group-item-action align-items-center bg-light">

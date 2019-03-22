@@ -1,6 +1,8 @@
 package servlet;
 
 import GestionCatalogue.Offre;
+import GestionCatalogue.ServiceNonStandard;
+import GestionCatalogue.ServiceStandard;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.Interlocuteur;
@@ -183,7 +185,31 @@ public class ServletClient extends HttpServlet {
                     request.setAttribute("listeServicesNonStandards", sessionClient.rechercherServicesNonStandards(id));
                     jspClient = "/client/services.jsp";
                 }
-
+                /*CREERDEVIS*/
+                if (act.equals("creerDevisOffres")) {
+                    request.setAttribute("listOffres", sessionClient.rechercherOffres());
+                    jspClient = "/client/creerDevisOffre.jsp";
+                }
+                if (act.equals("creerDevisServices")) {
+                    Long id = Long.parseLong(request.getParameter("id").trim());
+                    Offre offre = sessionClient.rechercherOffre(id);
+                    request.setAttribute("offre", offre);
+                    request.setAttribute("listeServicesStandards", sessionClient.rechercherServicesStandards(id));
+                    request.setAttribute("listeServicesNonStandards", sessionClient.rechercherServicesNonStandards(id));
+                    jspClient = "/client/creerDevisServices.jsp";
+                }
+                if(act.equals("creerDevisStandard")){
+                    Long id = Long.parseLong(request.getParameter("id").trim());
+                    ServiceStandard st = sessionClient.rechercherServiceStandard(id);
+                    request.setAttribute("service", st);
+                    jspClient = "/client/creerDevisStandard.jsp";
+                }
+                if(act.equals("creerDevisNonStandard")){
+                    Long id = Long.parseLong(request.getParameter("id").trim());
+                    ServiceNonStandard st = sessionClient.rechercherServiceNonStandard(id);
+                    request.setAttribute("service", st);
+                    jspClient = "/client/creerDevisNonStandard.jsp";
+                }
             }
 
         }

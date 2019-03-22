@@ -79,4 +79,8 @@ public interface SessionClientLocal {
     List<ServiceStandard> rechercherServicesStandards(Long idOffre);
 
     List<ServiceNonStandard> rechercherServicesNonStandards(Long idOffre);
+
+    ServiceStandard rechercherServiceStandard(Long idService);
+
+    ServiceNonStandard rechercherServiceNonStandard(Long idService);
 }
