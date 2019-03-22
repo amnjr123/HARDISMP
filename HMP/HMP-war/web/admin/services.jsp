@@ -769,10 +769,16 @@
         <%
         }
         %>
+        <%
+        for (ServiceStandard st : listServicesStandards) {
+        %>
 
                 $("#modifierLivrableSNS").on('show.bs.modal', function (e) {
                     $('#modificationserviceNonStandard').modal('hide')
                 })
+                <%
+        }
+        %>
                 
     })
 </script>

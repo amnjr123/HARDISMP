@@ -270,41 +270,26 @@ public class ServletAdministrateur extends HttpServlet {
                 }
 
                 if (act.equals("creerServiceNonStandard")) {
-                    System.out.println("a");
                     String nom = request.getParameter("nom").trim();
-                    System.out.println("b");
                     String description = request.getParameter("description").trim();
-                    System.out.println("c");
                     String lieu = request.getParameter("lieu").trim();
-                    System.out.println("d");
                     String cout = request.getParameter("cout").trim();
-                    System.out.println("e");
                     String conditions = request.getParameter("conditions").trim();
-                    System.out.println("f");
                     String delai = request.getParameter("delai").trim();
-                    System.out.println("g");
                     Long idOffre = Long.parseLong(request.getParameter("idOffre").trim());
-                    System.out.println("h");
                     Offre offre = sessionAdministrateur.afficheOffre(idOffre);
-                    System.out.println("i");
                     String[] listeLivrable = request.getParameterValues("livrable");
-                    System.out.println("j");
                     if(listeLivrable.length>0){
-                        System.out.println("2");
                         if (nom != null && description != null && lieu != null && cout != null && conditions != null && delai != null && !nom.equalsIgnoreCase("") && !description.equalsIgnoreCase("") && !lieu.equalsIgnoreCase("") && !cout.equalsIgnoreCase("") && !conditions.equalsIgnoreCase("") && !delai.equalsIgnoreCase("")) {
-                            System.out.println("3");
                             float coutFloat = Float.parseFloat(cout);
                             int delaiInt = Integer.parseInt(delai);
                             boolean fraisInclusBool = true;
                             ServiceNonStandard snt = sessionAdministrateur.creerServiceNonStandard(nom, description, lieu, coutFloat, fraisInclusBool, conditions, delaiInt, idOffre);
                             if (snt == null) {
-                                System.out.println("4");
                                 request.setAttribute("msgError", "Une erreur s'est produite");
                             }
                             else{
-                                System.out.println("5");
                                 for(String livrable : listeLivrable){
-                                    System.out.println("6");
                                     sessionAdministrateur.creerLivrable(livrable, snt.getId());
                                 }
                             }
@@ -316,7 +301,6 @@ public class ServletAdministrateur extends HttpServlet {
                     request.setAttribute("listeServicesStandards", sessionAdministrateur.afficherServicesStandards(idOffre));
                     request.setAttribute("listeServicesNonStandards", sessionAdministrateur.afficherServicesNonStandards(idOffre));
                     jspClient = "/admin/services.jsp";
-                    System.out.println("7");
                 }
 
                 if (act.equals("modifierServiceStandard")) {
