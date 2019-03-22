@@ -71,5 +71,7 @@ public interface SessionHardisLocal {
     Offre afficheOffre(Long id);
 
     Disponibilite creerDisponibilite(Long idUtilisateurHardis, Date dateDispo, int i);
+
+    List afficherDisponibilites(UtilisateurHardis uh);
    
 }

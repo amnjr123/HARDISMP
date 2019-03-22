@@ -368,4 +368,11 @@ public class SessionHardis implements SessionHardisLocal {
         HistoriqueUtilisateurDevis ancienHistorique = historiqueUtilisateurDevisFacade.rechercheDernierHistoriqueUtilisateurDevis(dns);
         historiqueUtilisateurDevisFacade.creerSuiteHistoriqueUtilisateurDevis(ancienHistorique, uh);
     }
+
+    @Override
+    public List<Disponibilite> afficherDisponibilites(UtilisateurHardis uh) {
+        return disponibiliteFacade.rechercheDisponibilites(uh);
+    }
+    
+    
 }

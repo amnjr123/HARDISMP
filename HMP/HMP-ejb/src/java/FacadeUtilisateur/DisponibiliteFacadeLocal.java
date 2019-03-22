@@ -40,6 +40,8 @@ public interface DisponibiliteFacadeLocal {
 
     Disponibilite rechercheDisponibilite(long id);
 
-    List<Disponibilite> rechercheDisponibilite();
+    List<Disponibilite> rechercheDisponibilites();
+    
+    List<Disponibilite> rechercheDisponibilites(UtilisateurHardis uh);
     
 }
