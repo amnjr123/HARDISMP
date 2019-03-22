@@ -1,3 +1,4 @@
+<%@page import="GestionCatalogue.Livrable"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
 <%@page import="GestionCatalogue.Offre"%>
@@ -135,7 +136,7 @@
                             <td class="text-center"><a data-toggle="modal" data-target="#detailServiceNonStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="list"></i></a></td>
                             <td>
                                 <div class="dropdown">
-                                    <a href="#" data-toggle="modal" data-target="#modificationserviceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
+                                    <a href="#" data-toggle="modal" data-target="#modificationserviceNonStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
                                     <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=supprimerService&idServiceNonStandard=<%=st.getId()%>" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a>
                                 </div>
                             </td>
@@ -260,7 +261,7 @@
 
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter des livrables au services</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter des livrables au service</h5>
                         <button type="button" class="btn btn-success" id="addLivrableSS"><i data-feather="plus"></i></button>
                         <button type="button" class="btn btn-danger" id="removeLivrableSS"><i data-feather="minus"></i></button>    
                     </div>
@@ -367,7 +368,7 @@
 
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter des livrables au services</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter des livrables au service</h5>
                         <button type="button" class="btn btn-success" id="addLivrableSNS"><i data-feather="plus"></i></button>
                         <button type="button" class="btn btn-danger" id="removeLivrableSNS"><i data-feather="minus"></i></button>    
                     </div>
@@ -491,24 +492,28 @@
                         <input type="hidden" name="idOffre" value="<%=o.getId()%>">
                         <input type="hidden" name="idServiceStandard" value="<%=st.getId()%>">
                         <input type="hidden" name="action" value="modifierServiceStandard">
-
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="modal fade" id="modifierLivrableSS<%=(st.getId())%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
 
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter des livrables au services</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter des livrables au service</h5>
                         <button type="button" class="btn btn-success" id="addLivrableModifierSS"><i data-feather="plus"></i></button>
                         <button type="button" class="btn btn-danger" id="removeLivrableModifierSS"><i data-feather="minus"></i></button>    
                     </div>
                     <div class="modal-body">
                         <div id="zoneAjoutInputsModifierSS" class="form-group">
-                            <input name="livrable" type="text" id="livrableSS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>
+                            <%
+                            for (Livrable l : st.getLivrables()) {
+                            %>
+                            <input name="livrable" type="text" id="livrableSS" class="form-control mb-2" required autofocus value="<%=(l.getLibelle())%>">
+                            <%
+                            }
+                            %>
                         </div>
                     </div>
                     <div class="modal-footer ">
@@ -517,11 +522,9 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </form>
     <%
-
         }
     %>
     <%
@@ -614,13 +617,19 @@
 
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter des livrables au services</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter des livrables au service</h5>
                         <button type="button" class="btn btn-success" id="addLivrableModifierSNS"><i data-feather="plus"></i></button>
                         <button type="button" class="btn btn-danger" id="removeLivrableModifierSNS"><i data-feather="minus"></i></button>    
                     </div>
                     <div class="modal-body">
                         <div id="zoneAjoutInputsModifierSNS" class="form-group">
-                            <input name="livrable" type="text" id="livrableSNS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>
+                            <%
+                            for (Livrable l : st.getLivrables()) {
+                            %>
+                            <input name="livrable" type="text" id="livrableSNS" class="form-control mb-2" required autofocus value="<%=(l.getLibelle())%>">
+                            <%
+                            }
+                            %>
                         </div>
                     </div>
                     <div class="modal-footer ">
@@ -770,13 +779,12 @@
         }
         %>
         <%
-        for (ServiceStandard st : listServicesStandards) {
+        for (ServiceNonStandard st : listServicesNonStandards) {
         %>
-
-                $("#modifierLivrableSNS").on('show.bs.modal', function (e) {
-                    $('#modificationserviceNonStandard').modal('hide')
+                $("#modifierLivrableSNS<%=st.getId()%>").on('show.bs.modal', function (e) {
+                    $('#modificationserviceNonStandard<%=st.getId()%>').modal('hide')
                 })
-                <%
+        <%
         }
         %>
                 

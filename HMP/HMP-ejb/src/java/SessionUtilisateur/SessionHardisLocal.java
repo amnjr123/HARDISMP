@@ -60,8 +60,6 @@ public interface SessionHardisLocal {
 
     void transfererDevisNonStandard(Long idDevisNonStandard, Long idUtilisateurHardis);
 
-    Disponibilite creerDisponibilite(Long idUtilisateurHardis, Date dateDispo);
-
     Disponibilite supprimerDisponibilite(Long idDispo);
 
     List<Offre> afficherOffres();
@@ -71,5 +69,7 @@ public interface SessionHardisLocal {
     List<ServiceNonStandard> afficherServicesNonStandards(Long idOffre);
 
     Offre afficheOffre(Long id);
+
+    Disponibilite creerDisponibilite(Long idUtilisateurHardis, Date dateDispo, int i);
    
 }
