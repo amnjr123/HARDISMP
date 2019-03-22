@@ -5,6 +5,12 @@ import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import SessionUtilisateur.SessionHardisLocal;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -60,22 +66,53 @@ public class ServletUtilisateurHardis extends HttpServlet {
                         }
                     }
                 }
-                    if (act.equals("planning")) {
+
+                if (act.equals("ajouterDisponibilite")) {
+                    String date = request.getParameter("jourDisponible");
+                    String matin = request.getParameter("choix");
+
+                    if (matin == null) {
+                        matin = "1";
+                    } else if (matin != null && !matin.isEmpty()) {
+                        if (matin.equals("oui")) {
+                            matin = "0";
+                        }
+                    }
+
+                    if (date != null && !date.isEmpty()) {
+                        date += " 00:00:00";
+                        Date d = null;
+                        try {
+                            d = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date);
+                        } catch (ParseException ex) {
+                            Logger.getLogger(ServletUtilisateurHardis.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        if (d != null) {
+                            sessionHardis.creerDisponibilite(uh.getId(), d, Integer.parseInt(matin));
+                            request.setAttribute("msgSuccess", "La date a bien été enregistrée");
+                        } else {
+                            request.setAttribute("msgError", "Le champ date est vide.");
+                        }
                         menuPlanning(request, response);
                     }
-                    /*CATALOGUE*/
-                    if (act.equals("offres")) {
-                        request.setAttribute("listOffres", sessionHardis.afficherOffres());
-                        jspClient = "/hardisUser/offres.jsp";
-                    }
-                    if (act.equals("services")) {
-                        Long id = Long.parseLong(request.getParameter("id").trim());
-                        Offre offre = sessionHardis.afficheOffre(id);
-                        request.setAttribute("offre", offre);
-                        request.setAttribute("listeServicesStandards", sessionHardis.afficherServicesStandards(id));
-                        request.setAttribute("listeServicesNonStandards", sessionHardis.afficherServicesNonStandards(id));
-                        jspClient = "/hardisUser/services.jsp";
-                    }
+                }
+                
+                if (act.equals("planning")) {
+                    menuPlanning(request, response);
+                }
+                /*CATALOGUE*/
+                if (act.equals("offres")) {
+                    request.setAttribute("listOffres", sessionHardis.afficherOffres());
+                    jspClient = "/hardisUser/offres.jsp";
+                }
+                if (act.equals("services")) {
+                    Long id = Long.parseLong(request.getParameter("id").trim());
+                    Offre offre = sessionHardis.afficheOffre(id);
+                    request.setAttribute("offre", offre);
+                    request.setAttribute("listeServicesStandards", sessionHardis.afficherServicesStandards(id));
+                    request.setAttribute("listeServicesNonStandards", sessionHardis.afficherServicesNonStandards(id));
+                    jspClient = "/hardisUser/services.jsp";
+                }
             }
         }
 

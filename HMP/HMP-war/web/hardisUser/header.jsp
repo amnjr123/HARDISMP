@@ -11,6 +11,7 @@
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/custom/dashboard.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/custom/simple-sidebar.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/css/bootstrap-select.css" rel="stylesheet">
     </head>
     <body>  
 
