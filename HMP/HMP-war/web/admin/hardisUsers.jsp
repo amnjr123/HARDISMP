@@ -76,7 +76,6 @@
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table">
-                    <caption>Liste des entreprises </caption>
                     <thead>
                         <tr>
                             <th scope="col">id</th>
@@ -124,6 +123,10 @@
                             %>
 
                             <td><%=(uh.getDtype())%></td>
+                            <td>
+                                <a href="" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
+                                <a href="" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a>
+                            </td>
                         </tr>
                         <%
                             }
