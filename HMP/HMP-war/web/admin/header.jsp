@@ -46,30 +46,30 @@
                                 <span><span data-feather="user"></span> Clients</span>
                             </a>
                             <a  class="list-group-item d-flex justify-content-between align-items-center bg-light" data-toggle="collapse" href="#collapseEntreprise" role="button" aria-expanded="false" aria-controls="collapseEntreprise" >
-                                <span><span data-feather="user"></span> Entreprises</span>
+                                <span><span data-feather="briefcase"></span> Entreprises</span>
                                 <span><span data-feather="chevron-down"></span></span>  
                             </a>
                             <div class="collapse" id="collapseEntreprise">
                                 <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=entreprises&p=0" class="list-group-item list-group-item-action bg-light">
-                                    <span data-feather="file-text"></span> Entreprises
+                                    <span data-feather="briefcase"></span> Entreprises
                                 </a>
                                 <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=menuCreationEntreprise" class="list-group-item list-group-item-action align-items-center bg-light">
-                                    <span data-feather="file-text"></span> Demandes de création
+                                    <span data-feather="file-plus"></span> Demandes de création
                                     <span class="badge badge-primary badge-pill"><%=nbrDemandesCreation%></span>
                                 </a>
                                 <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=menuRattachementEntreprise" class="list-group-item list-group-item-action bg-light">
-                                    <span data-feather="file-text"></span> Rattachement
+                                    <span data-feather="file-plus"></span> Rattachements
                                     <span class="badge badge-primary badge-pill"><%=nbrDemandesRattachement%></span>
                                 </a>
                             </div>
                             <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=agences" class="list-group-item d-flex justify-content-between bg-light">
-                                <span> <span data-feather="layers"></span> Agences </span>
+                                <span> <span data-feather="home"></span> Agences </span>
                             </a>
 
                             <!--href a modifier-->
                             <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=offres" class="list-group-item d-flex justify-content-between bg-light">
 
-                                <span><span data-feather="file-text"></span> Catalogue </span>
+                                <span><span data-feather="book-open"></span> Catalogue </span>
                             </a>
 
                         </div>

@@ -14,13 +14,11 @@
     </head>
     <body>  
 
-        <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-            <Button class="btn" style="background-color:transparent"  id="menu-toggle"><span data-feather="menu" color="white"></span></Button>
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="${pageContext.request.contextPath}/Servlet">Hardis Work Place</a>
-            <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-            <ul class="navbar-nav px-3">
-                <li class="nav-item text-nowrap">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/Servlet?action=logout">Se déconnecter <span data-feather="log-out"></span> </a>
+        <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap bg-faded static-top">
+            <button class="btn navbar-toggler navbar-toggler-right" style="background-color:transparent"  id="menu-toggle"><span style="width:32px;height: 32px;color : white;" data-feather="menu" ></span></button>
+            <ul class="navbar-nav   ml-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/Servlet?action=logout" style="" >Se déconnecter&nbsp;<span data-feather="log-out"></span> </a>
                 </li>
             </ul>
         </nav>
@@ -36,22 +34,40 @@
                     <div class="bg-light border-right" id="sidebar-wrapper">
                         <div class="sidebar-heading"><%=(u.getNom().toUpperCase() + ' ' + u.getPrenom())%></div>
                         <div class="list-group list-group-flush">
-                            <a href="${pageContext.request.contextPath}/hardisUser/index.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="monitor"></span> Tableau de bord
+                            <a href="${pageContext.request.contextPath}/hardisUser/index.jsp" class="list-group-item d-flex justify-content-between bg-light">
+                                <span><span data-feather="monitor"></span> Tableau de bord</span>
                             </a>
-                            <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=monProfil" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="user"></span> Mon profil
+                            <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=monProfil" class="list-group-item d-flex justify-content-between bg-light">
+                                <span><span data-feather="user"></span> Mon profil</span>
                             </a>
-                            <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=planning" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="calendar"></span> Planning
-                            <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=offres" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="layers"></span> Catalogue
+                            <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=planning" class="list-group-item d-flex justify-content-between bg-light">
+                                <span><span data-feather="calendar"></span> Planning</span>
                             </a>
+                            <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=offres" class="list-group-item d-flex justify-content-between bg-light">
+                                <span><span data-feather="book-open"></span> Catalogue</span>
+                            </a>
+                            <a  class="list-group-item d-flex justify-content-between align-items-center bg-light" data-toggle="collapse" href="#collapseDevis" role="button" aria-expanded="false" aria-controls="collapseDevis" >
+                                <span><span data-feather="clipboard"></span> Devis</span>
+                                <span><span data-feather="chevron-down"></span></span>  
+                            </a>
+                            <div class="collapse" id="collapseDevis">
+                                <a href="${pageContext.request.contextPath}/hardisUser/index.jsp" class="list-group-item list-group-item-action bg-light">
+                                    <span data-feather="file-plus"></span> Mes devis en cours
+                                </a>
+                                <a href="${pageContext.request.contextPath}/hardisUser/index.jsp" class="list-group-item list-group-item-action align-items-center bg-light">
+                                    <span data-feather="file-text"></span> Mes devis terminés
+                                    <span class="badge badge-primary badge-pill"></span>
+                                </a>
+                                <a href="${pageContext.request.contextPath}/hardisUser/index.jsp" class="list-group-item list-group-item-action bg-light">
+                                    <span data-feather="layers"></span> Voir tous les devis
+                                    <span class="badge badge-primary badge-pill"></span>
+                                </a>
+                            </div>
                             <%
                                 if (ua != null) {
                             %>
-                            <a href="${pageContext.request.contextPath}/ServletAdministrateur" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="sliders"></span> Interface d'administration
+                            <a href="${pageContext.request.contextPath}/ServletAdministrateur" class="list-group-item d-flex justify-content-between bg-light">
+                                <span><span data-feather="sliders"></span> Interface d'administration</span>
                             </a>
                             <%
                                 }

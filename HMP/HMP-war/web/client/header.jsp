@@ -32,26 +32,37 @@
                     <div class="bg-light border-right" id="sidebar-wrapper">
                         <div class="sidebar-heading"><span style="width:24px;height: 28px;color : grey;" data-feather="user" ></span>&nbsp;<%=(c.getNom() + ' ' + c.getPrenom())%></div>
                         <div class="list-group list-group-flush">
-                            <a href="${pageContext.request.contextPath}/client/index.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="monitor"></span> Tableau de bord
+                            <a href="${pageContext.request.contextPath}/client/index.jsp" class="list-group-item d-flex justify-content-between bg-light">
+                                <span><span data-feather="monitor"></span> Tableau de bord</span>
                             </a>
-                            <a href="${pageContext.request.contextPath}/ServletClient?action=monProfil" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="user"></span> Mon profil
+                            <a href="${pageContext.request.contextPath}/ServletClient?action=monProfil" class="list-group-item d-flex justify-content-between bg-light">
+                                <span><span data-feather="user"></span> Mon profil</span>
                             </a>
-                            <a href="${pageContext.request.contextPath}/ServletClient?action=offres" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="layers"></span> Catalogue
+                            <a href="${pageContext.request.contextPath}/ServletClient?action=offres" class="list-group-item d-flex justify-content-between bg-light">
+                                <span><span data-feather="book-open"></span> Catalogue</span>
                             </a>
-                            <a href="${pageContext.request.contextPath}/client/devis.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="file-text"></span> Mes devis
+                            <a  class="list-group-item d-flex justify-content-between align-items-center bg-light" data-toggle="collapse" href="#collapseDevis" role="button" aria-expanded="false" aria-controls="collapseDevis" >
+                                <span><span data-feather="clipboard"></span> Devis</span>
+                                <span><span data-feather="chevron-down"></span></span>  
                             </a>
-                            <a href="${pageContext.request.contextPath}/client/factures.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="square"></span> Mes factures
+                            <div class="collapse" id="collapseDevis">
+                                <a href="${pageContext.request.contextPath}/client/devis.jsp" class="list-group-item list-group-item-action bg-light">
+                                    <span data-feather="file-plus"></span> Demander un devis
+                                </a>
+                                <a href="${pageContext.request.contextPath}/client/devis.jsp" class="list-group-item list-group-item-action align-items-center bg-light">
+                                    <span data-feather="file-text"></span> Devis en cours
+                                    <span class="badge badge-primary badge-pill"></span>
+                                </a>
+                                <a href="${pageContext.request.contextPath}/client/devis.jsp" class="list-group-item list-group-item-action bg-light">
+                                    <span data-feather="check-square"></span> Devis terminés
+                                    <span class="badge badge-primary badge-pill"></span>
+                                </a>
+                            </div>
+                            <a href="${pageContext.request.contextPath}/client/factures.jsp" class="list-group-item d-flex justify-content-between bg-light">
+                                <span><span data-feather="shopping-cart"></span> Mes factures</span>
                             </a>
-                            <a href="${pageContext.request.contextPath}/client/calendrier.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="calendar"></span> Calendrier
-                            </a>
-                            <a href="${pageContext.request.contextPath}/client/inbox.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="inbox"></span> Inbox
+                            <a href="${pageContext.request.contextPath}/client/inbox.jsp" class="list-group-item d-flex justify-content-between bg-light">
+                                <span><span data-feather="inbox"></span> Inbox</span>
                             </a>
                         </div>
                     </div>
