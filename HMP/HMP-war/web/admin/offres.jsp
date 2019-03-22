@@ -44,8 +44,8 @@
                     <thead>
                         <tr>
                             <th scope="col">id</th>
-                            <th scope="col">Libellï¿½</th>
-                            <th scope="col" class="text-center">Actif ou obsolï¿½te</th>
+                            <th scope="col">Libellé</th>
+                            <th scope="col" class="text-center">Actif ou obsolète</th>
                             <th scope="col" class="text-center">Services</th>
                             <th scope="col"></th>
                         </tr>
@@ -97,15 +97,15 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="libelle" class="sr-only">Libellï¿½ *</label>
-                            <input name="libelle" type="text" id="localisation" class="form-control" placeholder="Libellï¿½" required autofocus>
+                            <label for="libelle" class="sr-only">Libellé *</label>
+                            <input name="libelle" type="text" id="localisation" class="form-control" placeholder="Libellé" required autofocus>
                             <div class="invalid-feedback">
                                 Le nom de l'offre est obligatoire.
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer ">
-                        <button type="submit" class="btn btn-success">Crï¿½er l'offre</button>
+                        <button type="submit" class="btn btn-success">Créer l'offre</button>
                         <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
                         <input type="hidden" name="action" value="creerOffre">
                     </div>
@@ -128,8 +128,8 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="libelle" class="sr-only">Libellï¿½ *</label>
-                            <input name="libelle" type="text" id="localisation" class="form-control" placeholder="Libellï¿½" required autofocus value="<%=o.getLibelle()%>">
+                            <label for="libelle" class="sr-only">Libellé *</label>
+                            <input name="libelle" type="text" id="localisation" class="form-control" placeholder="Libellé" required autofocus value="<%=o.getLibelle()%>">
                             <div class="invalid-feedback">
                                 Le nom de l'offre est obligatoire.
                             </div>
