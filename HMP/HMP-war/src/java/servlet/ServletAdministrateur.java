@@ -84,6 +84,7 @@ public class ServletAdministrateur extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         HttpSession sessionHttp = request.getSession();
+        jspClient = "/admin/indexAdmin.jsp";
 
         if (sessionHttp.getAttribute(ATT_SESSION_ADMINISTRATEUR) != null) {
             

@@ -5,12 +5,9 @@ import GestionCatalogue.ServiceNonStandard;
 import GestionCatalogue.ServiceStandard;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Utilisateur;
-import GestionUtilisateur.Interlocuteur;
 import SessionUtilisateur.SessionClientLocal;
-import SessionUtilisateur.SessionLocal;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -31,26 +28,42 @@ public class ServletClient extends HttpServlet {
     private String jspClient = "/client/index.jsp";
 
     private Client c;
+    
+    protected void calculNombreDemande(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            request.getSession().setAttribute("nbrDemandesRattachementClientAdmin", sessionClient.rechercherDemandeRattachementEntreprise(c.getEntreprise().getId()).size());
+        } catch (Exception e) {
+            request.getSession().setAttribute("nbrDemandesRattachementClientAdmin",0);
+        }  
+    }
 
     protected void monProfil(HttpServletRequest request, HttpServletResponse response) {
-        
         try {
             request.setAttribute("listeInterlocuteurs", sessionClient.rechercherInterlocuteur(c.getEntreprise().getId()));
         } catch (Exception e) {
             request.setAttribute("listeInterlocuteurs", new ArrayList());
         }
+        
+        try {
+            request.setAttribute("demandesRattachement", sessionClient.rechercherDemandeRattachementEntreprise(c.getEntreprise().getId()));
+        } catch (Exception e) {
+            request.setAttribute("demandesRattachement",new ArrayList());
+        }   
+        calculNombreDemande(request,response);
         request.setAttribute("listeAgences", sessionClient.rechercherAgence());
         jspClient = "/client/monProfil.jsp";
-
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sessionHttp = request.getSession();
+        jspClient = "/client/index.jsp";
+        
 
         if (sessionHttp.getAttribute("sessionClient") != null) {
             c = (Client) sessionHttp.getAttribute("sessionClient");
+            calculNombreDemande(request,response);
             if (request.getParameter("action") != null) {
                 String act = request.getParameter("action");
 
@@ -58,7 +71,7 @@ public class ServletClient extends HttpServlet {
                 if (act.equals("monProfil")) {
                     monProfil(request, response);
                 }
-                System.out.print(act);
+                
                 //demande de création ou rattachaement à une entreprise
                 if (act.equals("creerDemandeEntreprise")) {
                     if (request.getParameter("siret") != null) {
@@ -170,6 +183,14 @@ public class ServletClient extends HttpServlet {
                         }
 
                     }
+                }
+                
+                //GERER DEMANDES RATTACHEMENT
+                if (act.equals("validerDemandeRattachementEntreprise")) {
+                    String idDemande = request.getParameter("idDemande");
+                    sessionClient.validerDemandeRattachement(Long.parseLong(idDemande));
+                    request.setAttribute("msgSuccess", "La demande de rattachemet a bien été prise en compte");
+                    monProfil(request, response);
                 }
 
                 /*CATALOGUE*/
