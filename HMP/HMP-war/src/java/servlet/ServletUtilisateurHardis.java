@@ -59,9 +59,9 @@ public class ServletUtilisateurHardis extends HttpServlet {
                         }
                     }
                 }
-                if (act.equals("planning")) {
-                    menuPlanning(request, response);
-
+                    if (act.equals("planning")) {
+                        menuPlanning(request, response);
+                    }
                     /*CATALOGUE*/
                     if (act.equals("offres")) {
                         request.setAttribute("listOffres", sessionHardis.afficherOffres());
@@ -75,8 +75,6 @@ public class ServletUtilisateurHardis extends HttpServlet {
                         request.setAttribute("listeServicesNonStandards", sessionHardis.afficherServicesNonStandards(id));
                         jspClient = "/hardisUser/services.jsp";
                     }
-
-                }
             }
         }
 

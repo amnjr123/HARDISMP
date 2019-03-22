@@ -45,7 +45,6 @@
                             <th scope="col">id</th>
                             <th scope="col">Localisation</th>
                             <th scope="col">Adresse</th>
-                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,10 +54,6 @@
                             <td><%=a.getId()%></td>
                             <td><%=a.getLocalisation()%></td>
                             <td><%=a.getAdresse()%></td>
-                            <td>
-                                <a href=""  type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
-                                <a href="" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a>
-                            </td>
 
                         </tr>
                         <%}%>

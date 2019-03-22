@@ -1,4 +1,5 @@
 <%@page import="java.util.Calendar"%>
+<%@page import="GestionCatalogue.Livrable"%>
 <%@page import="java.util.Date"%>
 <%@page import="GestionCatalogue.Offre"%>
 <%@page import="GestionCatalogue.ServiceStandard"%>
