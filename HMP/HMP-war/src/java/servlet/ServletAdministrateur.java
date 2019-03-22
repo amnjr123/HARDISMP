@@ -29,8 +29,6 @@ public class ServletAdministrateur extends HttpServlet {
     private String jspClient = "/admin/indexAdmin.jsp";
 
     protected void calculNombreDemande(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("NBR DEMANDES CREATION " + sessionAdministrateur.rechercheDemandeCreationEntreprise().size());
-        System.out.println("NBR DEMANDES RATTACHEMENT " + sessionAdministrateur.rechercheDemandeRattachements().size());
         request.getSession().setAttribute("nbrDemandesCreation", sessionAdministrateur.rechercheDemandeCreationEntreprise().size());
         request.getSession().setAttribute("nbrDemandesRattachement", sessionAdministrateur.rechercheDemandeRattachements().size());
     }
@@ -60,7 +58,6 @@ public class ServletAdministrateur extends HttpServlet {
     protected void menuEntreprise(HttpServletRequest request, HttpServletResponse response) {
         if (request.getParameter("recherche") != null && !request.getParameter("recherche").isEmpty()) {
 
-            System.out.print("recherche");
             String recherche = request.getParameter("recherche");
 
             request.setAttribute("listeEntreprises", sessionAdministrateur.rechercheEntreprise(recherche));
@@ -149,7 +146,6 @@ public class ServletAdministrateur extends HttpServlet {
                     if (prenom != null && nom != null && mail != null && tel != null && plafond != null && profilTechnique != null && agence != null && offres != null && !nom.isEmpty() && !mail.isEmpty() && !tel.isEmpty() && !agence.isEmpty() && offres.length != 0) {
                         List<Long> listOffre = new ArrayList<>();
                         for (String idOffre : offres) {
-                            System.out.println("idOffre : " + Long.parseLong(idOffre));
                             listOffre.add(Long.parseLong(idOffre));
                         }
                         sessionAdministrateur.creerConsultant(nom, prenom, mail, tel, profilTechnique, Float.parseFloat(plafond), Long.parseLong(agence), listOffre);
@@ -276,23 +272,14 @@ public class ServletAdministrateur extends HttpServlet {
                 }
 
                 if (act.equals("creerServiceNonStandard")) {
-                    System.out.println("a");
                     String nom = request.getParameter("nom").trim();
-                    System.out.println("b");
                     String description = request.getParameter("description").trim();
-                    System.out.println("c");
                     String lieu = request.getParameter("lieu").trim();
-                    System.out.println("d");
                     String cout = request.getParameter("cout").trim();
-                    System.out.println("e");
                     String conditions = request.getParameter("conditions").trim();
-                    System.out.println("f");
                     String delai = request.getParameter("delai").trim();
-                    System.out.println("g");
                     Long idOffre = Long.parseLong(request.getParameter("idOffre").trim());
-                    System.out.println("h");
                     Offre offre = sessionAdministrateur.afficheOffre(idOffre);
-                    System.out.println("i");
                     String[] listeLivrable = request.getParameterValues("livrable");
                     if(listeLivrable.length>0){
                         if (nom != null && description != null && lieu != null && cout != null && conditions != null && delai != null && !nom.equalsIgnoreCase("") && !description.equalsIgnoreCase("") && !lieu.equalsIgnoreCase("") && !cout.equalsIgnoreCase("") && !conditions.equalsIgnoreCase("") && !delai.equalsIgnoreCase("")) {
@@ -301,7 +288,6 @@ public class ServletAdministrateur extends HttpServlet {
                             boolean fraisInclusBool = true;
                             ServiceNonStandard snt = sessionAdministrateur.creerServiceNonStandard(nom, description, lieu, coutFloat, fraisInclusBool, conditions, delaiInt, idOffre);
                             if (snt == null) {
-                                System.out.println("4");
                                 request.setAttribute("msgError", "Une erreur s'est produite");
                             } else {
                                 for (String livrable : listeLivrable) {
@@ -317,7 +303,6 @@ public class ServletAdministrateur extends HttpServlet {
                     request.setAttribute("listeServicesStandards", sessionAdministrateur.afficherServicesStandards(idOffre));
                     request.setAttribute("listeServicesNonStandards", sessionAdministrateur.afficherServicesNonStandards(idOffre));
                     jspClient = "/admin/services.jsp";
-                    System.out.println("7");
                 }
 
                 if (act.equals("modifierServiceStandard")) {
