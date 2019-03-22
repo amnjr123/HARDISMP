@@ -57,7 +57,7 @@
                             <th scope="col">Coût</th>
                             <th scope="col" class="text-center">Actif ou obsolète</th>
                             <th scope="col" class="text-center">Voir le détail</th>
-                            <th scope="col"></th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -79,7 +79,7 @@
                             <td><%if (st.getLieuIntervention().toString().equals("Agence_Hardis")) {%>Agence Hardis<%} else if (st.getLieuIntervention().toString().equals("Site_Client")) {%>Site Client<%} else {%>Mixte<%}%></td>
                             <td><%=st.getCout()%></td>
                             <td class="text-center"><%if (st.getDateFinValidite().after(date)) {%><i data-feather="check-circle" style="color:green"></i><%} else {%><i data-feather="x" style="color:red"></i><%}%></td>
-                            <td class="text-center"><a data-toggle="modal" data-target="#detailServiceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="list"></i></a></td>
+                            <td class="text-center"><a data-toggle="modal" data-target="#detailServiceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="zoom-in"></i></a></td>
                             <td>
                                 <div class="dropdown">
                                     <a href="#" data-toggle="modal" data-target="#modificationserviceStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
@@ -120,7 +120,7 @@
                             <th scope="col">Coût</th>
                             <th class="text-center" scope="col">Actif ou obsoléte</th>
                             <th class="text-center" scope="col">Voir le détail</th>
-                            <th scope="col"></th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -133,7 +133,7 @@
                             <td><%if (st.getLieuIntervention().toString().equals("Agence_Hardis")) {%>Agence Hardis<%} else if (st.getLieuIntervention().toString().equals("Site_Client")) {%>Site Client<%} else {%>Mixte<%}%></td>
                             <td><%=st.getCout()%></td>
                             <td class="text-center"><%if (st.getDateFinValidite().after(date)) {%><i data-feather="check-circle" style="color:green"></i><%} else {%><i data-feather="x" style="color:red"></i><%}%></td>
-                            <td class="text-center"><a data-toggle="modal" data-target="#detailServiceNonStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="list"></i></a></td>
+                            <td class="text-center"><a data-toggle="modal" data-target="#detailServiceNonStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="zoom-in"></i></a></td>
                             <td>
                                 <div class="dropdown">
                                     <a href="#" data-toggle="modal" data-target="#modificationserviceNonStandard<%=(st.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>

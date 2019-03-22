@@ -64,7 +64,7 @@
                             <th scope="col">Raison sociale</th>
                             <th scope="col">Adresse de facturation</th>
                             <th scope="col">Agence</th>
-                            <th scope="col"></th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>

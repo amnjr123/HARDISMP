@@ -68,6 +68,7 @@
                             <th scope="col">Nom</th>
                             <th scope="col">Adresse</th>
                             <th scope="col">Agence</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -83,9 +84,6 @@
                             <td><%=(e.getAgence().getLocalisation())%></td>
                             <td><a href="#" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="phone"></i></a>
                                 <a href="#" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
-                                <a href="#" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a></td>
-
-
                         </tr>
                         <%
                             }
