@@ -159,16 +159,14 @@ public class SessionHardis implements SessionHardisLocal {
 /*GESTION DES DISPONIBILITES*/
     
     @Override
-    public Disponibilite creerDisponibilite(Long idUtilisateurHardis, Date dateDispo){
-        //Pour les dev du front : L'utilisateur doit pouvoir choisir entre deux demi journées et selon laquelle il choisit il faut renvoyer par
-        //exemple : 01/01/2019 08:00:00 pour la première demi-journée
-        //exemple : 01/01/2019 14:00:00 pour la deuxième demi-journée
+    public Disponibilite creerDisponibilite(Long idUtilisateurHardis, Date dateDispo,int i){
+        //int i = 0 pour la première demi journée (8h 12h) et i=1 pour la deuxième demi-journée (14h 18h)
         UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
         Disponibilite dispo = null;
         //Disponibilité par demi-journée
         Calendar cal = Calendar.getInstance();
         cal.setTime(dateDispo);
-        if(cal.get(Calendar.HOUR_OF_DAY)==8){
+        if(i==0){
             //Début de la dispo
             Calendar calDebut = Calendar.getInstance();
             calDebut.setTime(dateDispo);
@@ -187,7 +185,7 @@ public class SessionHardis implements SessionHardisLocal {
             Date dateFin = calFin.getTime();
             dispo = disponibiliteFacade.creerDisponibilite(dateDebut, dateFin, uh);
         }
-        else if(cal.get(Calendar.HOUR_OF_DAY)==14){
+        else if(i==1){
             //Début de la dispo
             Calendar calDebut = Calendar.getInstance();
             calDebut.setTime(dateDispo);
