@@ -34,22 +34,40 @@
                     <div class="bg-light border-right" id="sidebar-wrapper">
                         <div class="sidebar-heading"><%=(u.getNom().toUpperCase() + ' ' + u.getPrenom())%></div>
                         <div class="list-group list-group-flush">
-                            <a href="${pageContext.request.contextPath}/hardisUser/index.jsp" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="monitor"></span> Tableau de bord
+                            <a href="${pageContext.request.contextPath}/hardisUser/index.jsp" class="list-group-item d-flex justify-content-between bg-light">
+                                <span><span data-feather="monitor"></span> Tableau de bord</span>
                             </a>
-                            <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=monProfil" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="user"></span> Mon profil
+                            <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=monProfil" class="list-group-item d-flex justify-content-between bg-light">
+                                <span><span data-feather="user"></span> Mon profil</span>
                             </a>
-                            <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=planning" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="calendar"></span> Planning
-                            <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=offres" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="book-open"></span> Catalogue
+                            <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=planning" class="list-group-item d-flex justify-content-between bg-light">
+                                <span><span data-feather="calendar"></span> Planning</span>
                             </a>
+                            <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=offres" class="list-group-item d-flex justify-content-between bg-light">
+                                <span><span data-feather="book-open"></span> Catalogue</span>
+                            </a>
+                            <a  class="list-group-item d-flex justify-content-between align-items-center bg-light" data-toggle="collapse" href="#collapseDevis" role="button" aria-expanded="false" aria-controls="collapseDevis" >
+                                <span><span data-feather="clipboard"></span> Devis</span>
+                                <span><span data-feather="chevron-down"></span></span>  
+                            </a>
+                            <div class="collapse" id="collapseDevis">
+                                <a href="${pageContext.request.contextPath}/hardisUser/index.jsp" class="list-group-item list-group-item-action bg-light">
+                                    <span data-feather="file-plus"></span> Mes devis en cours
+                                </a>
+                                <a href="${pageContext.request.contextPath}/hardisUser/index.jsp" class="list-group-item list-group-item-action align-items-center bg-light">
+                                    <span data-feather="file-text"></span> Mes devis terminés
+                                    <span class="badge badge-primary badge-pill"></span>
+                                </a>
+                                <a href="${pageContext.request.contextPath}/hardisUser/index.jsp" class="list-group-item list-group-item-action bg-light">
+                                    <span data-feather="layers"></span> Voir tous les devis
+                                    <span class="badge badge-primary badge-pill"></span>
+                                </a>
+                            </div>
                             <%
                                 if (ua != null) {
                             %>
-                            <a href="${pageContext.request.contextPath}/ServletAdministrateur" class="list-group-item list-group-item-action bg-light">
-                                <span data-feather="sliders"></span> Interface d'administration
+                            <a href="${pageContext.request.contextPath}/ServletAdministrateur" class="list-group-item d-flex justify-content-between bg-light">
+                                <span><span data-feather="sliders"></span> Interface d'administration</span>
                             </a>
                             <%
                                 }
