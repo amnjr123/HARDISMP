@@ -47,7 +47,7 @@
                             <th scope="col">Libellé</th>
                             <th scope="col" class="text-center">Actif ou obsolète</th>
                             <th scope="col" class="text-center">Services</th>
-                            <th scope="col"></th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>

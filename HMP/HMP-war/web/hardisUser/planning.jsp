@@ -1,33 +1,56 @@
+<%@page import="GestionUtilisateur.Disponibilite"%>
+<%@page import="java.util.Collection"%>
 <jsp:include page="header.jsp"/>
+
 <style>
     <jsp:include page="../css/custom/fullcalendar.css"/>
     <jsp:include page="../css/bootstrap4-toggle.css"/>
 </style>
 <jsp:useBean id="listDispo" scope="request" class="java.util.Collection"></jsp:useBean>
+<%Collection<Disponibilite> listDisponibilite = listDispo;%>
 
-    <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
+<main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
 
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-            <h1 class="h2">Dashboard</h1>
-        </div>
-        <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletAdministrateur">
-            <div class="form-row">
-                <div class="col-md">
-                    <input type="date" class="form-control" name="jourDisponible">
-                </div>
-                <div class="col-md">
-                    <input name="rgpd" data-toggle="toggle" data-size="lg" type="checkbox" value="oui" required="true" data-onstyle="warning" data-on="Matin" data-off="Après-midi" data-width="200" data-height="30" >
-                </div>
-                <div class="col-md">
-                    <button type="submit" class="btn btn-success">Ajouter disponibilité</button>
-                </div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2">Dashboard</h1>
+    </div>
+
+    <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis">
+        <div class="form-row">
+            <div class="col-md">
+                <input type="date" class="form-control" name="jourDisponible">
             </div>
-        </form>
+            <div class="col-md">
+                <input name="rgpd" data-toggle="toggle" data-size="lg" type="checkbox" value="oui" required="true" data-onstyle="warning" data-on="Matin" data-off="Après-midi" data-width="200">
+                <input type="hidden" name="action" value="ajouterDisponibilite">x
+                <button type="submit" class="btn btn-success">Ajouter disponibilité</button>
+            </div>
+        </div>
+    </form>
+    <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis">  
+        <div class="form-row">
+            <div class="col-md">
+         <div class="form-group">
+                        <label for="selectOffre">Offre *</label>
+                        <select name="offres" class="form-control selectpicker" id="selectOffre" data-width="auto" multiple show-tick>
+                            <option disabled>Choisir les disponibilités</option>
+                            <%for (Disponibilite d : listDisponibilite) {%>
+                                <option value="<%=d.getId()%>"><%=d.getDateDebut()%></option>
+                            <%}%>                       
+                        </select>
+                    </div>            </div>
+            <div class="col-md">
+                <input type="hidden" name="action" value="ajouterDisponibilite">x
+                <button type="submit" class="btn btn-warning">Supprimer disponibilité</button>
+            </div>
+        </div>
+    </form>
+
     <div id='calendar'></div>
 
 </main>
 <jsp:include page="footer.jsp"/>
-<script src="${pageContext.request.contextPath}/js/fullcalendar/jquery-ui.custom.min.js.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/fullcalendar/jquery-ui.custom.min.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/fullcalendar/fullcalendar.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/fullcalendar/fr.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap4-toggle.min.js" type="text/javascript"></script>

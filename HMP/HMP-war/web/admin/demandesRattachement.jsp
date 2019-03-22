@@ -61,7 +61,7 @@
                             <th scope="col">SIRET</th>
                             <th scope="col">Raison sociale</th>
                             <th scope="col">Date de la demande</th>
-                            <th scope="col"></th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
