@@ -5,7 +5,6 @@ import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import SessionUtilisateur.SessionHardisLocal;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -96,10 +95,22 @@ public class ServletUtilisateurHardis extends HttpServlet {
                         menuPlanning(request, response);
                     }
                 }
-                
+
                 if (act.equals("planning")) {
                     menuPlanning(request, response);
                 }
+
+                if (act.equals("supprimerDisponibilite")) {
+                    String idDispo = request.getParameter("disponibilite");
+                    if (idDispo != null && !idDispo.isEmpty()) {
+                        sessionHardis.supprimerDisponibilite(Long.parseLong(idDispo));
+                        request.setAttribute("msgSuccess", "La disponibilité a bien été suupprimé");
+                    } else {
+                        request.setAttribute("msgError", "Erreur lors de la suppression.");
+                    }
+                    menuPlanning(request, response);
+                }
+
                 /*CATALOGUE*/
                 if (act.equals("offres")) {
                     request.setAttribute("listOffres", sessionHardis.afficherOffres());
