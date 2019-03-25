@@ -1,5 +1,8 @@
 <%@page import="GestionUtilisateur.UtilisateurHardis"%>
 <jsp:include page="header.jsp"/>
+<style>
+<jsp:include page="../css/bootstrap4-toggle.css"/>
+</style>
 <%
     UtilisateurHardis uh = (UtilisateurHardis) session.getAttribute("sessionHardis");
 %>
@@ -32,25 +35,17 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <form method="post" action="${pageContext.request.contextPath}/ServletUtilisateurHardis">
-                        <input type="hidden" name="action" value="modifierPrenomClient">
                         <label for="nouveauPrenom">Prénom</label>
                         <div class="input-group">
-                            <input name="nouveauPrenom" type="text" class="form-control" id="nouveauPrenom" placeholder="Votre prï¿½nom" value="<%=(uh.getPrenom())%>" required>
-                            <div class="input-group-prepend">
-                                <button type="submit" class="btn btn-primary"><i data-feather="check"></i></button>
-                            </div>
+                            <input readonly name="nouveauPrenom" type="text" class="form-control" id="nouveauPrenom" placeholder="Votre prénom" value="<%=(uh.getPrenom())%>" required>
                         </div>
                     </form>
                 </div>
                 <div class="col-md-6 mb-3">
                     <form method="post" action="${pageContext.request.contextPath}/ServletUtilisateurHardis">
-                        <input type="hidden" name="action" value="modifierNomClient">
                         <label for="nouveauNom">Nom</label>
                         <div class="input-group">
-                            <input name="nouveauNom" type="text" class="form-control" id="nouveauNom" placeholder="Votre nom" value="<%=(uh.getNom())%>" required>
-                            <div class="input-group-prepend">
-                                <button type="submit" class="btn btn-primary"><i data-feather="check"></i></button>
-                            </div>
+                            <input readonly name="nouveauNom" type="text" class="form-control" id="nouveauNom" placeholder="Votre nom" value="<%=(uh.getNom())%>" required>
                         </div>
                     </form>
                 </div>
@@ -60,7 +55,7 @@
             <div class="mb-3">
                 <label for="email">Email</label>
                 <div class="input-group">
-                    <input name="email" type="email" class="form-control" id="email" placeholder="vous@votreentreprise.com" value="<%=(uh.getMail())%>" disabled>
+                    <input readonly name="email" type="email" class="form-control" id="email" placeholder="vous@votreentreprise.com" value="<%=(uh.getMail())%>" disabled>
                     <div class="input-group-prepend">
                         <a href="#" type="button" class="btn btn-primary"data-toggle="modal" data-target="#changerEmailModal"><i data-feather="edit"></i></a>
                     </div>
@@ -79,10 +74,10 @@
 
             <div class="mb-3">
                 <form method="post" action="${pageContext.request.contextPath}/ServletUtilisateurHardis">
-                    <input type="hidden" name="action" value="modifierTelephoneClient">
+                    <input type="hidden" name="action" value="modifierTelephoneHardis">
                     <label for="nouveauTelephone">Téléphone</label>
                     <div class="input-group">
-                        <input name="nouveauTelephone" type="tel" id="nouveauTelephone" class="form-control" placeholder="Numï¿½ro de tï¿½lï¿½phone" value="<%=(uh.getTelephone())%>" required>
+                        <input name="nouveauTelephone" type="tel" id="nouveauTelephone" class="form-control" placeholder="Numéro de téléphone" value="<%=(uh.getTelephone())%>" required>
                         <div class="input-group-prepend">
                             <button type="submit" class="btn btn-primary"><i data-feather="check"></i></button>
                         </div>
@@ -91,7 +86,7 @@
             </div>
 
             <div class="mb-3">
-                <label">Profil technique</label>
+                <label>Profil technique</label>
                 <input type="text" class="form-control" value="<%=(uh.getProfilTechnique())%>" disabled>
             </div>
             
@@ -110,6 +105,28 @@
             <%
             }
             %>
+            <div class="mb-3">
+                <form method="post" action="${pageContext.request.contextPath}/ServletUtilisateurHardis">
+                    <input type="hidden" name="action" value="modifierStatutHardis">
+                    <label>Statut du compte </label>
+                    <div class="input-group">
+                        <%
+                        if(uh.getActifInactif()==true){
+                        %>
+                        <input checked name="actifInactif" data-toggle="toggle" data-size="lg" type="checkbox" value="actif" data-onstyle="success" data-on="Actif" data-off="Inactif" data-width="200" >
+                        <%
+                        }else{
+                        %>
+                        <input name="actifInactif" data-toggle="toggle" data-size="lg" type="checkbox" value="actif"  data-onstyle="success" data-on="Actif" data-off="Inactif" data-width="200" >
+                        <%
+                        }
+                        %>
+                        <div class="input-group-prepend">
+                            <button type="submit" class="btn btn-primary"><i data-feather="check"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -119,7 +136,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form class="needs-validation" method="post" action="${pageContext.request.contextPath}/ServletUtilisateurHardis">
-                    <input type="hidden" name="action" value="modifierMDPClient">
+                    <input type="hidden" name="action" value="modifierMDPHardis">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Changer le mot de passe</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -147,18 +164,22 @@
     <div class="modal fade" id="changerEmailModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Changer votre adresse mail</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input name="email" type="email" class="form-control" id="email" placeholder="vous@votreentreprise.com" required>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                    <button type="button" class="btn btn-primary">Envoyer un mail de validation</button>
-                </div>
+                <form class="needs-validation" method="post" action="${pageContext.request.contextPath}/ServletUtilisateurHardis">               
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Changer votre adresse mail</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input name="email" type="email" class="form-control" id="email" placeholder="vous@votreentreprise.com" required>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="action" value="modifierMailHardis">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Valider
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
