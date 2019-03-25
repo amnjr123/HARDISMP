@@ -342,14 +342,11 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         Consultant c = null;
         //On vérifie que la liste d'offres n'est pas vide
         if (!listeIdOffres.isEmpty()) {
-            System.out.println("Inside Session");
-
             List<Offre> listeOffres = new ArrayList<Offre>();
             for (Long idOffre : listeIdOffres) {
                 Offre o = offreFacade.rechercheOffre(idOffre);
                 if (o != null) {
                     listeOffres.add(o);
-                    System.out.println("Inside Session id offre " + o.getId() + " " + o.getLibelle());
                 }
             }
             //On vérifie que le plafond n'est pas négatif
@@ -376,8 +373,22 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
                 existant = true;
             }
         }
-        //Pour message erreur : si rlexistant est null alors la création a bien été faite, sinon c'est qu'il existait déjà et la création est rejetée
         return existant;
+    }
+    
+    @Override
+    public PorteurOffre rechercherPO(Long idPorteurOffre){
+        return porteurOffreFacade.recherchePorteurOffre(idPorteurOffre);
+    }
+    
+    @Override
+    public ReferentLocal rechercherReferentLocal(Long idReferentLocal){
+        return referentLocalFacade.rechercheReferentLocal(idReferentLocal);
+    }
+    
+    @Override
+    public Consultant rechercherConsultant(Long idConsultant){
+        return consultantFacade.rechercheConsultant(idConsultant);
     }
 
     @Override
@@ -409,11 +420,9 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
         ProfilTechnique profil = ProfilTechnique.valueOf(profilTechnique);
         //On vérifie que la liste d'offres n'est pas vide
         if (!listeIdOffres.isEmpty()) {
-            int i = 0;
             List<Offre> listeOffres = new ArrayList<Offre>();
-            for (i = 0; i >= listeIdOffres.size(); i++) {
-                Long id = listeIdOffres.get(i);
-                Offre o = offreFacade.rechercheOffre(id);
+            for (Long idOffre : listeIdOffres) {
+                Offre o = offreFacade.rechercheOffre(idOffre);
                 if (o != null) {
                     listeOffres.add(o);
                 }

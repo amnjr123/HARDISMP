@@ -3,6 +3,10 @@ package servlet;
 import GestionCatalogue.Offre;
 import GestionCatalogue.ServiceNonStandard;
 import GestionCatalogue.ServiceStandard;
+import GestionUtilisateur.Consultant;
+import GestionUtilisateur.PorteurOffre;
+import GestionUtilisateur.ReferentLocal;
+import GestionUtilisateur.UtilisateurHardis;
 import SessionUtilisateur.SessionAdministrateurLocal;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -152,6 +156,118 @@ public class ServletAdministrateur extends HttpServlet {
 
                     } else {
                         request.setAttribute("msgError", "Une erreur s'est produite, l'un des champs est vide.");
+                    }
+                    menuUtilisateurHardis(request, response);
+                }
+                //MODIFIER PORTEUR OFFRE
+                if (act.equals("modifierPorteurOffre")) {
+                    Long idPO = Long.parseLong(request.getParameter("id"));
+                    PorteurOffre po = sessionAdministrateur.rechercherPO(idPO);
+                    if (request.getParameter("nom") != null && !request.getParameter("nom").isEmpty() && request.getParameter("prenom") != null && !request.getParameter("prenom").isEmpty()&& request.getParameter("tel") != null && !request.getParameter("tel").isEmpty() && request.getParameter("mail") != null && !request.getParameter("mail").isEmpty() && request.getParameter("profilTechnique") != null && !request.getParameter("profilTechnique").isEmpty() && request.getParameter("offre") != null && !request.getParameter("offre").isEmpty() &&request.getParameter("agence") != null && !request.getParameter("agence").isEmpty()) {
+                        String nom = request.getParameter("nom");
+                        String prenom = request.getParameter("prenom");
+                        String tel = request.getParameter("tel");
+                        String mail = request.getParameter("mail");
+                        String profilTechnique = request.getParameter("profilTechnique");
+                        String statut = request.getParameter("actifInactif");
+                        Long idOffre = Long.parseLong(request.getParameter("offre"));
+                        Long idAgence = Long.parseLong(request.getParameter("agence"));
+                        boolean actifInactif;
+                        if(statut != null){
+                            actifInactif = true;
+                        }
+                        else{
+                            actifInactif = false;
+                        }
+                        UtilisateurHardis u = sessionAdministrateur.modifierPO(po.getId(), nom, prenom, mail, tel, profilTechnique, actifInactif, idOffre, idAgence);
+                        if (u != null) {
+                            request.setAttribute("msgSuccess", "Les modifications ont bien été enregistrées.");
+                        } else {
+                            request.setAttribute("msgError", "L'enregistrement des modifications a échoué.");
+                        }
+                    }
+                    else {
+                            request.setAttribute("msgError", "L'enregistrement des modifications a échoué.");
+                    }
+                    menuUtilisateurHardis(request, response);
+                }
+                
+                //MODIFIER REFERENT LOCAL
+                if (act.equals("modifierReferentLocal")) {
+                    Long idRL = Long.parseLong(request.getParameter("id"));
+                    ReferentLocal rl = sessionAdministrateur.rechercherReferentLocal(idRL);
+                    if (request.getParameter("nom") != null && !request.getParameter("nom").isEmpty() && request.getParameter("prenom") != null && !request.getParameter("prenom").isEmpty()&& request.getParameter("tel") != null && !request.getParameter("tel").isEmpty() && request.getParameter("mail") != null && !request.getParameter("mail").isEmpty() && request.getParameter("profilTechnique") != null && !request.getParameter("profilTechnique").isEmpty() && request.getParameter("offre") != null && !request.getParameter("offre").isEmpty() &&request.getParameter("agence") != null && !request.getParameter("agence").isEmpty() &&request.getParameter("plafond") != null && !request.getParameter("plafond").isEmpty()) {
+                        String nom = request.getParameter("nom");
+                        String prenom = request.getParameter("prenom");
+                        String tel = request.getParameter("tel");
+                        String mail = request.getParameter("mail");
+                        String profilTechnique = request.getParameter("profilTechnique");
+                        String statut = request.getParameter("actifInactif");
+                        Long idOffre = Long.parseLong(request.getParameter("offre"));
+                        Long idAgence = Long.parseLong(request.getParameter("agence"));
+                        float plafondDelegation = Float.parseFloat(request.getParameter("plafond"));
+                        if(plafondDelegation>0){
+                            boolean actifInactif;
+                            if(statut != null){
+                                actifInactif = true;
+                            }
+                            else{
+                                actifInactif = false;
+                            }
+                            UtilisateurHardis u = sessionAdministrateur.modifierReferentLocal(rl.getId(), nom, prenom, mail, tel, profilTechnique, actifInactif, plafondDelegation, idOffre, idAgence);
+                            if (u != null) {
+                                request.setAttribute("msgSuccess", "Les modifications ont bien été enregistrées.");
+                            } else {
+                                request.setAttribute("msgError", "L'enregistrement des modifications a échoué.");
+                            }
+                        }else{
+                            request.setAttribute("msgError", "Le plafond de délégation doit être supérieur à zéro.");
+                        }
+                    }
+                    else {
+                            request.setAttribute("msgError", "Tous les champs n'ont pas été correctement remplis.");
+                    }
+                    menuUtilisateurHardis(request, response);
+                }
+                
+                //MODIFIER CONSULTANT
+                if (act.equals("modifierConsultant")) {
+                    Long idConsultant = Long.parseLong(request.getParameter("id"));
+                    Consultant c = sessionAdministrateur.rechercherConsultant(idConsultant);
+                    String[] offres = request.getParameterValues("offres");
+                    if (request.getParameter("nom") != null && !request.getParameter("nom").isEmpty() && request.getParameter("prenom") != null && !request.getParameter("prenom").isEmpty()&& request.getParameter("tel") != null && !request.getParameter("tel").isEmpty() && request.getParameter("mail") != null && !request.getParameter("mail").isEmpty() && request.getParameter("profilTechnique") != null && !request.getParameter("profilTechnique").isEmpty() &&request.getParameter("agence") != null && !request.getParameter("agence").isEmpty() &&request.getParameter("plafond") != null && !request.getParameter("plafond").isEmpty() && offres.length != 0) {
+                        String nom = request.getParameter("nom");
+                        String prenom = request.getParameter("prenom");
+                        String tel = request.getParameter("tel");
+                        String mail = request.getParameter("mail");
+                        String profilTechnique = request.getParameter("profilTechnique");
+                        String statut = request.getParameter("actifInactif");
+                        Long idAgence = Long.parseLong(request.getParameter("agence"));
+                        List<Long> listOffre = new ArrayList<>();
+                        for (String idOffre : offres) {
+                            listOffre.add(Long.parseLong(idOffre));
+                        }
+                        float plafondDelegation = Float.parseFloat(request.getParameter("plafond"));
+                        if(plafondDelegation>=0){
+                            boolean actifInactif;
+                            if(statut != null){
+                                actifInactif = true;
+                            }
+                            else{
+                                actifInactif = false;
+                            }
+                            UtilisateurHardis u = sessionAdministrateur.modifierConsultant(c.getId(), nom, prenom, mail, tel, profilTechnique, actifInactif, plafondDelegation, idAgence, listOffre);
+                            if (u != null) {
+                                request.setAttribute("msgSuccess", "Les modifications ont bien été enregistrées.");
+                            } else {
+                                request.setAttribute("msgError", "L'enregistrement des modifications a échoué.");
+                            }
+                        }else{
+                            request.setAttribute("msgError", "Le plafond de délégation ne doit pas être négatif.");
+                        }
+                    }
+                    else {
+                            request.setAttribute("msgError", "Tous les champs n'ont pas été correctement remplis.");
                     }
                     menuUtilisateurHardis(request, response);
                 }
