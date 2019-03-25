@@ -10,7 +10,9 @@
 <jsp:useBean id="listeAgences" scope="request" class="java.util.Collection"></jsp:useBean>
 <jsp:useBean id="listeOffres" scope="request" class="java.util.Collection"></jsp:useBean>
 <jsp:useBean id="listeUtilisateursHardis" scope="request" class="java.util.Collection"></jsp:useBean>
-
+    <style>
+    <jsp:include page="../css/bootstrap4-toggle.css"/>   
+</style>
 <%
     Collection<Agence> listAgences = listeAgences;
     Collection<Offre> listOffres = listeOffres;
@@ -27,9 +29,9 @@
                 <h1 class="h2">Utilisateurs HARDIS</h1>                
             </div>
         </div>
-                         <%--Warning Or Sucess--%>   
-                    <% String error = (String) request.getAttribute("msgError");
-            if (request.getAttribute("msgError") != null) {%>
+        <%--Warning Or Sucess--%>   
+        <% String error = (String) request.getAttribute("msgError");
+                        if (request.getAttribute("msgError") != null) {%>
         <div class="alert alert-danger alert-dismissible fade in show">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>Attention !</strong>&nbsp;<%=(error)%>.
@@ -129,9 +131,9 @@
         </div>
     </div>
 
-<!--Modals-->
-   
- <%
+    <!--Modals-->
+
+    <%
         for (UtilisateurHardis uh : listeUH) {
     %>
     <div class="modal fade" id="modifierUser<%=(uh.getId())%>" tabindex="-1" role="dialog" aria-hidden="true">
@@ -177,7 +179,7 @@
                             </div>
                         </div>
                         <%if (uh.getDtype().equals("ReferentLocal")) {
-                            ReferentLocal refLoc = (ReferentLocal) uh;
+                                ReferentLocal refLoc = (ReferentLocal) uh;
                         %>
                         <div class="form-group">
                             <label for='plafond' >Plafond de déléguation</label>
@@ -190,7 +192,7 @@
                             }
                         %>
                         <%if (uh.getDtype().equals("Consultant")) {
-                            Consultant c = (Consultant) uh;
+                                Consultant c = (Consultant) uh;
                         %>
                         <div class="form-group">
                             <label for='plafond' >Plafond de déléguation</label>
@@ -212,61 +214,63 @@
                         </div>                 
                         <div class="form-group">
                             <%if (uh.getDtype().equals("ReferentLocal")) {
-                                ReferentLocal rl = (ReferentLocal) uh;
+                                    ReferentLocal rl = (ReferentLocal) uh;
                             %>
                             <label for="selectOffre">Offre *</label>
                             <select name="offre" class="form-control selectpicker" id="selectOffre" data-width="auto" show-tick>
                                 <%for (Offre o : listOffres) {%>
-                                <option <%if (rl.getOffre()==o){%>selected="selected"<% } %> value="<%=(o.getId())%>"><%=(o.getLibelle())%></option>
+                                <option <%if (rl.getOffre() == o) {%>selected="selected"<% }%> value="<%=(o.getId())%>"><%=(o.getLibelle())%></option>
                                 <%
                                     }
                                 %>                       
                             </select>
-                            <%}else if (uh.getDtype().equals("PorteurOffre")) {
+                            <%} else if (uh.getDtype().equals("PorteurOffre")) {
                                 PorteurOffre po = (PorteurOffre) uh;
                             %>
                             <label for="selectOffre">Offre *</label>
                             <select name="offre" class="form-control selectpicker" id="selectOffre" data-width="auto" show-tick>
                                 <%for (Offre o : listOffres) {%>
-                                <option <%if (po.getOffre()==o){%>selected="selected"<% } %> value="<%=o.getId()%>"><%=o.getLibelle()%></option>
+                                <option <%if (po.getOffre() == o) {%>selected="selected"<% }%> value="<%=o.getId()%>"><%=o.getLibelle()%></option>
                                 <% } %>                       
                             </select>
-                 <%--Error is here--%>
+                            <%--Error is here--%>
                             <% } else if (uh.getDtype().equals("Consultant")) {
                                 Consultant c = (Consultant) uh;
                             %>
                             <label for="selectOffre">Offre *</label>
                             <select name="offres" class="form-control selectpicker" id="selectOffre" data-width="auto" multiple show-tick>
                                 <%for (Offre o : listOffres) {%>
-                                <option <%for(Offre oc : c.getOffres()){if(oc.getId()==o.getId()){%> selected="selected" <% } } %> value="<%=o.getId()%>"><%=o.getLibelle()%></option>
+                                <option <%for (Offre oc : c.getOffres()) {
+                                        if (oc.getId() == o.getId()) {%> selected="selected" <% }
+                                    }%> value="<%=o.getId()%>"><%=o.getLibelle()%></option>
                                 <% } %>                       
                             </select>
                             <% } %> 
                         </div>
-                  <%--Fin erreur--%>
+                        <%--Fin erreur--%>
                         <div class="form-group">
                             <label for="selectAgence">Agence *</label>
                             <select name="agence" class="form-control selectpicker" id="selectAgence" data-width="auto" show-tick>
                                 <%for (Agence a : listAgences) {%>
-                                <option <%if (uh.getAgence()==a){%>selected="selected"<% } %> value="<%=a.getId()%>">Agence de&nbsp;<%=a.getLocalisation()%></option>
+                                <option <%if (uh.getAgence() == a) {%>selected="selected"<% }%> value="<%=a.getId()%>">Agence de&nbsp;<%=a.getLocalisation()%></option>
                                 <% } %>                       
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Statut du compte </label>
-                            <div class="input-group">
-                                <%
-                                if(uh.getActifInactif()==true){
-                                %>
-                                <input checked name="actifInactif" data-toggle="toggle" data-size="lg" type="checkbox" value="actif" data-onstyle="success" data-on="Actif" data-off="Inactif" data-width="200" >
-                                <%
-                                }else{
-                                %>
-                                <input name="actifInactif" data-toggle="toggle" data-size="lg" type="checkbox" value="actif"  data-onstyle="success" data-on="Actif" data-off="Inactif" data-width="200" >
-                                <%
+                            <label>Statut du compte&nbsp;&nbsp;&nbsp;&nbsp;</label>
+
+                            <%
+                                if (uh.getActifInactif() == true) {
+                            %>
+                            <input checked name="actifInactif" data-toggle="toggle" data-size="lg" type="checkbox" value="actif" data-onstyle="success" data-on="Actif" data-off="Inactif" data-width="200" >
+                            <%
+                            } else {
+                            %>
+                            <input name="actifInactif" data-toggle="toggle" data-size="lg" type="checkbox" value="actif"  data-onstyle="success" data-on="Actif" data-off="Inactif" data-width="200" >
+                            <%
                                 }
-                                %>
-                            </div>
+                            %>
+
                         </div>
                         <div class="modal-footer">
                             <input type="hidden" name="id" value="<%=(uh.getId())%>">

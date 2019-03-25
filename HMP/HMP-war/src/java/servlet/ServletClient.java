@@ -110,31 +110,57 @@ public class ServletClient extends HttpServlet {
                     String fonction = request.getParameter("fonction");
                     String idEntreprise = request.getParameter("idEntreprise");
                     if (nom != null && prenom != null && email != null && telephone != null && fonction != null && idEntreprise != null && !nom.isEmpty() && !prenom.isEmpty() && !email.isEmpty() && !telephone.isEmpty() && !fonction.isEmpty() && !idEntreprise.isEmpty()) {
-                        sessionClient.creerInterlocuteur(nom, prenom, telephone, fonction, Long.parseLong(idEntreprise));
+                        sessionClient.creerInterlocuteur(nom, prenom, telephone, email, fonction, Long.parseLong(idEntreprise));
                         request.setAttribute("msgSuccess", "L'interlocuteur a bien été créé");
                         monProfil(request, response);
                     } else {
                         request.setAttribute("msgError", "Erreurs lors de la création de l'interlocuteur");
                         monProfil(request, response);
                     }
-
                 }
-
-                //MODIFIER LE PRENOM DU CLIENT
-                if (act.equals("modifierPrenomClient")) {
-                    if (request.getParameter("nouveauPrenom") != null && !request.getParameter("nouveauPrenom").isEmpty()) {
-                        String prenom = request.getParameter("nouveauPrenom");
-                        Client cli = sessionClient.modifierClient(c.getId(), c.getNom(), prenom, c.getMail(), c.getTelephone());
-                        if (cli != null) {
-                            request.getSession().setAttribute(ATT_SESSION_CLIENT, cli);//Attribuer le Token
-                            request.setAttribute("msgSuccess", "Le prénom a bien été modifié");
-                            monProfil(request, response);
-                        } else {
-                            request.setAttribute("msgError", "Le prénom n'a pas été modifié");
-                            monProfil(request, response);
-                        }
+                //MODIFIER UN INTERLOCUTEUR
+                if (act.equals("modifierInterlocuteur")) {
+                    String nom = request.getParameter("nom");
+                    String prenom = request.getParameter("prenom");
+                    String email = request.getParameter("email");
+                    String telephone = request.getParameter("telephone");
+                    String fonction = request.getParameter("fonction");
+                    Long idInterlocuteur = Long.parseLong(request.getParameter("idInterlocuteur"));
+                    if (nom != null && prenom != null && email != null && telephone != null && fonction != null && !nom.isEmpty() && !prenom.isEmpty() && !email.isEmpty() && !telephone.isEmpty() && !fonction.isEmpty()) {
+                        sessionClient.modifierInterlocuteur(idInterlocuteur, nom, prenom, email, telephone, fonction);
+                        request.setAttribute("msgSuccess", "L'interlocuteur a bien été créé");
+                        monProfil(request, response);
+                    } else {
+                        request.setAttribute("msgError", "Erreurs lors de la création de l'interlocuteur");
+                        monProfil(request, response);
                     }
                 }
+                //MODIFIER UN INTERLOCUTEUR
+                if (act.equals("modifierInterlocuteur")) {
+                    String nom = request.getParameter("nom");
+                    String prenom = request.getParameter("prenom");
+                    String email = request.getParameter("email");
+                    String telephone = request.getParameter("telephone");
+                    String fonction = request.getParameter("fonction");
+                    Long idInterlocuteur = Long.parseLong(request.getParameter("idInterlocuteur"));
+                    if (nom != null && prenom != null && email != null && telephone != null && fonction != null && !nom.isEmpty() && !prenom.isEmpty() && !email.isEmpty() && !telephone.isEmpty() && !fonction.isEmpty()) {
+                        sessionClient.modifierInterlocuteur(idInterlocuteur, nom, prenom, email, telephone, fonction);
+                        request.setAttribute("msgSuccess", "L'interlocuteur a bien été modifié");
+                        monProfil(request, response);
+                    } else {
+                        request.setAttribute("msgError", "Erreurs lors de la modification de l'interlocuteur");
+                        monProfil(request, response);
+                    }
+                }
+
+                //SUPPRIMER L'INTERLOCUTEUR
+                if (act.equals("supprimerInterlocuteur")) {
+                        Long idInterlocuteur = Long.parseLong(request.getParameter("idInterlocuteur"));
+                        sessionClient.supprimerInterlocuteur(idInterlocuteur);
+                        request.setAttribute("msgSuccess", "L'interlocuteur a été supprimé");
+                        monProfil(request, response);
+                }
+                
                 //MODIFIER LE NOM DU CLIENT
                 if (act.equals("modifierNomClient")) {
                     if (request.getParameter("nouveauNom") != null && !request.getParameter("nouveauNom").isEmpty()) {

@@ -197,7 +197,7 @@
             <h4 class="card-header">Interlocuteurs</h4>
             <div class="table-responsive">
                 <table class="table">
-                    <caption>Interlocuteurs de votre entreprises </caption>
+                    <caption>Interlocuteurs de votre entreprise </caption>
                     <thead>
                         <tr>
                             <th>id</th>
@@ -205,6 +205,7 @@
                             <th>Email</th>
                             <th>Téléphone</th>
                             <th>Fonction</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -219,7 +220,10 @@
                             <td><%=(i.getMail())%></td>
                             <td><%=(i.getTelephone())%></td>
                             <td><%=(i.getFonction())%></td>
-
+                            <td>
+                                <a href="#" data-toggle="modal" data-target="#modificationInterlocuteur<%=(i.getId())%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="edit-2"></i></a>
+                                <a href="${pageContext.request.contextPath}/ServletClient?action=supprimerInterlocuteur&idInterlocuteur=<%=i.getId()%>" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a>
+                            </td>
                         </tr>
                         <%
                                 }
@@ -392,7 +396,7 @@
                             <label for="fonction">Fonction *</label>
                             <input name="fonction" type="text" class="form-control" id="lastName" placeholder="Fonction de l'interlocuteur" value="" required>
                             <div class="invalid-feedback">
-                                Le nom est obligatoire.
+                                La fonction est obligatoire.
                             </div>
                         </div>
 
@@ -408,6 +412,76 @@
             </div>
         </div>
     </div>
+    <%
+    for (Interlocuteur i : interlocuteurs) {
+    %>
+    <div class="modal fade" id="modificationInterlocuteur<%=(i.getId())%>" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modifier l'interlocuteur</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <%
+                    if (c.getEntreprise() != null) {
+                %>
+                <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" id="formInterlocuteur" novalidate="" method="POST" action="${pageContext.request.contextPath}/ServletClient">
+                    <input type="hidden" name="action" value="modifierInterlocuteur">
+                    <input type="hidden" name="idInterlocuteur" value="<%=(i.getId())%>">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="prenom">Prénom *</label>
+                            <input name="prenom" type="text" class="form-control" id="firstName" placeholder="Votre prénom" value="<%=(i.getPrenom())%>" required>
+                            <div class="invalid-feedback">
+                                Le prénom est obligatoire.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nom">Nom *</label>
+                            <input name="nom" type="text" class="form-control" id="lastName" placeholder="Votre nom" value="<%=(i.getNom())%>" required>
+                            <div class="invalid-feedback">
+                                Le nom est obligatoire.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <div class="input-group">
+                                <input name="email" type="email" class="form-control" id="email" placeholder="vous@votreentreprise.com" required value="<%=(i.getMail())%>">
+                                <div class="invalid-feedback" style="width: 100%;">
+                                    Veuillez entrer une adresse mail valide.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="telephone">Téléphone *</label>
+                            <div class="input-group">
+                                <input name="telephone" type="tel" id="telephone" class="form-control" placeholder="(+33)6xxxxxxxxx ou 00336xxxxxxxxx ou 0xxxxxxxxx" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$" required value="<%=(i.getTelephone())%>">
+                                <div class="invalid-feedback" style="width: 100%;">
+                                    Le numéro de téléphone est obligatoire et doit être conforme
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fonction">Fonction *</label>
+                            <input name="fonction" type="text" class="form-control" id="lastName" placeholder="Fonction de l'interlocuteur" value="<%=(i.getFonction())%>" required>
+                            <div class="invalid-feedback">
+                                La fonction est obligatoire.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Valider</button>
+                    </div>
+                </form>
+                <%
+                    }
+                %>
+            </div>
+        </div>
+    </div>
+<%}%>
             
 <%
 for (DemandeRattachement d : demandes) {
