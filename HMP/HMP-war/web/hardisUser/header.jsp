@@ -50,7 +50,7 @@
                                 <span><span data-feather="chevron-down"></span></span>  
                             </a>
                             <div class="collapse" id="collapseDevis">
-                                <a href="${pageContext.request.contextPath}/hardisUser/index.jsp" class="list-group-item list-group-item-action bg-light">
+                                <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=devisEnCours" class="list-group-item list-group-item-action bg-light">
                                     <span data-feather="file-plus"></span> Mes devis en cours
                                 </a>
                                 <a href="${pageContext.request.contextPath}/hardisUser/index.jsp" class="list-group-item list-group-item-action align-items-center bg-light">
