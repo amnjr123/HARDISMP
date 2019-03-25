@@ -79,11 +79,11 @@
                                 <a href="${pageContext.request.contextPath}/ServletClient?action=creerDevisOffres" class="list-group-item list-group-item-action bg-light">
                                     <span data-feather="file-plus"></span> Demander un devis
                                 </a>
-                                <a href="${pageContext.request.contextPath}/client/devis.jsp" class="list-group-item list-group-item-action align-items-center bg-light">
+                                <a href="${pageContext.request.contextPath}//ServletClient?action=DevisEnCours" class="list-group-item list-group-item-action align-items-center bg-light">
                                     <span data-feather="file-text"></span> Devis en cours
                                     <span class="badge badge-primary badge-pill"></span>
                                 </a>
-                                <a href="${pageContext.request.contextPath}/client/devis.jsp" class="list-group-item list-group-item-action bg-light">
+                                <a href="${pageContext.request.contextPath}/ServletClient?action=DevisTermines" class="list-group-item list-group-item-action bg-light">
                                     <span data-feather="check-square"></span> Devis terminés
                                     <span class="badge badge-primary badge-pill"></span>
                                 </a>

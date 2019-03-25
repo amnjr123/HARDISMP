@@ -8,6 +8,7 @@
 <script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/feather.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap-select.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap4-toggle.min.js"></script>
 
 <script>
             // Example starter JavaScript for disabling form submissions if there are invalid fields

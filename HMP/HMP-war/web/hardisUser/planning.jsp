@@ -1,3 +1,4 @@
+<%@page import="java.util.Locale"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="GestionUtilisateur.Disponibilite"%>
 <%@page import="java.util.Collection"%>
@@ -28,7 +29,7 @@
     </div>
     <center>
         <%--Modal error--%>
-         <% String error = (String) request.getAttribute("msgError");
+        <% String error = (String) request.getAttribute("msgError");
             if (request.getAttribute("msgError") != null) {%>
         <div class="alert alert-danger alert-dismissible fade in show">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -46,20 +47,20 @@
         <button class="btn btn-primary btn-lg" type="button" data-toggle="collapse" href="#collapseModifier" role="button" aria-expanded="false" aria-controls="collapseModifier" ><i style="width:32px; height:32px" data-feather="edit"></i></button>
     </center>
     <div class="container collapse" id="collapseModifier">
-         <form novalidate class="form needs-validation" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis">
-         <div class="form-group">
-            <label for="jourDisponible">Jour *</label>
-            <input type="date" class="form-control" id="jourDisponible" name="jourDisponible">
-        </div>
-        <center>
+        <form novalidate class="form needs-validation" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis">
             <div class="form-group">
-                <input name="choix" data-toggle="toggle" data-size="lg" type="checkbox" value="oui" required="true" data-onstyle="warning" data-on="Matin" data-off="Après-midi" data-width="220">
-                <input type="hidden" name="action" value="ajouterDisponibilite">
+                <label for="jourDisponible">Jour *</label>
+                <input type="date" class="form-control" id="jourDisponible" name="jourDisponible">
             </div>
-        </center>
-        <div class="form-group">
-            <button type="submit" class="btn btn-success btn-block">Ajouter disponibilité</button>
-        </div>
+            <center>
+                <div class="form-group">
+                    <input name="choix" data-toggle="toggle" data-size="lg" type="checkbox" value="oui" required="true" data-onstyle="warning" data-on="Matin" data-off="Après-midi" data-width="220">
+                    <input type="hidden" name="action" value="ajouterDisponibilite">
+                </div>
+            </center>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success btn-block">Ajouter disponibilité</button>
+            </div>
         </form>
 
         <form class="needs-validation form" novalidate role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis">  
@@ -68,9 +69,10 @@
                 <label for="selectOffre">Les disponibilités : </label>
                 <select name="disponibilite" class="form-control" id="selectOffre" data-width="auto" show-tick>
                     <option disabled>Choisir les disponibilités</option>
-                    <%for (Disponibilite d : listDisponibilite) {%>
+                    <%java.text.DateFormat df = new java.text.SimpleDateFormat("EEEEE dd MMMM  à HH:mm (yyyy)", Locale.FRENCH);
+                        for (Disponibilite d : listDisponibilite) {%>
                     <option value="<%=d.getId()%>">
-                        <%=d.getDateDebut()%>
+                        <%=df.format(d.getDateDebut())%>
                     </option>
                     <%}%>                       
                 </select>
@@ -80,6 +82,13 @@
                 <button type="submit" class="btn btn-warning btn-block">Supprimer la disponibilité</button>
             </div>
         </form>
+                <%--
+        <form class="needs-validation form" novalidate role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis" enctype="multipart/form-data" multiple>  
+            <input type="file" name="files" accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt, .pdf, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"  accept="">
+            <input type="hidden" name="action" value="upload">
+            <button type="submit" class="btn btn-danger btn-block">Upload files</button>
+        </form>
+                --%>
     </div>
 
     <hr/>
@@ -114,7 +123,7 @@
             buttonIcons: false, // show the prev/next text
             weekNumbers: true,
             navLinks: true, // can click day/week names to navigate views
-            editable: true,
+            editable: false,
             eventLimit: true, // allow "more" link when too many events
             timeFormat: 'H:mm',
             events: [

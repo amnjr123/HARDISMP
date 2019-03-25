@@ -69,7 +69,7 @@ public class ServletUtilisateurHardis extends HttpServlet {
                 if (act.equals("modifierTelephoneHardis")) {
                     if (request.getParameter("nouveauTelephone") != null && !request.getParameter("nouveauTelephone").isEmpty()) {
                         String tel = request.getParameter("nouveauTelephone");
-                        UtilisateurHardis u = sessionHardis.modifierCompte(uh.getId(), uh.getMail(), tel,uh.getActifInactif());
+                        UtilisateurHardis u = sessionHardis.modifierCompte(uh.getId(), uh.getMail(), tel, uh.getActifInactif());
                         if (u != null) {
                             sessionHttp.setAttribute(ATT_SESSION_HARDIS, u);
                             request.setAttribute("msgSuccess", "Le téléphone a bien été modifié");
@@ -85,7 +85,7 @@ public class ServletUtilisateurHardis extends HttpServlet {
                 if (act.equals("modifierMailHardis")) {
                     if (request.getParameter("email") != null && !request.getParameter("email").isEmpty()) {
                         String mail = request.getParameter("email");
-                        UtilisateurHardis u = sessionHardis.modifierCompte(uh.getId(), mail, uh.getTelephone(),uh.getActifInactif());
+                        UtilisateurHardis u = sessionHardis.modifierCompte(uh.getId(), mail, uh.getTelephone(), uh.getActifInactif());
                         if (u != null) {
                             sessionHttp.setAttribute(ATT_SESSION_HARDIS, u);
                             request.setAttribute("msgSuccess", "Le mail a bien été modifié");
@@ -97,15 +97,14 @@ public class ServletUtilisateurHardis extends HttpServlet {
 
                     }
                 }
-                
+
                 //MODIFIER LE STATUT ACTIF INACTIF
                 if (act.equals("modifierStatutHardis")) {
                     String statut = request.getParameter("actifInactif");
                     boolean actifInactif;
-                    if(statut != null){
+                    if (statut != null) {
                         actifInactif = true;
-                    }
-                    else{
+                    } else {
                         actifInactif = false;
                     }
                     UtilisateurHardis u = sessionHardis.modifierCompte(uh.getId(), uh.getMail(), uh.getTelephone(), actifInactif);
