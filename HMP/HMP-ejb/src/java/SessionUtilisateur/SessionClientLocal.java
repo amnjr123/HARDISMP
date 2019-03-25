@@ -72,7 +72,7 @@ public interface SessionClientLocal {
 
     Devis modifierDevisIncomplet(Long idDevis, String commentaireClient);
 
-    void DemandeCreationOuRattachement(Long idClient, String nom, String siret, String adresse, Long idAgence);
+    String DemandeCreationOuRattachement(Long idClient, String nom, String siret, String adresse, Long idAgence);
 
     Offre rechercherOffre(Long idOffre);
 

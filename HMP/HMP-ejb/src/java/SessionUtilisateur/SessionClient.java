@@ -120,7 +120,7 @@ public class SessionClient implements SessionClientLocal {
     
     //Méthode lorsque qu'un utilisateur valide le formulaire d'entreprise
     @Override
-    public void DemandeCreationOuRattachement(Long idClient, String nom, String siret, String adresse, Long idAgence){
+    public String DemandeCreationOuRattachement(Long idClient, String nom, String siret, String adresse, Long idAgence){
         Client c = clientFacade.rechercheClient(idClient);
         Agence a = null;
         if(idAgence!=null){
@@ -128,10 +128,10 @@ public class SessionClient implements SessionClientLocal {
         }
         Entreprise e = entrepriseFacade.rechercheEntrepriseSiret(siret);
         if(e==null){
-            creerDemandeEntreprise(idClient, nom, siret, adresse, idAgence);
+            return "hmp/demandeEntreprise/creation/"+creerDemandeEntreprise(idClient, nom, siret, adresse, idAgence).getId();
         }
         else{
-            creerDemandeRattachement(idClient, siret);
+            return "hmp/demandeEntreprise/rattachement/"+creerDemandeRattachement(idClient, siret).getId();
         }
     }
 

@@ -41,7 +41,7 @@
         <div class="card-body">
 
             <h5 class="card-title p-3 mb-2 bg-danger text-white">Vous n'êtes rattaché à aucune enreprise<br> afin de pouvoir profiter de l'ensemble des fonctionnalités d'Hardis Market place, nous vous prions de compléter les informations suivantes:</h5>
-            <form method="post" action="${pageContext.request.contextPath}/ServletClient">
+            <form method="post" action="${pageContext.request.contextPath}/ServletClient" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="creerDemandeEntreprise">
                 <div class="row">
                     <div class="col-md-6 mb-3">
@@ -83,7 +83,7 @@
                         </label>
                         <div class="col-sm-9">
                             <span class="btn btn-default btn-file">
-                                <input id="input-2" name="input2[]" type="file" class="file" multiple data-show-upload="true" data-show-caption="true">
+                                <input id="input-2" name="files[]" type="file" class="file" multiple data-show-upload="true" data-show-caption="true">
                             </span>
                         </div>
                     </div>
