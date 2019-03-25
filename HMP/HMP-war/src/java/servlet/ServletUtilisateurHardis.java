@@ -5,7 +5,6 @@ import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import SessionUtilisateur.SessionHardisLocal;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -52,18 +51,70 @@ public class ServletUtilisateurHardis extends HttpServlet {
                 }
 
                 //MODIFIER LE MOT DE PASSE DE LUTILISATEUR HARDIS
-                if (act.equals("modifierMDPClient")) {
+                if (act.equals("modifierMDPHardis")) {
                     if (request.getParameter("ancienMDP") != null && request.getParameter("nouveauMDP") != null && !request.getParameter("ancienMDP").isEmpty() && !request.getParameter("nouveauMDP").isEmpty()) {
                         String nouveau = request.getParameter("nouveauMDP");
                         String ancien = request.getParameter("ancienMDP");
-                        Utilisateur uti = sessionHardis.modifierUtilisateurMDP(uh.getId(), ancien, nouveau);
-                        if (uti != null) {
+                        Utilisateur u = sessionHardis.modifierUtilisateurMDP(uh.getId(), ancien, nouveau);
+                        if (u != null) {
                             request.setAttribute("msgSuccess", "Le mot de passe a bien été modifié");
                             jspClient = "/hardisUser/monProfil.jsp";
                         } else {
                             request.setAttribute("msgError", "Le mot de passe n'a pas été modifié, l'ancien mot de passe est incorrect");
                             jspClient = "/hardisUser/monProfil.jsp";
                         }
+                    }
+                }
+                //MODIFIER LE TELEPHONE
+                if (act.equals("modifierTelephoneHardis")) {
+                    if (request.getParameter("nouveauTelephone") != null && !request.getParameter("nouveauTelephone").isEmpty()) {
+                        String tel = request.getParameter("nouveauTelephone");
+                        UtilisateurHardis u = sessionHardis.modifierCompte(uh.getId(), uh.getMail(), tel, uh.getActifInactif());
+                        if (u != null) {
+                            sessionHttp.setAttribute(ATT_SESSION_HARDIS, u);
+                            request.setAttribute("msgSuccess", "Le téléphone a bien été modifié");
+                            jspClient = "/hardisUser/monProfil.jsp";
+                        } else {
+                            request.setAttribute("msgError", "Le téléphone n'a pas été modifié");
+                            jspClient = "/hardisUser/monProfil.jsp";
+                        }
+
+                    }
+                }
+                //MODIFIER LE MAIL
+                if (act.equals("modifierMailHardis")) {
+                    if (request.getParameter("email") != null && !request.getParameter("email").isEmpty()) {
+                        String mail = request.getParameter("email");
+                        UtilisateurHardis u = sessionHardis.modifierCompte(uh.getId(), mail, uh.getTelephone(), uh.getActifInactif());
+                        if (u != null) {
+                            sessionHttp.setAttribute(ATT_SESSION_HARDIS, u);
+                            request.setAttribute("msgSuccess", "Le mail a bien été modifié");
+                            jspClient = "/hardisUser/monProfil.jsp";
+                        } else {
+                            request.setAttribute("msgError", "Le mail n'a pas été modifié");
+                            jspClient = "/hardisUser/monProfil.jsp";
+                        }
+
+                    }
+                }
+
+                //MODIFIER LE STATUT ACTIF INACTIF
+                if (act.equals("modifierStatutHardis")) {
+                    String statut = request.getParameter("actifInactif");
+                    boolean actifInactif;
+                    if (statut != null) {
+                        actifInactif = true;
+                    } else {
+                        actifInactif = false;
+                    }
+                    UtilisateurHardis u = sessionHardis.modifierCompte(uh.getId(), uh.getMail(), uh.getTelephone(), actifInactif);
+                    if (u != null) {
+                        sessionHttp.setAttribute(ATT_SESSION_HARDIS, u);
+                        request.setAttribute("msgSuccess", "Votre changement de statut a bien été enregistré");
+                        jspClient = "/hardisUser/monProfil.jsp";
+                    } else {
+                        request.setAttribute("msgError", "Votre changement de statut a échoué");
+                        jspClient = "/hardisUser/monProfil.jsp";
                     }
                 }
 
@@ -96,10 +147,22 @@ public class ServletUtilisateurHardis extends HttpServlet {
                         menuPlanning(request, response);
                     }
                 }
-                
+
                 if (act.equals("planning")) {
                     menuPlanning(request, response);
                 }
+
+                if (act.equals("supprimerDisponibilite")) {
+                    String idDispo = request.getParameter("disponibilite");
+                    if (idDispo != null && !idDispo.isEmpty()) {
+                        sessionHardis.supprimerDisponibilite(Long.parseLong(idDispo));
+                        request.setAttribute("msgSuccess", "La disponibilité a bien été suupprimé");
+                    } else {
+                        request.setAttribute("msgError", "Erreur lors de la suppression.");
+                    }
+                    menuPlanning(request, response);
+                }
+
                 /*CATALOGUE*/
                 if (act.equals("offres")) {
                     request.setAttribute("listOffres", sessionHardis.afficherOffres());
@@ -112,6 +175,12 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     request.setAttribute("listeServicesStandards", sessionHardis.afficherServicesStandards(id));
                     request.setAttribute("listeServicesNonStandards", sessionHardis.afficherServicesNonStandards(id));
                     jspClient = "/hardisUser/services.jsp";
+                }
+                
+                /*GESTION DES DEVIS*/
+                if(act.equals("devisEnCours")){
+                    request.setAttribute("listeDevis", sessionHardis.rechercherDevis(uh.getId(),null, "ReponseEnCours"));
+                    jspClient = "/hardisUser/devisEnCours.jsp";
                 }
             }
         }

@@ -52,11 +52,9 @@ public interface SessionClientLocal {
 
     DemandeRattachement refuserDemandeRattachement(Long idDemande);
 
-    Interlocuteur creerInterlocuteur(String nom, String prenom, String telephone, String fonction, long idEntreprise);
-
     Interlocuteur supprimerInterlocuteur(Long idInterlocuteur);
 
-    Interlocuteur modifierInterlocuteur(Long idInterlocuteur, String nom, String prenom, String telephone, String fonction);
+    Interlocuteur modifierInterlocuteur(Long idInterlocuteur, String nom, String prenom,String mail, String telephone, String fonction);
 
     List<Interlocuteur> rechercherInterlocuteur(Long idEntreprise);
 
@@ -83,4 +81,6 @@ public interface SessionClientLocal {
     ServiceStandard rechercherServiceStandard(Long idService);
 
     ServiceNonStandard rechercherServiceNonStandard(Long idService);
+
+    Interlocuteur creerInterlocuteur(String nom, String prenom, String telephone, String mail, String fonction, long idEntreprise);
 }

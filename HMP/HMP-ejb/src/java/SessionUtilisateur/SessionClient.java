@@ -194,14 +194,14 @@ public class SessionClient implements SessionClientLocal {
     }
     
     @Override
-    public Interlocuteur creerInterlocuteur(String nom, String prenom, String telephone, String fonction, long idEntreprise) {
-        return interlocuteurFacade.creerInterlocuteur(nom, prenom, nom, telephone, fonction, entrepriseFacade.rechercheEntreprise(idEntreprise));
+    public Interlocuteur creerInterlocuteur(String nom, String prenom, String telephone,String mail, String fonction, long idEntreprise) {
+        return interlocuteurFacade.creerInterlocuteur(nom, prenom, mail, telephone, fonction, entrepriseFacade.rechercheEntreprise(idEntreprise));
     }
     
     @Override
-    public Interlocuteur modifierInterlocuteur(Long idInterlocuteur, String nom, String prenom, String telephone, String fonction) {
+    public Interlocuteur modifierInterlocuteur(Long idInterlocuteur, String nom, String prenom, String mail, String telephone, String fonction) {
         Interlocuteur i = interlocuteurFacade.rechercheInterlocuteur(idInterlocuteur);
-        return interlocuteurFacade.modifierInterlocuteur(i,nom, prenom, nom, telephone, fonction);
+        return interlocuteurFacade.modifierInterlocuteur(i,nom, prenom, mail, telephone, fonction);
     }
     
     @Override

@@ -155,4 +155,10 @@ public interface SessionAdministrateurLocal {
     Client modifierClient(Long id, String nom, String prenom, String mail, String tel);
 
     List rechercheEntreprise(String recherche);
+
+    PorteurOffre rechercherPO(Long idPorteurOffre);
+
+    ReferentLocal rechercherReferentLocal(Long idReferentLocal);
+
+    Consultant rechercherConsultant(Long idConsultant);
 }
