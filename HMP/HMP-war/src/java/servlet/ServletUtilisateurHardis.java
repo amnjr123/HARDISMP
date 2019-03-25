@@ -177,6 +177,12 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     request.setAttribute("listeServicesNonStandards", sessionHardis.afficherServicesNonStandards(id));
                     jspClient = "/hardisUser/services.jsp";
                 }
+                
+                /*GESTION DES DEVIS*/
+                if(act.equals("devisEnCours")){
+                    request.setAttribute("listeDevis", sessionHardis.rechercherDevis(uh.getId(),null, "ReponseEnCours"));
+                    jspClient = "/hardisUser/devisEnCours.jsp";
+                }
             }
         }
 
