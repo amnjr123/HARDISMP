@@ -16,6 +16,7 @@ import FacadeDevis.DevisFacadeLocal;
 import FacadeDevis.DevisNonStandardFacadeLocal;
 import FacadeDevis.DevisStandardFacadeLocal;
 import FacadeDevis.HistoriqueUtilisateurDevisFacadeLocal;
+import FacadeDevis.InterventionFacadeLocal;
 import FacadeDevis.PropositionFacadeLocal;
 import FacadeUtilisateur.AgenceFacadeLocal;
 import FacadeUtilisateur.CVFacadeLocal;
@@ -35,6 +36,7 @@ import GestionDevis.Devis;
 import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
 import GestionDevis.HistoriqueUtilisateurDevis;
+import GestionDevis.Intervention;
 import GestionDevis.Proposition;
 import GestionUtilisateur.CV;
 import GestionUtilisateur.Client;
@@ -60,6 +62,9 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class SessionHardis implements SessionHardisLocal {
+
+    @EJB
+    private InterventionFacadeLocal interventionFacade;
 
     @EJB
     private ServiceNonStandardFacadeLocal serviceNonStandardFacade;
@@ -165,7 +170,6 @@ public class SessionHardis implements SessionHardisLocal {
     public Disponibilite creerDisponibilite(Long idUtilisateurHardis, Date dateDispo,int i){
         //int i = 0 pour la première demi journée (8h 12h) et i=1 pour la deuxième demi-journée (14h 18h)
         UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
-        Disponibilite dispo = null;
         //Disponibilité par demi-journée
         Calendar cal = Calendar.getInstance();
         cal.setTime(dateDispo);
@@ -186,7 +190,20 @@ public class SessionHardis implements SessionHardisLocal {
             calFin.set(Calendar.MINUTE, 0);
             calFin.set(Calendar.HOUR_OF_DAY, 12);
             Date dateFin = calFin.getTime();
-            dispo = disponibiliteFacade.creerDisponibilite(dateDebut, dateFin, uh);
+            //On vérifie que la dispo n'existe pas déjà
+            Disponibilite dispo = disponibiliteFacade.rechercheDisponibilite(uh,dateDebut);
+            if(dispo==null){
+                //On vérifie qu'il n'y a pas d'intervention (1 journée) plannifiée à cette date
+                Intervention intervention = interventionFacade.rechercheIntervention(uh, dateDebut);
+                if(intervention==null){
+                    dispo = disponibiliteFacade.creerDisponibilite(dateDebut, dateFin, uh);
+                }
+                else{
+                    return null;
+                }
+            }else{
+                return null;
+            }
         }
         else if(i==1){
             //Début de la dispo
@@ -205,9 +222,22 @@ public class SessionHardis implements SessionHardisLocal {
             calFin.set(Calendar.MINUTE, 0);
             calFin.set(Calendar.HOUR_OF_DAY, 18);
             Date dateFin = calFin.getTime();
-            dispo = disponibiliteFacade.creerDisponibilite(dateDebut, dateFin, uh);
+            //On vérifie que la dispo n'existe pas déjà
+            Disponibilite dispo = disponibiliteFacade.rechercheDisponibilite(uh,dateDebut);
+            if(dispo==null){
+                //On vérifie qu'il n'y a pas d'intervention (1 journée) plannifiée à cette date
+                Intervention intervention = interventionFacade.rechercheIntervention(uh, dateDebut);
+                if(intervention==null){
+                    dispo = disponibiliteFacade.creerDisponibilite(dateDebut, dateFin, uh);
+                }
+                else{
+                    return null;
+                }
+            }else{
+                return null;
+            }
         }
-        return dispo;
+        return null;
     }
     
     @Override
@@ -352,16 +382,19 @@ public class SessionHardis implements SessionHardisLocal {
     
     @Override
     public DevisNonStandard envoyerDevisNonStandard(Long idDevisNonStandard){ 
-            DevisNonStandard d = devisNonStandardFacade.rechercheDevisNonStandard(idDevisNonStandard);
+        DevisNonStandard d = devisNonStandardFacade.rechercheDevisNonStandard(idDevisNonStandard);
+        //Vérification s'il y a au moins une proposition commerciale
+        if(d.getPropositions().size() > 0){
+            //Si oui alors on vérifie le plafond de délégation de l'utilisateur en charge du devis
             UtilisateurHardis uh = d.getUtilisateurHardis();
             if(uh.getDtype()=="PorteurOffre"){
                 PorteurOffre po = (PorteurOffre) uh;
-                return devisStandardFacade.envoyerDevisStandard(d);
+                return devisNonStandardFacade.envoyerDevisNonStandard(d);
             }
             else if(uh.getDtype()=="ReferentLocal"){
                 ReferentLocal rl = (ReferentLocal) uh;
                 if(rl.getPlafondDelegation()>=d.getMontant()){
-                    return devisStandardFacade.envoyerDevisStandard(d);
+                    return devisNonStandardFacade.envoyerDevisNonStandard(d);
                 }
                 else{
                     return null;
@@ -370,7 +403,7 @@ public class SessionHardis implements SessionHardisLocal {
             else if(uh.getDtype()=="Consultant"){
                 Consultant c = (Consultant) uh;
                 if(c.getPlafondDelegation()>=d.getMontant()){
-                    return devisStandardFacade.envoyerDevisStandard(d);
+                    return devisNonStandardFacade.envoyerDevisNonStandard(d);
                 }
                 else{
                     return null;
@@ -379,6 +412,10 @@ public class SessionHardis implements SessionHardisLocal {
             else{
                 return null;
             }
+        }
+        else{
+            return null;
+        }
     }
     
     

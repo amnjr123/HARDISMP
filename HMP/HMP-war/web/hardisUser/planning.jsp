@@ -96,8 +96,6 @@
 
 </main>
 <jsp:include page="footer.jsp"/>
-<script src="${pageContext.request.contextPath}/js/bootstrap4-toggle.min.js" type="text/javascript"></script>
-
 <script src='${pageContext.request.contextPath}/js/fullcalendar/main.js'></script>
 <script src="${pageContext.request.contextPath}/js/fullcalendar/locale-all.min.js" ></script>
 <script src='${pageContext.request.contextPath}/js/fullcalendar/interaction.js'></script>

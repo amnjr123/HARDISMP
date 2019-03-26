@@ -29,7 +29,7 @@ public class ServletTelechargement extends HttpServlet {
 
         SFTPConnexion con = new SFTPConnexion();
 
-        try {
+        /*try {
 
 
         String idDemande = request.getParameter("idDemande");
@@ -44,7 +44,7 @@ public class ServletTelechargement extends HttpServlet {
             Logger.getLogger(ServletTelechargement.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        out.flush();
+        out.flush();*/
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
