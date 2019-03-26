@@ -75,7 +75,7 @@
                         <tr>
                             <td><%=st.getId()%></td>
                             <td><%=st.getNom()%></td>
-                            <td><%=st.getDescriptionService()%></td>
+                            <td style="max-width:20em"><%=st.getDescriptionService()%></td>
                             <td><%if (st.getLieuIntervention().toString().equals("Agence_Hardis")) {%>Agence Hardis<%} else if (st.getLieuIntervention().toString().equals("Site_Client")) {%>Site Client<%} else {%>Mixte<%}%></td>
                             <td><%=st.getCout()%></td>
                             <td class="text-center"><%if (st.getDateFinValidite().after(date)) {%><i data-feather="check-circle" style="color:green"></i><%} else {%><i data-feather="x" style="color:red"></i><%}%></td>
@@ -129,7 +129,7 @@
                         <tr>
                             <td><%=st.getId()%></td>
                             <td><%=st.getNom()%></td>
-                            <td><%=st.getDescriptionService()%></td>
+                            <td style="max-width:20em"><%=st.getDescriptionService()%></td>
                             <td><%if (st.getLieuIntervention().toString().equals("Agence_Hardis")) {%>Agence Hardis<%} else if (st.getLieuIntervention().toString().equals("Site_Client")) {%>Site Client<%} else {%>Mixte<%}%></td>
                             <td><%=st.getCout()%></td>
                             <td class="text-center"><%if (st.getDateFinValidite().after(date)) {%><i data-feather="check-circle" style="color:green"></i><%} else {%><i data-feather="x" style="color:red"></i><%}%></td>

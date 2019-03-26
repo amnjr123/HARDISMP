@@ -55,6 +55,6 @@ public interface DevisStandardFacadeLocal {
 
     List<DevisStandard> rechercheDevisStandard();
 
-    DevisStandard modifierDevisStandard(DevisStandard d, String commentaireClient);
+    DevisStandard modifierDevisStandard(DevisStandard d, String commentaireClient, ReferentLocal rl, Agence agence);
     
 }

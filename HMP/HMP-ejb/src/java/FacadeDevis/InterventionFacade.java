@@ -13,6 +13,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -66,6 +67,25 @@ public class InterventionFacade extends AbstractFacade<Intervention> implements 
     @Override
     public List<Intervention> rechercheIntervention(){
         return findAll();
+    }
+    
+    @Override
+    public Intervention rechercheIntervention(UtilisateurHardis uh, Date dateDispo) {
+        Query requete = getEntityManager().createQuery("select i from Intervention as i where i.UtilisateurHardis=:uh and i.dateInterventionDemandee=:dateDispo");
+        requete.setParameter("uh", uh);
+        requete.setParameter("dateDispo", dateDispo);
+        if (!requete.getResultList().isEmpty()) {
+            return (Intervention) requete.getSingleResult();
+        } else {
+            return null;
+        }
+    }
+    
+    @Override
+    public List<Intervention> rechercheInterventions(UtilisateurHardis uh) {
+        Query requete = getEntityManager().createQuery("select i from Intervention as i where i.UtilisateurHardis=:uh");
+        requete.setParameter("uh", uh);
+        return requete.getResultList();
     }
     
 }

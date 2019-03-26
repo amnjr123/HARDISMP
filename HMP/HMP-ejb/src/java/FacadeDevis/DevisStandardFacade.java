@@ -42,35 +42,39 @@ public class DevisStandardFacade extends AbstractFacade<DevisStandard> implement
     public DevisStandard creerDevisStandard(float montant, String commentaireClient, ServiceStandard serviceStandard, ReferentLocal rl, Agence agence, Client c){
         DevisStandard d = new DevisStandard();
         if(commentaireClient==null || commentaireClient.equalsIgnoreCase("")){
-            d.setStatut(StatutDevis.Incomplet);d.setDateCreation(new Date());
+            d.setStatut(StatutDevis.Incomplet);
         }
         else{
             d.setStatut(StatutDevis.ReponseEnCours);
             d.setCommentaireClient(commentaireClient);
+            d.setAgence(agence);
+            d.setUtilisateurHardis(rl); 
         }
         d.setDateCreation(new Date());
         d.setMontant(montant);
         d.setServiceStandard(serviceStandard);
-        d.setUtilisateurHardis(rl);
-        d.setAgence(agence);
         d.setClient(c);
         create(d);  
         return d;
     }
     
+    //Méthode pour qu'un client puisse compléter son devis
     @Override
-    public DevisStandard modifierDevisStandard(DevisStandard d, String commentaireClient){
+    public DevisStandard modifierDevisStandard(DevisStandard d, String commentaireClient,ReferentLocal rl, Agence agence){
         if(commentaireClient==null || commentaireClient.equalsIgnoreCase("")){
             d.setStatut(StatutDevis.Incomplet);
         }
         else{
             d.setStatut(StatutDevis.ReponseEnCours);
             d.setCommentaireClient(commentaireClient);
+            d.setAgence(agence);
+            d.setUtilisateurHardis(rl); 
         }
         edit(d);
         return d;
     }
     
+    //Méthode pour qu'un utilisateur Hardis puisse modifier le prix
     @Override
     public DevisStandard modifierDevisStandard(DevisStandard d, float montant){
         d.setMontant(montant);
@@ -118,6 +122,7 @@ public class DevisStandardFacade extends AbstractFacade<DevisStandard> implement
         return d;
     }
     
+    //Méthode pour qu'un client puisse supprimer un devis INCOMPLET uniquement
     @Override
     public DevisStandard supprimerDevisStandard(DevisStandard d){
         remove(d);

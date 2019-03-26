@@ -43,5 +43,7 @@ public interface DisponibiliteFacadeLocal {
     List<Disponibilite> rechercheDisponibilites();
     
     List<Disponibilite> rechercheDisponibilites(UtilisateurHardis uh);
+
+    Disponibilite rechercheDisponibilite(UtilisateurHardis uh, Date dateDispo);
     
 }

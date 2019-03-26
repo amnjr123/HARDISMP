@@ -8,6 +8,8 @@
 <script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/feather.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/fileinput.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap4-toggle.min.js"></script>
+
 <script src="https://fr.snatchbot.me/sdk/webchat.min.js"></script>
 <script> Init('?botID=49391&appID=webchat', 600, 600, 'https://dvgpba5hywmpo.cloudfront.net/media/image/JIod5vjYEQFaz3yMV5FgTC2GG', 'bubble', '#00AFF0', 90, 90, 62.99999999999999, '', '1', '#FFFFFF', '#FFFFFF', 0); /* for authentication of its users, you can define your userID (add &userID={login}) */</script>
 <script>

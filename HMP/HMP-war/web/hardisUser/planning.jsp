@@ -1,3 +1,8 @@
+<%@page import="GestionDevis.Intervention"%>
+<%@page import="GestionDevis.Devis"%>
+<%@page import="GestionDevis.DevisStandard"%>
+<%@page import="GestionUtilisateur.Client"%>
+<%@page import="GestionUtilisateur.Entreprise"%>
 <%@page import="java.util.Locale"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="GestionUtilisateur.Disponibilite"%>
@@ -20,7 +25,9 @@
 </style>
 
 <jsp:useBean id="listDispo" scope="request" class="java.util.Collection"></jsp:useBean>
+<jsp:useBean id="listInterv" scope="request" class="java.util.Collection"></jsp:useBean>
 <%Collection<Disponibilite> listDisponibilite = listDispo;%>
+<%Collection<Intervention> listIntervention = listInterv;%>
 
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
 
@@ -96,8 +103,6 @@
 
 </main>
 <jsp:include page="footer.jsp"/>
-<script src="${pageContext.request.contextPath}/js/bootstrap4-toggle.min.js" type="text/javascript"></script>
-
 <script src='${pageContext.request.contextPath}/js/fullcalendar/main.js'></script>
 <script src="${pageContext.request.contextPath}/js/fullcalendar/locale-all.min.js" ></script>
 <script src='${pageContext.request.contextPath}/js/fullcalendar/interaction.js'></script>
@@ -128,6 +133,7 @@
             timeFormat: 'H:mm',
             events: [
     <%
+        //Affichage des disponibilités dans le calendrier
         for (Disponibilite disponibilitesJava : listDisponibilite) {
             Calendar calDebut = Calendar.getInstance();
             calDebut.setTime(disponibilitesJava.getDateDebut());
@@ -136,7 +142,6 @@
             int dayDebut = calDebut.get(Calendar.DAY_OF_MONTH);
             int hourDebut = calDebut.get(Calendar.HOUR_OF_DAY);
             int minuteDebut = calDebut.get(Calendar.MINUTE);
-            System.out.println(hourDebut);
             Calendar calFin = Calendar.getInstance();
             calFin.setTime(disponibilitesJava.getDateFin());
             int yearFin = calFin.get(Calendar.YEAR);
@@ -150,7 +155,28 @@
                     start: new Date(<%=yearDebut%>,<%=monthDebut%>, <%=dayDebut%>, <%=hourDebut%>, <%=minuteDebut%>),
                     end: new Date(<%=yearFin%>, <%=monthFin%>, <%=dayFin%>, <%=hourFin%>, <%=minuteFin%>),
                     allDay: false,
-                    className: 'info'
+                    className: 'info',
+                    backgroundColor : '#1abc9c',
+                    displayEventEnd : true
+                },
+    <%}%>
+    <%
+        //Affichage des Interventions dans le calendrier
+        for (Intervention interventionJava : listIntervention) {
+            Calendar calDebut = Calendar.getInstance();
+            calDebut.setTime(interventionJava.getDateInterventionDemandee());
+            int yearDebut = calDebut.get(Calendar.YEAR);
+            int monthDebut = calDebut.get(Calendar.MONTH);
+            int dayDebut = calDebut.get(Calendar.DAY_OF_MONTH);     
+    %>
+                {
+                    title: 'Intervention \n<%=interventionJava.getDevis().getClient().getEntreprise().getNom()%>',
+                    start: new Date(<%=yearDebut%>,<%=monthDebut%>, <%=dayDebut%>, 8, 0),
+                    end: new Date(<%=yearDebut%>,<%=monthDebut%>, <%=dayDebut%>, 18, 0),
+                    allDay: false,
+                    className: 'info',
+                    backgroundColor : '#e74c3c',
+                    displayEventEnd : true
                 },
     <%}%>
             ],

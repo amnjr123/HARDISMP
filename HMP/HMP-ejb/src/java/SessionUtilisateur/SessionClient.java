@@ -254,9 +254,21 @@ public class SessionClient implements SessionClientLocal {
         //ATTENTION DANS LES SERVLETS : LE COMMENTAIRE CLIENT PEUT ETRE NUL
         Client c = clientFacade.rechercheClient(idClient);
         ServiceStandard s = serviceStandardFacade.rechercheServiceStandard(idServiceStandard);
-        ReferentLocal referentLocal = referentLocalFacade.rechercheReferentLocal(c.getEntreprise().getAgence(), s.getOffre());
-        DevisStandard d = devisStandardFacade.creerDevisStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence(),c);
-        historiqueUtilisateurDevisFacade.creerPremierHistoriqueUtilisateurDevis(d, referentLocal);
+        DevisStandard d;
+        if(commentaireClient!= null){
+            if(commentaireClient.equalsIgnoreCase("")){
+                //Pour un devis complet
+                ReferentLocal referentLocal = referentLocalFacade.rechercheReferentLocal(c.getEntreprise().getAgence(), s.getOffre());
+                d = devisStandardFacade.creerDevisStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence(),c);
+                historiqueUtilisateurDevisFacade.creerPremierHistoriqueUtilisateurDevis(d, referentLocal);
+            }else{
+                //Pour un devis incomplet
+                d = devisStandardFacade.creerDevisStandard(s.getCout(), null, s, null, null,c);
+            }
+        }else{
+            //Pour un devis incomplet
+            d = devisStandardFacade.creerDevisStandard(s.getCout(), null, s, null, null,c);
+        }
         return d;
     }
     
@@ -265,9 +277,22 @@ public class SessionClient implements SessionClientLocal {
         //ATTENTION DANS LES SERVLETS : LE COMMENTAIRE CLIENT PEUT ETRE NUL
         Client c = clientFacade.rechercheClient(idClient);
         ServiceNonStandard s = serviceNonStandardFacade.rechercheServiceNonStandard(idServiceNonStandard);
-        ReferentLocal referentLocal = referentLocalFacade.rechercheReferentLocal(c.getEntreprise().getAgence(), s.getOffre());
-        DevisNonStandard dns = devisNonStandardFacade.creerDevisNonStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence(),c);
-        historiqueUtilisateurDevisFacade.creerPremierHistoriqueUtilisateurDevis(dns, referentLocal);
+        DevisNonStandard dns;
+        if(commentaireClient!= null){
+            if(commentaireClient.equalsIgnoreCase("")){
+                //Pour un devis complet
+                ReferentLocal referentLocal = referentLocalFacade.rechercheReferentLocal(c.getEntreprise().getAgence(), s.getOffre());
+                dns = devisNonStandardFacade.creerDevisNonStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence(),c);
+                historiqueUtilisateurDevisFacade.creerPremierHistoriqueUtilisateurDevis(dns, referentLocal);
+            }else{
+                //Pour un devis incomplet
+                dns = devisNonStandardFacade.creerDevisNonStandard(s.getCout(), null, s, null, null,c);
+            }
+        }
+        else{
+                //Pour un devis incomplet
+                dns = devisNonStandardFacade.creerDevisNonStandard(s.getCout(), null, s, null, null,c);
+        }
         return dns;
     }
     
@@ -275,20 +300,27 @@ public class SessionClient implements SessionClientLocal {
     public Devis modifierDevisIncomplet(Long idDevis, String commentaireClient) {
         //ATTENTION DANS LES SERVLETS : LE COMMENTAIRE CLIENT PEUT ETRE NUL
         Devis d = devisFacade.rechercherDevis(idDevis);
-        if(d.getStatut()==StatutDevis.Incomplet){
-            if(d.getDtype().equalsIgnoreCase("devisstandard")){
-                DevisStandard ds = devisStandardFacade.rechercheDevisStandard(idDevis);
-                return devisStandardFacade.modifierDevisStandard(ds, commentaireClient);
-            }
-            else{
-                DevisNonStandard dns = devisNonStandardFacade.rechercheDevisNonStandard(idDevis);
-                return devisNonStandardFacade.modifierDevisNonStandard(dns, commentaireClient);
+        if(commentaireClient!= null){
+            if(commentaireClient.equalsIgnoreCase("")){
+                if(d.getStatut()==StatutDevis.Incomplet){
+                    if(d.getDtype().equalsIgnoreCase("devisstandard")){
+                        DevisStandard ds = devisStandardFacade.rechercheDevisStandard(idDevis);
+                        ReferentLocal referentLocal = referentLocalFacade.rechercheReferentLocal(ds.getClient().getEntreprise().getAgence(), ds.getServiceStandard().getOffre());
+                        historiqueUtilisateurDevisFacade.creerPremierHistoriqueUtilisateurDevis(ds, referentLocal);
+                        devisStandardFacade.modifierDevisStandard(ds, commentaireClient,referentLocal,ds.getClient().getEntreprise().getAgence());
+                    }
+                    else{
+                        DevisNonStandard dns = devisNonStandardFacade.rechercheDevisNonStandard(idDevis);
+                        ReferentLocal referentLocal = referentLocalFacade.rechercheReferentLocal(dns.getClient().getEntreprise().getAgence(), dns.getServiceNonStandard().getOffre());
+                        historiqueUtilisateurDevisFacade.creerPremierHistoriqueUtilisateurDevis(dns, referentLocal);
+                        devisNonStandardFacade.modifierDevisNonStandard(dns, commentaireClient,referentLocal,dns.getClient().getEntreprise().getAgence());
+                    }
+                }
             }
         }
-        else{
-            return null;
-        }
+        return d;
     }
+    
     
     @Override
     public List<Devis> rechercherDevis(Long idClient, String statutDevis){

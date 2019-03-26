@@ -73,5 +73,17 @@ public class DisponibiliteFacade extends AbstractFacade<Disponibilite> implement
         requete.setParameter("uh", uh);
         return requete.getResultList();
     }
+    
+    @Override
+    public Disponibilite rechercheDisponibilite(UtilisateurHardis uh, Date dateDispo) {
+        Query requete = getEntityManager().createQuery("select d from Disponibilite as d where d.utilisateurHardis=:uh and d.dateDebut=:dateDispo");
+        requete.setParameter("uh", uh);
+        requete.setParameter("dateDispo", dateDispo);
+        if (!requete.getResultList().isEmpty()) {
+            return (Disponibilite) requete.getSingleResult();
+        } else {
+            return null;
+        }
+    }
 
 }

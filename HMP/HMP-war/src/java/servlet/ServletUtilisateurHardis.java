@@ -3,6 +3,7 @@ package servlet;
 import Enum.SFTPConnexion;
 import GestionCatalogue.Offre;
 import GestionUtilisateur.CV;
+import GestionUtilisateur.Disponibilite;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import SessionUtilisateur.SessionHardisLocal;
@@ -40,7 +41,8 @@ public class ServletUtilisateurHardis extends HttpServlet {
     private UtilisateurHardis uh;
 
     protected void menuPlanning(HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("listDispo", sessionHardis.afficherDisponibilites((UtilisateurHardis) request.getSession().getAttribute(ATT_SESSION_HARDIS)));
+        request.setAttribute("listDispo", sessionHardis.afficherDisponibilites(uh.getId()));
+        request.setAttribute("listInterv", sessionHardis.afficherInterventions(uh.getId()));
         jspClient = "/hardisUser/planning.jsp";
     }
 
@@ -178,8 +180,13 @@ public class ServletUtilisateurHardis extends HttpServlet {
                             Logger.getLogger(ServletUtilisateurHardis.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         if (d != null) {
-                            sessionHardis.creerDisponibilite(uh.getId(), d, Integer.parseInt(matin));
-                            request.setAttribute("msgSuccess", "La date a bien été enregistrée");
+                            Disponibilite dispo = sessionHardis.creerDisponibilite(uh.getId(), d, Integer.parseInt(matin));
+                            if (dispo != null){
+                                request.setAttribute("msgSuccess", "La date a bien été enregistrée");
+                            }
+                            else{
+                                request.setAttribute("msgError", "Vous avez déjà un évènement plannifié à cette date");
+                            }
                         } else {
                             request.setAttribute("msgError", "Le champ date est vide.");
                         }
@@ -195,7 +202,7 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     String idDispo = request.getParameter("disponibilite");
                     if (idDispo != null && !idDispo.isEmpty()) {
                         sessionHardis.supprimerDisponibilite(Long.parseLong(idDispo));
-                        request.setAttribute("msgSuccess", "La disponibilité a bien été suupprimé");
+                        request.setAttribute("msgSuccess", "La disponibilité a bien été supprimée");
                     } else {
                         request.setAttribute("msgError", "Erreur lors de la suppression.");
                     }
