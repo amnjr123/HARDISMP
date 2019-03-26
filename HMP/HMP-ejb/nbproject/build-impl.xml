@@ -800,6 +800,7 @@ exists or setup the property manually. For example like this:
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
             <attribute name="Extension-List" value="jar "/>
             <attribute name="jar-Extension-Name" value="${manifest.file.reference.jsch-0.1.54.jar}"/>
+
         </manifest>
     </target>
     <target depends="compile" name="library-inclusion-in-manifest">

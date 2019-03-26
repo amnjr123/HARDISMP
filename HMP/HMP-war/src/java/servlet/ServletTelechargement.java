@@ -29,7 +29,9 @@ public class ServletTelechargement extends HttpServlet {
 
         SFTPConnexion con = new SFTPConnexion();
 
-        /*try {
+
+/*
+        try {
 
 
         String idDemande = request.getParameter("idDemande");
