@@ -277,10 +277,13 @@ public class ServletClient extends HttpServlet {
                     request.setAttribute("listeServicesNonStandards", sessionClient.rechercherServicesNonStandards(id));
                     jspClient = "/client/creerDevisServices.jsp";
                 }
+                
+                
+                
                 if (act.equals("creerDevisStandard")) {
                     Long id = Long.parseLong(request.getParameter("id").trim());
                     ServiceStandard st = sessionClient.rechercherServiceStandard(id);
-                    request.setAttribute("service", st);
+                    //request.setAttribute("service", st);
                     jspClient = "/client/creerDevisStandard.jsp";
                 }
                 if (act.equals("creerDevisNonStandard")) {
