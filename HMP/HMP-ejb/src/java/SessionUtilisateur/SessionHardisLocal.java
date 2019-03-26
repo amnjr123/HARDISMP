@@ -11,6 +11,7 @@ import GestionCatalogue.Service;
 import GestionCatalogue.ServiceNonStandard;
 import GestionCatalogue.ServiceStandard;
 import GestionDevis.Devis;
+import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
 import GestionDevis.Proposition;
 import GestionUtilisateur.CV;
@@ -54,8 +55,6 @@ public interface SessionHardisLocal {
 
     List<Devis> rechercherDevis(Long idUtilisateurHardis, Long idClient, String statutDevis);
 
-    DevisStandard envoyerDevisStandard(Long idDevisStandard);
-
     Proposition creerProposition(Date dateDebutValidite, Date dateFinValidite, String cheminDocument, Long idUtilisateurHardis, Long idDevisNonStandard);
 
     void transfererDevisNonStandard(Long idDevisNonStandard, Long idUtilisateurHardis);
@@ -73,5 +72,7 @@ public interface SessionHardisLocal {
     Disponibilite creerDisponibilite(Long idUtilisateurHardis, Date dateDispo, int i);
 
     List afficherDisponibilites(UtilisateurHardis uh);
+
+    DevisNonStandard envoyerDevisNonStandard(Long idDevisNonStandard);
    
 }

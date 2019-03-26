@@ -55,6 +55,6 @@ public interface DevisNonStandardFacadeLocal {
 
     DevisNonStandard envoyerDevisNonStandard(DevisNonStandard d);
 
-    DevisNonStandard modifierDevisNonStandard(DevisNonStandard d, String commentaireClient);
+    DevisNonStandard modifierDevisNonStandard(DevisNonStandard d, String commentaireClient, ReferentLocal rl, Agence agence);
     
 }
