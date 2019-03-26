@@ -32,8 +32,6 @@ public interface SessionClientLocal {
 
     Client modifierClient(Long id, String nom, String prenom, String mail, String tel);
 
-    DevisStandard creerDevisStandard(String commentaireClient, Long idServiceStandard, Long idClient);
-
     Utilisateur modifierClientMDP(Long id, String ancienMdp, String nouveauMdp);
 
     DemandeCreationEntreprise creerDemandeEntreprise(Long idClient, String nom, String siret, String adresse, Long idAgence);
@@ -62,13 +60,9 @@ public interface SessionClientLocal {
 
     List<Livrable> afficherLivrables(Long idService);
 
-    List<Offre> rechercherOffres();
-
-    DevisNonStandard creerDevisNonStandard(String commentaireClient, Long idServiceNonStandard, Long idClient);
-
     List<Devis> rechercherDevis(Long idClient, String statutDevis);
 
-    Devis modifierDevisIncomplet(Long idDevis, String commentaireClient);
+    String modifierDevisIncomplet(Long idDevis, String commentaireClient);
 
     String DemandeCreationOuRattachement(Long idClient, String nom, String siret, String adresse, Long idAgence);
 
@@ -83,4 +77,12 @@ public interface SessionClientLocal {
     ServiceNonStandard rechercherServiceNonStandard(Long idService);
 
     Interlocuteur creerInterlocuteur(String nom, String prenom, String telephone, String mail, String fonction, long idEntreprise);
+
+    DevisNonStandard creerDevisNonStandard(Long idServiceNonStandard, Long idClient);
+
+    DevisStandard creerDevisStandard(Long idServiceStandard, Long idClient);
+
+    List<Offre> rechercherOffresClient();
+
+    Devis afficherLeDevis(long id);
 }

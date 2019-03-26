@@ -35,8 +35,6 @@ public interface DevisNonStandardFacadeLocal {
 
     int count();
 
-    DevisNonStandard creerDevisNonStandard(float montant, String commentaireClient, ServiceNonStandard serviceNonStandard, ReferentLocal rl, Agence agence,Client c);
-
     DevisNonStandard modifierDevisNonStandard(DevisNonStandard d, float montant);
 
     DevisNonStandard transfererDevisNonStandard(DevisNonStandard d, UtilisateurHardis uh);
@@ -56,5 +54,7 @@ public interface DevisNonStandardFacadeLocal {
     DevisNonStandard envoyerDevisNonStandard(DevisNonStandard d);
 
     DevisNonStandard modifierDevisNonStandard(DevisNonStandard d, String commentaireClient, ReferentLocal rl, Agence agence);
+
+    DevisNonStandard creerDevisNonStandard(ServiceNonStandard serviceNonStandard, Client c);
     
 }
