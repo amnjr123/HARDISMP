@@ -86,7 +86,11 @@
                             <td><%=(locAgence)%></td>
 
                             <td>
-                                <a href="#" type="button" class="btn" style="background-color:transparent;"><i data-feather="paperclip"></i></a>
+                                <form method="post" action="${pageContext.request.contextPath}/ServletTelechargement">
+                                    <input type="hidden" name="action" value="telechargerPJDemandeCreation">
+                                    <input type="hidden" name="idDemande" value="<%=(d.getId())%>">
+                                    <button type="submit" class="btn" style="background-color:transparent;"><i data-feather="paperclip"></i></button>
+                                </form>
                                 <a href="#" type="button" data-toggle="modal" data-target="#modalDemande<%=(d.getId())%>" class="btn" style="background-color:transparent; color:#27ae60"><i data-feather="check-circle"></i></a>
                                 <a href="#" type="button" class="btn" style="background-color:transparent; color:red"><i data-feather="trash-2"></i></a>
                             </td>

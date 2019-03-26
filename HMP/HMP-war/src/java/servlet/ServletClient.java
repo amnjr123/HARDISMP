@@ -1,5 +1,6 @@
 package servlet;
 
+import Enum.SFTPConnexion;
 import GestionCatalogue.Offre;
 import GestionCatalogue.ServiceNonStandard;
 import GestionCatalogue.ServiceStandard;
@@ -8,16 +9,22 @@ import GestionUtilisateur.Utilisateur;
 import SessionUtilisateur.SessionClientLocal;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 @WebServlet(name = "ServletClient", urlPatterns = {"/ServletClient"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 5,
+        maxRequestSize = 1024 * 1024 * 5 * 5)
 public class ServletClient extends HttpServlet {
 
     @EJB
@@ -28,13 +35,13 @@ public class ServletClient extends HttpServlet {
     private String jspClient = "/client/index.jsp";
 
     private Client c;
-    
+
     protected void calculNombreDemande(HttpServletRequest request, HttpServletResponse response) {
         try {
             request.getSession().setAttribute("nbrDemandesRattachementClientAdmin", sessionClient.rechercherDemandeRattachementEntreprise(c.getEntreprise().getId()).size());
         } catch (Exception e) {
-            request.getSession().setAttribute("nbrDemandesRattachementClientAdmin",0);
-        }  
+            request.getSession().setAttribute("nbrDemandesRattachementClientAdmin", 0);
+        }
     }
 
     protected void monProfil(HttpServletRequest request, HttpServletResponse response) {
@@ -43,13 +50,13 @@ public class ServletClient extends HttpServlet {
         } catch (Exception e) {
             request.setAttribute("listeInterlocuteurs", new ArrayList());
         }
-        
+
         try {
             request.setAttribute("demandesRattachement", sessionClient.rechercherDemandeRattachementEntreprise(c.getEntreprise().getId()));
         } catch (Exception e) {
-            request.setAttribute("demandesRattachement",new ArrayList());
-        }   
-        calculNombreDemande(request,response);
+            request.setAttribute("demandesRattachement", new ArrayList());
+        }
+        calculNombreDemande(request, response);
         request.setAttribute("listeAgences", sessionClient.rechercherAgence());
         jspClient = "/client/monProfil.jsp";
     }
@@ -59,11 +66,10 @@ public class ServletClient extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sessionHttp = request.getSession();
         jspClient = "/client/index.jsp";
-        
 
         if (sessionHttp.getAttribute("sessionClient") != null) {
             c = (Client) sessionHttp.getAttribute("sessionClient");
-            calculNombreDemande(request,response);
+            calculNombreDemande(request, response);
             if (request.getParameter("action") != null) {
                 String act = request.getParameter("action");
 
@@ -71,7 +77,7 @@ public class ServletClient extends HttpServlet {
                 if (act.equals("monProfil")) {
                     monProfil(request, response);
                 }
-                
+
                 //demande de création ou rattachaement à une entreprise
                 if (act.equals("creerDemandeEntreprise")) {
                     if (request.getParameter("siret") != null) {
@@ -87,7 +93,14 @@ public class ServletClient extends HttpServlet {
 
                         System.out.print(id);
                         if (siret != null && !siret.isEmpty()) {
-                            sessionClient.DemandeCreationOuRattachement(id, nom, siret, adresse, idAgence);
+                            String path = sessionClient.DemandeCreationOuRattachement(id, nom, siret, adresse, idAgence);
+                            SFTPConnexion con = new SFTPConnexion();
+                            for (Part part : request.getParts()) {
+                                if (part.getName().equals("files[]")) {
+                                    con.uploadFile(part.getInputStream(), "/home/hardis/"+path+"/"+part.getSubmittedFileName());
+                                }
+                            }
+                            con.disconnect();
                             request.getSession().setAttribute(ATT_SESSION_CLIENT, sessionClient.rechercheClient(id));
                             request.setAttribute("msgSuccess", "La demande a bien été effectuée");
                             monProfil(request, response);
@@ -210,7 +223,7 @@ public class ServletClient extends HttpServlet {
 
                     }
                 }
-                
+
                 //GERER DEMANDES RATTACHEMENT
                 if (act.equals("validerDemandeRattachementEntreprise")) {
                     String idDemande = request.getParameter("idDemande");
@@ -257,13 +270,13 @@ public class ServletClient extends HttpServlet {
                     request.setAttribute("listeServicesNonStandards", sessionClient.rechercherServicesNonStandards(id));
                     jspClient = "/client/creerDevisServices.jsp";
                 }
-                if(act.equals("creerDevisStandard")){
+                if (act.equals("creerDevisStandard")) {
                     Long id = Long.parseLong(request.getParameter("id").trim());
                     ServiceStandard st = sessionClient.rechercherServiceStandard(id);
                     request.setAttribute("service", st);
                     jspClient = "/client/creerDevisStandard.jsp";
                 }
-                if(act.equals("creerDevisNonStandard")){
+                if (act.equals("creerDevisNonStandard")) {
                     Long id = Long.parseLong(request.getParameter("id").trim());
                     ServiceNonStandard st = sessionClient.rechercherServiceNonStandard(id);
                     request.setAttribute("service", st);
