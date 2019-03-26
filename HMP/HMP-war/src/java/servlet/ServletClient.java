@@ -82,7 +82,7 @@ public class ServletClient extends HttpServlet {
                 }
 
                 //demande de création ou rattachaement à une entreprise
-               /* if (act.equals("creerDemandeEntreprise")) {
+                if (act.equals("creerDemandeEntreprise")) {
                     if (request.getParameter("siret") != null) {
                         Long id = c.getId();
                         String siret = ((String) request.getParameter("siret")).trim().toUpperCase();
@@ -121,7 +121,7 @@ public class ServletClient extends HttpServlet {
                         monProfil(request, response);
                     }
 
-                }*/
+                }
                 //CREER UN INTERLOCUTEUR
                 if (act.equals("creerInterlocuteur")) {
                     String nom = request.getParameter("nom");
