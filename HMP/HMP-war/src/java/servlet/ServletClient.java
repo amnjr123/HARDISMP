@@ -7,9 +7,12 @@ import GestionCatalogue.ServiceStandard;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Utilisateur;
 import SessionUtilisateur.SessionClientLocal;
+import com.jcraft.jsch.JSchException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -79,7 +82,7 @@ public class ServletClient extends HttpServlet {
                 }
 
                 //demande de création ou rattachaement à une entreprise
-                if (act.equals("creerDemandeEntreprise")) {
+               /* if (act.equals("creerDemandeEntreprise")) {
                     if (request.getParameter("siret") != null) {
                         Long id = c.getId();
                         String siret = ((String) request.getParameter("siret")).trim().toUpperCase();
@@ -94,10 +97,15 @@ public class ServletClient extends HttpServlet {
                         System.out.print(id);
                         if (siret != null && !siret.isEmpty()) {
                             String path = sessionClient.DemandeCreationOuRattachement(id, nom, siret, adresse, idAgence);
+
                             SFTPConnexion con = new SFTPConnexion();
                             for (Part part : request.getParts()) {
                                 if (part.getName().equals("files[]")) {
-                                    con.uploadFile(part.getInputStream(), "/home/hardis/"+path+"/"+part.getSubmittedFileName());
+                                    try {
+                                        con.uploadFile(part.getInputStream(), "/home/hardis/" + path + "/" + part.getSubmittedFileName());
+                                    } catch (JSchException ex) {
+                                        request.setAttribute("msgError", "Les fichiers joints n'ont pas pu être envoyés");
+                                    }
                                 }
                             }
                             con.disconnect();
@@ -113,7 +121,7 @@ public class ServletClient extends HttpServlet {
                         monProfil(request, response);
                     }
 
-                }
+                }*/
                 //CREER UN INTERLOCUTEUR
                 if (act.equals("creerInterlocuteur")) {
                     String nom = request.getParameter("nom");
@@ -168,12 +176,12 @@ public class ServletClient extends HttpServlet {
 
                 //SUPPRIMER L'INTERLOCUTEUR
                 if (act.equals("supprimerInterlocuteur")) {
-                        Long idInterlocuteur = Long.parseLong(request.getParameter("idInterlocuteur"));
-                        sessionClient.supprimerInterlocuteur(idInterlocuteur);
-                        request.setAttribute("msgSuccess", "L'interlocuteur a été supprimé");
-                        monProfil(request, response);
+                    Long idInterlocuteur = Long.parseLong(request.getParameter("idInterlocuteur"));
+                    sessionClient.supprimerInterlocuteur(idInterlocuteur);
+                    request.setAttribute("msgSuccess", "L'interlocuteur a été supprimé");
+                    monProfil(request, response);
                 }
-                
+
                 //MODIFIER LE NOM DU CLIENT
                 if (act.equals("modifierNomClient")) {
                     if (request.getParameter("nouveauNom") != null && !request.getParameter("nouveauNom").isEmpty()) {
@@ -250,18 +258,17 @@ public class ServletClient extends HttpServlet {
                     request.setAttribute("listOffres", sessionClient.rechercherOffres());
                     jspClient = "/client/creerDevisOffre.jsp";
                 }
-                
+
                 if (act.equals("DevisEnCours")) {
-                   // request.setAttribute("listOffres", sessionClient.rechercherOffres());
+                    // request.setAttribute("listOffres", sessionClient.rechercherOffres());
                     jspClient = "/client/devisEnCours.jsp";
                 }
-                
+
                 if (act.equals("DevisTermines")) {
-                  //  request.setAttribute("listOffres", sessionClient.rechercherOffres());
+                    //  request.setAttribute("listOffres", sessionClient.rechercherOffres());
                     jspClient = "/client/devisTermines.jsp";
                 }
-                
-                
+
                 if (act.equals("creerDevisServices")) {
                     Long id = Long.parseLong(request.getParameter("id").trim());
                     Offre offre = sessionClient.rechercherOffre(id);
