@@ -71,7 +71,11 @@ public interface SessionHardisLocal {
     Offre afficheOffre(Long id);
 
     Disponibilite creerDisponibilite(Long idUtilisateurHardis, Date dateDispo, int i);
-
+    
+    CV afficherCVSansOffre(Long idUtilisateurHardis);
+    
+    CV afficherCv(Long idCV);
+    
     DevisNonStandard envoyerDevisNonStandard(Long idDevisNonStandard);
 
     List<Disponibilite> afficherDisponibilites(Long idUtilisateur);

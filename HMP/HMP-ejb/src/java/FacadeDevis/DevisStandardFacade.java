@@ -39,19 +39,10 @@ public class DevisStandardFacade extends AbstractFacade<DevisStandard> implement
     
     /*RAJOUTER CLIENT*/
     @Override
-    public DevisStandard creerDevisStandard(float montant, String commentaireClient, ServiceStandard serviceStandard, ReferentLocal rl, Agence agence, Client c){
+    public DevisStandard creerDevisStandard(ServiceStandard serviceStandard, Client c){
         DevisStandard d = new DevisStandard();
-        if(commentaireClient==null || commentaireClient.equalsIgnoreCase("")){
-            d.setStatut(StatutDevis.Incomplet);
-        }
-        else{
-            d.setStatut(StatutDevis.ReponseEnCours);
-            d.setCommentaireClient(commentaireClient);
-            d.setAgence(agence);
-            d.setUtilisateurHardis(rl); 
-        }
+        d.setStatut(StatutDevis.Incomplet);    
         d.setDateCreation(new Date());
-        d.setMontant(montant);
         d.setServiceStandard(serviceStandard);
         d.setClient(c);
         create(d);  
@@ -68,6 +59,7 @@ public class DevisStandardFacade extends AbstractFacade<DevisStandard> implement
             d.setStatut(StatutDevis.ReponseEnCours);
             d.setCommentaireClient(commentaireClient);
             d.setAgence(agence);
+            d.setMontant(d.getServiceStandard().getCout());
             d.setUtilisateurHardis(rl); 
         }
         edit(d);

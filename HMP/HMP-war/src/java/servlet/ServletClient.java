@@ -1,9 +1,12 @@
 package servlet;
 
 import Enum.SFTPConnexion;
+import Enum.StatutDevis;
 import GestionCatalogue.Offre;
 import GestionCatalogue.ServiceNonStandard;
 import GestionCatalogue.ServiceStandard;
+import GestionDevis.Devis;
+import GestionDevis.DevisStandard;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Utilisateur;
 import SessionUtilisateur.SessionClientLocal;
@@ -103,7 +106,7 @@ public class ServletClient extends HttpServlet {
                                 if (part.getName().equals("files[]")) {
                                     try {
                                         con.uploadFile(part.getInputStream(), "/home/hardis/" + path + "/" + part.getSubmittedFileName());
-                                    } catch (JSchException ex) {
+                                    } catch (Exception ex) {
                                         request.setAttribute("msgError", "Les fichiers joints n'ont pas pu être envoyés");
                                     }
                                 }
@@ -242,7 +245,7 @@ public class ServletClient extends HttpServlet {
 
                 /*CATALOGUE*/
                 if (act.equals("offres")) {
-                    request.setAttribute("listOffres", sessionClient.rechercherOffres());
+                    request.setAttribute("listOffres", sessionClient.rechercherOffresClient());
                     jspClient = "/client/offres.jsp";
                 }
                 if (act.equals("services")) {
@@ -254,14 +257,23 @@ public class ServletClient extends HttpServlet {
                     jspClient = "/client/services.jsp";
                 }
                 /*CREERDEVIS*/
-                if (act.equals("creerDevisOffres")) {
-                    request.setAttribute("listOffres", sessionClient.rechercherOffres());
-                    jspClient = "/client/creerDevisOffre.jsp";
-                }
 
-                if (act.equals("DevisEnCours")) {
-                    // request.setAttribute("listOffres", sessionClient.rechercherOffres());
+              
+                
+                if (act.equals("DevisEnCours")) {/*Menu devis en cours*/
+                    request.setAttribute("listDevis", sessionClient.rechercherDevis(c.getId(), StatutDevis.Incomplet.toString()));
                     jspClient = "/client/devisEnCours.jsp";
+                }
+                
+                  if (act.equals("consulterFromDevisEnCours")) {/*Choix d'un devis from devis en cours*/
+                    Long idDevis = Long.parseLong(request.getParameter("idDevis").trim());
+                    String statut = request.getParameter("statut");
+                    Devis devis = sessionClient.afficherLeDevis(idDevis);
+                    if(devis.getDtype().equalsIgnoreCase("DevisStandard")){
+                        
+                    }else if(devis.getDtype().equalsIgnoreCase("DevisNonStandard")){
+                        
+                    }
                 }
 
                 if (act.equals("DevisTermines")) {
@@ -269,6 +281,13 @@ public class ServletClient extends HttpServlet {
                     jspClient = "/client/devisTermines.jsp";
                 }
 
+                /*Affichage des JSP creerDevisOffre, creerDevisServices, creerDevisStandard & creerDevisNonStandard */
+                if (act.equals("creerDevisOffres")) {
+                    request.setAttribute("listOffres", sessionClient.rechercherOffresClient());
+                    jspClient = "/client/creerDevisOffre.jsp";
+                }
+
+                /*Une fois l'offre choisie il choisi le service*/
                 if (act.equals("creerDevisServices")) {
                     Long id = Long.parseLong(request.getParameter("id").trim());
                     Offre offre = sessionClient.rechercherOffre(id);
@@ -277,15 +296,17 @@ public class ServletClient extends HttpServlet {
                     request.setAttribute("listeServicesNonStandards", sessionClient.rechercherServicesNonStandards(id));
                     jspClient = "/client/creerDevisServices.jsp";
                 }
-                
-                
-                
+
+                /*Confirmation création d'un Devis de service standard*/
                 if (act.equals("creerDevisStandard")) {
-                    Long id = Long.parseLong(request.getParameter("id").trim());
-                    ServiceStandard st = sessionClient.rechercherServiceStandard(id);
+                    Long idService = Long.parseLong(request.getParameter("idService").trim());
                     //request.setAttribute("service", st);
+                    DevisStandard d = sessionClient.creerDevisStandard(idService, c.getId());
+                    request.setAttribute("devisStandard", d);
                     jspClient = "/client/creerDevisStandard.jsp";
                 }
+
+                /*Confirmation création d'un Devis de service non standard*/
                 if (act.equals("creerDevisNonStandard")) {
                     Long id = Long.parseLong(request.getParameter("id").trim());
                     ServiceNonStandard st = sessionClient.rechercherServiceNonStandard(id);
@@ -293,7 +314,6 @@ public class ServletClient extends HttpServlet {
                     jspClient = "/client/creerDevisNonStandard.jsp";
                 }
             }
-
         }
 
         request.setCharacterEncoding("UTF-8");

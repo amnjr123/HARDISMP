@@ -324,6 +324,11 @@ public class SessionHardis implements SessionHardisLocal {
     }
     
     @Override
+    public CV afficherCv(Long idCV){
+        return cVFacade.rechercheCV(idCV);
+    }
+    
+    @Override
     public List<CV> afficherCVOffre(Long idOffre){
         Offre o = offreFacade.rechercheOffre(idOffre);
         return cVFacade.rechercherCV(o);
@@ -340,6 +345,12 @@ public class SessionHardis implements SessionHardisLocal {
         UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
         Offre o = offreFacade.rechercheOffre(idOffre);
         return cVFacade.rechercherCV(o, uh);
+    }
+    
+    @Override
+    public CV afficherCVSansOffre(Long idUtilisateurHardis){
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
+        return cVFacade.rechercherCVSansOffre(uh);
     }
     
 /*GESTION DES DEVIS*/
@@ -449,6 +460,7 @@ public class SessionHardis implements SessionHardisLocal {
         HistoriqueUtilisateurDevis ancienHistorique = historiqueUtilisateurDevisFacade.rechercheDernierHistoriqueUtilisateurDevis(dns);
         historiqueUtilisateurDevisFacade.creerSuiteHistoriqueUtilisateurDevis(ancienHistorique, uh);
     }
-    
+
+
     
 }

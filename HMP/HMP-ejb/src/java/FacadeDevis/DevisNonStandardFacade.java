@@ -39,19 +39,10 @@ public class DevisNonStandardFacade extends AbstractFacade<DevisNonStandard> imp
     }
     
     @Override
-    public DevisNonStandard creerDevisNonStandard(float montant, String commentaireClient, ServiceNonStandard serviceNonStandard, ReferentLocal rl, Agence agence,Client c){
+    public DevisNonStandard creerDevisNonStandard(ServiceNonStandard serviceNonStandard,Client c){
         DevisNonStandard d = new DevisNonStandard();
-        if(commentaireClient==null || commentaireClient.equalsIgnoreCase("")){
-            d.setStatut(StatutDevis.Incomplet);
-        }
-        else{
-            d.setStatut(StatutDevis.ReponseEnCours);
-            d.setCommentaireClient(commentaireClient);
-            d.setUtilisateurHardis(rl);
-            d.setAgence(agence);
-        }
+        d.setStatut(StatutDevis.Incomplet);
         d.setDateCreation(new Date());
-        d.setMontant(montant);
         d.setServiceNonStandard(serviceNonStandard);
         d.setClient(c);
         create(d);  
@@ -68,6 +59,7 @@ public class DevisNonStandardFacade extends AbstractFacade<DevisNonStandard> imp
             d.setStatut(StatutDevis.ReponseEnCours);
             d.setCommentaireClient(commentaireClient);
             d.setUtilisateurHardis(rl);
+            d.setMontant(d.getServiceNonStandard().getCout());
             d.setAgence(agence);
         }
         edit(d);

@@ -50,4 +50,6 @@ public interface CVFacadeLocal {
 
     List<CV> rechercherCV(Offre offre);
     
+    CV rechercherCVSansOffre(UtilisateurHardis uh);
+    
 }

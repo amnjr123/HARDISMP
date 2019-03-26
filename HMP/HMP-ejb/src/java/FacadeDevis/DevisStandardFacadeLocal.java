@@ -35,8 +35,6 @@ public interface DevisStandardFacadeLocal {
 
     int count();
 
-    DevisStandard creerDevisStandard(float montant, String commentaireClient, ServiceStandard serviceStandard, ReferentLocal rl, Agence agence, Client c);
-
     DevisStandard modifierDevisStandard(DevisStandard d, float montant);
 
     DevisStandard transfererDevisStandard(DevisStandard d, UtilisateurHardis uh);
@@ -56,5 +54,7 @@ public interface DevisStandardFacadeLocal {
     List<DevisStandard> rechercheDevisStandard();
 
     DevisStandard modifierDevisStandard(DevisStandard d, String commentaireClient, ReferentLocal rl, Agence agence);
+
+    DevisStandard creerDevisStandard(ServiceStandard serviceStandard, Client c);
     
 }

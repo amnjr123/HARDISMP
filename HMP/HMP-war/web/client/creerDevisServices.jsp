@@ -206,8 +206,8 @@
                         <center>
                             <div class="form-group py-2 text-center">
                                 <input type="hidden" name="action" value="creerDevisStandard">
-                                <input type="hidden" name="idOffre" value="<%=st.getId()%>">
-                                <button type="button" class="btn btn-success "><i data-feather='folder-plus'></i>&nbsp; Valider</button>
+                                <input type="hidden" name="idService" value="<%=st.getId()%>">
+                                <button type="submit" class="btn btn-success "><i data-feather='folder-plus'></i>&nbsp; Valider</button>
                                 <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
                             </div>
                         </center>
@@ -234,7 +234,7 @@
                 <div class="modal-body">
                     <form class="needs-validation form" novalidate role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletClient">
                         <div class="text-center">
-                            <input name="choixDevisId" data-toggle="toggle" data-size="lg" type="checkbox" value="<%=(st.getId())%>" required="true" data-onstyle="success" data-on="J'accepte" data-off="Je n'accepte pas" data-width="200" >
+                            <input name="idService" data-toggle="toggle" data-size="lg" type="checkbox" value="<%=(st.getId())%>" required="true" data-onstyle="success" data-on="J'accepte" data-off="Je n'accepte pas" data-width="200" >
                             <label for="devis" class="mt-3"> De créer un Devis non standard pour le service <%=st.getNom()%></label>
                             <div class="invalid-feedback" style="width: 100%;">
                                 Il est obligatoire d'accepter la création du devis.
@@ -243,8 +243,7 @@
                         <center>
                             <div class="form-group py-2 text-center">
                                 <input type="hidden" name="action" value="creerDevisNonStandard">
-                                <input type="hidden" name="idOffre" value="<%=st.getId()%>">
-                                <button type="button" class="btn btn-success "><i data-feather='folder-plus'></i>&nbsp; Valider</button>
+                                <button type="submit" class="btn btn-success "><i data-feather='folder-plus'></i>&nbsp; Valider</button>
                                 <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
                             </div>
                         </center>

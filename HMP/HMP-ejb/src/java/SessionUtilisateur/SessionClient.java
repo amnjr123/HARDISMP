@@ -50,63 +50,62 @@ import javax.ejb.Stateless;
 
 @Stateless
 public class SessionClient implements SessionClientLocal {
-
+    
     @EJB
     private HistoriqueUtilisateurDevisFacadeLocal historiqueUtilisateurDevisFacade;
-
+    
     @EJB
     private ServiceNonStandardFacadeLocal serviceNonStandardFacade;
-
+    
     @EJB
     private DevisNonStandardFacadeLocal devisNonStandardFacade;
-
+    
     @EJB
     private LivrableFacadeLocal livrableFacade;
-
+    
     @EJB
     private OffreFacadeLocal offreFacade;
-
+    
     @EJB
     private InterlocuteurFacadeLocal interlocuteurFacade;
-
+    
     @EJB
     private DemandeRattachementFacadeLocal demandeRattachementFacade;
-
+    
     @EJB
     private DemandeCreationEntrepriseFacadeLocal demandeCreationEntrepriseFacade;
-
+    
     @EJB
     private EntrepriseFacadeLocal entrepriseFacade;
-
+    
     @EJB
     private AgenceFacadeLocal agenceFacade;
-
+    
     @EJB
     private ServiceStandardFacadeLocal serviceStandardFacade;
-
+    
     @EJB
     private UtilisateurFacadeLocal utilisateurFacade;
-
+    
     @EJB
     private DevisFacadeLocal devisFacade;
-
+    
     @EJB
     private ReferentLocalFacadeLocal referentLocalFacade;
-
+    
     @EJB
     private DevisStandardFacadeLocal devisStandardFacade;
-
+    
     @EJB
     private ServiceFacadeLocal serviceFacade;
-
+    
     @EJB
     private PorteurOffreFacadeLocal porteurOffreFacade;
-
+    
     @EJB
     private ClientFacadeLocal clientFacade;
 
-/*GESTION ENTREPRISE*/
-    
+    /*GESTION ENTREPRISE*/
     @Override
     public List<Agence> rechercherAgence() {
         return agenceFacade.rechercheAgences();
@@ -117,59 +116,58 @@ public class SessionClient implements SessionClientLocal {
         Client c = clientFacade.rechercheClient(idClient);
         return demandeCreationEntrepriseFacade.rechercheDemandeCreationEntrepriseClient(c);
     }
-    
+
     //Méthode lorsque qu'un utilisateur valide le formulaire d'entreprise
     @Override
-    public String DemandeCreationOuRattachement(Long idClient, String nom, String siret, String adresse, Long idAgence){
+    public String DemandeCreationOuRattachement(Long idClient, String nom, String siret, String adresse, Long idAgence) {
         Client c = clientFacade.rechercheClient(idClient);
         Agence a = null;
-        if(idAgence!=null){
+        if (idAgence != null) {
             a = agenceFacade.rechercheAgence(idAgence);
         }
         Entreprise e = entrepriseFacade.rechercheEntrepriseSiret(siret);
-        if(e==null){
-            return "hmp/demandeEntreprise/creation/"+creerDemandeEntreprise(idClient, nom, siret, adresse, idAgence).getId();
-        }
-        else{
-            return "hmp/demandeEntreprise/rattachement/"+creerDemandeRattachement(idClient, siret).getId();
+        if (e == null) {
+            return "hmp/demandeEntreprise/creation/" + creerDemandeEntreprise(idClient, nom, siret, adresse, idAgence).getId();
+        } else {
+            return "hmp/demandeEntreprise/rattachement/" + creerDemandeRattachement(idClient, siret).getId();
         }
     }
-
+    
     @Override
     public DemandeCreationEntreprise creerDemandeEntreprise(Long idClient, String nom, String siret, String adresse, Long idAgence) {
         Client c = clientFacade.rechercheClient(idClient);
         Agence a = null;
-        if(idAgence!=null){
-           a = agenceFacade.rechercheAgence(idAgence); 
+        if (idAgence != null) {
+            a = agenceFacade.rechercheAgence(idAgence);
         }
-        DemandeCreationEntreprise e = demandeCreationEntrepriseFacade.creerDemandeCreationEntreprise(nom, siret, adresse, a,c);
+        DemandeCreationEntreprise e = demandeCreationEntrepriseFacade.creerDemandeCreationEntreprise(nom, siret, adresse, a, c);
         clientFacade.demanderCreationEntreprise(c, e);
         return e;
     }
     
     @Override
-    public DemandeRattachement creerDemandeRattachement(Long idClient, String siret){
+    public DemandeRattachement creerDemandeRattachement(Long idClient, String siret) {
         Client c = clientFacade.rechercheClient(idClient);
         Entreprise e = entrepriseFacade.rechercheEntrepriseSiret(siret);
         DemandeRattachement d = demandeRattachementFacade.creerDemandeRattachement(c, e);
         clientFacade.demanderRattachementEntreprise(c, d);
         return d;
     }
-    
+
     //Méthode client admin
     @Override
     public List<DemandeRattachement> rechercherDemandeRattachementEntreprise(Long idEntreprise) {
         Entreprise e = entrepriseFacade.rechercheEntreprise(idEntreprise);
         return demandeRattachementFacade.rechercherDemandeRattachement(e);
     }
-    
+
     //Méthode client admin
     @Override
     public DemandeRattachement rechercherDemandeRattachementClient(Long idClient) {
         Client c = clientFacade.rechercheClient(idClient);
         return demandeRattachementFacade.rechercherDemandeRattachement(c);
     }
-    
+
     //Méthode client admin
     @Override
     public DemandeRattachement validerDemandeRattachement(Long idDemande) {
@@ -178,7 +176,7 @@ public class SessionClient implements SessionClientLocal {
         demandeRattachementFacade.supprimerDemandeRattachement(d);
         return d;//A tester si on peut renvoyer une instance supprimée de la bdd sans provoquer de bug
     }
-    
+
     //Méthode client admin
     @Override
     public DemandeRattachement refuserDemandeRattachement(Long idDemande) {
@@ -188,20 +186,20 @@ public class SessionClient implements SessionClientLocal {
     }
     
     @Override
-    public List<Interlocuteur> rechercherInterlocuteur(Long idEntreprise){
+    public List<Interlocuteur> rechercherInterlocuteur(Long idEntreprise) {
         Entreprise e = entrepriseFacade.rechercheEntreprise(idEntreprise);
         return interlocuteurFacade.rechercheInterlocuteur(e);
     }
     
     @Override
-    public Interlocuteur creerInterlocuteur(String nom, String prenom, String telephone,String mail, String fonction, long idEntreprise) {
+    public Interlocuteur creerInterlocuteur(String nom, String prenom, String telephone, String mail, String fonction, long idEntreprise) {
         return interlocuteurFacade.creerInterlocuteur(nom, prenom, mail, telephone, fonction, entrepriseFacade.rechercheEntreprise(idEntreprise));
     }
     
     @Override
     public Interlocuteur modifierInterlocuteur(Long idInterlocuteur, String nom, String prenom, String mail, String telephone, String fonction) {
         Interlocuteur i = interlocuteurFacade.rechercheInterlocuteur(idInterlocuteur);
-        return interlocuteurFacade.modifierInterlocuteur(i,nom, prenom, mail, telephone, fonction);
+        return interlocuteurFacade.modifierInterlocuteur(i, nom, prenom, mail, telephone, fonction);
     }
     
     @Override
@@ -209,15 +207,16 @@ public class SessionClient implements SessionClientLocal {
         Interlocuteur i = interlocuteurFacade.rechercheInterlocuteur(idInterlocuteur);
         return interlocuteurFacade.supprimerInterlocuteur(i);
     }
-/*GESTION DES DEVIS*/
-    
+
+    /*GESTION DES DEVIS*/
     @Override
-    public List<Offre> rechercherOffres(){
+    public List<Offre> rechercherOffresClient() {
+        //Le client ne doit avoir accès qu'aux offres actuelles
         return offreFacade.rechercheOffresActuelles();
     }
     
     @Override
-    public Offre rechercherOffre(Long idOffre){
+    public Offre rechercherOffre(Long idOffre) {
         return offreFacade.rechercheOffre(idOffre);
     }
     
@@ -244,116 +243,96 @@ public class SessionClient implements SessionClientLocal {
     }
     
     @Override
-    public List<Livrable> afficherLivrables(Long idService){
+    public List<Livrable> afficherLivrables(Long idService) {
         Service service = serviceFacade.rechercherService(idService);
         return livrableFacade.rechercheLivrable(service);
     }
-
+    
     @Override
-    public DevisStandard creerDevisStandard(String commentaireClient, Long idServiceStandard, Long idClient) {
-        //ATTENTION DANS LES SERVLETS : LE COMMENTAIRE CLIENT PEUT ETRE NUL
+    public DevisStandard creerDevisStandard(Long idServiceStandard, Long idClient) {
         Client c = clientFacade.rechercheClient(idClient);
         ServiceStandard s = serviceStandardFacade.rechercheServiceStandard(idServiceStandard);
         DevisStandard d;
-        if(commentaireClient!= null){
-            if(commentaireClient.equalsIgnoreCase("")){
-                //Pour un devis complet
-                ReferentLocal referentLocal = referentLocalFacade.rechercheReferentLocal(c.getEntreprise().getAgence(), s.getOffre());
-                d = devisStandardFacade.creerDevisStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence(),c);
-                historiqueUtilisateurDevisFacade.creerPremierHistoriqueUtilisateurDevis(d, referentLocal);
-            }else{
-                //Pour un devis incomplet
-                d = devisStandardFacade.creerDevisStandard(s.getCout(), null, s, null, null,c);
-            }
-        }else{
-            //Pour un devis incomplet
-            d = devisStandardFacade.creerDevisStandard(s.getCout(), null, s, null, null,c);
-        }
+        d = devisStandardFacade.creerDevisStandard(s, c);
         return d;
     }
     
     @Override
-    public DevisNonStandard creerDevisNonStandard(String commentaireClient, Long idServiceNonStandard, Long idClient) {
-        //ATTENTION DANS LES SERVLETS : LE COMMENTAIRE CLIENT PEUT ETRE NUL
+    public DevisNonStandard creerDevisNonStandard(Long idServiceNonStandard, Long idClient) {
         Client c = clientFacade.rechercheClient(idClient);
         ServiceNonStandard s = serviceNonStandardFacade.rechercheServiceNonStandard(idServiceNonStandard);
-        DevisNonStandard dns;
-        if(commentaireClient!= null){
-            if(commentaireClient.equalsIgnoreCase("")){
-                //Pour un devis complet
-                ReferentLocal referentLocal = referentLocalFacade.rechercheReferentLocal(c.getEntreprise().getAgence(), s.getOffre());
-                dns = devisNonStandardFacade.creerDevisNonStandard(s.getCout(), commentaireClient, s, referentLocal, c.getEntreprise().getAgence(),c);
-                historiqueUtilisateurDevisFacade.creerPremierHistoriqueUtilisateurDevis(dns, referentLocal);
-            }else{
-                //Pour un devis incomplet
-                dns = devisNonStandardFacade.creerDevisNonStandard(s.getCout(), null, s, null, null,c);
-            }
-        }
-        else{
-                //Pour un devis incomplet
-                dns = devisNonStandardFacade.creerDevisNonStandard(s.getCout(), null, s, null, null,c);
-        }
-        return dns;
+        DevisNonStandard d;
+        d = devisNonStandardFacade.creerDevisNonStandard(s, c);
+        return d;
     }
     
     @Override
-    public Devis modifierDevisIncomplet(Long idDevis, String commentaireClient) {
+    public String modifierDevisIncomplet(Long idDevis, String commentaireClient) {
         //ATTENTION DANS LES SERVLETS : LE COMMENTAIRE CLIENT PEUT ETRE NUL
         Devis d = devisFacade.rechercherDevis(idDevis);
-        if(commentaireClient!= null){
-            if(commentaireClient.equalsIgnoreCase("")){
-                if(d.getStatut()==StatutDevis.Incomplet){
-                    if(d.getDtype().equalsIgnoreCase("devisstandard")){
+        String message = "Afin de comprendre au mieux vos besoins, merci de saisir un commentaire d'au moins 50 caractères.";
+        if (commentaireClient != null) {
+            if (commentaireClient.length() >= 50) {
+                if (d.getStatut() == StatutDevis.Incomplet) {
+                    if (d.getDtype().equalsIgnoreCase("devisstandard")) {
                         DevisStandard ds = devisStandardFacade.rechercheDevisStandard(idDevis);
                         ReferentLocal referentLocal = referentLocalFacade.rechercheReferentLocal(ds.getClient().getEntreprise().getAgence(), ds.getServiceStandard().getOffre());
-                        historiqueUtilisateurDevisFacade.creerPremierHistoriqueUtilisateurDevis(ds, referentLocal);
-                        devisStandardFacade.modifierDevisStandard(ds, commentaireClient,referentLocal,ds.getClient().getEntreprise().getAgence());
-                    }
-                    else{
+                        if (referentLocal != null) {
+                            historiqueUtilisateurDevisFacade.creerPremierHistoriqueUtilisateurDevis(ds, referentLocal);
+                            devisStandardFacade.modifierDevisStandard(ds, commentaireClient, referentLocal, ds.getClient().getEntreprise().getAgence());
+                            message = "Votre devis vous a été envoyé. Vous le retrouverez dans la rubrique Devis terminés.";
+                        } else {
+                            message = "Nous sommes désolés, il n'y a actuellement aucun responsable pour cette offre dans votre agence Hardis. Pour vous aider au mieux dans votre demande, nous vous invitons à contacter un administrateur Hardis.";
+                        }
+                    } else {
                         DevisNonStandard dns = devisNonStandardFacade.rechercheDevisNonStandard(idDevis);
                         ReferentLocal referentLocal = referentLocalFacade.rechercheReferentLocal(dns.getClient().getEntreprise().getAgence(), dns.getServiceNonStandard().getOffre());
-                        historiqueUtilisateurDevisFacade.creerPremierHistoriqueUtilisateurDevis(dns, referentLocal);
-                        devisNonStandardFacade.modifierDevisNonStandard(dns, commentaireClient,referentLocal,dns.getClient().getEntreprise().getAgence());
+                        if (referentLocal != null) {
+                            historiqueUtilisateurDevisFacade.creerPremierHistoriqueUtilisateurDevis(dns, referentLocal);
+                            devisNonStandardFacade.modifierDevisNonStandard(dns, commentaireClient, referentLocal, dns.getClient().getEntreprise().getAgence());
+                            message = "Votre devis a été envoyé à un consultant Hardis qui vous contactera prochainement. Vous le retrouverez dans la rubrique Devis en cours.";
+                        } else {
+                            message = "Nous sommes désolés, il n'y a actuellement aucun responsable pour cette offre dans votre agence Hardis. Pour vous aider au mieux dans votre demande, nous vous invitons à contacter un administrateur Hardis.";
+                        }
                     }
                 }
             }
         }
-        return d;
+        return message;
     }
     
-    
     @Override
-    public List<Devis> rechercherDevis(Long idClient, String statutDevis){
+    public List<Devis> rechercherDevis(Long idClient, String statutDevis
+    ) {
         //A TESTER
         //Une seule méthode de recherche
         //Envoyer null pour les paramètres non utilisés pour votre recherche
-        if(idClient==null && statutDevis==null){
+        if (idClient == null && statutDevis == null) {
             //Afficher tous les devis
             return devisFacade.rechercherDevis();
-        }
-        else if(idClient!=null && statutDevis==null){
+        } else if (idClient != null && statutDevis == null) {
             //Afficher tous les devis d'un client
             Client c = clientFacade.rechercheClient(idClient);
             return devisFacade.rechercherDevis(c);
-        }
-        else if(idClient==null && statutDevis!=null){
+        } else if (idClient == null && statutDevis != null) {
             //Afficher tous les devis qui ont un statut
             StatutDevis statut = StatutDevis.valueOf(statutDevis);
             return devisFacade.rechercherDevis(statut);
-        }
-        else {
+        } else {
             //Afficher tous les devis d'un client et un statut
             Client c = clientFacade.rechercheClient(idClient);
             StatutDevis statut = StatutDevis.valueOf(statutDevis);
-            return devisFacade.rechercherDevis(c,statut);
+            return devisFacade.rechercherDevis(c, statut);
         }
     }
-    
 
-/*GESTION DU COMPTE*/
-    
+
+    /*GESTION DU COMPTE*/
     @Override
-    public Client modifierClient(Long id, String nom, String prenom, String mail, String tel) {
+    public Client modifierClient(Long id, String nom,
+             String prenom, String mail,
+             String tel
+    ) {
         Client c = clientFacade.rechercheClient(id);
         if (c.getMail().equalsIgnoreCase(mail)) {
             //Si le mail n'a pas changé alors on peut modifier
@@ -370,9 +349,11 @@ public class SessionClient implements SessionClientLocal {
             }
         }
     }
-
+    
     @Override
-    public Utilisateur modifierClientMDP(Long id, String ancienMdp, String nouveauMdp) {
+    public Utilisateur modifierClientMDP(Long id, String ancienMdp,
+             String nouveauMdp
+    ) {
         Utilisateur u = utilisateurFacade.rechercheUtilisateur(id);
         Utilisateur retour = null;
         try {
@@ -386,10 +367,17 @@ public class SessionClient implements SessionClientLocal {
         }
         return retour;
     }
-
+    
     @Override
-    public Client rechercheClient(long id) {
+    public Client rechercheClient(long id
+    ) {
         return clientFacade.rechercheClient(id);
+        
+    }
+    
+    @Override
+    public Devis afficherLeDevis(long id) {
+        return devisFacade.find(id);
     }
     
 }
