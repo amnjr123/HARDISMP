@@ -104,7 +104,7 @@ public class ServletClient extends HttpServlet {
                                     try {
                                         con.uploadFile(part.getInputStream(), "/home/hardis/" + path + "/" + part.getSubmittedFileName());
                                     } catch (JSchException ex) {
-                                        Logger.getLogger(ServletClient.class.getName()).log(Level.SEVERE, null, ex);
+                                        request.setAttribute("msgError", "Les fichiers joints n'ont pas pu être envoyés");
                                     }
                                 }
                             }
