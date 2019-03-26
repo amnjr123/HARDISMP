@@ -33,7 +33,8 @@ public class ServletUtilisateurHardis extends HttpServlet {
     private UtilisateurHardis uh;
 
     protected void menuPlanning(HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("listDispo", sessionHardis.afficherDisponibilites((UtilisateurHardis) request.getSession().getAttribute(ATT_SESSION_HARDIS)));
+        request.setAttribute("listDispo", sessionHardis.afficherDisponibilites(uh.getId()));
+        request.setAttribute("listInterv", sessionHardis.afficherInterventions(uh.getId()));
         jspClient = "/hardisUser/planning.jsp";
     }
 

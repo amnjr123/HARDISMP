@@ -71,7 +71,7 @@ public class InterventionFacade extends AbstractFacade<Intervention> implements 
     
     @Override
     public Intervention rechercheIntervention(UtilisateurHardis uh, Date dateDispo) {
-        Query requete = getEntityManager().createQuery("select i from Intervention as i where i.utilisateurHardis=:uh and i.dateInterventionDemandee=:dateDispo");
+        Query requete = getEntityManager().createQuery("select i from Intervention as i where i.UtilisateurHardis=:uh and i.dateInterventionDemandee=:dateDispo");
         requete.setParameter("uh", uh);
         requete.setParameter("dateDispo", dateDispo);
         if (!requete.getResultList().isEmpty()) {
@@ -79,6 +79,13 @@ public class InterventionFacade extends AbstractFacade<Intervention> implements 
         } else {
             return null;
         }
+    }
+    
+    @Override
+    public List<Intervention> rechercheInterventions(UtilisateurHardis uh) {
+        Query requete = getEntityManager().createQuery("select i from Intervention as i where i.UtilisateurHardis=:uh");
+        requete.setParameter("uh", uh);
+        return requete.getResultList();
     }
     
 }
