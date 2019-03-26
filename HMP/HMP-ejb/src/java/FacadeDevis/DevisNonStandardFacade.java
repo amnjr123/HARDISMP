@@ -47,30 +47,34 @@ public class DevisNonStandardFacade extends AbstractFacade<DevisNonStandard> imp
         else{
             d.setStatut(StatutDevis.ReponseEnCours);
             d.setCommentaireClient(commentaireClient);
+            d.setUtilisateurHardis(rl);
+            d.setAgence(agence);
         }
         d.setDateCreation(new Date());
         d.setMontant(montant);
         d.setServiceNonStandard(serviceNonStandard);
-        d.setUtilisateurHardis(rl);
-        d.setAgence(agence);
         d.setClient(c);
         create(d);  
         return d;
     }
     
+    //Méthode pour qu'un client puisse modifier un devis INCOMPLET
     @Override
-    public DevisNonStandard modifierDevisNonStandard(DevisNonStandard d, String commentaireClient){
+    public DevisNonStandard modifierDevisNonStandard(DevisNonStandard d, String commentaireClient, ReferentLocal rl, Agence agence){
         if(commentaireClient==null || commentaireClient.equalsIgnoreCase("")){
             d.setStatut(StatutDevis.Incomplet);
         }
         else{
             d.setStatut(StatutDevis.ReponseEnCours);
             d.setCommentaireClient(commentaireClient);
+            d.setUtilisateurHardis(rl);
+            d.setAgence(agence);
         }
         edit(d);
         return d;
     }
     
+    //Méthode pour qu'un utilisateur Hardis puisse modifier le prix d'un devis
     @Override
     public DevisNonStandard modifierDevisNonStandard(DevisNonStandard d, float montant){
         d.setMontant(montant);
@@ -118,6 +122,8 @@ public class DevisNonStandardFacade extends AbstractFacade<DevisNonStandard> imp
         return d;
     }
     
+    
+    //Méthode pour qu'un client puisse modifier un devis INCOMPLET uniquement
     @Override
     public DevisNonStandard supprimerDevisNonStandard(DevisNonStandard d){
         remove(d);

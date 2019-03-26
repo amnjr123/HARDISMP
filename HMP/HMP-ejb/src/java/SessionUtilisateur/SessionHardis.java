@@ -38,7 +38,10 @@ import GestionDevis.HistoriqueUtilisateurDevis;
 import GestionDevis.Proposition;
 import GestionUtilisateur.CV;
 import GestionUtilisateur.Client;
+import GestionUtilisateur.Consultant;
 import GestionUtilisateur.Disponibilite;
+import GestionUtilisateur.PorteurOffre;
+import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import java.io.UnsupportedEncodingException;
@@ -348,10 +351,36 @@ public class SessionHardis implements SessionHardisLocal {
     }
     
     @Override
-    public DevisStandard envoyerDevisStandard(Long idDevisStandard){
-            DevisStandard d = devisStandardFacade.rechercheDevisStandard(idDevisStandard);
-            return devisStandardFacade.envoyerDevisStandard(d);
+    public DevisNonStandard envoyerDevisNonStandard(Long idDevisNonStandard){ 
+            DevisNonStandard d = devisNonStandardFacade.rechercheDevisNonStandard(idDevisNonStandard);
+            UtilisateurHardis uh = d.getUtilisateurHardis();
+            if(uh.getDtype()=="PorteurOffre"){
+                PorteurOffre po = (PorteurOffre) uh;
+                return devisStandardFacade.envoyerDevisStandard(d);
+            }
+            else if(uh.getDtype()=="ReferentLocal"){
+                ReferentLocal rl = (ReferentLocal) uh;
+                if(rl.getPlafondDelegation()>=d.getMontant()){
+                    return devisStandardFacade.envoyerDevisStandard(d);
+                }
+                else{
+                    return null;
+                }
+            }
+            else if(uh.getDtype()=="Consultant"){
+                Consultant c = (Consultant) uh;
+                if(c.getPlafondDelegation()>=d.getMontant()){
+                    return devisStandardFacade.envoyerDevisStandard(d);
+                }
+                else{
+                    return null;
+                }
+            }
+            else{
+                return null;
+            }
     }
+    
     
     @Override
     public Proposition creerProposition(Date dateDebutValidite, Date dateFinValidite, String cheminDocument, Long idUtilisateurHardis, Long idDevisNonStandard ){
