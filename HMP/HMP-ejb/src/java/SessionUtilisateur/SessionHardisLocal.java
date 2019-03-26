@@ -13,6 +13,7 @@ import GestionCatalogue.ServiceStandard;
 import GestionDevis.Devis;
 import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
+import GestionDevis.Intervention;
 import GestionDevis.Proposition;
 import GestionUtilisateur.CV;
 import GestionUtilisateur.Disponibilite;
@@ -70,9 +71,15 @@ public interface SessionHardisLocal {
     Offre afficheOffre(Long id);
 
     Disponibilite creerDisponibilite(Long idUtilisateurHardis, Date dateDispo, int i);
-
-    List afficherDisponibilites(UtilisateurHardis uh);
-
+    
+    CV afficherCVSansOffre(Long idUtilisateurHardis);
+    
+    CV afficherCv(Long idCV);
+    
     DevisNonStandard envoyerDevisNonStandard(Long idDevisNonStandard);
+
+    List<Disponibilite> afficherDisponibilites(Long idUtilisateur);
+
+    List<Intervention> afficherInterventions(Long idUtilisateur);
    
 }

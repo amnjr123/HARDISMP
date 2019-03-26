@@ -173,6 +173,7 @@ public class SessionHardis implements SessionHardisLocal {
         //Disponibilité par demi-journée
         Calendar cal = Calendar.getInstance();
         cal.setTime(dateDispo);
+        Disponibilite dispo = null;
         if(i==0){
             //Début de la dispo
             Calendar calDebut = Calendar.getInstance();
@@ -191,7 +192,7 @@ public class SessionHardis implements SessionHardisLocal {
             calFin.set(Calendar.HOUR_OF_DAY, 12);
             Date dateFin = calFin.getTime();
             //On vérifie que la dispo n'existe pas déjà
-            Disponibilite dispo = disponibiliteFacade.rechercheDisponibilite(uh,dateDebut);
+            dispo = disponibiliteFacade.rechercheDisponibilite(uh,dateDebut);
             if(dispo==null){
                 //On vérifie qu'il n'y a pas d'intervention (1 journée) plannifiée à cette date
                 Intervention intervention = interventionFacade.rechercheIntervention(uh, dateDebut);
@@ -205,6 +206,7 @@ public class SessionHardis implements SessionHardisLocal {
                 return null;
             }
         }
+        
         else if(i==1){
             //Début de la dispo
             Calendar calDebut = Calendar.getInstance();
@@ -223,7 +225,7 @@ public class SessionHardis implements SessionHardisLocal {
             calFin.set(Calendar.HOUR_OF_DAY, 18);
             Date dateFin = calFin.getTime();
             //On vérifie que la dispo n'existe pas déjà
-            Disponibilite dispo = disponibiliteFacade.rechercheDisponibilite(uh,dateDebut);
+            dispo = disponibiliteFacade.rechercheDisponibilite(uh,dateDebut);
             if(dispo==null){
                 //On vérifie qu'il n'y a pas d'intervention (1 journée) plannifiée à cette date
                 Intervention intervention = interventionFacade.rechercheIntervention(uh, dateDebut);
@@ -237,7 +239,7 @@ public class SessionHardis implements SessionHardisLocal {
                 return null;
             }
         }
-        return null;
+        return dispo;
     }
     
     @Override
@@ -245,6 +247,19 @@ public class SessionHardis implements SessionHardisLocal {
         Disponibilite dispo = disponibiliteFacade.rechercheDisponibilite(idDispo);
         return disponibiliteFacade.supprimerDisponibilite(dispo);
     }
+    
+    @Override
+    public List<Disponibilite> afficherDisponibilites(Long idUtilisateur) {
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateur);
+        return disponibiliteFacade.rechercheDisponibilites(uh);
+    }
+    
+    @Override
+    public List<Intervention> afficherInterventions(Long idUtilisateur) {
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateur);
+        return interventionFacade.rechercheInterventions(uh);
+    }
+    
     
 /*GESTION DU CATALOGUE*/
     
@@ -309,6 +324,11 @@ public class SessionHardis implements SessionHardisLocal {
     }
     
     @Override
+    public CV afficherCv(Long idCV){
+        return cVFacade.rechercheCV(idCV);
+    }
+    
+    @Override
     public List<CV> afficherCVOffre(Long idOffre){
         Offre o = offreFacade.rechercheOffre(idOffre);
         return cVFacade.rechercherCV(o);
@@ -325,6 +345,12 @@ public class SessionHardis implements SessionHardisLocal {
         UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
         Offre o = offreFacade.rechercheOffre(idOffre);
         return cVFacade.rechercherCV(o, uh);
+    }
+    
+    @Override
+    public CV afficherCVSansOffre(Long idUtilisateurHardis){
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
+        return cVFacade.rechercherCVSansOffre(uh);
     }
     
 /*GESTION DES DEVIS*/
@@ -435,10 +461,6 @@ public class SessionHardis implements SessionHardisLocal {
         historiqueUtilisateurDevisFacade.creerSuiteHistoriqueUtilisateurDevis(ancienHistorique, uh);
     }
 
-    @Override
-    public List<Disponibilite> afficherDisponibilites(UtilisateurHardis uh) {
-        return disponibiliteFacade.rechercheDisponibilites(uh);
-    }
-    
+
     
 }

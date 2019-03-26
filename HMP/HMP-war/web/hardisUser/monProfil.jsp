@@ -1,7 +1,7 @@
 <%@page import="GestionUtilisateur.UtilisateurHardis"%>
 <jsp:include page="header.jsp"/>
 <style>
-<jsp:include page="../css/bootstrap4-toggle.css"/>
+    <jsp:include page="../css/bootstrap4-toggle.css"/>
 </style>
 <%
     UtilisateurHardis uh = (UtilisateurHardis) session.getAttribute("sessionHardis");
@@ -89,21 +89,21 @@
                 <label>Profil technique</label>
                 <input type="text" class="form-control" value="<%=(uh.getProfilTechnique())%>" disabled>
             </div>
-            
+
             <div class="mb-3">
                 <label>Type </label>
                 <input type="text" class="form-control" value="<%=(uh.getDtype())%>" disabled>
             </div>
-            
+
             <%
-            if(uh.getDtype().equals("referentLocal") || uh.getDtype().equals("Consultant")){
+                if (uh.getDtype().equals("referentLocal") || uh.getDtype().equals("Consultant")) {
             %>
             <div class="mb-3">
                 <label>Plafond de délégation</label>
                 <input type="text" class="form-control" value="<%=(uh.getDtype())%>" disabled>
             </div>
             <%
-            }
+                }
             %>
             <div class="mb-3">
                 <form method="post" action="${pageContext.request.contextPath}/ServletUtilisateurHardis">
@@ -111,15 +111,15 @@
                     <label>Statut du compte </label>
                     <div class="input-group">
                         <%
-                        if(uh.getActifInactif()==true){
+                            if (uh.getActifInactif() == true) {
                         %>
                         <input checked name="actifInactif" data-toggle="toggle" data-size="lg" type="checkbox" value="actif" data-onstyle="success" data-on="Actif" data-off="Inactif" data-width="200" >
                         <%
-                        }else{
+                        } else {
                         %>
                         <input name="actifInactif" data-toggle="toggle" data-size="lg" type="checkbox" value="actif"  data-onstyle="success" data-on="Actif" data-off="Inactif" data-width="200" >
                         <%
-                        }
+                            }
                         %>
                         <div class="input-group-prepend">
                             <button type="submit" class="btn btn-primary"><i data-feather="check"></i></button>
@@ -127,6 +127,23 @@
                     </div>
                 </form>
             </div>
+        </div>
+    </div>
+
+
+    <div class="card text-white bg-dark mb-3">
+        <div class="card-header"><h4>Mon CV</h4></div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="cv">CV</label>
+                <div class="input-group">
+                    <input name="cv" type="text" class="form-control" placeholder="Votre cv" disabled>
+                    <div class="input-group-prepend">
+                        <a href="#" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changerCVModal"><i data-feather="edit"></i></a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -178,6 +195,28 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
                         <button type="submit" class="btn btn-primary">Valider
                         </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="changerCVModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form enctype="multipart/form-data" class="needs-validation" method="post" action="${pageContext.request.contextPath}/ServletUtilisateurHardis">               
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modifier mon CV (Format PDF uniquement)</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input name="file" type="file" class="form-control" id="cv" accept=".pdf" required>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="action" value="modifierCV">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Valider</button>
                     </div>
                 </form>
             </div>
