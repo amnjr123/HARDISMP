@@ -21,19 +21,16 @@ public class ServletTelechargement extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-<<<<<<< HEAD
-            /*
-            String idDemande = request.getParameter("idDemande");
-            
-            OutputStream out = response.getOutputStream();
-            
-            SFTPConnexion con = new SFTPConnexion();
-            
-            con.downloadFile("/home/hardis/hmp/demandeEntreprise/creation/1752/Logo_Hardis_Group.png", out);
-            
-            out.flush();
-*/
-=======
+
+
+        String idDemande = request.getParameter("idDemande");
+
+        OutputStream out = response.getOutputStream();
+
+        SFTPConnexion con = new SFTPConnexion();
+
+        try {
+
 
         String idDemande = request.getParameter("idDemande");
 
@@ -48,8 +45,6 @@ public class ServletTelechargement extends HttpServlet {
         }
 
         out.flush();
-
->>>>>>> ac1d38c910e1537daa141c1fdeff06b4fb6bcb52
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
