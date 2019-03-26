@@ -20,17 +20,21 @@ public class SFTPConnexion {
     private Channel channel;
     ChannelSftp c;
 
-    public SFTPConnexion() throws JSchException {
-        JSch jsch = new JSch();
-        session = jsch.getSession(username, sftpAdress);
-        session.setPassword(password);
-        Properties config = new java.util.Properties();
-        config.put("StrictHostKeyChecking", "no");
-        session.setConfig(config);
-        session.connect();
-        channel = session.openChannel("sftp");
-        channel.connect();
-        c = (ChannelSftp) channel;
+    public SFTPConnexion(){
+        try {
+            JSch jsch = new JSch();
+            session = jsch.getSession(username, sftpAdress);
+            session.setPassword(password);
+            Properties config = new java.util.Properties();
+            config.put("StrictHostKeyChecking", "no");
+            session.setConfig(config);
+            session.connect();
+            channel = session.openChannel("sftp");
+            channel.connect();
+            c = (ChannelSftp) channel;
+        } catch (JSchException ex) {
+            java.util.logging.Logger.getLogger(SFTPConnexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 

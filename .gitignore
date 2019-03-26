@@ -12,6 +12,7 @@
 
 # Package Files #
 *.jar
+!jsch-0.1.54.jar
 *.war
 *.nar
 *.ear
@@ -33,3 +34,4 @@ hs_err_pid*
 /HMP/HMP-war/build/
 /HMP/HMP-war/dist/
 HMP/nbproject/project.properties
+HMP/HMP-war/nbproject/project.properties

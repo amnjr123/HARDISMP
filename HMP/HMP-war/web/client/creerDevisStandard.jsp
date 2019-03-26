@@ -12,9 +12,9 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 class="h2">Demander un devis <%=(s.getNom())%></h1>
     </div>
-
-
 </main>
-
+    <div class="container">
+        
+    </div>
 
 <jsp:include page="footer.jsp"/>
