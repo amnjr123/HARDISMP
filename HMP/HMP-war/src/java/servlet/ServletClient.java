@@ -103,7 +103,7 @@ public class ServletClient extends HttpServlet {
                                 if (part.getName().equals("files[]")) {
                                     try {
                                         con.uploadFile(part.getInputStream(), "/home/hardis/" + path + "/" + part.getSubmittedFileName());
-                                    } catch (JSchException ex) {
+                                    } catch (Exception ex) {
                                         request.setAttribute("msgError", "Les fichiers joints n'ont pas pu être envoyés");
                                     }
                                 }

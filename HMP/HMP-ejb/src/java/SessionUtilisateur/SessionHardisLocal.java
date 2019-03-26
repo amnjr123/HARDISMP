@@ -73,5 +73,9 @@ public interface SessionHardisLocal {
     Disponibilite creerDisponibilite(Long idUtilisateurHardis, Date dateDispo, int i);
 
     List afficherDisponibilites(UtilisateurHardis uh);
+    
+    CV afficherCVSansOffre(Long idUtilisateurHardis);
+    
+    CV afficherCv(Long idCV);
    
 }

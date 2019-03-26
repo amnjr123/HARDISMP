@@ -102,4 +102,15 @@ public class CVFacade extends AbstractFacade<CV> implements CVFacadeLocal {
         }
     }
     
+    @Override
+    public CV rechercherCVSansOffre(UtilisateurHardis uh){
+        Query requete = em.createQuery("select c from CV as c where c.offre is null and c.utilisateurHardis=:uh");
+        requete.setParameter("uh", uh);
+        if (!requete.getResultList().isEmpty()) {
+            return (CV) requete.getSingleResult();
+        } else {
+            return null;
+        }
+    }
+    
 }

@@ -1,9 +1,12 @@
 package servlet;
 
+import Enum.SFTPConnexion;
 import GestionCatalogue.Offre;
+import GestionUtilisateur.CV;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import SessionUtilisateur.SessionHardisLocal;
+import com.jcraft.jsch.JSchException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,13 +16,18 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 @WebServlet(name = "ServletUtilisateurHardis", urlPatterns = {"/ServletUtilisateurHardis"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 5,
+        maxRequestSize = 1024 * 1024 * 5 * 5)
 public class ServletUtilisateurHardis extends HttpServlet {
 
     @EJB
@@ -48,6 +56,37 @@ public class ServletUtilisateurHardis extends HttpServlet {
 
                 if (act.equals("monProfil")) {
                     jspClient = "/hardisUser/monProfil.jsp";
+                }
+
+                //Joindre ou modifier un cv (Hors cv offres)
+                if (act.equals("modifierCV")) {
+                    SFTPConnexion con = new SFTPConnexion();
+                    boolean fichierJoint = false;
+                    for (Part part : request.getParts()) {
+                        if (part.getName().equals("file")) {
+                            fichierJoint = true;
+                            try {
+                                if (sessionHardis.afficherCVSansOffre(uh.getId())== null) {
+                                    String chemin = "/home/hardis/hmp/utilisateurHardis/" + uh.getId() + "/" + uh.getId() + ".pdf";
+                                    CV cv = sessionHardis.creerCV(chemin, uh.getId());
+                                    con.uploadFile(part.getInputStream(), chemin);
+                                } else {
+                                    Long idCV = sessionHardis.afficherCVSansOffre(uh.getId()).getId();
+                                    CV cv = sessionHardis.afficherCv(idCV);
+                                    con.uploadFile(part.getInputStream(), cv.getCheminCV());
+                                }
+                                con.disconnect();
+                                
+                            } catch (Exception ex) {
+                                request.setAttribute("msgError", "Les fichiers joints n'ont pas pu être envoyés");
+                            }
+                        }
+                    }
+                    if(!fichierJoint){
+                        request.setAttribute("msgError", "Veuillez joindre un fichier");
+                    }
+                    jspClient = "/hardisUser/monProfil.jsp";
+
                 }
 
                 //MODIFIER LE MOT DE PASSE DE LUTILISATEUR HARDIS
@@ -176,10 +215,10 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     request.setAttribute("listeServicesNonStandards", sessionHardis.afficherServicesNonStandards(id));
                     jspClient = "/hardisUser/services.jsp";
                 }
-                
+
                 /*GESTION DES DEVIS*/
-                if(act.equals("devisEnCours")){
-                    request.setAttribute("listeDevis", sessionHardis.rechercherDevis(uh.getId(),null, "ReponseEnCours"));
+                if (act.equals("devisEnCours")) {
+                    request.setAttribute("listeDevis", sessionHardis.rechercherDevis(uh.getId(), null, "ReponseEnCours"));
                     jspClient = "/hardisUser/devisEnCours.jsp";
                 }
             }
