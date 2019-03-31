@@ -21,7 +21,7 @@
 Collection<Communication> listeMessages = listCommunications;
 java.text.DateFormat dfjour = new java.text.SimpleDateFormat("dd/mm/yyyy à HH:mm", Locale.FRENCH);
 java.text.DateFormat dfheure = new java.text.SimpleDateFormat("dd/mm/yyyy à HH:mm", Locale.FRENCH);
-UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
+%>
 
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
@@ -84,7 +84,7 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
                             <td><%=d.getId()%></td>
                             <td><%=d.getClient().getNom()%> <%=d.getClient().getPrenom()%></td>
                             <td><%=d.getClient().getEntreprise().getNom()%></td>
-                            <td><%=d.getServiceNonStandard()%></td>
+                            <td><%=d.getServiceStandard()%></td>
                             <td><%=d.getMontant()%></td>
                             <td><%=d.getStatut()%></td>
                             <td><%=dfjour.format(d.getDateCreation())%></td>
@@ -129,7 +129,8 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
                         </tr>
                     </thead>
                     <tbody>
-                        <%if(!d.getStatut().equals("Incomplet") && !d.getStatut().equals("ReponseEnCours")){%>
+                        <%
+                        if(!d.getStatut().equals("Incomplet") && !d.getStatut().equals("ReponseEnCours")){%>
                         <tr>
                             <td>Devis</td>
                             <td><%=dfjour.format(d.getDateEnvoi())%></td>
@@ -166,12 +167,12 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
             <div class="inbox_msg">
                 <div class="mesgs">
                     <div class="msg_history" id="zoneMessages">
-                        <%for (Communication comm : listeMessages) {
-                                    if (comm.getUtilisateurHardis()!= null) {%>
+                                <%for (Communication comm : listeMessages) {
+                                    if (comm.getClient() != null) {%>
                                         <div class="outgoing_msg">
                                             <div class="sent_msg">
                                                 <p><%=comm.getContenu()%></p>
-                                                <span class="time_date"><%=comm.getUtilisateurHardis().getPrenom()%> <%=comm.getUtilisateurHardis().getNom()%> le <%=dfjour.format(comm.getDateEnvoi())%></span> </div>
+                                                <span class="time_date"><%=dfheure.format(comm.getDateEnvoi())%></span> </div>
                                         </div>
                                     <%} else {%>
                                         <div class="incoming_msg">
@@ -182,10 +183,9 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
                                                     <span class="time_date"><%=dfheure.format(comm.getDateEnvoi())%></span></div>
                                             </div>
                                         </div>
-                                    <%}   
-                            }%>
+                                    <%}
+                                }%>
                     </div>
-                            <%if(uh.getProfilTechnique().equals("Administrateur") || uh==d.getUtilisateurHardis()){%>
                     <div class="type_msg">
                         <div class="input_msg_write" id="newMessage">
                             <form method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis" id="formulaire">
@@ -197,13 +197,6 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
                             </form>
                         </div>
                     </div>
-                    <%}else{%>
-                        <div class="type_msg">
-                            <div class="input_msg_write" id="newMessage">
-                                <input readonly name="message" type="text" class="write_msg" placeholder="Vous n'avez pas les droits nécessaires pour participer à cette conversation." />
-                            </div>
-                        </div>
-                        <%}%>
                 </div>
             </div>
         </div>
@@ -222,5 +215,6 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
             
         </div>
     </div>
+   
 </main>
 <jsp:include page="footer.jsp"/>

@@ -5,6 +5,7 @@ import GestionCatalogue.Offre;
 import GestionDevis.Communication;
 import GestionDevis.Conversation;
 import GestionDevis.DevisNonStandard;
+import GestionDevis.DevisStandard;
 import GestionUtilisateur.CV;
 import GestionUtilisateur.Disponibilite;
 import GestionUtilisateur.Utilisateur;
@@ -252,6 +253,14 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     request.setAttribute("uh", uh);
                     jspClient = "/hardisUser/devisNonStandard.jsp";
                 }
+                if(act.equals("gererDevisStandard")){
+                    Long idDevis = Long.parseLong(request.getParameter("idDevis"));
+                    DevisStandard d = sessionHardis.rechercherDevisStandard(idDevis);
+                    request.setAttribute("devisStandard", d );
+                    request.setAttribute("listCommunications", sessionHardis.afficherCommunications(d.getConversation().getId()));
+                    request.setAttribute("uh", uh);
+                    jspClient = "/hardisUser/devisStandard.jsp";
+                }
                 
                 /*MESSAGERIE*/
                 if (act.equals("messages")) {
@@ -291,7 +300,7 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     request.setAttribute("conversation", conv);
                     jspClient = "/hardisUser/inbox.jsp";
                 }
-                if(act.equals("repondreMessageDevis")){
+                if(act.equals("repondreMessageDevisNonStandard")){
                     Long convId = Long.parseLong(request.getParameter("idConversation"));
                     Conversation conv = sessionHardis.afficherConversation(convId);
                     if (request.getParameter("message") != null && !request.getParameter("message").isEmpty()) {
@@ -304,6 +313,19 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     request.setAttribute("listHistoriqueUtilisateurDevis",sessionHardis.afficherHistoriqueUtilisateurDevis(idDevis));
                     request.setAttribute("uh", uh);
                     jspClient = "/hardisUser/devisNonStandard.jsp";
+                }
+                if(act.equals("repondreMessageDevisStandard")){
+                    Long convId = Long.parseLong(request.getParameter("idConversation"));
+                    Conversation conv = sessionHardis.afficherConversation(convId);
+                    if (request.getParameter("message") != null && !request.getParameter("message").isEmpty()) {
+                        String message = request.getParameter("message");
+                        Communication comm = sessionHardis.creerCommunication(message, conv.getId());
+                    }
+                    request.setAttribute("listCommunications", sessionHardis.afficherCommunications(conv.getId()));
+                    Long idDevis = Long.parseLong(request.getParameter("idDevis"));
+                    request.setAttribute("devisStandard", sessionHardis.rechercherDevisStandard(idDevis));
+                    request.setAttribute("uh", uh);
+                    jspClient = "/hardisUser/devisStandard.jsp";
                 }
             }
         }

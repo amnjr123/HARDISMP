@@ -13,15 +13,17 @@
 <%@page import="GestionCatalogue.ServiceStandard"%>
 <%@page import="GestionCatalogue.ServiceNonStandard"%>
 <%@page import="java.util.Collection"%>
-<jsp:useBean id="devisStandard" scope="request" class="GestionDevis.DevisStandard"></jsp:useBean>
+<jsp:useBean id="devisNonStandard" scope="request" class="GestionDevis.DevisNonStandard"></jsp:useBean>
+<jsp:useBean id="listHistoriqueUtilisateurDevis" scope="request" class="java.util.Collection"></jsp:useBean>
 <jsp:useBean id="listCommunications" scope="request" class="java.util.Collection"></jsp:useBean>
 <jsp:include page="header.jsp"/>
 
-<%DevisStandard d = devisStandard;
+<%DevisNonStandard d = devisNonStandard;
 Collection<Communication> listeMessages = listCommunications;
+Collection<HistoriqueUtilisateurDevis> listeHistoriqueUtilisateurDevis = listHistoriqueUtilisateurDevis;
 java.text.DateFormat dfjour = new java.text.SimpleDateFormat("dd/mm/yyyy à HH:mm", Locale.FRENCH);
 java.text.DateFormat dfheure = new java.text.SimpleDateFormat("dd/mm/yyyy à HH:mm", Locale.FRENCH);
-UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
+%>
 
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
@@ -102,6 +104,7 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
                             <%}%>
                             <td>
                                 <p><%=d.getUtilisateurHardis()%></p>
+                                <p><a href="#" data-toggle="modal" data-target="#historiqueUtilisateur" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="list"></i> Voir l'historique</a></p>
                             </td>
                         </tr>
                     </tbody>
@@ -129,7 +132,17 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
                         </tr>
                     </thead>
                     <tbody>
-                        <%if(!d.getStatut().equals("Incomplet") && !d.getStatut().equals("ReponseEnCours")){%>
+                        <%if(!d.getPropositions().isEmpty()){
+                        for(Proposition p : d.getPropositions()){%>
+                        <tr>
+                            <td>Proposition commerciale n°<%=p.getId()%></td>
+                            <td><%=dfjour.format(p.getDateDebutValidite())%></td>
+                            <td>
+                                <a href="#" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="download"></i></a>
+                            </td>
+                        </tr>
+                        <%}}
+                        if(!d.getStatut().equals("Incomplet") && !d.getStatut().equals("ReponseEnCours")){%>
                         <tr>
                             <td>Devis</td>
                             <td><%=dfjour.format(d.getDateEnvoi())%></td>
@@ -166,12 +179,12 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
             <div class="inbox_msg">
                 <div class="mesgs">
                     <div class="msg_history" id="zoneMessages">
-                        <%for (Communication comm : listeMessages) {
-                                    if (comm.getUtilisateurHardis()!= null) {%>
+                                <%for (Communication comm : listeMessages) {
+                                    if (comm.getClient() != null) {%>
                                         <div class="outgoing_msg">
                                             <div class="sent_msg">
                                                 <p><%=comm.getContenu()%></p>
-                                                <span class="time_date"><%=comm.getUtilisateurHardis().getPrenom()%> <%=comm.getUtilisateurHardis().getNom()%> le <%=dfjour.format(comm.getDateEnvoi())%></span> </div>
+                                                <span class="time_date"><%=dfheure.format(comm.getDateEnvoi())%></span> </div>
                                         </div>
                                     <%} else {%>
                                         <div class="incoming_msg">
@@ -182,14 +195,13 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
                                                     <span class="time_date"><%=dfheure.format(comm.getDateEnvoi())%></span></div>
                                             </div>
                                         </div>
-                                    <%}   
-                            }%>
+                                    <%}
+                                }%>
                     </div>
-                            <%if(uh.getProfilTechnique().equals("Administrateur") || uh==d.getUtilisateurHardis()){%>
                     <div class="type_msg">
                         <div class="input_msg_write" id="newMessage">
                             <form method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis" id="formulaire">
-                                <input type="hidden" name="action" value="repondreMessageDevisStandard">
+                                <input type="hidden" name="action" value="repondreMessageDevisNonStandard">
                                 <input type="hidden" name="idConversation" value="<%=d.getConversation().getId()%>">
                                 <input type="hidden" name="idDevis" value="<%=d.getId()%>">
                                 <input name="message" type="text" class="write_msg" placeholder="Ecrivez votre message ici" />
@@ -197,13 +209,6 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
                             </form>
                         </div>
                     </div>
-                    <%}else{%>
-                        <div class="type_msg">
-                            <div class="input_msg_write" id="newMessage">
-                                <input readonly name="message" type="text" class="write_msg" placeholder="Vous n'avez pas les droits nécessaires pour participer à cette conversation." />
-                            </div>
-                        </div>
-                        <%}%>
                 </div>
             </div>
         </div>
@@ -222,5 +227,38 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
             
         </div>
     </div>
+                                
+    <div class="modal fade" id="historiqueUtilisateur" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Historique des responsables du devis</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <%for(HistoriqueUtilisateurDevis h : listeHistoriqueUtilisateurDevis){%>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Du</th>
+                                        <th scope="col">Au</th>
+                                    </tr>
+                                </thead>
+                                <tbody>                                     
+                                    <tr>
+                                        <td><%=h.getUtilisateurHardis().getPrenom()%> <%=h.getUtilisateurHardis().getNom()%></td>
+                                        <td><%=dfjour.format(h.getDateDebut())%></td>
+                                        <td><%=dfjour.format(h.getDateFin())%></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <%}%>
+                    </div>
+                </div>
+            </div>
+        </div>
 </main>
 <jsp:include page="footer.jsp"/>

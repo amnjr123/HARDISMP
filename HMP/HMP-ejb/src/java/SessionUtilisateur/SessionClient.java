@@ -40,6 +40,7 @@ import GestionDevis.Conversation;
 import GestionDevis.Devis;
 import GestionDevis.DevisNonStandard;
 import GestionDevis.Intervention;
+import GestionDevis.HistoriqueUtilisateurDevis;
 import GestionUtilisateur.Consultant;
 import GestionUtilisateur.Disponibilite;
 import GestionUtilisateur.Entreprise;
@@ -347,6 +348,22 @@ public class SessionClient implements SessionClientLocal {
             StatutDevis statut = StatutDevis.valueOf(statutDevis);
             return devisFacade.rechercherDevis(c, statut);
         }
+    }
+    
+    @Override
+    public DevisNonStandard rechercherDevisNonStandard(Long idDevisNonStandard){
+        return devisNonStandardFacade.rechercheDevisNonStandard(idDevisNonStandard);
+    }
+    
+    @Override
+    public DevisStandard rechercherDevisStandard(Long idDevisStandard){
+        return devisStandardFacade.rechercheDevisStandard(idDevisStandard);
+    }
+    
+    @Override
+    public List<HistoriqueUtilisateurDevis> afficherHistoriqueUtilisateurDevis(Long idDevis){
+        Devis d = devisFacade.rechercherDevis(idDevis);
+        return historiqueUtilisateurDevisFacade.rechercheHistoriqueUtilisateurDevis(d);
     }
 
     /*GESTION DE LA MESSAGERIE*/

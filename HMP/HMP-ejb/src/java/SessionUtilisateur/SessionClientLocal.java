@@ -15,6 +15,7 @@ import GestionDevis.Conversation;
 import GestionDevis.Devis;
 import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
+import GestionDevis.HistoriqueUtilisateurDevis;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Consultant;
@@ -99,6 +100,10 @@ public interface SessionClientLocal {
 
     Conversation afficherConversation(Long idConversation);
 
+    DevisNonStandard rechercherDevisNonStandard(Long idDevisNonStandard);
+
+    List<HistoriqueUtilisateurDevis> afficherHistoriqueUtilisateurDevis(Long idDevis);
+
     void supprimerDevisStandardIncomplet(Long idDevis);
 
     void supprimerDevisNonStandardIncomplet(Long idDevis);
@@ -106,4 +111,7 @@ public interface SessionClientLocal {
     List<Consultant> listConsultant(Long idAgence);
 
     void creerIntervention(List<Long> disponibilitesEnDemoJournee, Long idDevis);
+
+    DevisStandard rechercherDevisStandard(Long idDevisStandard);
+
 }

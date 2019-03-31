@@ -284,9 +284,16 @@ public class ServletClient extends HttpServlet {
                         }
                     } else {
                         if (devis.getDtype().equalsIgnoreCase("DevisStandard")) {
-
+                            DevisStandard d = sessionClient.rechercherDevisStandard(idDevis);
+                            request.setAttribute("devisStandard", d );
+                            request.setAttribute("listCommunications", sessionClient.afficherCommunications(d.getConversation().getId()));
+                            jspClient = "/client/devisStandard.jsp";
                         } else if (devis.getDtype().equalsIgnoreCase("DevisNonStandard")) {
-
+                            DevisNonStandard d = sessionClient.rechercherDevisNonStandard(idDevis);
+                            request.setAttribute("devisNonStandard", d );
+                            request.setAttribute("listHistoriqueUtilisateurDevis",sessionClient.afficherHistoriqueUtilisateurDevis(idDevis));
+                            request.setAttribute("listCommunications", sessionClient.afficherCommunications(d.getConversation().getId()));
+                            jspClient = "/client/devisNonStandard.jsp";
                         }
                     }
                 }
@@ -351,6 +358,41 @@ public class ServletClient extends HttpServlet {
                     request.setAttribute("service", st);
                     jspClient = "/client/creerDevisNonStandard.jsp";
                 }
+                
+                if(act.equals("gererDevisNonStandard")){
+                    Long idDevis = Long.parseLong(request.getParameter("idDevis"));
+                    DevisNonStandard d = sessionClient.rechercherDevisNonStandard(idDevis);
+                    request.setAttribute("devisNonStandard", d );
+                    request.setAttribute("listHistoriqueUtilisateurDevis",sessionClient.afficherHistoriqueUtilisateurDevis(idDevis));
+                    request.setAttribute("listCommunications", sessionClient.afficherCommunications(d.getConversation().getId()));
+                    jspClient = "/client/devisNonStandard.jsp";
+                }
+                if(act.equals("repondreMessageDevisNonStandard")){
+                    Long convId = Long.parseLong(request.getParameter("idConversation"));
+                    Conversation conv = sessionClient.afficherConversation(convId);
+                    if (request.getParameter("message") != null && !request.getParameter("message").isEmpty()) {
+                        String message = request.getParameter("message");
+                        Communication comm = sessionClient.creerCommunication(message, conv.getId());
+                    }
+                    request.setAttribute("listCommunications", sessionClient.afficherCommunications(conv.getId()));
+                    Long idDevis = Long.parseLong(request.getParameter("idDevis"));
+                    request.setAttribute("devisNonStandard", sessionClient.rechercherDevisNonStandard(idDevis));
+                    request.setAttribute("listHistoriqueUtilisateurDevis",sessionClient.afficherHistoriqueUtilisateurDevis(idDevis));
+                    jspClient = "/client/devisNonStandard.jsp";
+                }
+                if(act.equals("repondreMessageDevisStandard")){
+                    Long convId = Long.parseLong(request.getParameter("idConversation"));
+                    Conversation conv = sessionClient.afficherConversation(convId);
+                    if (request.getParameter("message") != null && !request.getParameter("message").isEmpty()) {
+                        String message = request.getParameter("message");
+                        Communication comm = sessionClient.creerCommunication(message, conv.getId());
+                    }
+                    request.setAttribute("listCommunications", sessionClient.afficherCommunications(conv.getId()));
+                    Long idDevis = Long.parseLong(request.getParameter("idDevis"));
+                    request.setAttribute("devisStandard", sessionClient.rechercherDevisStandard(idDevis));
+                    jspClient = "/client/devisStandard.jsp";
+                }
+                
 
                 /*Suppression Devis incomplet*/
                 if (act.equals("supprimerDevisStandard")) {
