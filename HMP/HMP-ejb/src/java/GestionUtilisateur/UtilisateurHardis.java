@@ -7,6 +7,7 @@ package GestionUtilisateur;
 
 import Enum.ProfilTechnique;
 import GestionDevis.Communication;
+import GestionDevis.Conversation;
 import GestionDevis.Devis;
 import GestionDevis.HistoriqueUtilisateurDevis;
 import GestionDevis.Intervention;
@@ -87,6 +88,17 @@ public class UtilisateurHardis extends Utilisateur implements Serializable {
     public void setPropositions(List<Proposition> propositions) {
         this.propositions = propositions;
     }
+    
+    @OneToMany(mappedBy = "UtilisateurHardis")
+    private List<Conversation> conversations;
+
+    public List<Conversation> getConversations() {
+        return conversations;
+    }
+
+    public void setConversations(List<Conversation> conversations) {
+        this.conversations = conversations;
+    }    
     
     @OneToMany(mappedBy = "utilisateurHardis")
     private List<Communication> communications;

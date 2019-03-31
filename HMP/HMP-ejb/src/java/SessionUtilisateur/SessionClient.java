@@ -12,6 +12,8 @@ import FacadeCatalogue.OffreFacadeLocal;
 import FacadeCatalogue.ServiceFacadeLocal;
 import FacadeCatalogue.ServiceNonStandardFacadeLocal;
 import FacadeCatalogue.ServiceStandardFacadeLocal;
+import FacadeDevis.CommunicationFacadeLocal;
+import FacadeDevis.ConversationFacadeLocal;
 import FacadeDevis.DevisFacadeLocal;
 import FacadeDevis.DevisNonStandardFacadeLocal;
 import FacadeDevis.DevisStandardFacadeLocal;
@@ -35,6 +37,8 @@ import FacadeUtilisateur.DemandeRattachementFacadeLocal;
 import FacadeUtilisateur.InterlocuteurFacadeLocal;
 import GestionCatalogue.Livrable;
 import GestionCatalogue.ServiceNonStandard;
+import GestionDevis.Communication;
+import GestionDevis.Conversation;
 import GestionDevis.Devis;
 import GestionDevis.DevisNonStandard;
 import GestionUtilisateur.Entreprise;
@@ -50,6 +54,12 @@ import javax.ejb.Stateless;
 
 @Stateless
 public class SessionClient implements SessionClientLocal {
+
+    @EJB
+    private CommunicationFacadeLocal communicationFacade;
+
+    @EJB
+    private ConversationFacadeLocal conversationFacade;
     
     @EJB
     private HistoriqueUtilisateurDevisFacadeLocal historiqueUtilisateurDevisFacade;
@@ -325,7 +335,35 @@ public class SessionClient implements SessionClientLocal {
             return devisFacade.rechercherDevis(c, statut);
         }
     }
-
+    /*GESTION DE LA MESSAGERIE*/
+    
+    @Override
+    public Conversation creerConversation(Long idClient){
+        Client c = clientFacade.rechercheClient(idClient);
+        return conversationFacade.creerConversation(c);
+    }
+    @Override
+    public Communication creerCommunication(String message,Long idConversation){
+        Conversation conv = conversationFacade.rechercheConversation(idConversation);
+        return communicationFacade.creerCommunication(message, conv.getClient(),null,conv);
+    }
+    
+    @Override
+    public List<Conversation> afficherConversations(Long idClient){
+        Client c = clientFacade.rechercheClient(idClient);
+        return conversationFacade.rechercherConversations(c);
+    }
+    
+    @Override
+    public Conversation afficherConversation(Long idConversation){
+        return conversationFacade.rechercheConversation(idConversation);
+    }
+    
+    @Override
+    public List<Communication> afficherCommunications(Long idConversation){
+        Conversation conv = conversationFacade.rechercheConversation(idConversation);
+        return communicationFacade.rechercherCommunications(conv);
+    }
 
     /*GESTION DU COMPTE*/
     @Override

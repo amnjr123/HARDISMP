@@ -20,6 +20,7 @@
         <title><%=(c.getNom() + ' ' + c.getPrenom())%></title>
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/custom/dashboard.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/css/bootstrap-chat.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/custom/simple-sidebar.css" rel="stylesheet"> 
         <link href="${pageContext.request.contextPath}/css/custom/fileInput.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/snatchbot.css" rel="stylesheet" type="text/css"> 
@@ -91,7 +92,7 @@
                             <a href="${pageContext.request.contextPath}/client/factures.jsp" class="list-group-item d-flex justify-content-between bg-light">
                                 <span><span data-feather="shopping-cart"></span> Mes factures</span>
                             </a>
-                            <a href="${pageContext.request.contextPath}/client/inbox.jsp" class="list-group-item d-flex justify-content-between bg-light">
+                            <a href="${pageContext.request.contextPath}/ServletClient?action=messages" class="list-group-item d-flex justify-content-between bg-light">
                                 <span><span data-feather="inbox"></span> Inbox</span>
                             </a>
                         </div>

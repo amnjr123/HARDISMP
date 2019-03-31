@@ -6,6 +6,7 @@
 package FacadeDevis;
 
 import GestionDevis.Communication;
+import GestionDevis.Conversation;
 import GestionDevis.Devis;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.UtilisateurHardis;
@@ -33,14 +34,14 @@ public interface CommunicationFacadeLocal {
 
     int count();
 
-    Communication creerCommunication(String contenu, Client client, UtilisateurHardis uh);
-
-    Communication creerCommunication(String contenu, Client client, UtilisateurHardis uh, Devis devis);
-
     Communication supprimerCommunication(Communication c);
 
     Communication rechercheCommunication(long id);
 
     List<Communication> rechercheCommunication();
+
+    Communication creerCommunication(String contenu, Client client, UtilisateurHardis uh, Conversation conversation);
+
+    List<Communication> rechercherCommunications(Conversation conv);
     
 }

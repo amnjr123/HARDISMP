@@ -6,6 +6,7 @@
 package FacadeDevis;
 
 import GestionDevis.Communication;
+import GestionDevis.Conversation;
 import GestionDevis.Devis;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.UtilisateurHardis;
@@ -14,6 +15,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -33,27 +35,20 @@ public class CommunicationFacade extends AbstractFacade<Communication> implement
     public CommunicationFacade() {
         super(Communication.class);
     }
-    //Dans le cadre d'un devis
+   
     @Override
-    public Communication creerCommunication(String contenu,Client client, UtilisateurHardis uh, Devis devis){
+    public Communication creerCommunication(String contenu,Client client, UtilisateurHardis uh, Conversation conversation){
         Communication c = new Communication();
         c.setDateEnvoi(new Date());
         c.setContenu(contenu);
-        c.setClient(client);
-        c.setUtilisateurHardis(uh);
-        c.setDevis(devis);
-        create(c);  
-        return c;
-    }
-    
-    //Hors devis
-    @Override
-    public Communication creerCommunication(String contenu,Client client, UtilisateurHardis uh){
-        Communication c = new Communication();
-        c.setDateEnvoi(new Date());
-        c.setContenu(contenu);
-        c.setClient(client);
-        c.setUtilisateurHardis(uh);
+        if(client != null){
+            c.setClient(client);
+        }
+        else{
+            c.setUtilisateurHardis(uh);
+        }
+        c.setConversation(conversation);
+        conversation.getCommunications().add(c);
         create(c);  
         return c;
     }
@@ -72,5 +67,12 @@ public class CommunicationFacade extends AbstractFacade<Communication> implement
     @Override
     public List<Communication> rechercheCommunication(){
         return findAll();
+    }
+    
+    @Override
+    public List<Communication> rechercherCommunications(Conversation conv) {
+        Query requete = getEntityManager().createQuery("select c from Communication as c where c.Conversation=:conv");
+        requete.setParameter("conv",conv);
+        return requete.getResultList();
     }
 }

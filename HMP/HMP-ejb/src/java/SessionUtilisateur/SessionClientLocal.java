@@ -10,6 +10,8 @@ import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
 import GestionCatalogue.ServiceNonStandard;
 import GestionCatalogue.ServiceStandard;
+import GestionDevis.Communication;
+import GestionDevis.Conversation;
 import GestionDevis.Devis;
 import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
@@ -85,4 +87,14 @@ public interface SessionClientLocal {
     List<Offre> rechercherOffresClient();
 
     Devis afficherLeDevis(long id);
+
+    Conversation creerConversation(Long idClient);
+
+    List<Conversation> afficherConversations(Long idClient);
+
+    Communication creerCommunication(String message, Long idConversation);
+
+    List<Communication> afficherCommunications(Long idConversation);
+
+    Conversation afficherConversation(Long idConversation);
 }

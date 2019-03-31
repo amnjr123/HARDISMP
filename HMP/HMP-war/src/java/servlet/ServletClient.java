@@ -5,6 +5,8 @@ import Enum.StatutDevis;
 import GestionCatalogue.Offre;
 import GestionCatalogue.ServiceNonStandard;
 import GestionCatalogue.ServiceStandard;
+import GestionDevis.Communication;
+import GestionDevis.Conversation;
 import GestionDevis.Devis;
 import GestionDevis.DevisStandard;
 import GestionUtilisateur.Client;
@@ -14,6 +16,7 @@ import com.jcraft.jsch.JSchException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -97,7 +100,6 @@ public class ServletClient extends HttpServlet {
                             idAgence = Long.parseLong(agence);
                         }
 
-                        System.out.print(id);
                         if (siret != null && !siret.isEmpty()) {
                             String path = sessionClient.DemandeCreationOuRattachement(id, nom, siret, adresse, idAgence);
 
@@ -312,6 +314,51 @@ public class ServletClient extends HttpServlet {
                     ServiceNonStandard st = sessionClient.rechercherServiceNonStandard(id);
                     request.setAttribute("service", st);
                     jspClient = "/client/creerDevisNonStandard.jsp";
+                }
+                
+                
+                /*MESSAGERIE*/
+                if (act.equals("messages")) {
+                    request.setAttribute("listConversations", sessionClient.afficherConversations(c.getId()));
+                    Conversation conversationActive = null;
+                    if(!sessionClient.afficherConversations(c.getId()).isEmpty()){
+                        if(request.getParameter("idConversation")==null){
+                            //La dernière conversation créée devient la conversation active dans le chat, s'il n'y a pas de conversation on laisse null
+                            conversationActive = sessionClient.afficherConversations(c.getId()).get(sessionClient.afficherConversations(c.getId()).size()-1);
+                            System.out.println(conversationActive.getId());
+                        }else{
+                            //Si une conversation est sélectionnée elle devient la conversation active
+                            conversationActive = sessionClient.afficherConversation(Long.parseLong(request.getParameter("idConversation")));
+                        }
+                        //request.setAttribute("listCommunications", sessionClient.afficherCommunications(conversationActive.getId()));
+                    }
+                    request.setAttribute("conversation", conversationActive);
+                    jspClient = "/client/inbox.jsp";
+                }
+                
+                if(act.equals("nouvelleConversation")){
+                    Conversation conv = null;
+                    if (request.getParameter("message") != null && !request.getParameter("message").isEmpty()) {
+                        String message = request.getParameter("message");
+                        conv = sessionClient.creerConversation(c.getId());
+                        Communication comm = sessionClient.creerCommunication(message, conv.getId());
+                    }
+                    request.setAttribute("listConversations", sessionClient.afficherConversations(c.getId()));
+                    //Conversation active
+                    request.setAttribute("conversation", conv);
+                    jspClient = "/client/inbox.jsp";
+                }
+                if(act.equals("repondreMessage")){
+                    Long convId = Long.parseLong(request.getParameter("idConversation"));
+                    Conversation conv = sessionClient.afficherConversation(convId);
+                    if (request.getParameter("message") != null && !request.getParameter("message").isEmpty()) {
+                        String message = request.getParameter("message");
+                        Communication comm = sessionClient.creerCommunication(message, conv.getId());
+                    }
+                    request.setAttribute("listConversations", sessionClient.afficherConversations(c.getId()));
+                    //Conversation Active
+                    request.setAttribute("conversation", conv);
+                    jspClient = "/client/inbox.jsp";
                 }
             }
         }

@@ -1,6 +1,7 @@
 package GestionUtilisateur;
 
 import GestionDevis.Communication;
+import GestionDevis.Conversation;
 import GestionDevis.Devis;
 import java.io.Serializable;
 import java.util.List;
@@ -36,6 +37,16 @@ public class Client extends Utilisateur implements Serializable {
 
     public void setEntreprise(Entreprise entreprise) {
         this.entreprise = entreprise;
+    }
+    @OneToMany(mappedBy = "Client")
+    private List<Conversation> conversations;
+
+    public List<Conversation> getConversations() {
+        return conversations;
+    }
+
+    public void setConversations(List<Conversation> conversations) {
+        this.conversations = conversations;
     }
     
     @OneToMany(mappedBy = "client")

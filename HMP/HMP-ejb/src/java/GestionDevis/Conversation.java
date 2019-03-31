@@ -5,58 +5,58 @@
  */
 package GestionDevis;
 
-import Enum.TypeCommunication;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.UtilisateurHardis;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
 /**
  *
- * @author 5151882
+ * @author ManonMADRANGES
  */
 @Entity
-public class Communication implements Serializable {
+public class Conversation implements Serializable {
 //Clés étrangères
     @ManyToOne
-    private Conversation Conversation;
-
-    public Conversation getConversation() {
-        return Conversation;
-    }
-
-    public void setConversation(Conversation Conversation) {
-        this.Conversation = Conversation;
-    }
-    
-    @ManyToOne
-    private Client client;
+    private Client Client;
 
     public Client getClient() {
-        return client;
+        return Client;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClient(Client Client) {
+        this.Client = Client;
     }
 
     @ManyToOne
-    private UtilisateurHardis utilisateurHardis;
+    private UtilisateurHardis UtilisateurHardis;
 
     public UtilisateurHardis getUtilisateurHardis() {
-        return utilisateurHardis;
+        return UtilisateurHardis;
     }
 
-    public void setUtilisateurHardis(UtilisateurHardis utilisateurHardis) {
-        this.utilisateurHardis = utilisateurHardis;
+    public void setUtilisateurHardis(UtilisateurHardis UtilisateurHardis) {
+        this.UtilisateurHardis = UtilisateurHardis;
     }
 
+    @OneToMany(mappedBy = "Conversation")
+    private List<Communication> communications;
+
+    public List<Communication> getCommunications() {
+        return communications;
+    }
+
+    public void setCommunications(List<Communication> communications) {
+        this.communications = communications;
+    }
 //Attributs
     private static final long serialVersionUID = 1L;
     @Id
@@ -72,36 +72,26 @@ public class Communication implements Serializable {
     }
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date dateEnvoi;
+    private Date DateCreation;
 
-    public Date getDateEnvoi() {
-        return dateEnvoi;
+    public Date getDateCreation() {
+        return DateCreation;
     }
 
-    public void setDateEnvoi(Date dateEnvoi) {
-        this.dateEnvoi = dateEnvoi;
+    public void setDateCreation(Date DateCreation) {
+        this.DateCreation = DateCreation;
     }
 
-    private String contenu;
+    @ManyToOne
+    private Devis devis;
 
-    public String getContenu() {
-        return contenu;
+    public Devis getDevis() {
+        return devis;
     }
 
-    public void setContenu(String contenu) {
-        this.contenu = contenu;
+    public void setDevis(Devis devis) {
+        this.devis = devis;
     }
-
-    private TypeCommunication typeCommunication;
-
-    public TypeCommunication getTypeCommunication() {
-        return typeCommunication;
-    }
-
-    public void setTypeCommunication(TypeCommunication typeCommunication) {
-        this.typeCommunication = typeCommunication;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -112,10 +102,10 @@ public class Communication implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Communication)) {
+        if (!(object instanceof Conversation)) {
             return false;
         }
-        Communication other = (Communication) object;
+        Conversation other = (Conversation) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -124,7 +114,7 @@ public class Communication implements Serializable {
 
     @Override
     public String toString() {
-        return "GestionDevis.Communication[ id=" + id + " ]";
+        return "GestionDevis.Conversation[ id=" + id + " ]";
     }
     
 }
