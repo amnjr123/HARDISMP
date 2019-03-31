@@ -30,7 +30,7 @@
 <div class="container">
     <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletClient">
         <div class="form-group">
-            <label for="description">Description *</label>
+            <label for="description"><b>Description *</b></label>
             <textarea rows="4"  minlength="50" name="commentaire" type="text" id="commentaire" class="form-control" placeholder="votre commentaire" required autofocus></textarea>
             <div class="invalid-feedback">
                 Un commentaire sur votre besoin est obligatoire et doit être au minimum 50 caractères.
@@ -38,10 +38,11 @@
         </div>
 
         <div class="form-group">
-            <label for="description">Choix des consultants & date d'intervention *</label>
+            <label for="description"><b>Choix des consultants & date d'intervention *</b></label>
             <%for (Consultant c : listeConsultants) {%>
             <p><%=c.getPrenom()%> <%=c.getNom()%></p>
-                <select name="disponibilites<%=c.getId()%>">    
+            
+            <select name="disponibilites" class="form-control selectpicker" id="selectOffre"  multiple show-tick  style="width:auto;">  
                     <%//Liste pour retenir les journées déjà affichées
                         ArrayList<Disponibilite> listeVerifications = new ArrayList();
                         for (Disponibilite d : c.getDisponibilites()){
@@ -57,15 +58,16 @@
                                 if(dcal.get(Calendar.YEAR)==dTest.get(Calendar.YEAR) && dcal.get(Calendar.MONTH)==dTest.get(Calendar.MONTH) && dcal.get(Calendar.DAY_OF_MONTH)==dTest.get(Calendar.DAY_OF_MONTH)){
                                     //Vérification qu'on n'a pas déjà affiché cette journée
                                     if(!listeVerifications.contains(dTestMemeJournee) && !listeVerifications.contains(d)){
-                                        %><option value="<%=d.getId()%>" ><%out.println(dcal.get(Calendar.DAY_OF_MONTH)+"/"+dcal.get(Calendar.MONTH)+"/"+dcal.get(Calendar.YEAR));%></option><%
+                                        %><option value="<%=d.getId()%>/<%=dTestMemeJournee.getId()%>" ><%out.println(dcal.get(Calendar.DAY_OF_MONTH)+"/"+dcal.get(Calendar.MONTH)+"/"+dcal.get(Calendar.YEAR));%></option><%
                                         listeVerifications.add(dTestMemeJournee);
                                         listeVerifications.add(d);
                                     }
                                 }
                             }
                         }  
-                    } 
-            }%>
+                    }%> 
+                </select>
+            <%}%>
         </div>
         <div class="form-group">
             <input type="hidden" name="idDevis" value="<%=devis.getId()%>">
