@@ -21,6 +21,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -31,15 +32,15 @@ import javax.persistence.Temporal;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Devis implements Serializable {
 //Clés étrangères
-    @OneToMany(mappedBy = "devis")
-    private List<Conversation> conversations;
+    @OneToOne
+    private Conversation conversation;
 
-    public List<Conversation> getConversations() {
-        return conversations;
+    public Conversation getConversation() {
+        return conversation;
     }
 
-    public void setConversations(List<Conversation> conversations) {
-        this.conversations = conversations;
+    public void setConversation(Conversation conversation) {
+        this.conversation = conversation;
     }
     
     @ManyToOne

@@ -1,3 +1,4 @@
+<%@page import="GestionDevis.Communication"%>
 <%@page import="GestionDevis.Proposition"%>
 <%@page import="java.util.Locale"%>
 <%@page import="GestionDevis.HistoriqueUtilisateurDevis"%>
@@ -14,10 +15,16 @@
 <%@page import="java.util.Collection"%>
 <jsp:useBean id="devisNonStandard" scope="request" class="GestionDevis.DevisNonStandard"></jsp:useBean>
 <jsp:useBean id="listHistoriqueUtilisateurDevis" scope="request" class="java.util.Collection"></jsp:useBean>
+<jsp:useBean id="listCommunications" scope="request" class="java.util.Collection"></jsp:useBean>
 <jsp:include page="header.jsp"/>
-<%DevisNonStandard d = devisNonStandard;%>
-<%Collection<HistoriqueUtilisateurDevis> listeHistoriqueUtilisateurDevis = listHistoriqueUtilisateurDevis;
-java.text.DateFormat df = new java.text.SimpleDateFormat("dd/mm/yyyy", Locale.FRENCH);%>
+
+<%DevisNonStandard d = devisNonStandard;
+Collection<Communication> listeMessages = listCommunications;
+Collection<HistoriqueUtilisateurDevis> listeHistoriqueUtilisateurDevis = listHistoriqueUtilisateurDevis;
+java.text.DateFormat dfjour = new java.text.SimpleDateFormat("dd/mm/yyyy à HH:mm", Locale.FRENCH);
+java.text.DateFormat dfheure = new java.text.SimpleDateFormat("dd/mm/yyyy à HH:mm", Locale.FRENCH);
+UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
+
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 class="h2">Gestion du devis personnalisé</h1>
@@ -58,6 +65,19 @@ java.text.DateFormat df = new java.text.SimpleDateFormat("dd/mm/yyyy", Locale.FR
                             <th scope="col">Service</th>
                             <th scope="col">Montant</th>
                             <th scope="col">Etat</th>
+                            <th scope="col">Date de création</th>
+                            <%if(d.getStatut().equals("Envoye") || d.getStatut().equals("Valide") || d.getStatut().equals("Refuse") || d.getStatut().equals("AcompteRegle") || d.getStatut().equals("PrestationTerminee")){%>
+                            <th scope="col">Date d'envoi au client</th>
+                            <%}
+                            if(d.getStatut().equals("Valide") || d.getStatut().equals("Refuse") || d.getStatut().equals("AcompteRegle") || d.getStatut().equals("PrestationTerminee")){%>
+                            <th scope="col">Date de réponse</th>
+                            <%}
+                            if(d.getStatut().equals("AcompteRegle") || d.getStatut().equals("PrestationTerminee")){%>
+                            <th scope="col">Date de versement de l'acompte</th>
+                            <%}
+                            if(d.getStatut().equals("PrestationTerminee")){%>
+                            <th scope="col">Date de versement du restant</th>
+                            <%}%>
                             <th scope="col">Reponsable du Devis</th>
                         </tr>
                     </thead>
@@ -69,6 +89,19 @@ java.text.DateFormat df = new java.text.SimpleDateFormat("dd/mm/yyyy", Locale.FR
                             <td><%=d.getServiceNonStandard()%></td>
                             <td><%=d.getMontant()%></td>
                             <td><%=d.getStatut()%></td>
+                            <td><%=dfjour.format(d.getDateCreation())%></td>
+                            <%if(d.getStatut().equals("Envoye") || d.getStatut().equals("Valide") || d.getStatut().equals("Refuse") || d.getStatut().equals("AcompteRegle") || d.getStatut().equals("PrestationTerminee")){%>
+                            <td><%=dfjour.format(d.getDateEnvoi())%></td>
+                            <%}
+                            if(d.getStatut().equals("Valide") || d.getStatut().equals("Refuse") || d.getStatut().equals("AcompteRegle") || d.getStatut().equals("PrestationTerminee")){%>
+                            <td><%=dfjour.format(d.getDateReponse())%></td>
+                            <%}
+                            if(d.getStatut().equals("AcompteRegle") || d.getStatut().equals("PrestationTerminee")){%>
+                            <td><%=dfjour.format(d.getDateAcompte())%></td>
+                            <%}
+                            if(d.getStatut().equals("PrestationTerminee")){%>
+                            <td><%=dfjour.format(d.getDateReglement()%></td>
+                            <%}%>
                             <td>
                                 <p><%=d.getUtilisateurHardis()%></p>
                                 <p><a href="#" data-toggle="modal" data-target="#historiqueUtilisateur" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="list"></i> Voir l'historique</a></p>
@@ -103,7 +136,7 @@ java.text.DateFormat df = new java.text.SimpleDateFormat("dd/mm/yyyy", Locale.FR
                         for(Proposition p : d.getPropositions()){%>
                         <tr>
                             <td>Proposition commerciale n°<%=p.getId()%></td>
-                            <td><%=p.getDateDebutValidite()%></td>
+                            <td><%=dfjour.format(p.getDateDebutValidite())%></td>
                             <td>
                                 <a href="#" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="download"></i></a>
                             </td>
@@ -112,7 +145,7 @@ java.text.DateFormat df = new java.text.SimpleDateFormat("dd/mm/yyyy", Locale.FR
                         if(!d.getStatut().equals("Incomplet") && !d.getStatut().equals("ReponseEnCours")){%>
                         <tr>
                             <td>Devis</td>
-                            <td><%=d.getDateEnvoi()%></td>
+                            <td><%=dfjour.format(d.getDateEnvoi())%></td>
                             <td>
                                 <a href="#" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="download"></i></a>
                             </td>
@@ -121,7 +154,7 @@ java.text.DateFormat df = new java.text.SimpleDateFormat("dd/mm/yyyy", Locale.FR
                         if(!d.getStatut().equals("Incomplet") && !d.getStatut().equals("ReponseEnCours") && !d.getStatut().equals("Envoye") && !d.getStatut().equals("Refuse")){%>         
                         <tr>
                             <td>Bon de commande</td>
-                            <td><%=d.getDateReponse()%></td>
+                            <td><%=dfjour.format(d.getDateReponse())%></td>
                             <td>
                                 <a href="#" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="download"></i></a>
                             </td>
@@ -142,7 +175,51 @@ java.text.DateFormat df = new java.text.SimpleDateFormat("dd/mm/yyyy", Locale.FR
             </div>
         </div>
         <div class="card-body">
-            
+            <div class="messaging">
+            <div class="inbox_msg">
+                <div class="mesgs">
+                    <div class="msg_history" id="zoneMessages">
+                        <%for (Communication comm : listeMessages) {
+                                    if (comm.getUtilisateurHardis()!= null) {%>
+                                        <div class="outgoing_msg">
+                                            <div class="sent_msg">
+                                                <p><%=comm.getContenu()%></p>
+                                                <span class="time_date"><%=comm.getUtilisateurHardis().getPrenom()%> <%=comm.getUtilisateurHardis().getNom()%> le <%=dfjour.format(comm.getDateEnvoi())%></span> </div>
+                                        </div>
+                                    <%} else {%>
+                                        <div class="incoming_msg">
+                                            <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                                            <div class="received_msg">
+                                                <div class="received_withd_msg">
+                                                    <p><%=comm.getContenu()%></p>
+                                                    <span class="time_date"><%=dfheure.format(comm.getDateEnvoi())%></span></div>
+                                            </div>
+                                        </div>
+                                    <%}   
+                            }%>
+                    </div>
+                            <%if(uh.getProfilTechnique().equals("Administrateur") || uh==d.getUtilisateurHardis()){%>
+                    <div class="type_msg">
+                        <div class="input_msg_write" id="newMessage">
+                            <form method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis" id="formulaire">
+                                <input type="hidden" name="action" value="repondreMessageDevis">
+                                <input type="hidden" name="idConversation" value="<%=d.getConversation().getId()%>">
+                                <input type="hidden" name="idDevis" value="<%=d.getId()%>">
+                                <input name="message" type="text" class="write_msg" placeholder="Ecrivez votre message ici" />
+                                <button class="msg_send_btn" type="submit"><i data-feather="send" aria-hidden="true"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                    <%}else{%>
+                        <div class="type_msg">
+                            <div class="input_msg_write" id="newMessage">
+                                <input readonly name="message" type="text" class="write_msg" placeholder="Vous n'avez pas les droits nécessaires pour participer à cette conversation." />
+                            </div>
+                        </div>
+                        <%}%>
+                </div>
+            </div>
+        </div>
         </div>
     </div>
                     
@@ -181,8 +258,8 @@ java.text.DateFormat df = new java.text.SimpleDateFormat("dd/mm/yyyy", Locale.FR
                                 <tbody>                                     
                                     <tr>
                                         <td><%=h.getUtilisateurHardis().getPrenom()%> <%=h.getUtilisateurHardis().getNom()%></td>
-                                        <td><%=df.format(h.getDateDebut())%></td>
-                                        <td><%=df.format(h.getDateFin())%></td>
+                                        <td><%=dfjour.format(h.getDateDebut())%></td>
+                                        <td><%=dfjour.format(h.getDateFin())%></td>
                                     </tr>
                                 </tbody>
                             </table>

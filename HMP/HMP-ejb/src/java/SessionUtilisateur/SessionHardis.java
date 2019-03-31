@@ -486,6 +486,7 @@ public class SessionHardis implements SessionHardisLocal {
         devisNonStandardFacade.transfererDevisNonStandard(dns, uh);
         HistoriqueUtilisateurDevis ancienHistorique = historiqueUtilisateurDevisFacade.rechercheDernierHistoriqueUtilisateurDevis(dns);
         historiqueUtilisateurDevisFacade.creerSuiteHistoriqueUtilisateurDevis(ancienHistorique, uh);
+        conversationFacade.affecterUHConversation(dns.getConversation(), uh);
     }
     
     @Override

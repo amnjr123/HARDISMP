@@ -4,6 +4,7 @@ import Enum.SFTPConnexion;
 import GestionCatalogue.Offre;
 import GestionDevis.Communication;
 import GestionDevis.Conversation;
+import GestionDevis.DevisNonStandard;
 import GestionUtilisateur.CV;
 import GestionUtilisateur.Disponibilite;
 import GestionUtilisateur.Utilisateur;
@@ -245,8 +246,11 @@ public class ServletUtilisateurHardis extends HttpServlet {
                 }
                 if(act.equals("gererDevisNonStandard")){
                     Long idDevis = Long.parseLong(request.getParameter("idDevis"));
-                    request.setAttribute("devisNonStandard", sessionHardis.rechercherDevisNonStandard(idDevis));
+                    DevisNonStandard d = sessionHardis.rechercherDevisNonStandard(idDevis);
+                    request.setAttribute("devisNonStandard", d );
                     request.setAttribute("listHistoriqueUtilisateurDevis",sessionHardis.afficherHistoriqueUtilisateurDevis(idDevis));
+                    request.setAttribute("listCommunications", sessionHardis.afficherCommunications(d.getConversation().getId()));
+                    request.setAttribute("uh", uh);
                     jspClient = "/hardisUser/devisNonStandard.jsp";
                 }
                 
@@ -287,6 +291,20 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     request.setAttribute("listCommunications", sessionHardis.afficherCommunications(conv.getId()));
                     request.setAttribute("conversation", conv);
                     jspClient = "/hardisUser/inbox.jsp";
+                }
+                if(act.equals("repondreMessageDevis")){
+                    Long convId = Long.parseLong(request.getParameter("idConversation"));
+                    Conversation conv = sessionHardis.afficherConversation(convId);
+                    if (request.getParameter("message") != null && !request.getParameter("message").isEmpty()) {
+                        String message = request.getParameter("message");
+                        Communication comm = sessionHardis.creerCommunication(message, conv.getId());
+                    }
+                    request.setAttribute("listCommunications", sessionHardis.afficherCommunications(conv.getId()));
+                    Long idDevis = Long.parseLong(request.getParameter("idDevis"));
+                    request.setAttribute("devisNonStandard", sessionHardis.rechercherDevisNonStandard(idDevis));
+                    request.setAttribute("listHistoriqueUtilisateurDevis",sessionHardis.afficherHistoriqueUtilisateurDevis(idDevis));
+                    request.setAttribute("uh", uh);
+                    jspClient = "/hardisUser/devisNonStandard.jsp";
                 }
             }
         }
