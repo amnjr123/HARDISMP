@@ -19,12 +19,12 @@
         <div class="messaging">
             <div class="inbox_msg">
                 <div class="inbox_people">
-                    <div class="inbox_chat">
+                    <div class="inbox_chat" id="zoneConversations">
                         <%for (Conversation c : listeConversations) {%>
                         <a href="${pageContext.request.contextPath}/ServletClient?action=messages&idConversation=<%=c.getId()%>">
                             <div class="chat_list <% if (conversationActive != null) {
                                     if (c.getId() == conversationActive.getId()) {%>active_chat<%}
-                                }%>" id="conversation<%=c.getId()%>">
+                                        }%>" id="conversation<%=c.getId()%>">
                                 <div class="chat_people">
                                     <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                                     <div class="chat_ib">
@@ -38,10 +38,10 @@
                         </a>
                         <%}%>
                     </div>
-                        <button class="msg_send_btn" type="button"><i data-feather="plus" aria-hidden="true"></i></button>
+                    <button id="newConversation" class="btn" type="button"><i data-feather="plus" aria-hidden="true"></i> Nouvelle conversation</button>
                 </div>
                 <div class="mesgs">
-                    <div class="msg_history">
+                    <div class="msg_history" id="zoneMessages">
                         <%if (conversationActive != null) {
                                 for (Communication comm : conversationActive.getCommunications()) {
                                     if (comm.getClient() != null) {%>
@@ -59,11 +59,13 @@
                                     <span class="time_date"><%=comm.getDateEnvoi()%></span></div>
                             </div>
                         </div>
-                        <%}}}%>
+                        <%}
+                                }
+                            }%>
                     </div>
                     <div class="type_msg">
-                        <div class="input_msg_write">
-                            <form method="POST" action="${pageContext.request.contextPath}/ServletClient">
+                        <div class="input_msg_write" id="newMessage">
+                            <form method="POST" action="${pageContext.request.contextPath}/ServletClient" id="formulaire">
                                 <%if (conversationActive == null) {%>
                                 <input type="hidden" name="action" value="nouvelleConversation">
                                 <input name="message" type="text" class="write_msg" placeholder="Posez votre question ici pour contacter un consultant Hardis" />
@@ -73,7 +75,6 @@
                                 <input name="message" type="text" class="write_msg" placeholder="Ecrivez votre message ici" />
                                 <%}%>
                                 <button class="msg_send_btn" type="submit"><i data-feather="send" aria-hidden="true"></i></button>
-
                             </form>
                         </div>
                     </div>
@@ -84,3 +85,23 @@
 
 </main>
 <jsp:include page="footer.jsp"/>
+<script>
+    window.addEventListener("load", function (event) {
+        $('#newConversation').on("click", function (e) {
+            $('#zoneConversations').append('<div class="chat_list active_chat"><div class="chat_people"><div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div><div class="chat_ib"><p>Consultant Hardis</p></div></div></div>');
+
+            var incomming = document.querySelectorAll(".incoming_msg");
+            incomming.forEach(function(e){
+                e.remove();
+            });
+            var outgoing = document.querySelectorAll(".outgoing_msg");
+            outgoing.forEach(function(e){
+                e.remove();
+            });
+
+            var formulaire = document.querySelector("#formulaire");
+            formulaire.remove();
+            $('#newMessage').append('<form method="POST" action="${pageContext.request.contextPath}/ServletClient"><input type="hidden" name="action" value="nouvelleConversation"><input name="message" type="text" class="write_msg" placeholder="Posez votre question ici pour contacter un consultant Hardis" /><button class="msg_send_btn" type="submit"><i data-feather="send" aria-hidden="true"></i></button></form>');
+        })
+    })
+</script>
