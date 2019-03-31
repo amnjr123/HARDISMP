@@ -201,7 +201,7 @@ java.text.DateFormat dfheure = new java.text.SimpleDateFormat("dd/mm/yyyy à HH:m
                     <div class="type_msg">
                         <div class="input_msg_write" id="newMessage">
                             <form method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis" id="formulaire">
-                                <input type="hidden" name="action" value="repondreMessageDevis">
+                                <input type="hidden" name="action" value="repondreMessageDevisNonStandard">
                                 <input type="hidden" name="idConversation" value="<%=d.getConversation().getId()%>">
                                 <input type="hidden" name="idDevis" value="<%=d.getId()%>">
                                 <input name="message" type="text" class="write_msg" placeholder="Ecrivez votre message ici" />

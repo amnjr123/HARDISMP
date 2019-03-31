@@ -349,6 +349,11 @@ public class SessionClient implements SessionClientLocal {
     }
     
     @Override
+    public DevisStandard rechercherDevisStandard(Long idDevisStandard){
+        return devisStandardFacade.rechercheDevisStandard(idDevisStandard);
+    }
+    
+    @Override
     public List<HistoriqueUtilisateurDevis> afficherHistoriqueUtilisateurDevis(Long idDevis){
         Devis d = devisFacade.rechercherDevis(idDevis);
         return historiqueUtilisateurDevisFacade.rechercheHistoriqueUtilisateurDevis(d);

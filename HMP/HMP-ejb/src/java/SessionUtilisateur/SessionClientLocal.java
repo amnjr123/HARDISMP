@@ -110,4 +110,6 @@ public interface SessionClientLocal {
 
     List<Consultant> listConsultant(Long idAgence);
 
+    DevisStandard rechercherDevisStandard(Long idDevisStandard);
+
 }
