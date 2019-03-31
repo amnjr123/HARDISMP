@@ -23,30 +23,27 @@
                     <div class="inbox_chat" id="zoneConversations">
                         <%java.text.DateFormat df = new java.text.SimpleDateFormat("dd/mm/yyyy à HH:mm", Locale.FRENCH);
                             for (Conversation c : listeConversations) {%>
-                        <a href="${pageContext.request.contextPath}/ServletClient?action=messages&idConversation=<%=c.getId()%>">
+                        <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=messages&idConversation=<%=c.getId()%>">
                             <div class="chat_list <% if (conversationActive != null) {
                                     if (c.getId() == conversationActive.getId()) {%>active_chat<%}
                                         }%>" id="conversation<%=c.getId()%>">
                                 <div class="chat_people">
                                     <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                                     <div class="chat_ib">
-                                        <h5><%if (c.getUtilisateurHardis() != null) {
-                                                out.print(c.getUtilisateurHardis().getNom() + " " + c.getUtilisateurHardis().getPrenom());
-                                            } else {%>Consultant Hardis<%}%> <span class="chat_date"><%=df.format(c.getCommunications().get(c.getCommunications().size() - 1).getDateEnvoi())%></span></h5>
-                                            <p><span style="float:left"><%=c.getCommunications().get(c.getCommunications().size() - 1).getContenu()%></span><%if(c.getDevis()!=null){%><span style="color:#3498db;float:right">Devis n°<%=c.getDevis()%></span><%}%></p>
+                                        <h5><%=c.getClient().getNom()%> <%=c.getClient().getPrenom()%> <span class="chat_date"><%=df.format(c.getCommunications().get(c.getCommunications().size() - 1).getDateEnvoi())%></span></h5>
+                                        <p><span style="float:left"><%=c.getCommunications().get(c.getCommunications().size() - 1).getContenu()%></span><%if(c.getUtilisateurHardis()==null){%><span style="color:#e67e22;float:right">SANS REPONSE</span><%}else if(c.getDevis()!=null){%><span style="color:#3498db;float:right">Devis n°<%=c.getDevis()%></span><%}%></p>
                                     </div>
                                 </div>
                             </div>
                         </a>
                         <%}%>
                     </div>
-                    <button id="newConversation" class="btn" type="button"><i data-feather="plus" aria-hidden="true"></i> Nouvelle conversation</button>
                 </div>
                 <div class="mesgs">
                     <div class="msg_history" id="zoneMessages">
                         <%if (conversationActive != null) {
                                 for (Communication comm : listeMessages) {
-                                    if (comm.getClient() != null) {%>
+                                    if (comm.getUtilisateurHardis()!= null) {%>
                                         <div class="outgoing_msg">
                                             <div class="sent_msg">
                                                 <p><%=comm.getContenu()%></p>
@@ -61,21 +58,16 @@
                                                     <span class="time_date"><%=df.format(comm.getDateEnvoi())%></span></div>
                                             </div>
                                         </div>
-                        <%}
+                                    <%}
                                 }
                             }%>
                     </div>
                     <div class="type_msg">
                         <div class="input_msg_write" id="newMessage">
-                            <form method="POST" action="${pageContext.request.contextPath}/ServletClient" id="formulaire">
-                                <%if (conversationActive == null) {%>
-                                <input type="hidden" name="action" value="nouvelleConversation">
-                                <input name="message" type="text" class="write_msg" placeholder="Posez votre question ici pour contacter un consultant Hardis" />
-                                <%} else {%>
+                            <form method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis" id="formulaire">
                                 <input type="hidden" name="action" value="repondreMessage">
                                 <input type="hidden" name="idConversation" value="<%=conversationActive.getId()%>">
                                 <input name="message" type="text" class="write_msg" placeholder="Ecrivez votre message ici" />
-                                <%}%>
                                 <button class="msg_send_btn" type="submit"><i data-feather="send" aria-hidden="true"></i></button>
                             </form>
                         </div>

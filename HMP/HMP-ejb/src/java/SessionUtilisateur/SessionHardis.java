@@ -12,6 +12,8 @@ import FacadeCatalogue.OffreFacadeLocal;
 import FacadeCatalogue.ServiceFacadeLocal;
 import FacadeCatalogue.ServiceNonStandardFacadeLocal;
 import FacadeCatalogue.ServiceStandardFacadeLocal;
+import FacadeDevis.CommunicationFacadeLocal;
+import FacadeDevis.ConversationFacadeLocal;
 import FacadeDevis.DevisFacadeLocal;
 import FacadeDevis.DevisNonStandardFacadeLocal;
 import FacadeDevis.DevisStandardFacadeLocal;
@@ -32,6 +34,8 @@ import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
 import GestionCatalogue.ServiceNonStandard;
 import GestionCatalogue.ServiceStandard;
+import GestionDevis.Communication;
+import GestionDevis.Conversation;
 import GestionDevis.Devis;
 import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
@@ -47,6 +51,7 @@ import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -62,6 +67,12 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class SessionHardis implements SessionHardisLocal {
+
+    @EJB
+    private ConversationFacadeLocal conversationFacade;
+
+    @EJB
+    private CommunicationFacadeLocal communicationFacade;
 
     @EJB
     private InterventionFacadeLocal interventionFacade;
@@ -407,6 +418,22 @@ public class SessionHardis implements SessionHardisLocal {
     }
     
     @Override
+        public List<Devis> rechercherDevisSaufIncomplets(Long idUH){
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUH);
+            return devisFacade.rechercherDevisSaufIncomplet(uh);
+        }
+        
+    @Override
+    public DevisNonStandard rechercherDevisNonStandard(Long idDevisNonStandard){
+        return devisNonStandardFacade.rechercheDevisNonStandard(idDevisNonStandard);
+    }
+        
+    @Override
+    public DevisStandard rechercherDevisStandard(Long idDevisNonStandard){
+        return devisStandardFacade.rechercheDevisStandard(idDevisNonStandard);
+    }      
+    
+    @Override
     public DevisNonStandard envoyerDevisNonStandard(Long idDevisNonStandard){ 
         DevisNonStandard d = devisNonStandardFacade.rechercheDevisNonStandard(idDevisNonStandard);
         //Vérification s'il y a au moins une proposition commerciale
@@ -460,7 +487,49 @@ public class SessionHardis implements SessionHardisLocal {
         HistoriqueUtilisateurDevis ancienHistorique = historiqueUtilisateurDevisFacade.rechercheDernierHistoriqueUtilisateurDevis(dns);
         historiqueUtilisateurDevisFacade.creerSuiteHistoriqueUtilisateurDevis(ancienHistorique, uh);
     }
+    
+    @Override
+    public List<HistoriqueUtilisateurDevis> afficherHistoriqueUtilisateurDevis(Long idDevis){
+        Devis d = devisFacade.rechercherDevis(idDevis);
+        return historiqueUtilisateurDevisFacade.rechercheHistoriqueUtilisateurDevis(d);
+    }
 
+    /*GESTION DE LA MESSAGERIE*/
+    
+    @Override
+    public Communication creerCommunication(String message,Long idConversation){
+        Conversation conv = conversationFacade.rechercheConversation(idConversation);
+        return communicationFacade.creerCommunication(message, null,conv.getUtilisateurHardis(),conv);
+    }
+    
+    @Override
+    public Conversation affecterUHConversation(Long idUH,Long idConversation){
+        UtilisateurHardis u = utilisateurHardisFacade.rechercheUtilisateurHardis(idUH);
+        Conversation conv = conversationFacade.rechercheConversation(idConversation);
+        return conversationFacade.affecterUHConversation(conv, u);
+    }
+    
+    @Override
+    public List<Conversation> afficherConversations(Long idUtilisateurHardis){
+        UtilisateurHardis u = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
+        List<Conversation> listeUtilisateur = conversationFacade.rechercherConversations(u);
+        List<Conversation> listeSansReponse = conversationFacade.rechercherConversationsSansReponse();
+        for(Conversation c : listeUtilisateur){
+            listeSansReponse.add(c);
+        }
+        return listeSansReponse;
+    }
+    
+    @Override
+    public Conversation afficherConversation(Long idConversation){
+        return conversationFacade.rechercheConversation(idConversation);
+    }
+    
+    @Override
+    public List<Communication> afficherCommunications(Long idConversation){
+        Conversation conv = conversationFacade.rechercheConversation(idConversation);
+        return communicationFacade.rechercherCommunications(conv);
+    }
 
     
 }
