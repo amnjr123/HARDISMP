@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -82,7 +83,7 @@ public class Conversation implements Serializable {
         this.DateCreation = DateCreation;
     }
 
-    @ManyToOne
+    @OneToOne
     private Devis devis;
 
     public Devis getDevis() {

@@ -295,6 +295,7 @@ public class SessionClient implements SessionClientLocal {
                         if (referentLocal != null) {
                             historiqueUtilisateurDevisFacade.creerPremierHistoriqueUtilisateurDevis(ds, referentLocal);
                             devisStandardFacade.modifierDevisStandard(ds, commentaireClient, referentLocal, ds.getClient().getEntreprise().getAgence());
+                            conversationFacade.creerConversation(d, d.getClient(), referentLocal);
                             message = "Votre devis vous a été envoyé. Vous le retrouverez dans la rubrique Devis terminés.";
                         } else {
                             message = "Nous sommes désolés, il n'y a actuellement aucun responsable pour cette offre dans votre agence Hardis. Pour vous aider au mieux dans votre demande, nous vous invitons à contacter un administrateur Hardis.";
@@ -305,6 +306,7 @@ public class SessionClient implements SessionClientLocal {
                         if (referentLocal != null) {
                             historiqueUtilisateurDevisFacade.creerPremierHistoriqueUtilisateurDevis(dns, referentLocal);
                             devisNonStandardFacade.modifierDevisNonStandard(dns, commentaireClient, referentLocal, dns.getClient().getEntreprise().getAgence());
+                            conversationFacade.creerConversation(d, d.getClient(), referentLocal);
                             message = "Votre devis a été envoyé à un consultant Hardis qui vous contactera prochainement. Vous le retrouverez dans la rubrique Devis en cours.";
                         } else {
                             message = "Nous sommes désolés, il n'y a actuellement aucun responsable pour cette offre dans votre agence Hardis. Pour vous aider au mieux dans votre demande, nous vous invitons à contacter un administrateur Hardis.";
