@@ -52,7 +52,7 @@ public class ServletClient extends HttpServlet {
     }
 
     protected void devisEnCours(HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("listDevis", sessionClient.rechercherDevis(c.getId(), null));
+        request.setAttribute("listDevis", sessionClient.rechercherDevisEncours(c.getId()));
         jspClient = "/client/devisEnCours.jsp";
 
     }
@@ -320,7 +320,7 @@ public class ServletClient extends HttpServlet {
 
 
                 if (act.equals("DevisTermines")) {
-                    //  request.setAttribute("listOffres", sessionClient.rechercherOffres());
+                    request.setAttribute("listDevis", sessionClient.rechercherDevisTermines(c.getId()));;
                     jspClient = "/client/devisTermines.jsp";
                 }
 
@@ -367,6 +367,15 @@ public class ServletClient extends HttpServlet {
                     request.setAttribute("listCommunications", sessionClient.afficherCommunications(d.getConversation().getId()));
                     jspClient = "/client/devisNonStandard.jsp";
                 }
+                
+                if(act.equals("gererDevisStandard")){
+                    Long idDevis = Long.parseLong(request.getParameter("idDevis"));
+                    DevisStandard d = sessionClient.rechercherDevisStandard(idDevis);
+                    request.setAttribute("devisStandard", d );
+                    request.setAttribute("listCommunications", sessionClient.afficherCommunications(d.getConversation().getId()));
+                    jspClient = "/client/devisStandard.jsp";
+                }
+                
                 if(act.equals("repondreMessageDevisNonStandard")){
                     Long convId = Long.parseLong(request.getParameter("idConversation"));
                     Conversation conv = sessionClient.afficherConversation(convId);
