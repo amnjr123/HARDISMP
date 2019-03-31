@@ -51,6 +51,7 @@ import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -485,6 +486,12 @@ public class SessionHardis implements SessionHardisLocal {
         devisNonStandardFacade.transfererDevisNonStandard(dns, uh);
         HistoriqueUtilisateurDevis ancienHistorique = historiqueUtilisateurDevisFacade.rechercheDernierHistoriqueUtilisateurDevis(dns);
         historiqueUtilisateurDevisFacade.creerSuiteHistoriqueUtilisateurDevis(ancienHistorique, uh);
+    }
+    
+    @Override
+    public List<HistoriqueUtilisateurDevis> afficherHistoriqueUtilisateurDevis(Long idDevis){
+        Devis d = devisFacade.rechercherDevis(idDevis);
+        return historiqueUtilisateurDevisFacade.rechercheHistoriqueUtilisateurDevis(d);
     }
 
     /*GESTION DE LA MESSAGERIE*/

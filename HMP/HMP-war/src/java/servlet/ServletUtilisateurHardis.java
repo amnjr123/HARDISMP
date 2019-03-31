@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -238,13 +239,15 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     request.setAttribute("listeDevis", sessionHardis.rechercherDevis(null,null,null));
                     jspClient = "/hardisUser/tousLesDevis.jsp";
                 }
-                if(act.equals("gererDevisNonStandard")){
-                    request.setAttribute("devisNonStandard", sessionHardis.rechercherDevisNonStandard(Long.parseLong(request.getParameter("idDevis"))));
-                    jspClient = "/hardisUser/devisNonStandard.jsp";
-                }
                 if(act.equals("gererDevisStandard")){
                     request.setAttribute("devisStandard", sessionHardis.rechercherDevisStandard(Long.parseLong(request.getParameter("idDevis"))));
                     jspClient = "/hardisUser/devisStandard.jsp";
+                }
+                if(act.equals("gererDevisNonStandard")){
+                    Long idDevis = Long.parseLong(request.getParameter("idDevis"));
+                    request.setAttribute("devisNonStandard", sessionHardis.rechercherDevisNonStandard(idDevis));
+                    request.setAttribute("listHistoriqueUtilisateurDevis",sessionHardis.afficherHistoriqueUtilisateurDevis(idDevis));
+                    jspClient = "/hardisUser/devisNonStandard.jsp";
                 }
                 
                 /*MESSAGERIE*/
