@@ -2,14 +2,12 @@
 <%@page import="GestionDevis.Conversation"%>
 <%@page import="java.util.Collection"%>
 <jsp:useBean id="listConversations" scope="request" class="java.util.Collection"></jsp:useBean>
-<jsp:useBean id="conversation" scope="request" class="GestionDevis.Conversation"></jsp:useBean>
+<%--<jsp:useBean id="conversation" scope="request" class="GestionDevis.Conversation"></jsp:useBean>--%>
 <jsp:include page="header.jsp"/>
 <%
     Collection<Conversation> listeConversations = listConversations;
-    Conversation conversationActive = null;
-    if (conversation != null) {
-        conversationActive = conversation;
-    }
+    Conversation conversationActive =  (Conversation) request.getAttribute("conversation");
+
 %>
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">

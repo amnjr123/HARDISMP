@@ -32,7 +32,7 @@ public class Servlet extends HttpServlet {
     private void logout(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().setAttribute("nbrDemandesRattachement", 0);
         request.getSession().setAttribute("nbrDemandesRattachementClientAdmin", 0);
-        
+
         request.getSession().setAttribute(ATT_SESSION_CLIENT, null); //Enlever le Token
         request.getSession().setAttribute(ATT_SESSION_HARDIS, null); //Enlever le Token
         request.getSession().setAttribute(ATT_SESSION_ADMINISTRATEUR, null); //Enlever le Token        
@@ -66,23 +66,22 @@ public class Servlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         jspClient = "/home.jsp";
-       //sessionMain.test();
+        //sessionMain.test();
         HttpSession sessionHttp = request.getSession();
         if (request.getParameter("action") != null) {
             String act = request.getParameter("action");
-            
+
             /*MOT DE PASSE OUBLIE*/
-            
-            if(act.equals("motDePasseOublie")){
+            if (act.equals("motDePasseOublie")) {
                 if (request.getParameter("mail") != null && !request.getParameter("mail").isEmpty()) {
-                    if(sessionMain.motDePasseOublie(request.getParameter("mail"))){
+                    if (sessionMain.motDePasseOublie(request.getParameter("mail"))) {
                         request.setAttribute("MsgSuccess", "Le mot de passe de récupération a bien été envoyé");
                     } else {
                         request.setAttribute("MsgError", "L'adresse mail n'existe pas");
                     }
                 }
             }
-            
+
             /*CREATION CLIENT*/
             if (act.equals("creerClient")) {
                 if (request.getParameter("rgpd") != null && request.getParameter("rgpd").equals("oui")) {
@@ -132,7 +131,7 @@ public class Servlet extends HttpServlet {
             /*Fin Deconnexion*/
 
         }
-        
+
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         RequestDispatcher rd = getServletContext().getRequestDispatcher(jspClient);

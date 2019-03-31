@@ -7,7 +7,6 @@ package FacadeDevis;
 
 import GestionDevis.Communication;
 import GestionDevis.Conversation;
-import GestionDevis.Devis;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.UtilisateurHardis;
 import java.util.Date;
@@ -37,7 +36,7 @@ public class CommunicationFacade extends AbstractFacade<Communication> implement
     }
    
     @Override
-    public Communication creerCommunication(String contenu,Client client, UtilisateurHardis uh, Conversation conversation){
+    public Communication creerCommunication(String contenu, Client client, UtilisateurHardis uh, Conversation conversation){
         Communication c = new Communication();
         c.setDateEnvoi(new Date());
         c.setContenu(contenu);
