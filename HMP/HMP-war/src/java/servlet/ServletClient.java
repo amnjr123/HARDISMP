@@ -8,6 +8,7 @@ import GestionCatalogue.ServiceStandard;
 import GestionDevis.Communication;
 import GestionDevis.Conversation;
 import GestionDevis.Devis;
+import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Utilisateur;
@@ -268,9 +269,17 @@ public class ServletClient extends HttpServlet {
                     String statut = request.getParameter("statut");
                     Devis devis = sessionClient.afficherLeDevis(idDevis);
                     if(devis.getDtype().equalsIgnoreCase("DevisStandard")){
-                        
+                        if(!statut.equalsIgnoreCase("Incomplet")){
+                            
+                        }
                     }else if(devis.getDtype().equalsIgnoreCase("DevisNonStandard")){
-                        
+                        if(!statut.equalsIgnoreCase("Incomplet")){
+                            DevisNonStandard d = sessionClient.rechercherDevisNonStandard(idDevis);
+                            request.setAttribute("devisNonStandard", d );
+                            request.setAttribute("listHistoriqueUtilisateurDevis",sessionClient.afficherHistoriqueUtilisateurDevis(idDevis));
+                            request.setAttribute("listCommunications", sessionClient.afficherCommunications(d.getConversation().getId()));
+                            jspClient = "/client/devisNonStandard.jsp";
+                        }
                     }
                 }
 
@@ -312,6 +321,27 @@ public class ServletClient extends HttpServlet {
                     jspClient = "/client/creerDevisNonStandard.jsp";
                 }
                 
+                if(act.equals("gererDevisNonStandard")){
+                    Long idDevis = Long.parseLong(request.getParameter("idDevis"));
+                    DevisNonStandard d = sessionClient.rechercherDevisNonStandard(idDevis);
+                    request.setAttribute("devisNonStandard", d );
+                    request.setAttribute("listHistoriqueUtilisateurDevis",sessionClient.afficherHistoriqueUtilisateurDevis(idDevis));
+                    request.setAttribute("listCommunications", sessionClient.afficherCommunications(d.getConversation().getId()));
+                    jspClient = "/client/devisNonStandard.jsp";
+                }
+                if(act.equals("repondreMessageDevis")){
+                    Long convId = Long.parseLong(request.getParameter("idConversation"));
+                    Conversation conv = sessionClient.afficherConversation(convId);
+                    if (request.getParameter("message") != null && !request.getParameter("message").isEmpty()) {
+                        String message = request.getParameter("message");
+                        Communication comm = sessionClient.creerCommunication(message, conv.getId());
+                    }
+                    request.setAttribute("listCommunications", sessionClient.afficherCommunications(conv.getId()));
+                    Long idDevis = Long.parseLong(request.getParameter("idDevis"));
+                    request.setAttribute("devisNonStandard", sessionClient.rechercherDevisNonStandard(idDevis));
+                    request.setAttribute("listHistoriqueUtilisateurDevis",sessionClient.afficherHistoriqueUtilisateurDevis(idDevis));
+                    jspClient = "/client/devisNonStandard.jsp";
+                }
                 
                 /*MESSAGERIE*/
                 if (act.equals("messages")) {

@@ -15,6 +15,7 @@ import GestionDevis.Conversation;
 import GestionDevis.Devis;
 import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
+import GestionDevis.HistoriqueUtilisateurDevis;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.DemandeCreationEntreprise;
@@ -97,4 +98,8 @@ public interface SessionClientLocal {
     List<Communication> afficherCommunications(Long idConversation);
 
     Conversation afficherConversation(Long idConversation);
+
+    DevisNonStandard rechercherDevisNonStandard(Long idDevisNonStandard);
+
+    List<HistoriqueUtilisateurDevis> afficherHistoriqueUtilisateurDevis(Long idDevis);
 }
