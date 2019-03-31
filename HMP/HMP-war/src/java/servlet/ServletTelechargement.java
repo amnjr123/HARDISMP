@@ -31,7 +31,7 @@ public class ServletTelechargement extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition",
-                "attachment; filename=pjTest.zip");
+                "attachment; filename=attachedFile.zip");
 
         SFTPConnexion con = new SFTPConnexion();
 

@@ -74,8 +74,8 @@ public class SessionMain implements SessionLocal {
 
     @Override
     public void test() {
-        //this.creerClient("NEJJARI","Amine","amnjr123@gmail.com","123456","0624318857");
-        ReferentLocal uh = new ReferentLocal();
+        //this.creerClient("NEJJARI","Amine","admin@gmail.com","123456","0624318857");
+        /*ReferentLocal uh = new ReferentLocal();
         uh.setNom("Gestionnaire");
         uh.setPrenom("test");
         uh.setMail("test@gmail.com");
@@ -84,13 +84,14 @@ public class SessionMain implements SessionLocal {
         uh.setProfilTechnique(ProfilTechnique.Gestionnaire);
 
         referentLocalFacade.create(uh);
-
-        UtilisateurHardis ur = new UtilisateurHardis();
-        ur.setNom("Admin");
-        ur.setPrenom("test");
-        ur.setMail("amnjr123@gmail.com");
-        ur.setMdp("40BD001563085FC35165329EA1FF5C5ECBDBBEEF");
+*/
+        ReferentLocal ur = new ReferentLocal();
+        ur.setNom("Boudyach");
+        ur.setPrenom("Anas");
+        ur.setMail("admin@gmail.com");
+        ur.setTelephone("0615962832");
+        ur.setMdp("7C222FB2927D828AF22F592134E8932480637C0D");
         ur.setProfilTechnique(ProfilTechnique.Administrateur);
-        utilisateurHardisFacade.ajouter(ur);
+        referentLocalFacade.create(ur);
     }
 }
