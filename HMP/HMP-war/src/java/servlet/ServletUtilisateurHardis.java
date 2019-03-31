@@ -230,6 +230,22 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     request.setAttribute("listeDevis", sessionHardis.rechercherDevis(uh.getId(), null, "ReponseEnCours"));
                     jspClient = "/hardisUser/devisEnCours.jsp";
                 }
+                if (act.equals("devisTermines")) {
+                    request.setAttribute("listeDevis", sessionHardis.rechercherDevisSaufIncomplets(uh.getId()));
+                    jspClient = "/hardisUser/devisTermines.jsp";
+                }
+                if (act.equals("tousLesDevis")) {
+                    request.setAttribute("listeDevis", sessionHardis.rechercherDevis(null,null,null));
+                    jspClient = "/hardisUser/tousLesDevis.jsp";
+                }
+                if(act.equals("gererDevisNonStandard")){
+                    request.setAttribute("devisNonStandard", sessionHardis.rechercherDevisNonStandard(Long.parseLong(request.getParameter("idDevis"))));
+                    jspClient = "/hardisUser/devisNonStandard.jsp";
+                }
+                if(act.equals("gererDevisStandard")){
+                    request.setAttribute("devisStandard", sessionHardis.rechercherDevisStandard(Long.parseLong(request.getParameter("idDevis"))));
+                    jspClient = "/hardisUser/devisStandard.jsp";
+                }
                 
                 /*MESSAGERIE*/
                 if (act.equals("messages")) {

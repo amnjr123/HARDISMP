@@ -93,5 +93,11 @@ public interface SessionHardisLocal {
     List<Communication> afficherCommunications(Long idConversation);
 
     Conversation affecterUHConversation(Long idUH, Long idConversation);
+
+    List<Devis> rechercherDevisSaufIncomplets(Long idUH);
+
+    DevisStandard rechercherDevisStandard(Long idDevisNonStandard);
+
+    DevisNonStandard rechercherDevisNonStandard(Long idDevisNonStandard);
    
 }

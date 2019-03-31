@@ -417,6 +417,22 @@ public class SessionHardis implements SessionHardisLocal {
     }
     
     @Override
+        public List<Devis> rechercherDevisSaufIncomplets(Long idUH){
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUH);
+            return devisFacade.rechercherDevisSaufIncomplet(uh);
+        }
+        
+    @Override
+    public DevisNonStandard rechercherDevisNonStandard(Long idDevisNonStandard){
+        return devisNonStandardFacade.rechercheDevisNonStandard(idDevisNonStandard);
+    }
+        
+    @Override
+    public DevisStandard rechercherDevisStandard(Long idDevisNonStandard){
+        return devisStandardFacade.rechercheDevisStandard(idDevisNonStandard);
+    }      
+    
+    @Override
     public DevisNonStandard envoyerDevisNonStandard(Long idDevisNonStandard){ 
         DevisNonStandard d = devisNonStandardFacade.rechercheDevisNonStandard(idDevisNonStandard);
         //Vérification s'il y a au moins une proposition commerciale

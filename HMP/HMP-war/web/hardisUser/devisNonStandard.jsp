@@ -8,12 +8,12 @@
 <%@page import="GestionCatalogue.ServiceStandard"%>
 <%@page import="GestionCatalogue.ServiceNonStandard"%>
 <%@page import="java.util.Collection"%>
-<jsp:useBean id="listeDevis" scope="request" class="java.util.Collection"></jsp:useBean>
+<jsp:useBean id="devisNonStandard" scope="request" class="GestionDevis.DevisNonStandard"></jsp:useBean>
 <jsp:include page="header.jsp"/>
-<%Collection<Devis> listDevis = listeDevis;%>
+<%DevisNonStandard devis = devisNonStandard;%>
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1 class="h2">Mes devis en cours de réponse</h1>
+        <h1 class="h2">Gestion du devis</h1>
     </div>
 
     <div class="card">
