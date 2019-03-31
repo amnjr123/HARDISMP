@@ -1,5 +1,5 @@
 <%@page import="java.util.Locale"%>
-<%@page import="GestionDevis.DevisStandard"%>
+<%@page import="GestionDevis.Devis"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="GestionCatalogue.Offre"%>
@@ -9,7 +9,7 @@
 <jsp:useBean id="listDevis" scope="request" class="java.util.Collection"></jsp:useBean>
 <jsp:include page="header.jsp"/>
 <%
-    Collection<DevisStandard> list = listDevis;
+    Collection<Devis> list = listDevis;
     Client c = (Client) session.getAttribute("sessionClient");
 %>
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">

@@ -1,6 +1,6 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="GestionUtilisateur.Consultant"%>
-<%@page import="GestionDevis.DevisStandard"%>
+<%@page import="GestionDevis.DevisNonStandard"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.Collection"%>
@@ -9,18 +9,18 @@
 
 <jsp:useBean id="listConsultants" scope="request" class="java.util.Collection"></jsp:useBean>
 
-<jsp:useBean id="devisStandard" scope="request" class="GestionDevis.DevisStandard"></jsp:useBean>
+<jsp:useBean id="devisNonStandard" scope="request" class="GestionDevis.DevisNonStandard"></jsp:useBean>
 <jsp:include page="header.jsp"/>
 <style>
     <jsp:include page="../css/bootstrap4-toggle.css"/>
 </style>
 <%
     Collection<Consultant> listeConsultants = listConsultants;
-    DevisStandard devis = devisStandard;
+    DevisNonStandard devis = devisNonStandard;
 %>
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1 class="h2">Demander un devis pour le service <%=(devis.getServiceStandard().getNom())%> de l'offre <%=(devis.getServiceStandard().getOffre().getLibelle())%></h1>
+        <h1 class="h2">Demander un devis pour le service <%=(devis.getServiceNonStandard().getNom())%> de l'offre <%=(devis.getServiceNonStandard().getOffre().getLibelle())%></h1>
         <div class="float-right">
             <a href="#"  data-toggle="modal" data-target="#supprimerDevis" type="button" class="btn btn-danger">Supprimer le devis</a>
         </div>

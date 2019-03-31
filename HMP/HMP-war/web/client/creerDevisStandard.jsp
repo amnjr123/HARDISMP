@@ -58,7 +58,7 @@
                                 if(dcal.get(Calendar.YEAR)==dTest.get(Calendar.YEAR) && dcal.get(Calendar.MONTH)==dTest.get(Calendar.MONTH) && dcal.get(Calendar.DAY_OF_MONTH)==dTest.get(Calendar.DAY_OF_MONTH)){
                                     //Vérification qu'on n'a pas déjà affiché cette journée
                                     if(!listeVerifications.contains(dTestMemeJournee) && !listeVerifications.contains(d)){
-                                        %><option value="<%=d.getId()%>/<%=dTestMemeJournee.getId()%>" ><%out.println(dcal.get(Calendar.DAY_OF_MONTH)+"/"+dcal.get(Calendar.MONTH)+"/"+dcal.get(Calendar.YEAR));%></option><%
+                                        %><option value="<%=d.getId()%>/<%=dTestMemeJournee.getId()%>" ><%out.println(dcal.get(Calendar.DAY_OF_MONTH)+"/"+(dcal.get(Calendar.MONTH)+1)+"/"+dcal.get(Calendar.YEAR));%></option><%
                                         listeVerifications.add(dTestMemeJournee);
                                         listeVerifications.add(d);
                                     }
