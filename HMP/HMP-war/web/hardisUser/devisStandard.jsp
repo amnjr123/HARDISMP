@@ -19,19 +19,19 @@
 
 <%DevisStandard d = devisStandard;
 Collection<Communication> listeMessages = listCommunications;
-java.text.DateFormat dfjour = new java.text.SimpleDateFormat("dd/mm/yyyy à HH:mm", Locale.FRENCH);
-java.text.DateFormat dfheure = new java.text.SimpleDateFormat("dd/mm/yyyy à HH:mm", Locale.FRENCH);
+java.text.DateFormat dfjour = new java.text.SimpleDateFormat("dd/mm/yyyy ? HH:mm", Locale.FRENCH);
+java.text.DateFormat dfheure = new java.text.SimpleDateFormat("dd/mm/yyyy ? HH:mm", Locale.FRENCH);
 UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
 
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1 class="h2">Gestion du devis personnalisé</h1>
+        <h1 class="h2">Gestion du devis personnalis?</h1>
     </div>
 
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
-                <h1 class="h2"><i data-feather="activity"></i>Récapitulatif</h1>
+                <h1 class="h2"><i data-feather="activity"></i>R?capitulatif</h1>
                 <div class="btn-toolbar">
                 </div>
             </div>
@@ -63,12 +63,12 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
                             <th scope="col">Service</th>
                             <th scope="col">Montant</th>
                             <th scope="col">Etat</th>
-                            <th scope="col">Date de création</th>
+                            <th scope="col">Date de cr?ation</th>
                             <%if(d.getStatut().equals("Envoye") || d.getStatut().equals("Valide") || d.getStatut().equals("Refuse") || d.getStatut().equals("AcompteRegle") || d.getStatut().equals("PrestationTerminee")){%>
                             <th scope="col">Date d'envoi au client</th>
                             <%}
                             if(d.getStatut().equals("Valide") || d.getStatut().equals("Refuse") || d.getStatut().equals("AcompteRegle") || d.getStatut().equals("PrestationTerminee")){%>
-                            <th scope="col">Date de réponse</th>
+                            <th scope="col">Date de r?ponse</th>
                             <%}
                             if(d.getStatut().equals("AcompteRegle") || d.getStatut().equals("PrestationTerminee")){%>
                             <th scope="col">Date de versement de l'acompte</th>
@@ -84,7 +84,7 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
                             <td><%=d.getId()%></td>
                             <td><%=d.getClient().getNom()%> <%=d.getClient().getPrenom()%></td>
                             <td><%=d.getClient().getEntreprise().getNom()%></td>
-                            <td><%=d.getServiceNonStandard()%></td>
+                            <td><%=d.getServiceStandard().getNom()%></td>
                             <td><%=d.getMontant()%></td>
                             <td><%=d.getStatut()%></td>
                             <td><%=dfjour.format(d.getDateCreation())%></td>
@@ -98,7 +98,7 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
                             <td><%=dfjour.format(d.getDateAcompte())%></td>
                             <%}
                             if(d.getStatut().equals("PrestationTerminee")){%>
-                            <td><%=dfjour.format(d.getDateReglement()%></td>
+                            <td><%=dfjour.format(d.getDateReglement())%></td>
                             <%}%>
                             <td>
                                 <p><%=d.getUtilisateurHardis()%></p>
@@ -125,7 +125,7 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
                         <tr>
                             <th>Document</td>
                             <th>Date</td>
-                            <th>Télécharger</td>
+                            <th>T?l?charger</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -200,7 +200,7 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
                     <%}else{%>
                         <div class="type_msg">
                             <div class="input_msg_write" id="newMessage">
-                                <input readonly name="message" type="text" class="write_msg" placeholder="Vous n'avez pas les droits nécessaires pour participer à cette conversation." />
+                                <input readonly name="message" type="text" class="write_msg" placeholder="Vous n'avez pas les droits n?cessaires pour participer ? cette conversation." />
                             </div>
                         </div>
                         <%}%>

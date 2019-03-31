@@ -64,10 +64,10 @@
                             <td>
                                 <%if (d.getDtype().toString().equals("DevisStandard")) {
                                     DevisStandard ds = (DevisStandard) d;
-                                    out.print(ds.getServiceStandard());
+                                    out.print(ds.getServiceStandard().getNom());
                                 } else {
                                     DevisNonStandard dns = (DevisNonStandard) d;
-                                    out.print(dns.getServiceNonStandard());
+                                    out.print(dns.getServiceNonStandard().getNom());
                                 }%>
                             </td>
                             <td><%if (d.getDtype().toString().equals("DevisStandard")) {%>Standard<%} else {%>Personnalisé<%}%></td>
@@ -75,9 +75,9 @@
                             <td>
                                 <div class="dropdown">
                                     <%if (d.getDtype().toString().equals("DevisStandard")) {%>
-                                    <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=gererDevisStandard&idDevis=<%=d.getId()%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="zoom-in"></i></a>
+                                    <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=gererDevisStandard&idDevis=<%=d.getId()%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="zoom-in"></i></a>
                                     <%} else {%>
-                                    <a href="${pageContext.request.contextPath}/ServletAdministrateur?action=gererDevisNonStandard&idDevis=<%=d.getId()%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="zoom-in"></i></a>
+                                    <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=gererDevisNonStandard&idDevis=<%=d.getId()%>" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="zoom-in"></i></a>
                                     <%}%>
                                 </div>
                             </td>

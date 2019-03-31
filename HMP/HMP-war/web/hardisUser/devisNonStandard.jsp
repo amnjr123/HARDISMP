@@ -21,7 +21,7 @@
 <%DevisNonStandard d = devisNonStandard;
 Collection<Communication> listeMessages = listCommunications;
 Collection<HistoriqueUtilisateurDevis> listeHistoriqueUtilisateurDevis = listHistoriqueUtilisateurDevis;
-java.text.DateFormat dfjour = new java.text.SimpleDateFormat("dd/mm/yyyy à HH:mm", Locale.FRENCH);
+java.text.DateFormat dfjour = new java.text.SimpleDateFormat("dd/mm/yyyy", Locale.FRENCH);
 java.text.DateFormat dfheure = new java.text.SimpleDateFormat("dd/mm/yyyy à HH:mm", Locale.FRENCH);
 UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
 
@@ -86,7 +86,7 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
                             <td><%=d.getId()%></td>
                             <td><%=d.getClient().getNom()%> <%=d.getClient().getPrenom()%></td>
                             <td><%=d.getClient().getEntreprise().getNom()%></td>
-                            <td><%=d.getServiceNonStandard()%></td>
+                            <td><%=d.getServiceNonStandard().getNom()%></td>
                             <td><%=d.getMontant()%></td>
                             <td><%=d.getStatut()%></td>
                             <td><%=dfjour.format(d.getDateCreation())%></td>
@@ -100,7 +100,7 @@ UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
                             <td><%=dfjour.format(d.getDateAcompte())%></td>
                             <%}
                             if(d.getStatut().equals("PrestationTerminee")){%>
-                            <td><%=dfjour.format(d.getDateReglement()%></td>
+                            <td><%=dfjour.format(d.getDateReglement())%></td>
                             <%}%>
                             <td>
                                 <p><%=d.getUtilisateurHardis()%></p>

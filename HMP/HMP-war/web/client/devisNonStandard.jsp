@@ -7,21 +7,19 @@
 <%@page import="GestionDevis.DevisStandard"%>
 <%@page import="GestionDevis.DevisNonStandard"%>
 <%@page import="GestionCatalogue.Livrable"%>
-<%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
 <%@page import="GestionCatalogue.Offre"%>
 <%@page import="GestionCatalogue.ServiceStandard"%>
 <%@page import="GestionCatalogue.ServiceNonStandard"%>
 <%@page import="java.util.Collection"%>
-<jsp:useBean id="devisNonStandard" scope="request" class="GestionDevis.DevisNonStandard"></jsp:useBean>
 <jsp:useBean id="listHistoriqueUtilisateurDevis" scope="request" class="java.util.Collection"></jsp:useBean>
 <jsp:useBean id="listCommunications" scope="request" class="java.util.Collection"></jsp:useBean>
 <jsp:include page="header.jsp"/>
 
-<%DevisNonStandard d = devisNonStandard;
+<%DevisNonStandard d =  (DevisNonStandard) request.getAttribute("devisNonStandard");
 Collection<Communication> listeMessages = listCommunications;
 Collection<HistoriqueUtilisateurDevis> listeHistoriqueUtilisateurDevis = listHistoriqueUtilisateurDevis;
-java.text.DateFormat dfjour = new java.text.SimpleDateFormat("dd/mm/yyyy à HH:mm", Locale.FRENCH);
+java.text.DateFormat dfjour = new java.text.SimpleDateFormat("dd/mm/yyyy", Locale.FRENCH);
 java.text.DateFormat dfheure = new java.text.SimpleDateFormat("dd/mm/yyyy à HH:mm", Locale.FRENCH);
 %>
 
@@ -100,7 +98,7 @@ java.text.DateFormat dfheure = new java.text.SimpleDateFormat("dd/mm/yyyy à HH:m
                             <td><%=dfjour.format(d.getDateAcompte())%></td>
                             <%}
                             if(d.getStatut().equals("PrestationTerminee")){%>
-                            <td><%=dfjour.format(d.getDateReglement()%></td>
+                            <td><%=dfjour.format(d.getDateReglement())%></td>
                             <%}%>
                             <td>
                                 <p><%=d.getUtilisateurHardis()%></p>
