@@ -114,4 +114,8 @@ public interface SessionClientLocal {
 
     DevisStandard rechercherDevisStandard(Long idDevisStandard);
 
+    List<Devis> rechercherDevisEncours(Long idClient);
+
+    List<Devis> rechercherDevisTermines(Long idClient);
+
 }

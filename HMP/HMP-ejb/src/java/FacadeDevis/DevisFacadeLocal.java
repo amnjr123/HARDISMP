@@ -52,5 +52,9 @@ public interface DevisFacadeLocal {
     Devis rechercherDevis(Long id);
 
     List<Devis> rechercherDevisSaufIncomplet(UtilisateurHardis uh);
+
+    List<Devis> rechercherDevisEncours(Client c);
+
+    List<Devis> rechercherDevisTermines(Client c);
     
 }

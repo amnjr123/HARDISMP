@@ -351,6 +351,18 @@ public class SessionClient implements SessionClientLocal {
     }
     
     @Override
+    public List<Devis> rechercherDevisEncours(Long idClient) {
+        Client c = clientFacade.rechercheClient(idClient);
+        return devisFacade.rechercherDevisEncours(c);
+    }
+    
+    @Override
+    public List<Devis> rechercherDevisTermines(Long idClient) {
+        Client c = clientFacade.rechercheClient(idClient);
+        return devisFacade.rechercherDevisTermines(c);
+    }
+    
+    @Override
     public DevisNonStandard rechercherDevisNonStandard(Long idDevisNonStandard){
         return devisNonStandardFacade.rechercheDevisNonStandard(idDevisNonStandard);
     }
