@@ -26,7 +26,7 @@
             <button class="btn navbar-toggler navbar-toggler-right" style="background-color:transparent"  id="menu-toggle"><span style="width:32px;height: 32px;color : white;" data-feather="menu" ></span></button>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item ">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/Servlet" style="" >Quitter l'interface d'administration&nbsp;<span data-feather="log-out"></span> </a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/ServletUtilisateurHardis" style="" >Quitter l'interface d'administration&nbsp;<span data-feather="log-out"></span> </a>
                 </li>
             </ul>
         </nav>

@@ -74,7 +74,7 @@ public class ServletClient extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sessionHttp = request.getSession();
-        jspClient = "/client/index.jsp";
+ 
 
         if (sessionHttp.getAttribute("sessionClient") != null) {
             c = (Client) sessionHttp.getAttribute("sessionClient");
