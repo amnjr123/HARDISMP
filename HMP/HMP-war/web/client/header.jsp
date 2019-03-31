@@ -23,7 +23,9 @@
         <link href="${pageContext.request.contextPath}/css/bootstrap-chat.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/custom/simple-sidebar.css" rel="stylesheet"> 
         <link href="${pageContext.request.contextPath}/css/custom/fileInput.css" rel="stylesheet">
-        <link href="${pageContext.request.contextPath}/css/snatchbot.css" rel="stylesheet" type="text/css"> 
+        <link href="${pageContext.request.contextPath}/css/snatchbot.css" rel="stylesheet" type="text/css">
+        <link href="${pageContext.request.contextPath}/css/bootstrap-select.css" rel="stylesheet">
+
     </head>
     <body>  
         <%--href="${pageContext.request.contextPath}/home.jsp"--%>
@@ -42,7 +44,11 @@
 
                     <!-- Sidebar -->
                     <div class="bg-light border-right" id="sidebar-wrapper">
-                        <div class="sidebar-heading"><span style="width:24px;height: 28px;color : grey;" data-feather="<% if (c.getAdministrateur()) { out.print("user-check"); } else {out.print("user");}%>" ></span>&nbsp;<%=(c.getNom() + ' ' + c.getPrenom())%></div>
+                        <div class="sidebar-heading"><span style="width:24px;height: 28px;color : grey;" data-feather="<% if (c.getAdministrateur()) {
+                                out.print("user-check");
+                            } else {
+                                out.print("user");
+                            }%>" ></span>&nbsp;<%=(c.getNom() + ' ' + c.getPrenom())%></div>
                         <div class="list-group list-group-flush">
                             <a href="${pageContext.request.contextPath}/client/index.jsp" class="list-group-item d-flex justify-content-between bg-light">
                                 <span><span data-feather="monitor"></span> Tableau de bord</span>

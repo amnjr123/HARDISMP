@@ -145,13 +145,15 @@ public class ServletAdministrateur extends HttpServlet {
                     String agence = request.getParameter("agence");
                     String[] offres = request.getParameterValues("offres");
                     String plafond = request.getParameter("plafond").trim();
+                    String prix = request.getParameter("prix").trim();
+                    
 
-                    if (prenom != null && nom != null && mail != null && tel != null && plafond != null && profilTechnique != null && agence != null && offres != null && !nom.isEmpty() && !mail.isEmpty() && !tel.isEmpty() && !agence.isEmpty() && offres.length != 0) {
+                    if (prenom != null && nom != null && mail != null && tel != null && plafond != null && profilTechnique != null && agence != null && offres != null && prix !=null && !nom.isEmpty() && !mail.isEmpty() && !tel.isEmpty() && !agence.isEmpty() && !prix.isEmpty() && offres.length != 0) {
                         List<Long> listOffre = new ArrayList<>();
                         for (String idOffre : offres) {
                             listOffre.add(Long.parseLong(idOffre));
                         }
-                        sessionAdministrateur.creerConsultant(nom, prenom, mail, tel, profilTechnique, Float.parseFloat(plafond), Long.parseLong(agence), listOffre);
+                        sessionAdministrateur.creerConsultant(nom, prenom, mail, tel, profilTechnique, Float.parseFloat(plafond), Float.parseFloat(prix), Long.parseLong(agence), listOffre);
                         request.setAttribute("msgSuccess", "Le Consultant " + nom + " " + prenom + " a bien été crée.");
 
                     } else {

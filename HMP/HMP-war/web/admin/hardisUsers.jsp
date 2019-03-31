@@ -31,7 +31,7 @@
         </div>
         <%--Warning Or Sucess--%>   
         <% String error = (String) request.getAttribute("msgError");
-                        if (request.getAttribute("msgError") != null) {%>
+            if (request.getAttribute("msgError") != null) {%>
         <div class="alert alert-danger alert-dismissible fade in show">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>Attention !</strong>&nbsp;<%=(error)%>.
@@ -242,7 +242,7 @@
                                 <%for (Offre o : listOffres) {%>
                                 <option <%for (Offre oc : c.getOffres()) {
                                         if (oc.getId() == o.getId()) {%> selected="selected" <% }
-                                    }%> value="<%=o.getId()%>"><%=o.getLibelle()%></option>
+                                            }%> value="<%=o.getId()%>"><%=o.getLibelle()%></option>
                                 <% } %>                       
                             </select>
                             <% } %> 
@@ -502,9 +502,16 @@
                         </div>
                         <div class="form-group">
                             <label for='plafond' >Plafond de déléguation</label>
-                            <input pattern="[0-9]*" name="plafond" type='tel' id='plafond' class='form-control' placeholder='Plafond de déléguation' required autofocus>
+                            <input pattern="[0-9]+" name="plafond" type='tel' id='plafond' class='form-control' placeholder='Plafond de déléguation' required autofocus>
                             <div class="invalid-feedback">
                                 Le Profil métier est obligatoire.
+                            </div>
+                        </div>          
+                        <div class="form-group">
+                            <label for='prix'>Prix à la journée</label>
+                            <input pattern="[0-9]+" name="prix" type='tel' id='prix' class='form-control' placeholder='Prix à la journée' required autofocus>
+                            <div class="invalid-feedback">
+                                Le prix est obligatoire.
                             </div>
                         </div>
                         <div class="form-group">

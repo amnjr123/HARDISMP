@@ -10,7 +10,6 @@ import GestionUtilisateur.Disponibilite;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import SessionUtilisateur.SessionHardisLocal;
-import com.jcraft.jsch.JSchException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

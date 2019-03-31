@@ -51,7 +51,7 @@ public interface SessionAdministrateurLocal {
 
     boolean creerReferentLocal(String nom, String prenom, String mail, String tel, String profilTechnique, float plafondDelegation, Long idOffre, Long idAgence);
 
-    Consultant creerConsultant(String nom, String prenom, String mail, String tel, String profilTechnique, float plafondDelegation, Long idAgence, List<Long> listeIdOffres);
+    Consultant creerConsultant(String nom, String prenom, String mail, String tel, String profilTechnique, float plafondDelegation, float prix, Long idAgence, List<Long> listeIdOffres);
 
     boolean creerPO(String nom, String prenom, String mail, String tel, String profilTechnique, Long idOffre, Long idAgence);
 

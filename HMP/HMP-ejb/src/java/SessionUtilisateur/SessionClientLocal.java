@@ -18,6 +18,7 @@ import GestionDevis.DevisStandard;
 import GestionDevis.HistoriqueUtilisateurDevis;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.Client;
+import GestionUtilisateur.Consultant;
 import GestionUtilisateur.DemandeCreationEntreprise;
 import GestionUtilisateur.DemandeRattachement;
 import GestionUtilisateur.Entreprise;
@@ -102,4 +103,11 @@ public interface SessionClientLocal {
     DevisNonStandard rechercherDevisNonStandard(Long idDevisNonStandard);
 
     List<HistoriqueUtilisateurDevis> afficherHistoriqueUtilisateurDevis(Long idDevis);
+
+    void supprimerDevisStandardIncomplet(Long idDevis);
+
+    void supprimerDevisNonStandardIncomplet(Long idDevis);
+
+    List<Consultant> listConsultant(Long idAgence);
+
 }
