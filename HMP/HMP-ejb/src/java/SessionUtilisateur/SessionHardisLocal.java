@@ -10,6 +10,8 @@ import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
 import GestionCatalogue.ServiceNonStandard;
 import GestionCatalogue.ServiceStandard;
+import GestionDevis.Communication;
+import GestionDevis.Conversation;
 import GestionDevis.Devis;
 import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
@@ -81,5 +83,15 @@ public interface SessionHardisLocal {
     List<Disponibilite> afficherDisponibilites(Long idUtilisateur);
 
     List<Intervention> afficherInterventions(Long idUtilisateur);
+
+    Communication creerCommunication(String message, Long idConversation);
+
+    List<Conversation> afficherConversations(Long idClient);
+
+    Conversation afficherConversation(Long idConversation);
+
+    List<Communication> afficherCommunications(Long idConversation);
+
+    Conversation affecterUHConversation(Long idUH, Long idConversation);
    
 }

@@ -12,6 +12,8 @@ import FacadeCatalogue.OffreFacadeLocal;
 import FacadeCatalogue.ServiceFacadeLocal;
 import FacadeCatalogue.ServiceNonStandardFacadeLocal;
 import FacadeCatalogue.ServiceStandardFacadeLocal;
+import FacadeDevis.CommunicationFacadeLocal;
+import FacadeDevis.ConversationFacadeLocal;
 import FacadeDevis.DevisFacadeLocal;
 import FacadeDevis.DevisNonStandardFacadeLocal;
 import FacadeDevis.DevisStandardFacadeLocal;
@@ -32,6 +34,8 @@ import GestionCatalogue.Offre;
 import GestionCatalogue.Service;
 import GestionCatalogue.ServiceNonStandard;
 import GestionCatalogue.ServiceStandard;
+import GestionDevis.Communication;
+import GestionDevis.Conversation;
 import GestionDevis.Devis;
 import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
@@ -62,6 +66,12 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class SessionHardis implements SessionHardisLocal {
+
+    @EJB
+    private ConversationFacadeLocal conversationFacade;
+
+    @EJB
+    private CommunicationFacadeLocal communicationFacade;
 
     @EJB
     private InterventionFacadeLocal interventionFacade;
@@ -461,6 +471,42 @@ public class SessionHardis implements SessionHardisLocal {
         historiqueUtilisateurDevisFacade.creerSuiteHistoriqueUtilisateurDevis(ancienHistorique, uh);
     }
 
+    /*GESTION DE LA MESSAGERIE*/
+    
+    @Override
+    public Communication creerCommunication(String message,Long idConversation){
+        Conversation conv = conversationFacade.rechercheConversation(idConversation);
+        return communicationFacade.creerCommunication(message, null,conv.getUtilisateurHardis(),conv);
+    }
+    
+    @Override
+    public Conversation affecterUHConversation(Long idUH,Long idConversation){
+        UtilisateurHardis u = utilisateurHardisFacade.rechercheUtilisateurHardis(idUH);
+        Conversation conv = conversationFacade.rechercheConversation(idConversation);
+        return conversationFacade.affecterUHConversation(conv, u);
+    }
+    
+    @Override
+    public List<Conversation> afficherConversations(Long idUtilisateurHardis){
+        UtilisateurHardis u = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
+        List<Conversation> listeUtilisateur = conversationFacade.rechercherConversations(u);
+        List<Conversation> listeSansReponse = conversationFacade.rechercherConversationsSansReponse();
+        for(Conversation c : listeUtilisateur){
+            listeSansReponse.add(c);
+        }
+        return listeSansReponse;
+    }
+    
+    @Override
+    public Conversation afficherConversation(Long idConversation){
+        return conversationFacade.rechercheConversation(idConversation);
+    }
+    
+    @Override
+    public List<Communication> afficherCommunications(Long idConversation){
+        Conversation conv = conversationFacade.rechercheConversation(idConversation);
+        return communicationFacade.rechercherCommunications(conv);
+    }
 
     
 }

@@ -12,6 +12,7 @@
         <link href="${pageContext.request.contextPath}/css/custom/dashboard.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/custom/simple-sidebar.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/bootstrap-select.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/css/bootstrap-chat.css" rel="stylesheet">
     </head>
     <body>  
 
@@ -61,10 +62,10 @@
                                     <span data-feather="layers"></span> Voir tous les devis
                                     <span class="badge badge-primary badge-pill"></span>
                                 </a>
-                                <a href="${pageContext.request.contextPath}/hardisUser?action=messages" class="list-group-item d-flex justify-content-between bg-light">
+                            </div>
+                            <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=messages" class="list-group-item d-flex justify-content-between bg-light">
                                 <span><span data-feather="inbox"></span> Inbox</span>
                             </a>
-                            </div>
                             <%
                                 if (ua != null) {
                             %>

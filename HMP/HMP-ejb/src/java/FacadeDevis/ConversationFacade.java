@@ -90,7 +90,7 @@ public class ConversationFacade extends AbstractFacade<Conversation> implements 
     
     @Override
     public List<Conversation> rechercherConversations(UtilisateurHardis u) {
-        Query requete = getEntityManager().createQuery("select c from Conversation as c where c.UtilisateurHardis=:uh");
+        Query requete = getEntityManager().createQuery("select c from Conversation as c where c.UtilisateurHardis=:uh order by c.DateCreation desc");
         requete.setParameter("uh", u);
         return requete.getResultList();
     }

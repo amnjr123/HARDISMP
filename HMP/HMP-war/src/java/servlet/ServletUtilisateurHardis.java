@@ -2,6 +2,8 @@ package servlet;
 
 import Enum.SFTPConnexion;
 import GestionCatalogue.Offre;
+import GestionDevis.Communication;
+import GestionDevis.Conversation;
 import GestionUtilisateur.CV;
 import GestionUtilisateur.Disponibilite;
 import GestionUtilisateur.Utilisateur;
@@ -227,6 +229,45 @@ public class ServletUtilisateurHardis extends HttpServlet {
                 if (act.equals("devisEnCours")) {
                     request.setAttribute("listeDevis", sessionHardis.rechercherDevis(uh.getId(), null, "ReponseEnCours"));
                     jspClient = "/hardisUser/devisEnCours.jsp";
+                }
+                
+                /*MESSAGERIE*/
+                if (act.equals("messages")) {
+                    request.setAttribute("listConversations", sessionHardis.afficherConversations(uh.getId()));
+                    Conversation conversationActive = null;
+                    //Création d'un faux id si l'utilisateur n'a aucun message pour que liste soit créée
+                    String idString = "-1";
+                    Long id = Long.parseLong(idString);
+                    request.setAttribute("listCommunications", sessionHardis.afficherCommunications(id));
+                    if(!sessionHardis.afficherConversations(uh.getId()).isEmpty()){
+                        if(request.getParameter("idConversation")==null){
+                            //La dernière conversation créée devient la conversation active dans le chat, s'il n'y a pas de conversation on laisse null
+                            conversationActive = sessionHardis.afficherConversations(uh.getId()).get(0);
+                             request.setAttribute("listCommunications", sessionHardis.afficherCommunications(conversationActive.getId()));
+                        }else{
+                            //Si une conversation est sélectionnée elle devient la conversation active
+                            conversationActive = sessionHardis.afficherConversation(Long.parseLong(request.getParameter("idConversation")));
+                             request.setAttribute("listCommunications", sessionHardis.afficherCommunications(conversationActive.getId()));
+                        }
+                    }
+                    request.setAttribute("conversation", conversationActive);
+                    jspClient = "/hardisUser/inbox.jsp";
+                }
+               
+                if(act.equals("repondreMessage")){
+                    Long convId = Long.parseLong(request.getParameter("idConversation"));
+                    Conversation conv = sessionHardis.afficherConversation(convId);
+                    if (request.getParameter("message") != null && !request.getParameter("message").isEmpty()) {
+                        String message = request.getParameter("message");
+                        if(conv.getUtilisateurHardis()==null){
+                            conv = sessionHardis.affecterUHConversation(uh.getId(),conv.getId());
+                        }
+                        Communication comm = sessionHardis.creerCommunication(message, conv.getId());
+                    }
+                    request.setAttribute("listConversations", sessionHardis.afficherConversations(uh.getId()));
+                    request.setAttribute("listCommunications", sessionHardis.afficherCommunications(conv.getId()));
+                    request.setAttribute("conversation", conv);
+                    jspClient = "/hardisUser/inbox.jsp";
                 }
             }
         }
