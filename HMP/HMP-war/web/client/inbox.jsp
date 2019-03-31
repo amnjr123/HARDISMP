@@ -1,11 +1,14 @@
+<%@page import="java.util.Locale"%>
 <%@page import="GestionDevis.Communication"%>
 <%@page import="GestionDevis.Conversation"%>
 <%@page import="java.util.Collection"%>
 <jsp:useBean id="listConversations" scope="request" class="java.util.Collection"></jsp:useBean>
+<jsp:useBean id="listCommunications" scope="request" class="java.util.Collection"></jsp:useBean>
 <%--<jsp:useBean id="conversation" scope="request" class="GestionDevis.Conversation"></jsp:useBean>--%>
 <jsp:include page="header.jsp"/>
 <%
     Collection<Conversation> listeConversations = listConversations;
+    Collection<Communication> listeMessages = listCommunications;
     Conversation conversationActive =  (Conversation) request.getAttribute("conversation");
 
 %>
@@ -18,7 +21,8 @@
             <div class="inbox_msg">
                 <div class="inbox_people">
                     <div class="inbox_chat" id="zoneConversations">
-                        <%for (Conversation c : listeConversations) {%>
+                        <%java.text.DateFormat df = new java.text.SimpleDateFormat("dd/mm/yyyy à HH:mm", Locale.FRENCH);
+                            for (Conversation c : listeConversations) {%>
                         <a href="${pageContext.request.contextPath}/ServletClient?action=messages&idConversation=<%=c.getId()%>">
                             <div class="chat_list <% if (conversationActive != null) {
                                     if (c.getId() == conversationActive.getId()) {%>active_chat<%}
@@ -28,7 +32,7 @@
                                     <div class="chat_ib">
                                         <h5><%if (c.getUtilisateurHardis() != null) {
                                                 out.print(c.getUtilisateurHardis().getNom() + " " + c.getUtilisateurHardis().getPrenom());
-                                            } else {%>Consultant Hardis<%}%> <span class="chat_date"><%=c.getCommunications().get(c.getCommunications().size() - 1).getDateEnvoi()%></span></h5>
+                                            } else {%>Consultant Hardis<%}%> <span class="chat_date"><%=df.format(c.getCommunications().get(c.getCommunications().size() - 1).getDateEnvoi())%></span></h5>
                                         <p><%=c.getCommunications().get(c.getCommunications().size() - 1).getContenu()%></p>
                                     </div>
                                 </div>
@@ -41,22 +45,22 @@
                 <div class="mesgs">
                     <div class="msg_history" id="zoneMessages">
                         <%if (conversationActive != null) {
-                                for (Communication comm : conversationActive.getCommunications()) {
+                                for (Communication comm : listeMessages) {
                                     if (comm.getClient() != null) {%>
-                        <div class="outgoing_msg">
-                            <div class="sent_msg">
-                                <p><%=comm.getContenu()%></p>
-                                <span class="time_date"><%=comm.getDateEnvoi()%></span> </div>
-                        </div>
-                        <%} else {%>
-                        <div class="incoming_msg">
-                            <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                            <div class="received_msg">
-                                <div class="received_withd_msg">
-                                    <p><%=comm.getContenu()%></p>
-                                    <span class="time_date"><%=comm.getDateEnvoi()%></span></div>
-                            </div>
-                        </div>
+                                        <div class="outgoing_msg">
+                                            <div class="sent_msg">
+                                                <p><%=comm.getContenu()%></p>
+                                                <span class="time_date"><%=df.format(comm.getDateEnvoi())%></span> </div>
+                                        </div>
+                                    <%} else {%>
+                                        <div class="incoming_msg">
+                                            <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                                            <div class="received_msg">
+                                                <div class="received_withd_msg">
+                                                    <p><%=comm.getContenu()%></p>
+                                                    <span class="time_date"><%=df.format(comm.getDateEnvoi())%></span></div>
+                                            </div>
+                                        </div>
                         <%}
                                 }
                             }%>
@@ -99,7 +103,7 @@
 
             var formulaire = document.querySelector("#formulaire");
             formulaire.remove();
-            $('#newMessage').append('<form method="POST" action="${pageContext.request.contextPath}/ServletClient"><input type="hidden" name="action" value="nouvelleConversation"><input name="message" type="text" class="write_msg" placeholder="Posez votre question ici pour contacter un consultant Hardis" /><button class="msg_send_btn" type="submit"><i data-feather="send" aria-hidden="true"></i></button></form>');
+            $('#newMessage').append('<form method="POST" action="${pageContext.request.contextPath}/ServletClient" id="formulaire"><input type="hidden" name="action" value="nouvelleConversation"><input name="message" type="text" class="write_msg" placeholder="Posez votre question ici pour contacter un consultant Hardis" /><button class="msg_send_btn" type="submit"><i data-feather="send" aria-hidden="true"></i></button></form>');
         })
     })
 </script>

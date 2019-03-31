@@ -61,6 +61,9 @@
                                     <span data-feather="layers"></span> Voir tous les devis
                                     <span class="badge badge-primary badge-pill"></span>
                                 </a>
+                                <a href="${pageContext.request.contextPath}/hardisUser?action=messages" class="list-group-item d-flex justify-content-between bg-light">
+                                <span><span data-feather="inbox"></span> Inbox</span>
+                            </a>
                             </div>
                             <%
                                 if (ua != null) {
