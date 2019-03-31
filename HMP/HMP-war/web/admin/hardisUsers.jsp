@@ -463,21 +463,21 @@
             <div class="modal-content">
                 <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletAdministrateur">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Nouveau Référent Local</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Nouveau Consultant</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="firstName">Prénom *</label>
-                            <input name="prenom" type="text" class="form-control" id="firstName" placeholder="Prénom référent" value="" required>
+                            <input name="prenom" type="text" class="form-control" id="firstName" placeholder="Prénom consultant" value="" required>
                             <div class="invalid-feedback">
                                 Le prénom est obligatoire.
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="lastName">Nom *</label>
-                            <input name="nom" type="text" class="form-control" id="lastName" placeholder="Nom référent" value="" required>
+                            <input name="nom" type="text" class="form-control" id="lastName" placeholder="Nom consultant" value="" required>
                             <div class="invalid-feedback">
                                 Le nom est obligatoire.
                             </div>

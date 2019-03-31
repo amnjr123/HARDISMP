@@ -104,4 +104,6 @@ public interface SessionClientLocal {
     void supprimerDevisNonStandardIncomplet(Long idDevis);
 
     List<Consultant> listConsultant(Long idAgence);
+
+    void creerIntervention(List<Long> disponibilitesEnDemoJournee, Long idDevis);
 }

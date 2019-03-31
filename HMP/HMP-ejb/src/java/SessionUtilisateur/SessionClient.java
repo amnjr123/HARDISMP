@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package SessionUtilisateur;
 
 import Enum.Helpers;
@@ -18,6 +13,7 @@ import FacadeDevis.DevisFacadeLocal;
 import FacadeDevis.DevisNonStandardFacadeLocal;
 import FacadeDevis.DevisStandardFacadeLocal;
 import FacadeDevis.HistoriqueUtilisateurDevisFacadeLocal;
+import FacadeDevis.InterventionFacadeLocal;
 import FacadeUtilisateur.AgenceFacadeLocal;
 import FacadeUtilisateur.ClientFacadeLocal;
 import FacadeUtilisateur.ConsultantFacadeLocal;
@@ -35,6 +31,7 @@ import GestionUtilisateur.Client;
 import GestionUtilisateur.DemandeCreationEntreprise;
 import GestionUtilisateur.DemandeRattachement;
 import FacadeUtilisateur.DemandeRattachementFacadeLocal;
+import FacadeUtilisateur.DisponibiliteFacadeLocal;
 import FacadeUtilisateur.InterlocuteurFacadeLocal;
 import GestionCatalogue.Livrable;
 import GestionCatalogue.ServiceNonStandard;
@@ -42,12 +39,16 @@ import GestionDevis.Communication;
 import GestionDevis.Conversation;
 import GestionDevis.Devis;
 import GestionDevis.DevisNonStandard;
+import GestionDevis.Intervention;
 import GestionUtilisateur.Consultant;
+import GestionUtilisateur.Disponibilite;
 import GestionUtilisateur.Entreprise;
 import GestionUtilisateur.Interlocuteur;
 import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.Utilisateur;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,6 +57,12 @@ import javax.ejb.Stateless;
 
 @Stateless
 public class SessionClient implements SessionClientLocal {
+
+    @EJB
+    private DisponibiliteFacadeLocal disponibiliteFacade;
+
+    @EJB
+    private InterventionFacadeLocal interventionFacade;
 
     @EJB
     private ConsultantFacadeLocal consultantFacade;
@@ -434,10 +441,28 @@ public class SessionClient implements SessionClientLocal {
     public void supprimerDevisNonStandardIncomplet(Long idDevis) {
         devisNonStandardFacade.supprimerDevisNonStandard(devisNonStandardFacade.find(idDevis));
     }
-    
+
     @Override
-    public List<Consultant> listConsultant(Long idAgence){
+    public List<Consultant> listConsultant(Long idAgence) {
         return consultantFacade.listConsultantParAgence(agenceFacade.find(idAgence));
     }
-
+    
+    @Override
+    public void creerIntervention(List<Long> disponibilitesEnDemoJournee, Long idDevis) {
+        Devis devis = devisFacade.rechercherDevis(idDevis);
+        List<Disponibilite> disponibilites = new ArrayList<Disponibilite>();
+        for (Long idDispo : disponibilitesEnDemoJournee) {
+            disponibilites.add(disponibiliteFacade.find(idDispo));
+        }
+        
+        for (Disponibilite d : disponibilites){
+            //Vérification intervention n'existe pas
+                Intervention intervention = interventionFacade.rechercheIntervention(d.getUtilisateurHardis(), d.getDateDebut());
+                if(intervention==null){
+                    interventionFacade.creerIntervention(d.getUtilisateurHardis(), devis, d.getDateDebut());
+                }
+                disponibiliteFacade.supprimerDisponibilite(d);
+        }
+    }
+       
 }

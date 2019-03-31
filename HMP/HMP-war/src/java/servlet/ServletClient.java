@@ -16,6 +16,7 @@ import SessionUtilisateur.SessionClientLocal;
 import com.jcraft.jsch.JSchException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -290,14 +291,27 @@ public class ServletClient extends HttpServlet {
                     }
                 }
 
-                if (act.equals("completerDevisStandard")) {
+                if (act.equals("completerDevisStandard") || act.equals("completerDevisNonStandard")) {
+                    String commentaire = request.getParameter("commentaire").trim();
+                    String idDevis = request.getParameter("idDevis");
                     String[] disponibilites = request.getParameterValues("disponibilites");
+                    if (commentaire != null && !commentaire.isEmpty()) {
+                        if (disponibilites != null && disponibilites.length != 0) {
+                            List<Long> listDisponibilites = new ArrayList<>();
+                            for (String idDisponibilites : disponibilites) {
+                                String[] demiJourneeDispo = idDisponibilites.split("/");
+                                listDisponibilites.add(Long.parseLong(demiJourneeDispo[0]));
+                                listDisponibilites.add(Long.parseLong(demiJourneeDispo[1]));
+                            }
+                            sessionClient.creerIntervention(listDisponibilites,Long.parseLong(idDevis));
+                        }
+                    }
+                    sessionClient.modifierDevisIncomplet(Long.parseLong(idDevis), commentaire);
+                    request.setAttribute("msgSuccess", "Votre demande a été prise en compte. Vous pouvez retrouver votre devis dans la section Mes devis en cours");
+                    devisEnCours(request, response);
                 }
-                
-                  if (act.equals("completerDevisNonStandard")) {
-                    String[] disponibilites = request.getParameterValues("disponibilites");
-                }
-                
+
+
                 if (act.equals("DevisTermines")) {
                     //  request.setAttribute("listOffres", sessionClient.rechercherOffres());
                     jspClient = "/client/devisTermines.jsp";
