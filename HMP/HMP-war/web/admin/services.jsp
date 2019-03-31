@@ -243,15 +243,15 @@
                             </div>
                         </div>
                         <div class="form-group">
-                                <h5 class="modal-title" >Ajouter des livrables au service</h5>
-                                <div class="form-row mt-2">
-                                    <div class="col-md">
-                                        <button type="button" class="btn btn-success btn-block" id="addLivrableSS"><i data-feather="plus"></i></button>
-                                    </div>
-                                    <div class="col-md">
-                                        <button type="button" class="btn btn-danger btn-block" id="removeLivrableSS"><i data-feather="minus"></i></button>    
-                                    </div>
+                            <h5 class="modal-title" >Ajouter des livrables au service</h5>
+                            <div class="form-row mt-2">
+                                <div class="col-md">
+                                    <button type="button" class="btn btn-success btn-block" id="addLivrableSS"><i data-feather="plus"></i></button>
                                 </div>
+                                <div class="col-md">
+                                    <button type="button" class="btn btn-danger btn-block" id="removeLivrableSS"><i data-feather="minus"></i></button>    
+                                </div>
+                            </div>
                         </div>
                         <div id="zoneAjoutInputsSS" class="form-group">
                             <input name="livrable" type="text" id="livrableSS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>
@@ -339,19 +339,19 @@
                         </div>
                     </div>
                     <div class="form-group">
-                            <h5 class="modal-title" >Ajouter des livrables au service</h5>
-                            <div class="form-row mt-2">
-                                <div class="col-md">
-                                    <button type="button" class="btn btn-success btn-block" id="addLivrableSNS"><i data-feather="plus"></i></button>
-                                </div>
-                                <div class="col-md">
-                                    <button type="button" class="btn btn-danger btn-block" id="removeLivrableSNS"><i data-feather="minus"></i></button>    
-                                </div>
+                        <h5 class="modal-title">Ajouter des livrables au service</h5>
+                        <div class="form-row mt-2">
+                            <div class="col-md">
+                                <button type="button" class="btn btn-success btn-block" id="addLivrableSNS"><i data-feather="plus"></i></button>
                             </div>
-                    </div>
-                        <div id="zoneAjoutInputsSNS" class="form-group">
-                            <input name="livrable" type="text" id="livrableSNS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>
+                            <div class="col-md">
+                                <button type="button" class="btn btn-danger btn-block" id="removeLivrableSNS"><i data-feather="minus"></i></button>    
+                            </div>
                         </div>
+                    </div>
+                    <div id="zoneAjoutInputsSNS" class="form-group">
+                        <input name="livrable" type="text" id="livrableSNS" class="form-control mb-2" placeholder="Renseigner un livrable" required autofocus>
+                    </div>
                     <div class="modal-footer ">
                         <input type="hidden" name="idOffre" value="<%=o.getId()%>">
                         <input type="hidden" name="action" value="creerServiceNonStandard">
@@ -481,7 +481,7 @@
                             %>
                         </div>
                     </div>
-                    <div class="modal-footer ">
+                    <div class="modal-footer">
                         <input type="hidden" name="idOffre" value="<%=o.getId()%>">
                         <input type="hidden" name="idServiceStandard" value="<%=st.getId()%>">
                         <input type="hidden" name="action" value="modifierServiceStandard">
@@ -589,7 +589,7 @@
                             %>
                         </div>
                     </div>
-                    <div class="modal-footer ">
+                    <div class="modal-footer">
                         <input type="hidden" name="idOffre" value="<%=o.getId()%>">
                         <input type="hidden" name="idServiceNonStandard" value="<%=st.getId()%>">
                         <input type="hidden" name="action" value="modifierServiceNonStandard">
@@ -634,9 +634,9 @@
                     <%
                         if (st.getLivrables().size() > 0) {
                             for (Livrable l : st.getLivrables()) {
-                                %>
-                                <p class="font-weight-light"><%=l.getLibelle()%></p>
-                                <%
+                    %>
+                    <p class="font-weight-light"><%=l.getLibelle()%></p>
+                    <%
                             }
                         }
                     %>
@@ -677,9 +677,9 @@
                     <%
                         if (st.getLivrables().size() > 0) {
                             for (Livrable l : st.getLivrables()) {
-                                %>
-                                <p class="font-weight-light"><%=l.getLibelle()%></p>
-                                <%
+                    %>
+                    <p class="font-weight-light"><%=l.getLibelle()%></p>
+                    <%
                             }
                         }
                     %>

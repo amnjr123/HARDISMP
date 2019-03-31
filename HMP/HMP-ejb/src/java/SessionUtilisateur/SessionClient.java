@@ -20,6 +20,7 @@ import FacadeDevis.DevisStandardFacadeLocal;
 import FacadeDevis.HistoriqueUtilisateurDevisFacadeLocal;
 import FacadeUtilisateur.AgenceFacadeLocal;
 import FacadeUtilisateur.ClientFacadeLocal;
+import FacadeUtilisateur.ConsultantFacadeLocal;
 import FacadeUtilisateur.DemandeCreationEntrepriseFacadeLocal;
 import FacadeUtilisateur.EntrepriseFacadeLocal;
 import FacadeUtilisateur.PorteurOffreFacadeLocal;
@@ -41,6 +42,7 @@ import GestionDevis.Communication;
 import GestionDevis.Conversation;
 import GestionDevis.Devis;
 import GestionDevis.DevisNonStandard;
+import GestionUtilisateur.Consultant;
 import GestionUtilisateur.Entreprise;
 import GestionUtilisateur.Interlocuteur;
 import GestionUtilisateur.ReferentLocal;
@@ -56,62 +58,65 @@ import javax.ejb.Stateless;
 public class SessionClient implements SessionClientLocal {
 
     @EJB
+    private ConsultantFacadeLocal consultantFacade;
+
+    @EJB
     private CommunicationFacadeLocal communicationFacade;
 
     @EJB
     private ConversationFacadeLocal conversationFacade;
-    
+
     @EJB
     private HistoriqueUtilisateurDevisFacadeLocal historiqueUtilisateurDevisFacade;
-    
+
     @EJB
     private ServiceNonStandardFacadeLocal serviceNonStandardFacade;
-    
+
     @EJB
     private DevisNonStandardFacadeLocal devisNonStandardFacade;
-    
+
     @EJB
     private LivrableFacadeLocal livrableFacade;
-    
+
     @EJB
     private OffreFacadeLocal offreFacade;
-    
+
     @EJB
     private InterlocuteurFacadeLocal interlocuteurFacade;
-    
+
     @EJB
     private DemandeRattachementFacadeLocal demandeRattachementFacade;
-    
+
     @EJB
     private DemandeCreationEntrepriseFacadeLocal demandeCreationEntrepriseFacade;
-    
+
     @EJB
     private EntrepriseFacadeLocal entrepriseFacade;
-    
+
     @EJB
     private AgenceFacadeLocal agenceFacade;
-    
+
     @EJB
     private ServiceStandardFacadeLocal serviceStandardFacade;
-    
+
     @EJB
     private UtilisateurFacadeLocal utilisateurFacade;
-    
+
     @EJB
     private DevisFacadeLocal devisFacade;
-    
+
     @EJB
     private ReferentLocalFacadeLocal referentLocalFacade;
-    
+
     @EJB
     private DevisStandardFacadeLocal devisStandardFacade;
-    
+
     @EJB
     private ServiceFacadeLocal serviceFacade;
-    
+
     @EJB
     private PorteurOffreFacadeLocal porteurOffreFacade;
-    
+
     @EJB
     private ClientFacadeLocal clientFacade;
 
@@ -120,7 +125,7 @@ public class SessionClient implements SessionClientLocal {
     public List<Agence> rechercherAgence() {
         return agenceFacade.rechercheAgences();
     }
-    
+
     @Override
     public DemandeCreationEntreprise rechercherDemandeCreationEntreprise(Long idClient) {
         Client c = clientFacade.rechercheClient(idClient);
@@ -142,7 +147,7 @@ public class SessionClient implements SessionClientLocal {
             return "hmp/demandeEntreprise/rattachement/" + creerDemandeRattachement(idClient, siret).getId();
         }
     }
-    
+
     @Override
     public DemandeCreationEntreprise creerDemandeEntreprise(Long idClient, String nom, String siret, String adresse, Long idAgence) {
         Client c = clientFacade.rechercheClient(idClient);
@@ -154,7 +159,7 @@ public class SessionClient implements SessionClientLocal {
         clientFacade.demanderCreationEntreprise(c, e);
         return e;
     }
-    
+
     @Override
     public DemandeRattachement creerDemandeRattachement(Long idClient, String siret) {
         Client c = clientFacade.rechercheClient(idClient);
@@ -194,24 +199,24 @@ public class SessionClient implements SessionClientLocal {
         demandeRattachementFacade.supprimerDemandeRattachement(d);
         return d;//A tester si on peut renvoyer une instance supprimée de la bdd sans provoquer de bug
     }
-    
+
     @Override
     public List<Interlocuteur> rechercherInterlocuteur(Long idEntreprise) {
         Entreprise e = entrepriseFacade.rechercheEntreprise(idEntreprise);
         return interlocuteurFacade.rechercheInterlocuteur(e);
     }
-    
+
     @Override
     public Interlocuteur creerInterlocuteur(String nom, String prenom, String telephone, String mail, String fonction, long idEntreprise) {
         return interlocuteurFacade.creerInterlocuteur(nom, prenom, mail, telephone, fonction, entrepriseFacade.rechercheEntreprise(idEntreprise));
     }
-    
+
     @Override
     public Interlocuteur modifierInterlocuteur(Long idInterlocuteur, String nom, String prenom, String mail, String telephone, String fonction) {
         Interlocuteur i = interlocuteurFacade.rechercheInterlocuteur(idInterlocuteur);
         return interlocuteurFacade.modifierInterlocuteur(i, nom, prenom, mail, telephone, fonction);
     }
-    
+
     @Override
     public Interlocuteur supprimerInterlocuteur(Long idInterlocuteur) {
         Interlocuteur i = interlocuteurFacade.rechercheInterlocuteur(idInterlocuteur);
@@ -224,40 +229,40 @@ public class SessionClient implements SessionClientLocal {
         //Le client ne doit avoir accès qu'aux offres actuelles
         return offreFacade.rechercheOffresActuelles();
     }
-    
+
     @Override
     public Offre rechercherOffre(Long idOffre) {
         return offreFacade.rechercheOffre(idOffre);
     }
-    
+
     @Override
     public List<ServiceStandard> rechercherServicesStandards(Long idOffre) {
         Offre o = offreFacade.rechercheOffre(idOffre);
         return serviceStandardFacade.rechercheServicesStandardsActuels(o);
     }
-    
+
     @Override
     public ServiceStandard rechercherServiceStandard(Long idService) {
         return serviceStandardFacade.rechercheServiceStandard(idService);
     }
-    
+
     @Override
     public ServiceNonStandard rechercherServiceNonStandard(Long idService) {
         return serviceNonStandardFacade.rechercheServiceNonStandard(idService);
     }
-    
+
     @Override
     public List<ServiceNonStandard> rechercherServicesNonStandards(Long idOffre) {
         Offre o = offreFacade.rechercheOffre(idOffre);
         return serviceNonStandardFacade.rechercheServicesNonStandardsActuels(o);
     }
-    
+
     @Override
     public List<Livrable> afficherLivrables(Long idService) {
         Service service = serviceFacade.rechercherService(idService);
         return livrableFacade.rechercheLivrable(service);
     }
-    
+
     @Override
     public DevisStandard creerDevisStandard(Long idServiceStandard, Long idClient) {
         Client c = clientFacade.rechercheClient(idClient);
@@ -266,7 +271,7 @@ public class SessionClient implements SessionClientLocal {
         d = devisStandardFacade.creerDevisStandard(s, c);
         return d;
     }
-    
+
     @Override
     public DevisNonStandard creerDevisNonStandard(Long idServiceNonStandard, Long idClient) {
         Client c = clientFacade.rechercheClient(idClient);
@@ -275,7 +280,7 @@ public class SessionClient implements SessionClientLocal {
         d = devisNonStandardFacade.creerDevisNonStandard(s, c);
         return d;
     }
-    
+
     @Override
     public String modifierDevisIncomplet(Long idDevis, String commentaireClient) {
         //ATTENTION DANS LES SERVLETS : LE COMMENTAIRE CLIENT PEUT ETRE NUL
@@ -310,10 +315,9 @@ public class SessionClient implements SessionClientLocal {
         }
         return message;
     }
-    
+
     @Override
-    public List<Devis> rechercherDevis(Long idClient, String statutDevis
-    ) {
+    public List<Devis> rechercherDevis(Long idClient, String statutDevis) {
         //A TESTER
         //Une seule méthode de recherche
         //Envoyer null pour les paramètres non utilisés pour votre recherche
@@ -335,32 +339,33 @@ public class SessionClient implements SessionClientLocal {
             return devisFacade.rechercherDevis(c, statut);
         }
     }
+
     /*GESTION DE LA MESSAGERIE*/
-    
     @Override
-    public Conversation creerConversation(Long idClient){
+    public Conversation creerConversation(Long idClient) {
         Client c = clientFacade.rechercheClient(idClient);
         return conversationFacade.creerConversation(c);
     }
+
     @Override
-    public Communication creerCommunication(String message,Long idConversation){
+    public Communication creerCommunication(String message, Long idConversation) {
         Conversation conv = conversationFacade.rechercheConversation(idConversation);
-        return communicationFacade.creerCommunication(message, conv.getClient(),null,conv);
+        return communicationFacade.creerCommunication(message, conv.getClient(), null, conv);
     }
-    
+
     @Override
-    public List<Conversation> afficherConversations(Long idClient){
+    public List<Conversation> afficherConversations(Long idClient) {
         Client c = clientFacade.rechercheClient(idClient);
         return conversationFacade.rechercherConversations(c);
     }
-    
+
     @Override
-    public Conversation afficherConversation(Long idConversation){
+    public Conversation afficherConversation(Long idConversation) {
         return conversationFacade.rechercheConversation(idConversation);
     }
-    
+
     @Override
-    public List<Communication> afficherCommunications(Long idConversation){
+    public List<Communication> afficherCommunications(Long idConversation) {
         Conversation conv = conversationFacade.rechercheConversation(idConversation);
         return communicationFacade.rechercherCommunications(conv);
     }
@@ -368,8 +373,8 @@ public class SessionClient implements SessionClientLocal {
     /*GESTION DU COMPTE*/
     @Override
     public Client modifierClient(Long id, String nom,
-             String prenom, String mail,
-             String tel
+            String prenom, String mail,
+            String tel
     ) {
         Client c = clientFacade.rechercheClient(id);
         if (c.getMail().equalsIgnoreCase(mail)) {
@@ -387,10 +392,10 @@ public class SessionClient implements SessionClientLocal {
             }
         }
     }
-    
+
     @Override
     public Utilisateur modifierClientMDP(Long id, String ancienMdp,
-             String nouveauMdp
+            String nouveauMdp
     ) {
         Utilisateur u = utilisateurFacade.rechercheUtilisateur(id);
         Utilisateur retour = null;
@@ -405,17 +410,32 @@ public class SessionClient implements SessionClientLocal {
         }
         return retour;
     }
-    
+
     @Override
     public Client rechercheClient(long id
     ) {
         return clientFacade.rechercheClient(id);
-        
+
     }
-    
+
     @Override
     public Devis afficherLeDevis(long id) {
         return devisFacade.find(id);
     }
+
+    @Override
+    public void supprimerDevisStandardIncomplet(Long idDevis) {
+        devisStandardFacade.supprimerDevisStandard(devisStandardFacade.find(idDevis));
+    }
+
+    @Override
+    public void supprimerDevisNonStandardIncomplet(Long idDevis) {
+        devisNonStandardFacade.supprimerDevisNonStandard(devisNonStandardFacade.find(idDevis));
+    }
     
+    @Override
+    public List<Consultant> listConsultant(Long idAgence){
+        return consultantFacade.listConsultantParAgence(agenceFacade.find(idAgence));
+    }
+
 }

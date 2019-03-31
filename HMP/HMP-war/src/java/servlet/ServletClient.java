@@ -8,6 +8,7 @@ import GestionCatalogue.ServiceStandard;
 import GestionDevis.Communication;
 import GestionDevis.Conversation;
 import GestionDevis.Devis;
+import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Utilisateur;
@@ -49,6 +50,12 @@ public class ServletClient extends HttpServlet {
         }
     }
 
+    protected void devisEnCours(HttpServletRequest request, HttpServletResponse response) {
+        request.setAttribute("listDevis", sessionClient.rechercherDevis(c.getId(), null));
+        jspClient = "/client/devisEnCours.jsp";
+
+    }
+
     protected void monProfil(HttpServletRequest request, HttpServletResponse response) {
         try {
             request.setAttribute("listeInterlocuteurs", sessionClient.rechercherInterlocuteur(c.getEntreprise().getId()));
@@ -70,7 +77,7 @@ public class ServletClient extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sessionHttp = request.getSession();
- 
+        jspClient = "/client/index.jsp";
 
         if (sessionHttp.getAttribute("sessionClient") != null) {
             c = (Client) sessionHttp.getAttribute("sessionClient");
@@ -256,21 +263,30 @@ public class ServletClient extends HttpServlet {
                 }
                 /*CREERDEVIS*/
 
-              
-                
                 if (act.equals("DevisEnCours")) {/*Menu devis en cours*/
-                    request.setAttribute("listDevis", sessionClient.rechercherDevis(c.getId(), StatutDevis.Incomplet.toString()));
-                    jspClient = "/client/devisEnCours.jsp";
+                    devisEnCours(request, response);
                 }
-                
-                  if (act.equals("consulterFromDevisEnCours")) {/*Choix d'un devis from devis en cours*/
+
+                if (act.equals("consulterFromDevisEnCours")) {/*Choix d'un devis from devis en cours*/
                     Long idDevis = Long.parseLong(request.getParameter("idDevis").trim());
                     String statut = request.getParameter("statut");
                     Devis devis = sessionClient.afficherLeDevis(idDevis);
-                    if(devis.getDtype().equalsIgnoreCase("DevisStandard")){
-                        
-                    }else if(devis.getDtype().equalsIgnoreCase("DevisNonStandard")){
-                        
+                    if (statut.equalsIgnoreCase("Incomplet")) {/*Si incomplet renvoi vers la création du devis*/
+                        if (devis.getDtype().equalsIgnoreCase("DevisStandard")) {
+                            request.setAttribute("devisStandard", (DevisStandard) devis);
+                            request.setAttribute("listConsultants", sessionClient.listConsultant(c.getEntreprise().getAgence().getId()));
+                            jspClient = "/client/creerDevisStandard.jsp";
+                        } else if (devis.getDtype().equalsIgnoreCase("DevisNonStandard")) {
+                            request.setAttribute("devisNonStandard", (DevisNonStandard) devis);
+                            request.setAttribute("listConsultants", sessionClient.listConsultant(c.getEntreprise().getAgence().getId()));
+                            jspClient = "/client/creerDevisNonStandard.jsp";
+                        }
+                    } else {
+                        if (devis.getDtype().equalsIgnoreCase("DevisStandard")) {
+
+                        } else if (devis.getDtype().equalsIgnoreCase("DevisNonStandard")) {
+
+                        }
                     }
                 }
 
@@ -301,6 +317,8 @@ public class ServletClient extends HttpServlet {
                     //request.setAttribute("service", st);
                     DevisStandard d = sessionClient.creerDevisStandard(idService, c.getId());
                     request.setAttribute("devisStandard", d);
+                    /*Liste des consultant par agence du client*/
+                    request.setAttribute("listConsultants", sessionClient.listConsultant(c.getEntreprise().getAgence().getId()));
                     jspClient = "/client/creerDevisStandard.jsp";
                 }
 
@@ -311,18 +329,30 @@ public class ServletClient extends HttpServlet {
                     request.setAttribute("service", st);
                     jspClient = "/client/creerDevisNonStandard.jsp";
                 }
-                
-                
+
+                /*Suppression Devis incomplet*/
+                if (act.equals("supprimerDevisStandard")) {
+                    Long idDevisStandard = Long.parseLong(request.getParameter("idDevis").trim());
+                    sessionClient.supprimerDevisStandardIncomplet(idDevisStandard);
+                    devisEnCours(request, response);
+                }
+
+                if (act.equals("supprimerDevisNonStandard")) {
+                    Long idDevisStandard = Long.parseLong(request.getParameter("idDevis").trim());
+                    sessionClient.supprimerDevisNonStandardIncomplet(idDevisStandard);
+                    devisEnCours(request, response);
+                }
+
                 /*MESSAGERIE*/
                 if (act.equals("messages")) {
                     request.setAttribute("listConversations", sessionClient.afficherConversations(c.getId()));
                     Conversation conversationActive = null;
-                    if(!sessionClient.afficherConversations(c.getId()).isEmpty()){
-                        if(request.getParameter("idConversation")==null){
+                    if (!sessionClient.afficherConversations(c.getId()).isEmpty()) {
+                        if (request.getParameter("idConversation") == null) {
                             //La dernière conversation créée devient la conversation active dans le chat, s'il n'y a pas de conversation on laisse null
-                            conversationActive = sessionClient.afficherConversations(c.getId()).get(sessionClient.afficherConversations(c.getId()).size()-1);
+                            conversationActive = sessionClient.afficherConversations(c.getId()).get(sessionClient.afficherConversations(c.getId()).size() - 1);
                             System.out.println(conversationActive.getId());
-                        }else{
+                        } else {
                             //Si une conversation est sélectionnée elle devient la conversation active
                             conversationActive = sessionClient.afficherConversation(Long.parseLong(request.getParameter("idConversation")));
                         }
@@ -331,8 +361,8 @@ public class ServletClient extends HttpServlet {
                     request.setAttribute("conversation", conversationActive);
                     jspClient = "/client/inbox.jsp";
                 }
-                
-                if(act.equals("nouvelleConversation")){
+
+                if (act.equals("nouvelleConversation")) {
                     Conversation conv = null;
                     if (request.getParameter("message") != null && !request.getParameter("message").isEmpty()) {
                         String message = request.getParameter("message");
@@ -344,7 +374,7 @@ public class ServletClient extends HttpServlet {
                     request.setAttribute("conversation", conv);
                     jspClient = "/client/inbox.jsp";
                 }
-                if(act.equals("repondreMessage")){
+                if (act.equals("repondreMessage")) {
                     Long convId = Long.parseLong(request.getParameter("idConversation"));
                     Conversation conv = sessionClient.afficherConversation(convId);
                     if (request.getParameter("message") != null && !request.getParameter("message").isEmpty()) {

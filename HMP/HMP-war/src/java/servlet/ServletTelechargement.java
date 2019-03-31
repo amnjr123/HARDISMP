@@ -1,20 +1,13 @@
 package servlet;
 
 import Enum.SFTPConnexion;
-import com.jcraft.jsch.JSchException;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import static java.lang.System.out;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.servlet.ServletException;
