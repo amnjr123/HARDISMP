@@ -33,7 +33,7 @@
                                         <h5><%if (c.getUtilisateurHardis() != null) {
                                                 out.print(c.getUtilisateurHardis().getNom() + " " + c.getUtilisateurHardis().getPrenom());
                                             } else {%>Consultant Hardis<%}%> <span class="chat_date"><%=df.format(c.getCommunications().get(c.getCommunications().size() - 1).getDateEnvoi())%></span></h5>
-                                            <p><span style="float:left"><%=c.getCommunications().get(c.getCommunications().size() - 1).getContenu()%></span><%if(c.getDevis()!=null){%><span style="color:#3498db;float:right">Devis n°<%=c.getDevis()%></span><%}%></p>
+                                            <p><span style="float:left"><%=c.getCommunications().get(c.getCommunications().size() - 1).getContenu()%></span><%if(c.getDevis()!=null){%><span style="color:#3498db;float:right">Devis n°<%=c.getDevis().getId()%></span><%}%></p>
                                     </div>
                                 </div>
                             </div>
@@ -74,7 +74,7 @@
                                 <%} else {%>
                                 <input type="hidden" name="action" value="repondreMessage">
                                 <input type="hidden" name="idConversation" value="<%=conversationActive.getId()%>">
-                                <input name="message" type="text" class="write_msg" placeholder="Ecrivez votre message ici" />
+                                <input name="message" maxlength="254" type="text" class="write_msg" placeholder="Ecrivez votre message ici" />
                                 <%}%>
                                 <button class="msg_send_btn" type="submit"><i data-feather="send" aria-hidden="true"></i></button>
                             </form>

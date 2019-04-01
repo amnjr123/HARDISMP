@@ -45,6 +45,7 @@ public class DevisNonStandardFacade extends AbstractFacade<DevisNonStandard> imp
         d.setDateCreation(new Date());
         d.setServiceNonStandard(serviceNonStandard);
         d.setClient(c);
+        d.setDtype("DevisNonStandard");
         create(d);  
         c.getDeviss().add(d);
         em.merge(c);

@@ -52,6 +52,7 @@ public class ServiceStandardFacade extends AbstractFacade<ServiceStandard> imple
         s.setDelaiRelance(delaiRelance);
         s.setOffre(o);
         s.setDateDebutValidite(new Date());
+        s.setDtype("ServiceStandard");
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.MILLISECOND, 0);
         cal.set(Calendar.SECOND, 0);

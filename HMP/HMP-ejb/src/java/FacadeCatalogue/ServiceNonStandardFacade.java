@@ -53,6 +53,7 @@ public class ServiceNonStandardFacade extends AbstractFacade<ServiceNonStandard>
         s.setDelaiRelance(delaiRelance);
         s.setOffre(o);
         s.setDateDebutValidite(new Date());
+        s.setDtype("ServiceNonStandard");
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.MILLISECOND, 0);
         cal.set(Calendar.SECOND, 0);

@@ -44,6 +44,7 @@ public class DevisStandardFacade extends AbstractFacade<DevisStandard> implement
         d.setStatut(StatutDevis.Incomplet);    
         d.setDateCreation(new Date());
         d.setServiceStandard(serviceStandard);
+        d.setDtype("DevisStandard");
         d.setClient(c);
         create(d);  
         c.getDeviss().add(d);

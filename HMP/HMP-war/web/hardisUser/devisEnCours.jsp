@@ -17,7 +17,7 @@
     </div>
 
     <div class="card">
-        <div class="card-header">
+        <div class="card-header" style="background-color: #b8daff;">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
                 <h1 class="h2">Devis</h1>
                 <div class="btn-toolbar">

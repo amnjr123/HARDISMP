@@ -12,7 +12,7 @@
 <jsp:include page="header.jsp"/>
 <%
     Collection<Devis> list = listDevis;
-    Client c = (Client) session.getAttribute("Client");
+    Client c = (Client) session.getAttribute("sessionClient");
 %>
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
@@ -70,13 +70,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%                            
-                            java.text.DateFormat df = new java.text.SimpleDateFormat("EEEEE dd MMMM  à HH:mm (yyyy)", Locale.FRENCH);
+                        <%                            java.text.DateFormat df = new java.text.SimpleDateFormat("EEEEE dd MMMM  à HH:mm (yyyy)", Locale.FRENCH);
                             for (Devis d : list) {%>                                      
                         <tr>
                             <td><%=d.getId()%></td>
                             <td><%=df.format(d.getDateCreation())%></td>                      
-                            <td><%if(d.getDtype().equals("DevisStandard")){DevisStandard ds = (DevisStandard) d; out.println(ds.getServiceStandard().getNom());}else if(d.getDtype().equals("DevisNonStandard")){DevisNonStandard dns = (DevisNonStandard) d; out.println(dns.getServiceNonStandard().getNom());}%></td>
+                            <td>
+                               <%if (d.getDtype().equalsIgnoreCase("DevisStandard")) {
+                                        DevisStandard ds = (DevisStandard) d;
+                                        out.println(ds.getServiceStandard().getNom());
+                                    } else if (d.getDtype().equalsIgnoreCase("DevisNonStandard")) {
+                                        DevisNonStandard dns = (DevisNonStandard) d;
+                                        out.println(dns.getServiceNonStandard().getNom());
+                            }%></td>
                             <td><%=d.getStatut()%></td>
                             <td><a href="${pageContext.request.contextPath}/ServletClient?action=consulterFromDevisEnCours&statut=<%=d.getStatut()%>&idDevis=<%=d.getId()%>" type="button" class="btn" style="background-color:transparent; color:green"><i data-feather="check-circle"></i></a></td>
                         </tr>
@@ -90,8 +96,8 @@
 
 
     <%
-            }
-       
+        }
+
     %>
 
 
