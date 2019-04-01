@@ -276,10 +276,7 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     request.setAttribute("listeDevis", sessionHardis.rechercherDevis(null, null, null));
                     jspClient = "/hardisUser/tousLesDevis.jsp";
                 }
-                if (act.equals("gererDevisStandard")) {
-                    request.setAttribute("devisStandard", sessionHardis.rechercherDevisStandard(Long.parseLong(request.getParameter("idDevis"))));
-                    jspClient = "/hardisUser/devisStandard.jsp";
-                }
+
                 if (act.equals("gererDevisNonStandard")) {
                     Long idDevis = Long.parseLong(request.getParameter("idDevis"));
                     DevisNonStandard d = sessionHardis.rechercherDevisNonStandard(idDevis);

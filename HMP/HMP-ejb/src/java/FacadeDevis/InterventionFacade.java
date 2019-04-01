@@ -88,4 +88,11 @@ public class InterventionFacade extends AbstractFacade<Intervention> implements 
         return requete.getResultList();
     }
     
+    @Override
+    public List<Intervention> rechercheInterventions(Devis d) {
+        Query requete = getEntityManager().createQuery("select i from Intervention as i where i.devis=:d");
+        requete.setParameter("d", d);
+        return requete.getResultList();
+    }
+    
 }

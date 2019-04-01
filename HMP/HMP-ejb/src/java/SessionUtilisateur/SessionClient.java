@@ -232,6 +232,41 @@ public class SessionClient implements SessionClientLocal {
     }
 
     /*GESTION DES DEVIS*/
+    
+    @Override
+    public void validerDevis(Long idDevis) {
+        DevisStandard d =  devisStandardFacade.rechercheDevisStandard(idDevis);
+        if(d!=null){
+            devisStandardFacade.validerDevisStandard(d);
+        }
+        else{
+            DevisNonStandard dns =  devisNonStandardFacade.rechercheDevisNonStandard(idDevis);
+            if(dns!=null){
+                devisNonStandardFacade.validerDevisNonStandard(dns);
+            }
+        }
+    }
+    
+    @Override
+    public List<Intervention> afficherInterventions(Long idDevis) {
+        Devis d =  devisFacade.rechercherDevis(idDevis);
+        return interventionFacade.rechercheInterventions(d);
+    }
+    
+    @Override
+    public void refuserDevis(Long idDevis, String motif) {
+        DevisStandard d =  devisStandardFacade.rechercheDevisStandard(idDevis);
+        if(d!=null){
+            devisStandardFacade.refuserDevisStandard(d,motif);
+        }
+        else{
+            DevisNonStandard dns =  devisNonStandardFacade.rechercheDevisNonStandard(idDevis);
+            if(dns!=null){
+                devisNonStandardFacade.refuserDevisNonStandard(dns,motif);
+            }
+        }
+    }
+    
     @Override
     public List<Offre> rechercherOffresClient() {
         //Le client ne doit avoir accès qu'aux offres actuelles
