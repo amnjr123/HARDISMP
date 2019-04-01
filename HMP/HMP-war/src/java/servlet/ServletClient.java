@@ -53,6 +53,7 @@ public class ServletClient extends HttpServlet {
 
     protected void devisEnCours(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("listDevis", sessionClient.rechercherDevisEncours(c.getId()));
+        request.setAttribute("Client", c);
         jspClient = "/client/devisEnCours.jsp";
 
     }
@@ -265,7 +266,10 @@ public class ServletClient extends HttpServlet {
                 /*CREERDEVIS*/
 
                 if (act.equals("DevisEnCours")) {/*Menu devis en cours*/
-                    devisEnCours(request, response);
+                    //devisEnCours(request, response);
+                    request.setAttribute("listDevis", sessionClient.rechercherDevisEncours(c.getId()));
+                    request.setAttribute("Client", c);
+                    jspClient = "/client/devisEnCours.jsp";
                 }
 
                 if (act.equals("consulterFromDevisEnCours")) {/*Choix d'un devis from devis en cours*/
