@@ -46,6 +46,8 @@ public class DevisNonStandardFacade extends AbstractFacade<DevisNonStandard> imp
         d.setServiceNonStandard(serviceNonStandard);
         d.setClient(c);
         create(d);  
+        c.getDeviss().add(d);
+        em.merge(c);
         return d;
     }
     
