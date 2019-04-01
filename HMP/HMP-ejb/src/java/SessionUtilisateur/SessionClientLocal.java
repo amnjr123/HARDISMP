@@ -16,6 +16,7 @@ import GestionDevis.Devis;
 import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
 import GestionDevis.HistoriqueUtilisateurDevis;
+import GestionDevis.Intervention;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Consultant;
@@ -117,5 +118,11 @@ public interface SessionClientLocal {
     List<Devis> rechercherDevisEncours(Long idClient);
 
     List<Devis> rechercherDevisTermines(Long idClient);
+
+    void validerDevis(Long idDevis);
+
+    void refuserDevis(Long idDevis, String motif);
+
+    List<Intervention> afficherInterventions(Long idDevis);
 
 }

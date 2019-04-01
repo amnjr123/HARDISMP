@@ -46,5 +46,7 @@ public interface InterventionFacadeLocal {
     Intervention rechercheIntervention(UtilisateurHardis uh, Date dateDispo);
 
     List<Intervention> rechercheInterventions(UtilisateurHardis uh);
+
+    List<Intervention> rechercheInterventions(Devis d);
     
 }

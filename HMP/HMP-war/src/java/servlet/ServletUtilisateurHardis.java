@@ -53,7 +53,6 @@ public class ServletUtilisateurHardis extends HttpServlet {
         request.setAttribute("listHistoriqueUtilisateurDevis", sessionHardis.afficherHistoriqueUtilisateurDevis(idDevis));
         request.setAttribute("listCommunications", sessionHardis.afficherCommunications(d.getConversation().getId()));
         request.setAttribute("listUtilisateurHardis", sessionHardis.utilisateursHardisTransfertDevis(idDevis));
-        request.setAttribute("uh", uh);
         jspClient = "/hardisUser/devisNonStandard.jsp";
     }
 
@@ -287,10 +286,7 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     request.setAttribute("listeDevis", sessionHardis.rechercherDevis(null, null, null));
                     jspClient = "/hardisUser/tousLesDevis.jsp";
                 }
-                if (act.equals("gererDevisStandard")) {
-                    request.setAttribute("devisStandard", sessionHardis.rechercherDevisStandard(Long.parseLong(request.getParameter("idDevis"))));
-                    jspClient = "/hardisUser/devisStandard.jsp";
-                }
+
 
                 if (act.equals("gererDevisNonStandard")) {
                     gererDevisNonStandard(request, response);
@@ -307,7 +303,6 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     DevisStandard d = sessionHardis.rechercherDevisStandard(idDevis);
                     request.setAttribute("devisStandard", d);
                     request.setAttribute("listCommunications", sessionHardis.afficherCommunications(d.getConversation().getId()));
-                    request.setAttribute("uh", uh);
                     jspClient = "/hardisUser/devisStandard.jsp";
                 }
 

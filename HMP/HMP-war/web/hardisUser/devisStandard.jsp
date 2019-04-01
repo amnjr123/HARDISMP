@@ -111,6 +111,22 @@
             </div>
         </div>
     </div>
+                            
+<%if(d.getStatut()==StatutDevis.valueOf("Refuse")){%>
+    <div class="card mb-3">
+        <div class="card-header"style="background-color: #b8daff;">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
+                <h1 class="h2"><i style="width:32px;height: 32px" data-feather="file-text"></i>&nbsp;Documents</h1>
+                <div class="btn-toolbar">
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <p><%=d.getMotifRefus()%></p>
+        </div>
+    </div>
+</div>
+<%}%>
 
     <div class="card mb-3">
         <div class="card-header" style="background-color: #b8daff;">

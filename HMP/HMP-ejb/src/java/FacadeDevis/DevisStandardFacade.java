@@ -59,7 +59,7 @@ public class DevisStandardFacade extends AbstractFacade<DevisStandard> implement
             d.setStatut(StatutDevis.Incomplet);
         }
         else{
-            d.setStatut(StatutDevis.ReponseEnCours);
+            d.setStatut(StatutDevis.Envoye);
             d.setCommentaireClient(commentaireClient);
             d.setAgence(agence);
             d.setMontant(d.getServiceStandard().getCout());
