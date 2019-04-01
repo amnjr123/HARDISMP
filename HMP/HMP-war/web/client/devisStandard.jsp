@@ -161,7 +161,7 @@
                     </thead>
                     <tbody>
                         <%
-                        if (d.getStatut() != StatutDevis.valueOf("Incomplet") && d.getStatut() != StatutDevis.valueOf("ReponseEnCours")) {%>
+                            if (d.getStatut() != StatutDevis.valueOf("Incomplet") && d.getStatut() != StatutDevis.valueOf("ReponseEnCours")) {%>
                         <tr>
                             <td>Devis</td>
                             <td><%=dfjour.format(d.getDateEnvoi())%></td>
@@ -170,7 +170,7 @@
                             </td>
                         </tr>
                         <%}
-                        if (d.getStatut() != StatutDevis.valueOf("Incomplet") && d.getStatut() != StatutDevis.valueOf("ReponseEnCours") && d.getStatut() != StatutDevis.valueOf("Envoye") && d.getStatut() != StatutDevis.valueOf("Refuse")) {%>         
+                            if (d.getStatut() != StatutDevis.valueOf("Incomplet") && d.getStatut() != StatutDevis.valueOf("ReponseEnCours") && d.getStatut() != StatutDevis.valueOf("Envoye") && d.getStatut() != StatutDevis.valueOf("Refuse")) {%>         
                         <tr>
                             <td>Bon de commande</td>
                             <td><%=dfjour.format(d.getDateReponse())%></td>
@@ -198,7 +198,7 @@
                 <div class="mesgs" style="width: 100% !important">
                     <div class="msg_history" id="zoneMessages">
                         <%for (Communication comm : listeMessages) {
-                            if (comm.getClient() != null) {%>
+                                if (comm.getClient() != null) {%>
                         <div class="outgoing_msg">
                             <div class="sent_msg">
                                 <p><%=comm.getContenu()%></p>
@@ -214,7 +214,7 @@
                             </div>
                         </div>
                         <%}
-                        }%>
+                            }%>
                     </div>
                     <div class="type_msg">
                         <div class="input_msg_write" id="newMessage">
@@ -248,15 +248,25 @@
                 <div class="col-md">
                     <a data-toggle="modal" data-target="#refuserDevisStandard%>" class="btn btn-lg btn-info btn-block">Refuser le devis&nbsp;<i style="width:24px;height: 24px" data-feather="x-circle"></i></a>&nbsp;
                 </div>
+                <%}%>
+                <%if (d.getStatut() == StatutDevis.valueOf("Valide")) {%>
                 <div class="col-md">
-                    <%}%>
+                    <a href="${pageContext.request.contextPath}/ServletClient?action=payerAcompteDevisStandard&id=<%=d.getId()%>" class="btn btn-lg btn-info btn-block">Accepter le devis&nbsp;<i style="width:24px;height: 24px" data-feather="check-circle"></i></a>&nbsp;
+                </div>
+                <%}%>
+                <%if (d.getStatut() == StatutDevis.valueOf("AcompteRegle")) {%>
+                <div class="col-md">
+                    <a href="${pageContext.request.contextPath}/ServletClient?action=payerRestantDevisStandard&id=<%=d.getId()%>" class="btn btn-lg btn-info btn-block">Accepter le devis&nbsp;<i style="width:24px;height: 24px" data-feather="check-circle"></i></a>&nbsp;
+                </div>
+                <%}%>
+                <div class="col-md">
                     <a data-toggle="modal" data-target="#replannifier%>" class="btn btn-lg btn-info btn-block">Replannifier les interventions&nbsp;<i style="width:24px;height: 24px" data-feather="calendar"></i></a>&nbsp;
                 </div>
             </div>
         </div>
     </div>
 
-<%if(!listIntervention.isEmpty()){%>
+    <%if (!listIntervention.isEmpty()) {%>
     <div class="card">
         <div class="card-header"style="background-color: #b8daff;">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
@@ -267,7 +277,7 @@
             <div id='calendar'></div>
         </div>
     </div>
-<%}%>
+    <%}%>
     <%--MODALS--%>
     <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletClient">  
         <div class="modal fade" id="refuser" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -304,7 +314,7 @@
 
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Repplannifier les interventions</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Replannifier les interventions</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
@@ -359,7 +369,7 @@
             calDebut.setTime(interventionJava.getDateInterventionDemandee());
             int yearDebut = calDebut.get(Calendar.YEAR);
             int monthDebut = calDebut.get(Calendar.MONTH);
-            int dayDebut = calDebut.get(Calendar.DAY_OF_MONTH);     
+            int dayDebut = calDebut.get(Calendar.DAY_OF_MONTH);
     %>
                 {
                     title: 'Intervention \n<%=interventionJava.getDevis().getClient().getEntreprise().getNom()%>',
@@ -367,8 +377,8 @@
                     end: new Date(<%=yearDebut%>,<%=monthDebut%>, <%=dayDebut%>, 18, 0),
                     allDay: false,
                     className: 'info',
-                    backgroundColor : '#e74c3c',
-                    displayEventEnd : true
+                    backgroundColor: '#e74c3c',
+                    displayEventEnd: true
                 },
     <%}%>
             ],

@@ -260,8 +260,18 @@
                 <div class="col-md">
                     <a data-toggle="modal" data-target="#refuserDevisNonStandard>" class="btn btn-lg btn-info btn-block">Refuser le devis&nbsp;<i style="width:24px;height: 24px" data-feather="x-circle"></i></a>&nbsp;
                 </div>
+                <%}%>
+                <%if (d.getStatut() == StatutDevis.valueOf("Valide")) {%>
                 <div class="col-md">
-                    <%}%>
+                    <a href="${pageContext.request.contextPath}/ServletClient?action=payerAcompteDevisNonStandard&id=<%=d.getId()%>" class="btn btn-lg btn-info btn-block">Accepter le devis&nbsp;<i style="width:24px;height: 24px" data-feather="check-circle"></i></a>&nbsp;
+                </div>
+                <%}%>
+                <%if (d.getStatut() == StatutDevis.valueOf("AcompteRegle")) {%>
+                <div class="col-md">
+                    <a href="${pageContext.request.contextPath}/ServletClient?action=payerRestantDevisNonStandard&id=<%=d.getId()%>" class="btn btn-lg btn-info btn-block">Accepter le devis&nbsp;<i style="width:24px;height: 24px" data-feather="check-circle"></i></a>&nbsp;
+                </div>
+                <%}%>
+                <div class="col-md">
                     <a data-toggle="modal" data-target="#replannifier>" class="btn btn-lg btn-info btn-block">Replannifier les interventions&nbsp;<i style="width:24px;height: 24px" data-feather="calendar"></i></a>&nbsp;
                 </div>
             </div>
