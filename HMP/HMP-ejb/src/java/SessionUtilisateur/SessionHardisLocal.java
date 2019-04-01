@@ -102,5 +102,7 @@ public interface SessionHardisLocal {
     DevisNonStandard rechercherDevisNonStandard(Long idDevisNonStandard);
 
     List<HistoriqueUtilisateurDevis> afficherHistoriqueUtilisateurDevis(Long idDevis);
+
+    List<UtilisateurHardis> utilisateursHardisTransfertDevis(long idDevis);
    
 }

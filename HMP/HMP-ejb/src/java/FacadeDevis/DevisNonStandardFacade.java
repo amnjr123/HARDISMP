@@ -80,7 +80,9 @@ public class DevisNonStandardFacade extends AbstractFacade<DevisNonStandard> imp
     @Override
     public DevisNonStandard transfererDevisNonStandard(DevisNonStandard d, UtilisateurHardis uh){
         d.setUtilisateurHardis(uh);
+        uh.getDeviss().add(d);
         edit(d);
+        em.merge(uh);
         return d;
     }
     

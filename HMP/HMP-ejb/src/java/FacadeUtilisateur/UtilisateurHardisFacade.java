@@ -5,10 +5,14 @@
  */
 package FacadeUtilisateur;
 
+import GestionCatalogue.Offre;
+import GestionUtilisateur.Agence;
 import GestionUtilisateur.UtilisateurHardis;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,23 +32,30 @@ public class UtilisateurHardisFacade extends AbstractFacade<UtilisateurHardis> i
     public UtilisateurHardisFacade() {
         super(UtilisateurHardis.class);
     }
-    
+
     @Override
     public UtilisateurHardis rechercheUtilisateurHardis(long id) {
         return find(id);
     }
-    
+
     @Override //Méthode pour un utilisateur Gestionnaire ou Visualisation sur son propre compte
-    public UtilisateurHardis modifierUtilisateurHardis(UtilisateurHardis u, String mail,String tel,boolean actifInactif){
+    public UtilisateurHardis modifierUtilisateurHardis(UtilisateurHardis u, String mail, String tel, boolean actifInactif) {
         u.setMail(mail);
         u.setTelephone(tel);
         u.setActifInactif(actifInactif);
         edit(u);
         return u;
     }
-    
+
+    @Override
+    public List<UtilisateurHardis> listUtilisateurHardisAgence(Agence a) {
+        Query requete = em.createQuery("select u from UtilisateurHardis as u where u.agence=:agence");
+        requete.setParameter("agence", a);
+        return requete.getResultList();
+    }
+
     //POUR LES TESTS ###############################################
-    public void ajouter(UtilisateurHardis uh){
+    public void ajouter(UtilisateurHardis uh) {
         em.persist(uh);
     }
     //POUR LES TESTS ###############################################

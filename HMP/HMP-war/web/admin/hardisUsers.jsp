@@ -142,8 +142,7 @@
                 <form class="needs-validation form" novalidate role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletAdministrateur">
                     <div class="modal-header">
                         <h5 class="modal-title">Modifier l'utilisateur</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        </button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -297,8 +296,7 @@
                 <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletAdministrateur">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Nouveau Référent Local</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        </button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -384,8 +382,7 @@
                 <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletAdministrateur">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Nouveau Porteur d'offre</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        </button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -464,8 +461,7 @@
                 <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletAdministrateur">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Nouveau Consultant</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        </button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">

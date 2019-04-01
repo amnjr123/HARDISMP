@@ -34,30 +34,30 @@ public class HistoriqueUtilisateurDevisFacade extends AbstractFacade<HistoriqueU
     public HistoriqueUtilisateurDevisFacade() {
         super(HistoriqueUtilisateurDevis.class);
     }
-    
+
     //Méthode à utiliser lors de l'affectation du tout premier employé sur le devis
     @Override
-    public HistoriqueUtilisateurDevis creerPremierHistoriqueUtilisateurDevis(Devis devis, UtilisateurHardis uh){
+    public HistoriqueUtilisateurDevis creerPremierHistoriqueUtilisateurDevis(Devis devis, UtilisateurHardis uh) {
         HistoriqueUtilisateurDevis historique = new HistoriqueUtilisateurDevis();
         historique.setDevis(devis);
         historique.setUtilisateurHardis(uh);
         historique.setDateDebut(new Date());
-         Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.MILLISECOND, 0);
-            cal.set(Calendar.SECOND, 0);
-            cal.set(Calendar.MINUTE, 0);
-            cal.set(Calendar.HOUR_OF_DAY, 0);
-            cal.set(Calendar.DAY_OF_MONTH, 1);
-            cal.set(Calendar.MONTH, 0);
-            cal.set(Calendar.YEAR, 2100);
-            historique.setDateFin(cal.getTime());
-        create(historique);  
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.MONTH, 0);
+        cal.set(Calendar.YEAR, 2100);
+        historique.setDateFin(cal.getTime());
+        create(historique);
         return historique;
     }
-    
+
     //Méthode à utiliser lors du transfert de devis entre employés
     @Override
-    public HistoriqueUtilisateurDevis creerSuiteHistoriqueUtilisateurDevis(HistoriqueUtilisateurDevis ancienHistorique, UtilisateurHardis nouvelUtilisateur){
+    public HistoriqueUtilisateurDevis creerSuiteHistoriqueUtilisateurDevis(HistoriqueUtilisateurDevis ancienHistorique, UtilisateurHardis nouvelUtilisateur) {
         //Création nouvel historique
         HistoriqueUtilisateurDevis nouvelHistorique = new HistoriqueUtilisateurDevis();
         //Récupération du devis
@@ -65,7 +65,15 @@ public class HistoriqueUtilisateurDevisFacade extends AbstractFacade<HistoriqueU
         //Affectation du nouveau gestionnaires et de ses dates
         nouvelHistorique.setUtilisateurHardis(nouvelUtilisateur);
         nouvelHistorique.setDateDebut(new Date());
-        nouvelHistorique.setDateFin(new Date(Long.MAX_VALUE));
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.MONTH, 0);
+        cal.set(Calendar.YEAR, 2100);
+        nouvelHistorique.setDateFin(cal.getTime());
         //Affectation date de fin de l'ancien historique
         ancienHistorique.setDateFin(new Date());
         //Mise à jour BDD
@@ -73,35 +81,35 @@ public class HistoriqueUtilisateurDevisFacade extends AbstractFacade<HistoriqueU
         edit(ancienHistorique);
         return nouvelHistorique;
     }
-    
+
     @Override
-    public HistoriqueUtilisateurDevis rechercheHistoriqueUtilisateurDevis(long id){
+    public HistoriqueUtilisateurDevis rechercheHistoriqueUtilisateurDevis(long id) {
         return find(id);
     }
-    
+
     @Override
-    public List<HistoriqueUtilisateurDevis> rechercheHistoriqueUtilisateurDevis(){
+    public List<HistoriqueUtilisateurDevis> rechercheHistoriqueUtilisateurDevis() {
         return findAll();
     }
-    
+
     @Override
-    public List<HistoriqueUtilisateurDevis> rechercheHistoriqueUtilisateurDevis(UtilisateurHardis uh){
+    public List<HistoriqueUtilisateurDevis> rechercheHistoriqueUtilisateurDevis(UtilisateurHardis uh) {
         Query requete = em.createQuery("SELECT hud FROM HistoriqueUtilisateurDevis as hud where hud.utilisateurHardis=:uh");
-        requete.setParameter("uh",uh);
+        requete.setParameter("uh", uh);
         return requete.getResultList();
     }
-    
+
     @Override
-    public List<HistoriqueUtilisateurDevis> rechercheHistoriqueUtilisateurDevis(Devis devis){
+    public List<HistoriqueUtilisateurDevis> rechercheHistoriqueUtilisateurDevis(Devis devis) {
         Query requete = em.createQuery("SELECT hud FROM HistoriqueUtilisateurDevis as hud where hud.devis=:devis");
-        requete.setParameter("devis",devis);
+        requete.setParameter("devis", devis);
         return requete.getResultList();
     }
-    
+
     @Override
-    public HistoriqueUtilisateurDevis rechercheDernierHistoriqueUtilisateurDevis(Devis devis){
-        Query requete = em.createQuery("SELECT hud FROM HistoriqueUtilisateurDevis as hud where hud.devis=:devis and hud.dateFin>=:CURRENT_TIMESTAMP");
-        requete.setParameter("devis",devis);
+    public HistoriqueUtilisateurDevis rechercheDernierHistoriqueUtilisateurDevis(Devis devis) {
+        Query requete = em.createQuery("SELECT hud FROM HistoriqueUtilisateurDevis as hud where hud.devis=:devis and hud.dateFin>=CURRENT_TIMESTAMP");
+        requete.setParameter("devis", devis);
         if (!requete.getResultList().isEmpty()) {
             return (HistoriqueUtilisateurDevis) requete.getSingleResult();
         } else {

@@ -18,14 +18,16 @@
 <jsp:useBean id="devisNonStandard" scope="request" class="GestionDevis.DevisNonStandard"></jsp:useBean>
 <jsp:useBean id="listHistoriqueUtilisateurDevis" scope="request" class="java.util.Collection"></jsp:useBean>
 <jsp:useBean id="listCommunications" scope="request" class="java.util.Collection"></jsp:useBean>
+<jsp:useBean id="listUtilisateurHardis" scope="request" class="java.util.Collection"></jsp:useBean>
 <jsp:include page="header.jsp"/>
 
 <%DevisNonStandard d = devisNonStandard;
     Collection<Communication> listeMessages = listCommunications;
     Collection<HistoriqueUtilisateurDevis> listeHistoriqueUtilisateurDevis = listHistoriqueUtilisateurDevis;
+    Collection<UtilisateurHardis> listeUtilisateurHardis = listUtilisateurHardis;
     java.text.DateFormat dfjour = new java.text.SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH);
     java.text.DateFormat dfheure = new java.text.SimpleDateFormat("dd/MM/yyyy à HH:mm", Locale.FRENCH);
-    UtilisateurHardis uh = (UtilisateurHardis) request.getAttribute("uh");%>
+    UtilisateurHardis uh = (UtilisateurHardis) session.getAttribute("sessionHardis");%>
 
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
@@ -200,7 +202,7 @@
                         <%}
                             }%>
                     </div>
-                    <%if ((uh.getProfilTechnique() == ProfilTechnique.valueOf("Administrateur") || uh == d.getUtilisateurHardis()) && uh.getProfilTechnique() != ProfilTechnique.valueOf("Visualisation")) {%>                    <div class="type_msg">
+                    <%if (uh.getProfilTechnique() == ProfilTechnique.valueOf("Administrateur") || (uh == d.getUtilisateurHardis() && uh.getProfilTechnique() == ProfilTechnique.valueOf("Gestionnaire"))) {%>                    <div class="type_msg">
                         <div class="input_msg_write" id="newMessage">
                             <form method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis" id="formulaire">
                                 <input type="hidden" name="action" value="repondreMessageDevisNonStandard">
@@ -231,20 +233,21 @@
             </div>
         </div>
         <div class="card-body">
-                <div class="row">
-                    <div class="col-md">
-                        <button class="btn btn-lg btn-info btn-block">Ajouter une proposition commerciale&nbsp;<i style="width:24px;height: 24px" data-feather="upload"></i></button>&nbsp;
-                    </div>
-                    <div class="col-md">
+            <%if (devisNonStandard.getStatut() == StatutDevis.valueOf("ReponseEnCours")) {%>
+            <div class="row">
+                <div class="col-md">
+                    <button data-toggle="modal" data-target="#ajoutProposition" class="btn btn-lg btn-info btn-block">Ajouter une proposition commerciale&nbsp;<i style="width:24px;height: 24px" data-feather="upload"></i></button>&nbsp;
+                </div>
+                <div class="col-md">
 
-                        <button class="btn btn-lg btn-info btn-block">Transférer le devis&nbsp;<i style="width:24px;height: 24px" data-feather="refresh-ccw"></i></button>&nbsp;
-                    </div>
-                    <div class="col-md">
-
-                        <button class="btn btn-lg btn-info btn-block">Envoyer le devis&nbsp;<i style="width:24px;height: 24px" data-feather="send"></i></button>&nbsp;
-                    </div>
+                    <button data-toggle="modal" data-target="#transfertDevis" class="btn btn-lg btn-info btn-block">Transférer le devis&nbsp;<i style="width:24px;height: 24px" data-feather="refresh-ccw"></i></button>&nbsp;
+                </div>
+                <div class="col-md">
+                    <a class="btn btn-lg btn-info btn-block" href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=envoyerDevisAuClient?idDevis=<%=d.getId()%>" >Envoyer le devis au client&nbsp;<i style="width:24px;height: 24px" data-feather="send"></i></a>&nbsp;
                 </div>
             </div>
+            <%}%>
+        </div>
     </div>
     <%} else {%>
     <div class="card text-white bg-warning">
@@ -252,7 +255,6 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
                 <h1 class="h2"><i style="width:32px;height: 32px" data-feather="navigation"></i>&nbsp;Actions</h1>
                 <div class="btn-toolbar">
-
                     Vous n'avez pas les droits nécessaires pour effectuer une action sur ce devis.
                 </div>
             </div>
@@ -266,8 +268,47 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Historique des responsables du devis</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    </button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <div class="modal-body">
+                    <%for (HistoriqueUtilisateurDevis h : listeHistoriqueUtilisateurDevis) {%>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Du</th>
+                                <th scope="col">Au</th>
+                            </tr>
+                        </thead>
+                        <tbody>                                     
+                            <tr>
+                                <td><%=h.getUtilisateurHardis().getPrenom()%> <%=h.getUtilisateurHardis().getNom()%></td>
+                                <td><%=dfjour.format(h.getDateDebut())%></td>
+                                <td>
+                                    <%
+                                        Calendar calendar = Calendar.getInstance();
+                                        calendar.setTime(h.getDateFin());
+                                            if (calendar.get(Calendar.YEAR) < 2100) {;
+                                                out.print(dfjour.format(h.getDateFin()));
+                                            } else {
+                                                out.print("-");
+                                            }%>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ajoutProposition" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une proposition</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
                 </div>
                 <div class="modal-body">
                     <%for (HistoriqueUtilisateurDevis h : listeHistoriqueUtilisateurDevis) {%>
@@ -292,5 +333,37 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="transfertDevis" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Historique des responsables du devis</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="selectUH">Utilisateur Hardis *</label>
+                            <select name="idUH" class="form-control selectpicker" id="selectUH" data-width="auto" show-tick>
+                                <option disabled selected>Choisir l'utilisateur hardis de votre agence de votre offre</option>
+                                <%for (UtilisateurHardis u : listeUtilisateurHardis) {%>
+                                <option value="<%=u.getId()%>"><%=u.getPrenom() + " " + u.getNom()%></option>
+                                <%}%>                       
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success"><i data-feather="send"></i>&nbsp;Transférer le devis</button>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Fermer</button>
+                        <input type="hidden" name="action" value="transferDevis">
+                        <input type="hidden" name="idDevis" value="<%=d.getId()%>">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 </main>
 <jsp:include page="footer.jsp"/>

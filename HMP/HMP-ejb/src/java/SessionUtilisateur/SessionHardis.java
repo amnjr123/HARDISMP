@@ -531,6 +531,12 @@ public class SessionHardis implements SessionHardisLocal {
         Conversation conv = conversationFacade.rechercheConversation(idConversation);
         return communicationFacade.rechercherCommunications(conv);
     }
+    
+    @Override
+    public List<UtilisateurHardis> utilisateursHardisTransfertDevis(long idDevis){
+        DevisNonStandard d = devisNonStandardFacade.rechercheDevisNonStandard(idDevis);
+        return utilisateurHardisFacade.listUtilisateurHardisAgence(d.getUtilisateurHardis().getAgence());
+    }
 
     
 }

@@ -5,6 +5,7 @@
  */
 package FacadeUtilisateur;
 
+import GestionUtilisateur.Agence;
 import GestionUtilisateur.UtilisateurHardis;
 import java.util.List;
 import javax.ejb.Local;
@@ -35,5 +36,7 @@ public interface UtilisateurHardisFacadeLocal {
     UtilisateurHardis rechercheUtilisateurHardis(long id);
 
     UtilisateurHardis modifierUtilisateurHardis(UtilisateurHardis u, String mail, String tel, boolean actifInactif);
+
+    List<UtilisateurHardis> listUtilisateurHardisAgence(Agence a);
     
 }
