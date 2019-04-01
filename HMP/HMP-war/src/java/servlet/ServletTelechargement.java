@@ -1,6 +1,8 @@
 package servlet;
 
 import Enum.SFTPConnexion;
+import GestionUtilisateur.CV;
+import SessionUtilisateur.SessionHardisLocal;
 import com.jcraft.jsch.JSchException;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -17,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +29,9 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "ServletTelechargement", urlPatterns = {"/ServletTelechargement"})
 public class ServletTelechargement extends HttpServlet {
+
+    @EJB
+    private SessionHardisLocal sessionHardis;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -39,6 +45,9 @@ public class ServletTelechargement extends HttpServlet {
         if (act != null && !act.isEmpty()) {
 
             if (act.equals("telechargerPJDemandeCreation")) {
+                response.setHeader("Content-Disposition",
+                        "attachment; filename=attachedFile.zip");
+                
                 String idDemande = request.getParameter("idDemande");
                 String rep = "/home/hardis/hmp/demandeEntreprise/creation/" + idDemande;
                 List<String> listeFichiers = con.listeFichiersRepertoire(rep);
@@ -79,11 +88,30 @@ public class ServletTelechargement extends HttpServlet {
                         zos.closeEntry();
                         System.out.println("Finishedng file " + file.getName());
                     }
-                    
+
                     zos.close();
                     out.flush();
 
                 }
+
+            }
+
+            if (act.equals("telechargerCVSansOffre")) {
+                String hardisUserID = request.getParameter("idUH");
+                response.setHeader("Content-Disposition",
+                        "attachment;filename=CV.pdf");
+
+                OutputStream out = response.getOutputStream();
+
+                CV cv = sessionHardis.afficherCVSansOffre(Long.parseLong(hardisUserID));
+                
+                try {
+                    con.downloadFile(cv.getCheminCV(), out);
+                } catch (JSchException ex) {
+                    Logger.getLogger(ServletTelechargement.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                out.flush();
 
             }
 

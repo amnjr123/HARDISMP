@@ -136,6 +136,19 @@
         <div class="card-body">
             <div class="mb-3">
                 <label for="cv">CV</label>
+                <%
+                    if (uh.getcVSansOffre() != null) {
+                %>
+                <form method="post" action="${pageContext.request.contextPath}/ServletTelechargement">
+                    <input type="hidden" name="action" value="telechargerCVSansOffre">
+                    <input type="hidden" name="idUH" value="<%=uh.getId()%>">
+                    <button type="submit" class="btn btn-link">Télécharger mon cv</button>>
+                </form>
+
+                <%
+                    }
+                %>
+
                 <div class="input-group">
                     <input name="cv" type="text" class="form-control" placeholder="Votre cv" disabled>
                     <div class="input-group-prepend">

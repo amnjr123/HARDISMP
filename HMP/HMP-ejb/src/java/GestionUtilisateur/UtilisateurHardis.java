@@ -35,6 +35,16 @@ public class UtilisateurHardis extends Utilisateur implements Serializable {
         this.cVs = cVs;
     }
     
+    public CV getcVSansOffre(){
+        CV rt = null;
+        for(CV cv : cVs){
+            if(cv.getOffre()==null){
+                rt=cv;
+            }
+        }
+        return rt;
+    }
+
     @ManyToOne
     private Agence agence;
 
