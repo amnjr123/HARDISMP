@@ -41,6 +41,8 @@ public class CVFacade extends AbstractFacade<CV> implements CVFacadeLocal {
         cv.setUtilisateurHardis(uh);
         cv.setOffre(o);
         create(cv);  
+        uh.getcVs().add(cv);
+        em.merge(uh);
         return cv;
     }
     
@@ -49,7 +51,9 @@ public class CVFacade extends AbstractFacade<CV> implements CVFacadeLocal {
         CV cv = new CV();
         cv.setCheminCV(chemin);
         cv.setUtilisateurHardis(uh);
-        create(cv);  
+        create(cv);
+        uh.getcVs().add(cv);
+        em.merge(uh);
         return cv;
     }
     

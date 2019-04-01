@@ -13,6 +13,7 @@ import GestionDevis.HistoriqueUtilisateurDevis;
 import GestionDevis.Intervention;
 import GestionDevis.Proposition;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -34,6 +35,27 @@ public class UtilisateurHardis extends Utilisateur implements Serializable {
     public void setcVs(List<CV> cVs) {
         this.cVs = cVs;
     }
+    
+    public CV getcVSansOffre(){
+        CV rt = null;
+        for(CV cv : cVs){
+            if(cv.getOffre()==null){
+                rt=cv;
+            }
+        }
+        return rt;
+    }
+
+    public List<CV> getCvsAvecOffre(){
+        List<CV> rt = new ArrayList();
+        for(CV cv : cVs){
+            if(cv.getOffre()!=null){
+                rt.add(cv);
+            }
+        }
+        return rt;
+    }
+
 
     @ManyToOne
     private Agence agence;

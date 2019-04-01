@@ -7,6 +7,7 @@ import GestionDevis.Conversation;
 import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
 import GestionUtilisateur.CV;
+import GestionUtilisateur.Consultant;
 import GestionUtilisateur.Disponibilite;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
@@ -14,6 +15,7 @@ import SessionUtilisateur.SessionHardisLocal;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -61,6 +63,7 @@ public class ServletUtilisateurHardis extends HttpServlet {
                 String act = request.getParameter("action");
 
                 if (act.equals("monProfil")) {
+
                     jspClient = "/hardisUser/monProfil.jsp";
                 }
 
@@ -72,24 +75,58 @@ public class ServletUtilisateurHardis extends HttpServlet {
                         if (part.getName().equals("file")) {
                             fichierJoint = true;
                             try {
-                                if (sessionHardis.afficherCVSansOffre(uh.getId())== null) {
+                                if (sessionHardis.afficherCVSansOffre(uh.getId()) == null) {
                                     String chemin = "/home/hardis/hmp/utilisateurHardis/" + uh.getId() + "/" + uh.getId() + ".pdf";
                                     CV cv = sessionHardis.creerCV(chemin, uh.getId());
                                     con.uploadFile(part.getInputStream(), chemin);
+                                    UtilisateurHardis updUh = uh ;
+                                    updUh.getcVs().add(cv);
+                                    sessionHttp.setAttribute(ATT_SESSION_HARDIS, updUh);
                                 } else {
                                     Long idCV = sessionHardis.afficherCVSansOffre(uh.getId()).getId();
                                     CV cv = sessionHardis.afficherCv(idCV);
                                     con.uploadFile(part.getInputStream(), cv.getCheminCV());
                                 }
                                 con.disconnect();
-                                
+
                             } catch (Exception ex) {
                                 request.setAttribute("msgError", "Les fichiers joints n'ont pas pu être envoyés");
                             }
                         }
                     }
-                    if(!fichierJoint){
+                    if (!fichierJoint) {
                         request.setAttribute("msgError", "Veuillez joindre un fichier");
+                    }
+                    jspClient = "/hardisUser/monProfil.jsp";
+
+                }
+
+                if (act.equals("ajouterCVOffre")) {
+                    String idOffre = request.getParameter("idOffre");
+                    String chemin = "/home/hardis/hmp/utilisateurHardis/" + uh.getId() + "/" + idOffre + "/" + uh.getId() + ".pdf";
+                    
+                    SFTPConnexion con = new SFTPConnexion();
+                    for (Part part : request.getParts()) {
+                        if (part.getName().equals("file")) {
+                            try {
+                                if (sessionHardis.afficherCVOffreUtilisateur(uh.getId(), Long.parseLong(idOffre)) == null) {
+                                    CV cv = sessionHardis.creerCV(chemin, uh.getId(), Long.parseLong(idOffre));
+                                    con.uploadFile(part.getInputStream(), chemin);
+                                    request.setAttribute("msgSuccess", "Le CV a bien été ajouté");
+                                    UtilisateurHardis updUh = uh ;
+                                    updUh.getcVs().add(cv);
+                                    sessionHttp.setAttribute(ATT_SESSION_HARDIS, updUh);
+                                } else {
+                                    CV cv = sessionHardis.afficherCVOffreUtilisateur(uh.getId(), Long.parseLong(idOffre));
+                                    con.uploadFile(part.getInputStream(), cv.getCheminCV());
+                                    request.setAttribute("msgSuccess", "Le CV a bien été modifié");
+                                }
+                                con.disconnect();
+
+                            } catch (Exception e) {
+                                request.setAttribute("msgError", "Les fichiers joints n'ont pas pu être envoyés");
+                            }
+                        }
                     }
                     jspClient = "/hardisUser/monProfil.jsp";
 
@@ -185,10 +222,9 @@ public class ServletUtilisateurHardis extends HttpServlet {
                         }
                         if (d != null) {
                             Disponibilite dispo = sessionHardis.creerDisponibilite(uh.getId(), d, Integer.parseInt(matin));
-                            if (dispo != null){
+                            if (dispo != null) {
                                 request.setAttribute("msgSuccess", "La date a bien été enregistrée");
-                            }
-                            else{
+                            } else {
                                 request.setAttribute("msgError", "Vous avez déjà un évènement plannifié à cette date");
                             }
                         } else {
@@ -237,31 +273,31 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     jspClient = "/hardisUser/devisTermines.jsp";
                 }
                 if (act.equals("tousLesDevis")) {
-                    request.setAttribute("listeDevis", sessionHardis.rechercherDevis(null,null,null));
+                    request.setAttribute("listeDevis", sessionHardis.rechercherDevis(null, null, null));
                     jspClient = "/hardisUser/tousLesDevis.jsp";
                 }
-                if(act.equals("gererDevisStandard")){
+                if (act.equals("gererDevisStandard")) {
                     request.setAttribute("devisStandard", sessionHardis.rechercherDevisStandard(Long.parseLong(request.getParameter("idDevis"))));
                     jspClient = "/hardisUser/devisStandard.jsp";
                 }
-                if(act.equals("gererDevisNonStandard")){
+                if (act.equals("gererDevisNonStandard")) {
                     Long idDevis = Long.parseLong(request.getParameter("idDevis"));
                     DevisNonStandard d = sessionHardis.rechercherDevisNonStandard(idDevis);
-                    request.setAttribute("devisNonStandard", d );
-                    request.setAttribute("listHistoriqueUtilisateurDevis",sessionHardis.afficherHistoriqueUtilisateurDevis(idDevis));
+                    request.setAttribute("devisNonStandard", d);
+                    request.setAttribute("listHistoriqueUtilisateurDevis", sessionHardis.afficherHistoriqueUtilisateurDevis(idDevis));
                     request.setAttribute("listCommunications", sessionHardis.afficherCommunications(d.getConversation().getId()));
                     request.setAttribute("uh", uh);
                     jspClient = "/hardisUser/devisNonStandard.jsp";
                 }
-                if(act.equals("gererDevisStandard")){
+                if (act.equals("gererDevisStandard")) {
                     Long idDevis = Long.parseLong(request.getParameter("idDevis"));
                     DevisStandard d = sessionHardis.rechercherDevisStandard(idDevis);
-                    request.setAttribute("devisStandard", d );
+                    request.setAttribute("devisStandard", d);
                     request.setAttribute("listCommunications", sessionHardis.afficherCommunications(d.getConversation().getId()));
                     request.setAttribute("uh", uh);
                     jspClient = "/hardisUser/devisStandard.jsp";
                 }
-                
+
                 /*MESSAGERIE*/
                 if (act.equals("messages")) {
                     request.setAttribute("listConversations", sessionHardis.afficherConversations(uh.getId()));
@@ -270,28 +306,28 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     String idString = "-1";
                     Long id = Long.parseLong(idString);
                     request.setAttribute("listCommunications", sessionHardis.afficherCommunications(id));
-                    if(!sessionHardis.afficherConversations(uh.getId()).isEmpty()){
-                        if(request.getParameter("idConversation")==null){
+                    if (!sessionHardis.afficherConversations(uh.getId()).isEmpty()) {
+                        if (request.getParameter("idConversation") == null) {
                             //La dernière conversation créée devient la conversation active dans le chat, s'il n'y a pas de conversation on laisse null
                             conversationActive = sessionHardis.afficherConversations(uh.getId()).get(0);
-                             request.setAttribute("listCommunications", sessionHardis.afficherCommunications(conversationActive.getId()));
-                        }else{
+                            request.setAttribute("listCommunications", sessionHardis.afficherCommunications(conversationActive.getId()));
+                        } else {
                             //Si une conversation est sélectionnée elle devient la conversation active
                             conversationActive = sessionHardis.afficherConversation(Long.parseLong(request.getParameter("idConversation")));
-                             request.setAttribute("listCommunications", sessionHardis.afficherCommunications(conversationActive.getId()));
+                            request.setAttribute("listCommunications", sessionHardis.afficherCommunications(conversationActive.getId()));
                         }
                     }
                     request.setAttribute("conversation", conversationActive);
                     jspClient = "/hardisUser/inbox.jsp";
                 }
-               
-                if(act.equals("repondreMessage")){
+
+                if (act.equals("repondreMessage")) {
                     Long convId = Long.parseLong(request.getParameter("idConversation"));
                     Conversation conv = sessionHardis.afficherConversation(convId);
                     if (request.getParameter("message") != null && !request.getParameter("message").isEmpty()) {
                         String message = request.getParameter("message");
-                        if(conv.getUtilisateurHardis()==null){
-                            conv = sessionHardis.affecterUHConversation(uh.getId(),conv.getId());
+                        if (conv.getUtilisateurHardis() == null) {
+                            conv = sessionHardis.affecterUHConversation(uh.getId(), conv.getId());
                         }
                         Communication comm = sessionHardis.creerCommunication(message, conv.getId());
                     }
@@ -300,7 +336,7 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     request.setAttribute("conversation", conv);
                     jspClient = "/hardisUser/inbox.jsp";
                 }
-                if(act.equals("repondreMessageDevisNonStandard")){
+                if (act.equals("repondreMessageDevisNonStandard")) {
                     Long convId = Long.parseLong(request.getParameter("idConversation"));
                     Conversation conv = sessionHardis.afficherConversation(convId);
                     if (request.getParameter("message") != null && !request.getParameter("message").isEmpty()) {
@@ -310,11 +346,11 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     request.setAttribute("listCommunications", sessionHardis.afficherCommunications(conv.getId()));
                     Long idDevis = Long.parseLong(request.getParameter("idDevis"));
                     request.setAttribute("devisNonStandard", sessionHardis.rechercherDevisNonStandard(idDevis));
-                    request.setAttribute("listHistoriqueUtilisateurDevis",sessionHardis.afficherHistoriqueUtilisateurDevis(idDevis));
+                    request.setAttribute("listHistoriqueUtilisateurDevis", sessionHardis.afficherHistoriqueUtilisateurDevis(idDevis));
                     request.setAttribute("uh", uh);
                     jspClient = "/hardisUser/devisNonStandard.jsp";
                 }
-                if(act.equals("repondreMessageDevisStandard")){
+                if (act.equals("repondreMessageDevisStandard")) {
                     Long convId = Long.parseLong(request.getParameter("idConversation"));
                     Conversation conv = sessionHardis.afficherConversation(convId);
                     if (request.getParameter("message") != null && !request.getParameter("message").isEmpty()) {
@@ -375,4 +411,8 @@ public class ServletUtilisateurHardis extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private void ArrayList() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
