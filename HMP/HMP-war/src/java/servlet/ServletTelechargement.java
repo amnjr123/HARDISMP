@@ -9,8 +9,11 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.ejb.EJB;
@@ -41,7 +44,7 @@ public class ServletTelechargement extends HttpServlet {
             if (act.equals("telechargerPJDemandeCreation")) {
                 response.setHeader("Content-Disposition",
                         "attachment; filename=attachedFile.zip");
-                
+
                 String idDemande = request.getParameter("idDemande");
                 String rep = "/home/hardis/hmp/demandeEntreprise/creation/" + idDemande;
                 List<String> listeFichiers = con.listeFichiersRepertoire(rep);
@@ -98,7 +101,26 @@ public class ServletTelechargement extends HttpServlet {
                 OutputStream out = response.getOutputStream();
 
                 CV cv = sessionHardis.afficherCVSansOffre(Long.parseLong(hardisUserID));
-                
+
+                try {
+                    con.downloadFile(cv.getCheminCV(), out);
+                } catch (JSchException ex) {
+                    Logger.getLogger(ServletTelechargement.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                out.flush();
+
+            }
+
+            if (act.equals("telechargerCVAvecOffre")) {
+                String idCV = request.getParameter("cv");
+                response.setHeader("Content-Disposition",
+                        "attachment;filename=CV.pdf");
+
+                OutputStream out = response.getOutputStream();
+
+                CV cv = sessionHardis.afficherCv(Long.parseLong(idCV));
+
                 try {
                     con.downloadFile(cv.getCheminCV(), out);
                 } catch (JSchException ex) {

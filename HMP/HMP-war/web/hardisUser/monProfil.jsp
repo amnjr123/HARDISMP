@@ -1,3 +1,8 @@
+<%@page import="GestionUtilisateur.CV"%>
+<%@page import="GestionCatalogue.Offre"%>
+<%@page import="GestionUtilisateur.PorteurOffre"%>
+<%@page import="GestionUtilisateur.ReferentLocal"%>
+<%@page import="GestionUtilisateur.Consultant"%>
 <%@page import="GestionUtilisateur.UtilisateurHardis"%>
 <jsp:include page="header.jsp"/>
 <style>
@@ -131,13 +136,17 @@
     </div>
 
 
+
+
+
     <div class="card text-white bg-dark mb-3">
         <div class="card-header"><h4>Mon CV</h4></div>
         <div class="card-body">
             <div class="mb-3">
                 <label for="cv">CV</label>
-                <%
-                    if (uh.getcVSansOffre() != null) {
+
+
+                <%                    if (uh.getcVSansOffre() != null) {
                 %>
                 <form method="post" action="${pageContext.request.contextPath}/ServletTelechargement">
                     <input type="hidden" name="action" value="telechargerCVSansOffre">
@@ -155,6 +164,57 @@
                         <a href="#" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changerCVModal"><i data-feather="edit"></i></a>
                     </div>
                 </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="card text-white bg-dark mb-3">
+        <div class="card-header d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
+            <h4>Mes CVs d'offres</h4>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <button  class="btn btn-sm btn-success" data-toggle="modal" data-target="#cvOffresModal">
+                    
+                    Ajouter/Modifier CV
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <caption>Liste des CVs par offre </caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Offre</th>
+                            <th scope="col">CV</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <%
+                            for (CV cv : uh.getCvsAvecOffre()) {
+
+                        %>
+                        <tr>
+                            <th scope="row"><%=(cv.getOffre().getLibelle())%></th>
+
+                            <td>
+                                <form method="post" action="${pageContext.request.contextPath}/ServletTelechargement">
+                                    <input type="hidden" name="action" value="telechargerCVAvecOffre">
+                                    <input type="hidden" name="cv" value="<%=cv.getId()%>">
+                                    <button type="submit" class="btn btn-link">Télécharger</button>>
+                                </form>
+                            </td>
+                        </tr>
+                        <%
+                            }
+                        %>
+                    </tbody>
+                </table>
             </div>
 
         </div>
@@ -228,6 +288,70 @@
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" name="action" value="modifierCV">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Valider</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="cvOffresModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form enctype="multipart/form-data" class="needs-validation" method="post" action="${pageContext.request.contextPath}/ServletUtilisateurHardis">               
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modifier mon CV (Format PDF uniquement)</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <%
+                            if (uh.getDtype().equals("Consultant")) {
+                                Consultant c = (Consultant) uh;
+                        %>
+                        <div class="form-group">
+                            <label for="selectOffre">Offre *</label>
+                            <select name="idOffre" class="form-control selectpicker" id="selectOffre" data-width="auto" show-tick>
+                                <option disabled selected>Choisir l'offre</option>
+                                <%for (Offre o : c.getOffres()) {%>
+                                <option value="<%=o.getId()%>"><%=o.getLibelle()%></option>
+                                <%}%>                       
+                            </select>
+                        </div>
+                        <%
+                            }
+
+                        %>
+
+                        <%        if (uh.getDtype().equals("ReferentLocal")) {
+                                ReferentLocal r = (ReferentLocal) uh;
+
+                                out.print(r.getOffre().getLibelle());
+                        %>
+                        <input type="hidden" name="idOffre" value="<%=r.getOffre().getId()%>">
+                        <%
+                            }
+
+                        %>
+
+
+                        <%        if (uh.getDtype().equals("PorteurOffre")) {
+                                PorteurOffre po = (PorteurOffre) uh;
+
+                                out.print(po.getOffre().getLibelle());
+                        %>
+                        <input type="hidden" name="idOffre" value="<%=po.getOffre().getId()%>">
+                        <%
+                            }
+
+                        %>
+
+                        <input name="file" type="file" class="form-control" id="cv" accept=".pdf" required>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="action" value="ajouterCVOffre">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
                         <button type="submit" class="btn btn-primary">Valider</button>
                     </div>
