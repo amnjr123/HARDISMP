@@ -2,11 +2,14 @@ package SessionUtilisateur;
 
 import Enum.ProfilTechnique;
 import FacadeUtilisateur.ClientFacadeLocal;
+import FacadeUtilisateur.ConsultantFacade;
+import FacadeUtilisateur.ConsultantFacadeLocal;
 import FacadeUtilisateur.PorteurOffreFacadeLocal;
 import FacadeUtilisateur.ReferentLocalFacadeLocal;
 import FacadeUtilisateur.UtilisateurFacadeLocal;
 import FacadeUtilisateur.UtilisateurHardisFacadeLocal;
 import GestionUtilisateur.Client;
+import GestionUtilisateur.Consultant;
 import GestionUtilisateur.PorteurOffre;
 import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.Utilisateur;
@@ -16,6 +19,12 @@ import javax.ejb.Stateless;
 
 @Stateless
 public class SessionMain implements SessionLocal {
+
+    @EJB
+    private PorteurOffreFacadeLocal porteurOffreFacade1;
+
+    @EJB
+    private ConsultantFacadeLocal consultantFacade;
 
     @EJB
     private ReferentLocalFacadeLocal referentLocalFacade;
@@ -86,12 +95,39 @@ public class SessionMain implements SessionLocal {
         referentLocalFacade.create(uh);
 */
         ReferentLocal ur = new ReferentLocal();
-        ur.setNom("Boudyach");
-        ur.setPrenom("Anas");
+        ur.setNom("Administrateur");
+        ur.setPrenom("Admin");
         ur.setMail("admin@gmail.com");
         ur.setTelephone("0615962832");
         ur.setMdp("7C222FB2927D828AF22F592134E8932480637C0D");
         ur.setProfilTechnique(ProfilTechnique.Administrateur);
         referentLocalFacade.create(ur);
+        
+        Consultant c = new Consultant();
+        c.setNom("Dupont");
+        c.setPrenom("François");
+        c.setMail("dupont@gmail.com");
+        c.setTelephone("0615962832");
+        c.setMdp("7C222FB2927D828AF22F592134E8932480637C0D");
+        c.setProfilTechnique(ProfilTechnique.Gestionnaire);
+        consultantFacade.create(c);
+        
+        Consultant cc = new Consultant();
+        cc.setNom("Madranges");
+        cc.setPrenom("Manon");
+        cc.setMail("madranges.m@gmail.com");
+        cc.setTelephone("0615962832");
+        cc.setMdp("7C222FB2927D828AF22F592134E8932480637C0D");
+        cc.setProfilTechnique(ProfilTechnique.Gestionnaire);
+        consultantFacade.create(cc);
+        
+        PorteurOffre po = new PorteurOffre();
+        po.setNom("Boudyach");
+        po.setPrenom("Anas");
+        po.setMail("boudyach.anas@gmail.com");
+        po.setTelephone("0615962832");
+        po.setMdp("7C222FB2927D828AF22F592134E8932480637C0D");
+        po.setProfilTechnique(ProfilTechnique.Visualisation);
+        porteurOffreFacade.create(po);
     }
 }

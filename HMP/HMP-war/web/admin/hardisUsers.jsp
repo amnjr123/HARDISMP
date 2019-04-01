@@ -31,7 +31,7 @@
         </div>
         <%--Warning Or Sucess--%>   
         <% String error = (String) request.getAttribute("msgError");
-                        if (request.getAttribute("msgError") != null) {%>
+            if (request.getAttribute("msgError") != null) {%>
         <div class="alert alert-danger alert-dismissible fade in show">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>Attention !</strong>&nbsp;<%=(error)%>.
@@ -242,7 +242,7 @@
                                 <%for (Offre o : listOffres) {%>
                                 <option <%for (Offre oc : c.getOffres()) {
                                         if (oc.getId() == o.getId()) {%> selected="selected" <% }
-                                    }%> value="<%=o.getId()%>"><%=o.getLibelle()%></option>
+                                            }%> value="<%=o.getId()%>"><%=o.getLibelle()%></option>
                                 <% } %>                       
                             </select>
                             <% } %> 
@@ -463,21 +463,21 @@
             <div class="modal-content">
                 <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletAdministrateur">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Nouveau Référent Local</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Nouveau Consultant</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="firstName">Prénom *</label>
-                            <input name="prenom" type="text" class="form-control" id="firstName" placeholder="Prénom référent" value="" required>
+                            <input name="prenom" type="text" class="form-control" id="firstName" placeholder="Prénom consultant" value="" required>
                             <div class="invalid-feedback">
                                 Le prénom est obligatoire.
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="lastName">Nom *</label>
-                            <input name="nom" type="text" class="form-control" id="lastName" placeholder="Nom référent" value="" required>
+                            <input name="nom" type="text" class="form-control" id="lastName" placeholder="Nom consultant" value="" required>
                             <div class="invalid-feedback">
                                 Le nom est obligatoire.
                             </div>
@@ -502,9 +502,16 @@
                         </div>
                         <div class="form-group">
                             <label for='plafond' >Plafond de déléguation</label>
-                            <input pattern="[0-9]*" name="plafond" type='tel' id='plafond' class='form-control' placeholder='Plafond de déléguation' required autofocus>
+                            <input pattern="[0-9]+" name="plafond" type='tel' id='plafond' class='form-control' placeholder='Plafond de déléguation' required autofocus>
                             <div class="invalid-feedback">
                                 Le Profil métier est obligatoire.
+                            </div>
+                        </div>          
+                        <div class="form-group">
+                            <label for='prix'>Prix à la journée</label>
+                            <input pattern="[0-9]+" name="prix" type='tel' id='prix' class='form-control' placeholder='Prix à la journée' required autofocus>
+                            <div class="invalid-feedback">
+                                Le prix est obligatoire.
                             </div>
                         </div>
                         <div class="form-group">

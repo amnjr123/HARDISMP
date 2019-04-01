@@ -19,11 +19,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
-
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 public class UtilisateurHardis extends Utilisateur implements Serializable {
 //Clés étrangères 
+
     @OneToMany(mappedBy = "utilisateurHardis")
     private List<CV> cVs;
 
@@ -45,6 +45,7 @@ public class UtilisateurHardis extends Utilisateur implements Serializable {
         return rt;
     }
 
+
     @ManyToOne
     private Agence agence;
 
@@ -55,7 +56,7 @@ public class UtilisateurHardis extends Utilisateur implements Serializable {
     public void setAgence(Agence agence) {
         this.agence = agence;
     }
-    
+
     @OneToMany(mappedBy = "utilisateurHardis")
     private List<Disponibilite> disponibilites;
 
@@ -66,7 +67,17 @@ public class UtilisateurHardis extends Utilisateur implements Serializable {
     public void setDisponibilites(List<Disponibilite> disponibilites) {
         this.disponibilites = disponibilites;
     }
-    
+
+    public void addDisponibilite(Disponibilite d) {
+        disponibilites.add(d);
+        d.setUtilisateurHardis(this);
+    }
+
+    public void removeDisponibilite(Disponibilite d) {
+        disponibilites.remove(d);
+        d.setUtilisateurHardis(null);
+    }
+
     @OneToMany(mappedBy = "UtilisateurHardis")
     private List<HistoriqueUtilisateurDevis> historiqueUtilisateurDeviss;
 
@@ -87,7 +98,7 @@ public class UtilisateurHardis extends Utilisateur implements Serializable {
     public void setInterventions(List<Intervention> interventions) {
         this.interventions = interventions;
     }
-    
+
     @OneToMany(mappedBy = "UtilisateurHardis")
     private List<Proposition> propositions;
 
@@ -98,7 +109,7 @@ public class UtilisateurHardis extends Utilisateur implements Serializable {
     public void setPropositions(List<Proposition> propositions) {
         this.propositions = propositions;
     }
-    
+
     @OneToMany(mappedBy = "UtilisateurHardis")
     private List<Conversation> conversations;
 
@@ -108,8 +119,8 @@ public class UtilisateurHardis extends Utilisateur implements Serializable {
 
     public void setConversations(List<Conversation> conversations) {
         this.conversations = conversations;
-    }    
-    
+    }
+
     @OneToMany(mappedBy = "utilisateurHardis")
     private List<Communication> communications;
 
@@ -120,7 +131,7 @@ public class UtilisateurHardis extends Utilisateur implements Serializable {
     public void setCommunications(List<Communication> communications) {
         this.communications = communications;
     }
-    
+
     @OneToMany(mappedBy = "utilisateurHardis")
     private List<Devis> deviss;
 
@@ -131,10 +142,8 @@ public class UtilisateurHardis extends Utilisateur implements Serializable {
     public void setDeviss(List<Devis> deviss) {
         this.deviss = deviss;
     }
-    
-    
+
 //Attributs
-    
     public ProfilTechnique getProfilTechnique() {
         return profilTechnique;
     }
@@ -162,5 +171,5 @@ public class UtilisateurHardis extends Utilisateur implements Serializable {
     public void setActifInactif(boolean actifInactif) {
         this.actifInactif = actifInactif;
     }
-    
+
 }

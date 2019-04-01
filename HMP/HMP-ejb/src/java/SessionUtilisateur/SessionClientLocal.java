@@ -15,8 +15,10 @@ import GestionDevis.Conversation;
 import GestionDevis.Devis;
 import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
+import GestionDevis.HistoriqueUtilisateurDevis;
 import GestionUtilisateur.Agence;
 import GestionUtilisateur.Client;
+import GestionUtilisateur.Consultant;
 import GestionUtilisateur.DemandeCreationEntreprise;
 import GestionUtilisateur.DemandeRattachement;
 import GestionUtilisateur.Entreprise;
@@ -97,4 +99,23 @@ public interface SessionClientLocal {
     List<Communication> afficherCommunications(Long idConversation);
 
     Conversation afficherConversation(Long idConversation);
+
+    DevisNonStandard rechercherDevisNonStandard(Long idDevisNonStandard);
+
+    List<HistoriqueUtilisateurDevis> afficherHistoriqueUtilisateurDevis(Long idDevis);
+
+    void supprimerDevisStandardIncomplet(Long idDevis);
+
+    void supprimerDevisNonStandardIncomplet(Long idDevis);
+
+    List<Consultant> listConsultant(Long idAgence);
+
+    void creerIntervention(List<Long> disponibilitesEnDemoJournee, Long idDevis);
+
+    DevisStandard rechercherDevisStandard(Long idDevisStandard);
+
+    List<Devis> rechercherDevisEncours(Long idClient);
+
+    List<Devis> rechercherDevisTermines(Long idClient);
+
 }

@@ -42,6 +42,7 @@ public class ConversationFacade extends AbstractFacade<Conversation> implements 
         Conversation c = new Conversation();
         c.setClient(client);
         c.setDateCreation(new Date());
+        
         create(c);  
         return c;
     }
@@ -61,7 +62,14 @@ public class ConversationFacade extends AbstractFacade<Conversation> implements 
         c.setUtilisateurHardis(uh);
         c.setDevis(d);
         c.setDateCreation(new Date());
-        create(c);  
+        create(c);
+        d.setConversation(c);
+        client.getConversations().add(c);
+        uh.getConversations().add(c);
+        em.merge(d);
+        em.merge(c);
+        em.merge(uh);
+        em.merge(client);
         return c;
     }
     

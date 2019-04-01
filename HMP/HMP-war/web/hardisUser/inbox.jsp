@@ -31,7 +31,7 @@
                                     <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                                     <div class="chat_ib">
                                         <h5><%=c.getClient().getNom()%> <%=c.getClient().getPrenom()%> <span class="chat_date"><%=df.format(c.getCommunications().get(c.getCommunications().size() - 1).getDateEnvoi())%></span></h5>
-                                        <p><span style="float:left"><%=c.getCommunications().get(c.getCommunications().size() - 1).getContenu()%></span><%if(c.getUtilisateurHardis()==null){%><span style="color:#e67e22;float:right">SANS REPONSE</span><%}%></p>
+                                        <p><span style="float:left"><%=c.getCommunications().get(c.getCommunications().size() - 1).getContenu()%></span><%if(c.getUtilisateurHardis()==null){%><span style="color:#e67e22;float:right">SANS REPONSE</span><%}else if(c.getDevis()!=null){%><span style="color:#3498db;float:right">Devis n°<%=c.getDevis()%></span><%}%></p>
                                     </div>
                                 </div>
                             </div>

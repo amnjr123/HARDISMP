@@ -8,6 +8,7 @@ package FacadeDevis;
 import GestionDevis.Devis;
 import GestionDevis.HistoriqueUtilisateurDevis;
 import GestionUtilisateur.UtilisateurHardis;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -41,7 +42,15 @@ public class HistoriqueUtilisateurDevisFacade extends AbstractFacade<HistoriqueU
         historique.setDevis(devis);
         historique.setUtilisateurHardis(uh);
         historique.setDateDebut(new Date());
-        historique.setDateFin(new Date(Long.MAX_VALUE));
+         Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.MILLISECOND, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+            cal.set(Calendar.MONTH, 0);
+            cal.set(Calendar.YEAR, 2100);
+            historique.setDateFin(cal.getTime());
         create(historique);  
         return historique;
     }

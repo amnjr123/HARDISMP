@@ -51,6 +51,7 @@ import GestionUtilisateur.ReferentLocal;
 import GestionUtilisateur.Utilisateur;
 import GestionUtilisateur.UtilisateurHardis;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -417,6 +418,22 @@ public class SessionHardis implements SessionHardisLocal {
     }
     
     @Override
+        public List<Devis> rechercherDevisSaufIncomplets(Long idUH){
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUH);
+            return devisFacade.rechercherDevisSaufIncomplet(uh);
+        }
+        
+    @Override
+    public DevisNonStandard rechercherDevisNonStandard(Long idDevisNonStandard){
+        return devisNonStandardFacade.rechercheDevisNonStandard(idDevisNonStandard);
+    }
+        
+    @Override
+    public DevisStandard rechercherDevisStandard(Long idDevisNonStandard){
+        return devisStandardFacade.rechercheDevisStandard(idDevisNonStandard);
+    }      
+    
+    @Override
     public DevisNonStandard envoyerDevisNonStandard(Long idDevisNonStandard){ 
         DevisNonStandard d = devisNonStandardFacade.rechercheDevisNonStandard(idDevisNonStandard);
         //Vérification s'il y a au moins une proposition commerciale
@@ -469,6 +486,13 @@ public class SessionHardis implements SessionHardisLocal {
         devisNonStandardFacade.transfererDevisNonStandard(dns, uh);
         HistoriqueUtilisateurDevis ancienHistorique = historiqueUtilisateurDevisFacade.rechercheDernierHistoriqueUtilisateurDevis(dns);
         historiqueUtilisateurDevisFacade.creerSuiteHistoriqueUtilisateurDevis(ancienHistorique, uh);
+        conversationFacade.affecterUHConversation(dns.getConversation(), uh);
+    }
+    
+    @Override
+    public List<HistoriqueUtilisateurDevis> afficherHistoriqueUtilisateurDevis(Long idDevis){
+        Devis d = devisFacade.rechercherDevis(idDevis);
+        return historiqueUtilisateurDevisFacade.rechercheHistoriqueUtilisateurDevis(d);
     }
 
     /*GESTION DE LA MESSAGERIE*/

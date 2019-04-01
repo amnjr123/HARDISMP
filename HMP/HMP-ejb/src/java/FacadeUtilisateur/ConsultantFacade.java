@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -40,7 +41,7 @@ public class ConsultantFacade extends AbstractFacade<Consultant> implements Cons
     }
 
     @Override
-    public Consultant creerConsultant(String nom, String prenom, String mail, String tel, ProfilTechnique profil, float plafondDelegation, Agence agence, List<Offre> offres) {
+    public Consultant creerConsultant(String nom, String prenom, String mail, String tel, ProfilTechnique profil, float plafondDelegation, float prix, Agence agence, List<Offre> offres) {
         Consultant c = new Consultant();
         c.setNom(nom);
         c.setPrenom(prenom);
@@ -49,6 +50,7 @@ public class ConsultantFacade extends AbstractFacade<Consultant> implements Cons
         c.setProfilTechnique(profil);
         c.setActifInactif(true);
         c.setPlafondDelegation(plafondDelegation);
+        c.setPrix(prix);
         c.setDateCreationCompte(new Date());
         c.setAgence(agence);
         c.setOffres(offres);
@@ -105,5 +107,11 @@ public class ConsultantFacade extends AbstractFacade<Consultant> implements Cons
     @Override
     public List<Consultant> rechercheConsultant() {
         return findAll();
+    }
+
+    public List<Consultant> listConsultantParAgence(Agence agence) {
+        Query requete = em.createQuery("select c from Consultant as c where c.agence=:agence");
+        requete.setParameter("agence", agence);
+        return requete.getResultList();
     }
 }

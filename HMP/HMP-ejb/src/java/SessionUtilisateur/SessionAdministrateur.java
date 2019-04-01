@@ -336,7 +336,7 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
     }
 
     @Override
-    public Consultant creerConsultant(String nom, String prenom, String mail, String tel, String profilTechnique, float plafondDelegation, Long idAgence, List<Long> listeIdOffres) {
+    public Consultant creerConsultant(String nom, String prenom, String mail, String tel, String profilTechnique, float plafondDelegation, float prix, Long idAgence, List<Long> listeIdOffres) {
         Agence a = agenceFacade.rechercheAgence(idAgence);
         ProfilTechnique profil = ProfilTechnique.valueOf(profilTechnique);
         Consultant c = null;
@@ -351,7 +351,7 @@ public class SessionAdministrateur implements SessionAdministrateurLocal {
             }
             //On vérifie que le plafond n'est pas négatif
             if (plafondDelegation >= 0) {
-                c = consultantFacade.creerConsultant(nom, prenom, mail, tel, profil, plafondDelegation, a, listeOffres);
+                c = consultantFacade.creerConsultant(nom, prenom, mail, tel, profil, plafondDelegation, prix, a, listeOffres);
             }
         }
         return c;

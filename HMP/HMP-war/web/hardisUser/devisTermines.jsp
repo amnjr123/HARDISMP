@@ -13,7 +13,7 @@
 <%Collection<Devis> listDevis = listeDevis;%>
 <main role="main" class="col-md-auto ml-sm-auto col-lg-auto">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1 class="h2">Mes devis en cours de réponse</h1>
+        <h1 class="h2">Mes devis terminés</h1>
     </div>
 
     <div class="card">

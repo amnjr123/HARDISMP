@@ -97,4 +97,34 @@ public class DevisFacade extends AbstractFacade<Devis> implements DevisFacadeLoc
         requete.setParameter("statut", statutDevis);
         return requete.getResultList();
     }
+    
+    @Override
+    public List<Devis> rechercherDevisSaufIncomplet(UtilisateurHardis uh) {
+        Query requete = getEntityManager().createQuery("select d from Devis as d where d.utilisateurHardis=:utilisateur and d.statut!=:statut");
+        requete.setParameter("utilisateur", uh);
+        requete.setParameter("statut", StatutDevis.valueOf("Incomplet"));
+        return requete.getResultList();
+    }
+    
+    @Override
+    public List<Devis> rechercherDevisEncours(Client c) {
+        Query requete = getEntityManager().createQuery("select d from Devis as d where d.client=:client and d.statut!=:prestationterminee and d.statut!=:acompte and d.statut!=:negociation and d.statut!=:refuse and d.statut!=:valide");
+        requete.setParameter("client", c);
+        requete.setParameter("prestationterminee", StatutDevis.valueOf("PrestationTerminee"));
+        requete.setParameter("acompte", StatutDevis.valueOf("AcompteRegle"));
+        requete.setParameter("negociation", StatutDevis.valueOf("EnNegociation"));
+        requete.setParameter("refuse", StatutDevis.valueOf("Refuse"));
+        requete.setParameter("valide", StatutDevis.valueOf("Valide"));
+        return requete.getResultList();
+    }
+    
+    @Override
+    public List<Devis> rechercherDevisTermines(Client c) {
+        Query requete = getEntityManager().createQuery("select d from Devis as d where d.client=:client and d.statut!=:reponseencours and d.statut!=:incomplet and d.statut!=:envoye");
+        requete.setParameter("client", c);
+        requete.setParameter("reponseencours", StatutDevis.valueOf("ReponseEnCours"));
+        requete.setParameter("incomplet", StatutDevis.valueOf("Incomplet"));
+        requete.setParameter("envoye", StatutDevis.valueOf("Envoye"));
+        return requete.getResultList();
+    }
 }

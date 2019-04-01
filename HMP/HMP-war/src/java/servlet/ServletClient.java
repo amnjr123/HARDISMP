@@ -8,6 +8,7 @@ import GestionCatalogue.ServiceStandard;
 import GestionDevis.Communication;
 import GestionDevis.Conversation;
 import GestionDevis.Devis;
+import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
 import GestionUtilisateur.Client;
 import GestionUtilisateur.Utilisateur;
@@ -15,6 +16,7 @@ import SessionUtilisateur.SessionClientLocal;
 import com.jcraft.jsch.JSchException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -49,6 +51,13 @@ public class ServletClient extends HttpServlet {
         }
     }
 
+    protected void devisEnCours(HttpServletRequest request, HttpServletResponse response) {
+        request.setAttribute("listDevis", sessionClient.rechercherDevisEncours(c.getId()));
+        request.setAttribute("Client", c);
+        jspClient = "/client/devisEnCours.jsp";
+
+    }
+
     protected void monProfil(HttpServletRequest request, HttpServletResponse response) {
         try {
             request.setAttribute("listeInterlocuteurs", sessionClient.rechercherInterlocuteur(c.getEntreprise().getId()));
@@ -70,7 +79,7 @@ public class ServletClient extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sessionHttp = request.getSession();
- 
+        jspClient = "/client/index.jsp";
 
         if (sessionHttp.getAttribute("sessionClient") != null) {
             c = (Client) sessionHttp.getAttribute("sessionClient");
@@ -256,26 +265,67 @@ public class ServletClient extends HttpServlet {
                 }
                 /*CREERDEVIS*/
 
-              
-                
                 if (act.equals("DevisEnCours")) {/*Menu devis en cours*/
-                    request.setAttribute("listDevis", sessionClient.rechercherDevis(c.getId(), StatutDevis.Incomplet.toString()));
+                    //devisEnCours(request, response);
+                    request.setAttribute("listDevis", sessionClient.rechercherDevisEncours(c.getId()));
+                    request.setAttribute("Client", c);
                     jspClient = "/client/devisEnCours.jsp";
                 }
-                
-                  if (act.equals("consulterFromDevisEnCours")) {/*Choix d'un devis from devis en cours*/
+
+                if (act.equals("consulterFromDevisEnCours")) {/*Choix d'un devis from devis en cours*/
                     Long idDevis = Long.parseLong(request.getParameter("idDevis").trim());
                     String statut = request.getParameter("statut");
                     Devis devis = sessionClient.afficherLeDevis(idDevis);
-                    if(devis.getDtype().equalsIgnoreCase("DevisStandard")){
-                        
-                    }else if(devis.getDtype().equalsIgnoreCase("DevisNonStandard")){
-                        
+                    if (statut.equalsIgnoreCase("Incomplet")) {/*Si incomplet renvoi vers la création du devis*/
+                        if (devis.getDtype().equalsIgnoreCase("DevisStandard")) {
+                            request.setAttribute("devisStandard", (DevisStandard) devis);
+                            request.setAttribute("listConsultants", sessionClient.listConsultant(c.getEntreprise().getAgence().getId()));
+                            jspClient = "/client/creerDevisStandard.jsp";
+                        } else if (devis.getDtype().equalsIgnoreCase("DevisNonStandard")) {
+                            request.setAttribute("devisNonStandard", (DevisNonStandard) devis);
+                            request.setAttribute("listConsultants", sessionClient.listConsultant(c.getEntreprise().getAgence().getId()));
+                            jspClient = "/client/creerDevisNonStandard.jsp";
+                        }
+                    } else {
+                        if (devis.getDtype().equalsIgnoreCase("DevisStandard")) {
+                            DevisStandard d = sessionClient.rechercherDevisStandard(idDevis);
+                            request.setAttribute("devisStandard", d);
+                            Long id = d.getConversation().getId();
+                            request.setAttribute("listCommunications", sessionClient.afficherCommunications(id));
+                            jspClient = "/client/devisStandard.jsp";
+                        } else if (devis.getDtype().equalsIgnoreCase("DevisNonStandard")) {
+                            DevisNonStandard d = sessionClient.rechercherDevisNonStandard(idDevis);
+                            request.setAttribute("devisNonStandard", d);
+                            request.setAttribute("listHistoriqueUtilisateurDevis", sessionClient.afficherHistoriqueUtilisateurDevis(idDevis));
+                            Long id = d.getConversation().getId();
+                            request.setAttribute("listCommunications", sessionClient.afficherCommunications(id));
+                            jspClient = "/client/devisNonStandard.jsp";
+                        }
                     }
                 }
 
+                if (act.equals("completerDevisStandard") || act.equals("completerDevisNonStandard")) {
+                    String commentaire = request.getParameter("commentaire").trim();
+                    String idDevis = request.getParameter("idDevis");
+                    String[] disponibilites = request.getParameterValues("disponibilites");
+                    if (commentaire != null && !commentaire.isEmpty()) {
+                        if (disponibilites != null && disponibilites.length != 0) {
+                            List<Long> listDisponibilites = new ArrayList<>();
+                            for (String idDisponibilites : disponibilites) {
+                                String[] demiJourneeDispo = idDisponibilites.split("/");
+                                listDisponibilites.add(Long.parseLong(demiJourneeDispo[0]));
+                                listDisponibilites.add(Long.parseLong(demiJourneeDispo[1]));
+                            }
+                            sessionClient.creerIntervention(listDisponibilites, Long.parseLong(idDevis));
+                        }
+                    }
+                    sessionClient.modifierDevisIncomplet(Long.parseLong(idDevis), commentaire);
+                    request.setAttribute("msgSuccess", "Votre demande a été prise en compte. Vous pouvez retrouver votre devis dans la section Mes devis en cours");
+                    devisEnCours(request, response);
+                }
+
                 if (act.equals("DevisTermines")) {
-                    //  request.setAttribute("listOffres", sessionClient.rechercherOffres());
+                    request.setAttribute("listDevis", sessionClient.rechercherDevisTermines(c.getId()));;
                     jspClient = "/client/devisTermines.jsp";
                 }
 
@@ -301,18 +351,93 @@ public class ServletClient extends HttpServlet {
                     //request.setAttribute("service", st);
                     DevisStandard d = sessionClient.creerDevisStandard(idService, c.getId());
                     request.setAttribute("devisStandard", d);
+                    /*Liste des consultant par agence du client*/
+                    request.setAttribute("listConsultants", sessionClient.listConsultant(c.getEntreprise().getAgence().getId()));
                     jspClient = "/client/creerDevisStandard.jsp";
                 }
 
                 /*Confirmation création d'un Devis de service non standard*/
                 if (act.equals("creerDevisNonStandard")) {
-                    Long id = Long.parseLong(request.getParameter("id").trim());
-                    ServiceNonStandard st = sessionClient.rechercherServiceNonStandard(id);
-                    request.setAttribute("service", st);
+                    Long idService = Long.parseLong(request.getParameter("idService").trim());
+                    DevisNonStandard d = sessionClient.creerDevisNonStandard(idService, c.getId());
+                    request.setAttribute("devisNonStandard", d);
+                    /*Liste des consultant par agence du client*/
+                    request.setAttribute("listConsultants", sessionClient.listConsultant(c.getEntreprise().getAgence().getId()));
                     jspClient = "/client/creerDevisNonStandard.jsp";
                 }
+
+                if (act.equals("gererDevisNonStandard")) {
+                    Long idDevis = Long.parseLong(request.getParameter("idDevis"));
+                    DevisNonStandard d = sessionClient.rechercherDevisNonStandard(idDevis);
+                    request.setAttribute("devisNonStandard", d);
+                    request.setAttribute("listHistoriqueUtilisateurDevis", sessionClient.afficherHistoriqueUtilisateurDevis(idDevis));
+                    //Création d'un faux id si l'utilisateur n'a aucun message pour que liste soit créée
+                    List<Communication> listeComm = sessionClient.afficherCommunications(d.getConversation().getId());
+                    String idString = "-1";
+                    Long id = Long.parseLong(idString);
+                    if(!listeComm.isEmpty()){
+                        id = d.getConversation().getId();
+                    }
+                    request.setAttribute("listCommunications", sessionClient.afficherCommunications(id));
+                    jspClient = "/client/devisNonStandard.jsp";
+                }
+
                 
+                if(act.equals("gererDevisStandard")){
+                    Long idDevis = Long.parseLong(request.getParameter("idDevis"));
+                    DevisStandard d = sessionClient.rechercherDevisStandard(idDevis);
+                    request.setAttribute("devisStandard", d );
+                    //Création d'un faux id si l'utilisateur n'a aucun message pour que liste soit créée
+                    List<Communication> listeComm = sessionClient.afficherCommunications(d.getConversation().getId());
+                    String idString = "-1";
+                    Long id = Long.parseLong(idString);
+                    if (!listeComm.isEmpty()) {
+                        id = d.getConversation().getId();
+                    }
+                    request.setAttribute("listCommunications", sessionClient.afficherCommunications(id));
+                    jspClient = "/client/devisStandard.jsp";
+                }
                 
+                if(act.equals("repondreMessageDevisNonStandard")){
+                    Long convId = Long.parseLong(request.getParameter("idConversation"));
+                    Conversation conv = sessionClient.afficherConversation(convId);
+                    if (request.getParameter("message") != null && !request.getParameter("message").isEmpty()) {
+                        String message = request.getParameter("message");
+                        Communication comm = sessionClient.creerCommunication(message, conv.getId());
+                    }
+                    request.setAttribute("listCommunications", sessionClient.afficherCommunications(conv.getId()));
+                    Long idDevis = Long.parseLong(request.getParameter("idDevis"));
+                    request.setAttribute("devisNonStandard", sessionClient.rechercherDevisNonStandard(idDevis));
+                    request.setAttribute("listHistoriqueUtilisateurDevis", sessionClient.afficherHistoriqueUtilisateurDevis(idDevis));
+                    jspClient = "/client/devisNonStandard.jsp";
+                }
+                if (act.equals("repondreMessageDevisStandard")) {
+                    Long convId = Long.parseLong(request.getParameter("idConversation"));
+                    Conversation conv = sessionClient.afficherConversation(convId);
+                    if (request.getParameter("message") != null && !request.getParameter("message").isEmpty()) {
+                        String message = request.getParameter("message");
+                        Communication comm = sessionClient.creerCommunication(message, conv.getId());
+                    }
+                    request.setAttribute("listCommunications", sessionClient.afficherCommunications(conv.getId()));
+                    Long idDevis = Long.parseLong(request.getParameter("idDevis"));
+                    request.setAttribute("devisStandard", sessionClient.rechercherDevisStandard(idDevis));
+                    jspClient = "/client/devisStandard.jsp";
+                }
+
+
+                /*Suppression Devis incomplet*/
+                if (act.equals("supprimerDevisStandard")) {
+                    Long idDevisStandard = Long.parseLong(request.getParameter("idDevis").trim());
+                    sessionClient.supprimerDevisStandardIncomplet(idDevisStandard);
+                    devisEnCours(request, response);
+                }
+
+                if (act.equals("supprimerDevisNonStandard")) {
+                    Long idDevisStandard = Long.parseLong(request.getParameter("idDevis").trim());
+                    sessionClient.supprimerDevisNonStandardIncomplet(idDevisStandard);
+                    devisEnCours(request, response);
+                }
+
                 /*MESSAGERIE*/
                 if (act.equals("messages")) {
                     request.setAttribute("listConversations", sessionClient.afficherConversations(c.getId()));
@@ -321,22 +446,22 @@ public class ServletClient extends HttpServlet {
                     String idString = "-1";
                     Long id = Long.parseLong(idString);
                     request.setAttribute("listCommunications", sessionClient.afficherCommunications(id));
-                    if(!sessionClient.afficherConversations(c.getId()).isEmpty()){
-                        if(request.getParameter("idConversation")==null){
+                    if (!sessionClient.afficherConversations(c.getId()).isEmpty()) {
+                        if (request.getParameter("idConversation") == null) {
                             //La dernière conversation créée devient la conversation active dans le chat, s'il n'y a pas de conversation on laisse null
                             conversationActive = sessionClient.afficherConversations(c.getId()).get(0);
-                             request.setAttribute("listCommunications", sessionClient.afficherCommunications(conversationActive.getId()));
-                        }else{
+                            request.setAttribute("listCommunications", sessionClient.afficherCommunications(conversationActive.getId()));
+                        } else {
                             //Si une conversation est sélectionnée elle devient la conversation active
                             conversationActive = sessionClient.afficherConversation(Long.parseLong(request.getParameter("idConversation")));
-                             request.setAttribute("listCommunications", sessionClient.afficherCommunications(conversationActive.getId()));
+                            request.setAttribute("listCommunications", sessionClient.afficherCommunications(conversationActive.getId()));
                         }
                     }
                     request.setAttribute("conversation", conversationActive);
                     jspClient = "/client/inbox.jsp";
                 }
-                
-                if(act.equals("nouvelleConversation")){
+
+                if (act.equals("nouvelleConversation")) {
                     //Conversation active
                     Conversation conv = null;
                     //Création d'un faux id si l'utilisateur n'a aucun message pour que liste soit créée
@@ -349,8 +474,7 @@ public class ServletClient extends HttpServlet {
                         conv = sessionClient.creerConversation(c.getId());
                         Communication comm = sessionClient.creerCommunication(message, conv.getId());
                         request.setAttribute("listCommunications", sessionClient.afficherCommunications(conv.getId()));
-                    }
-                    else if(!sessionClient.afficherConversations(c.getId()).isEmpty()){
+                    } else if (!sessionClient.afficherConversations(c.getId()).isEmpty()) {
                         //La dernière conversation créée devient la conversation active dans le chat, s'il n'y a pas de conversation on laisse null
                         //Conversation active
                         conv = sessionClient.afficherConversations(c.getId()).get(0);
@@ -361,9 +485,8 @@ public class ServletClient extends HttpServlet {
                     request.setAttribute("conversation", conv);
                     jspClient = "/client/inbox.jsp";
                 }
-                
-                
-                if(act.equals("repondreMessage")){
+
+                if (act.equals("repondreMessage")) {
                     Long convId = Long.parseLong(request.getParameter("idConversation"));
                     Conversation conv = sessionClient.afficherConversation(convId);
                     if (request.getParameter("message") != null && !request.getParameter("message").isEmpty()) {

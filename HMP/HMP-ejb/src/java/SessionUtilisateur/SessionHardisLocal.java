@@ -15,6 +15,7 @@ import GestionDevis.Conversation;
 import GestionDevis.Devis;
 import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
+import GestionDevis.HistoriqueUtilisateurDevis;
 import GestionDevis.Intervention;
 import GestionDevis.Proposition;
 import GestionUtilisateur.CV;
@@ -93,5 +94,13 @@ public interface SessionHardisLocal {
     List<Communication> afficherCommunications(Long idConversation);
 
     Conversation affecterUHConversation(Long idUH, Long idConversation);
+
+    List<Devis> rechercherDevisSaufIncomplets(Long idUH);
+
+    DevisStandard rechercherDevisStandard(Long idDevisNonStandard);
+
+    DevisNonStandard rechercherDevisNonStandard(Long idDevisNonStandard);
+
+    List<HistoriqueUtilisateurDevis> afficherHistoriqueUtilisateurDevis(Long idDevis);
    
 }

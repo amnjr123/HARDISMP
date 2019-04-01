@@ -51,14 +51,14 @@
                                 <span><span data-feather="chevron-down"></span></span>  
                             </a>
                             <div class="collapse" id="collapseDevis">
-                                <a href="${pageContext.request.contextPath}/hardisUser/MesDevisEnCours.jsp" class="list-group-item list-group-item-action bg-light">
+                                <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=devisEnCours" class="list-group-item list-group-item-action bg-light">
                                     <span data-feather="file-plus"></span> Mes devis en cours
                                 </a>
-                                <a href="${pageContext.request.contextPath}/hardisUser/MesDevisTermines.jsp" class="list-group-item list-group-item-action align-items-center bg-light">
+                                <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=devisTermines" class="list-group-item list-group-item-action align-items-center bg-light">
                                     <span data-feather="file-text"></span> Mes devis terminés
                                     <span class="badge badge-primary badge-pill"></span>
                                 </a>
-                                <a href="${pageContext.request.contextPath}/hardisUser/TousLesDevis.jsp" class="list-group-item list-group-item-action bg-light">
+                                <a href="${pageContext.request.contextPath}/ServletUtilisateurHardis?action=tousLesDevis" class="list-group-item list-group-item-action bg-light">
                                     <span data-feather="layers"></span> Voir tous les devis
                                     <span class="badge badge-primary badge-pill"></span>
                                 </a>

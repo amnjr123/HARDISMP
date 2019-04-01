@@ -46,6 +46,8 @@ public class DevisStandardFacade extends AbstractFacade<DevisStandard> implement
         d.setServiceStandard(serviceStandard);
         d.setClient(c);
         create(d);  
+        c.getDeviss().add(d);
+        em.merge(c);
         return d;
     }
     

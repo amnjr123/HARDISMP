@@ -33,7 +33,7 @@
                                         <h5><%if (c.getUtilisateurHardis() != null) {
                                                 out.print(c.getUtilisateurHardis().getNom() + " " + c.getUtilisateurHardis().getPrenom());
                                             } else {%>Consultant Hardis<%}%> <span class="chat_date"><%=df.format(c.getCommunications().get(c.getCommunications().size() - 1).getDateEnvoi())%></span></h5>
-                                        <p><%=c.getCommunications().get(c.getCommunications().size() - 1).getContenu()%></p>
+                                            <p><span style="float:left"><%=c.getCommunications().get(c.getCommunications().size() - 1).getContenu()%></span><%if(c.getDevis()!=null){%><span style="color:#3498db;float:right">Devis n°<%=c.getDevis()%></span><%}%></p>
                                     </div>
                                 </div>
                             </div>

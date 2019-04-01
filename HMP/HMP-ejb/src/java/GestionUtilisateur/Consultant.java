@@ -11,7 +11,6 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 
-
 /**
  *
  * @author 5151882
@@ -39,5 +38,15 @@ public class Consultant extends UtilisateurHardis implements Serializable {
     public void setPlafondDelegation(Float plafondDelegation) {
         this.plafondDelegation = plafondDelegation;
     }
-     
+
+    private Float prix;
+
+    public Float getPrix() {
+        return prix;
+    }
+
+    public void setPrix(Float prix) {
+        this.prix = prix;
+    }
+
 }
