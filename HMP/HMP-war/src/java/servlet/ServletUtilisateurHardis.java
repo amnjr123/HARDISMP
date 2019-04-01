@@ -79,6 +79,9 @@ public class ServletUtilisateurHardis extends HttpServlet {
                                     String chemin = "/home/hardis/hmp/utilisateurHardis/" + uh.getId() + "/" + uh.getId() + ".pdf";
                                     CV cv = sessionHardis.creerCV(chemin, uh.getId());
                                     con.uploadFile(part.getInputStream(), chemin);
+                                    UtilisateurHardis updUh = uh ;
+                                    updUh.getcVs().add(cv);
+                                    sessionHttp.setAttribute(ATT_SESSION_HARDIS, updUh);
                                 } else {
                                     Long idCV = sessionHardis.afficherCVSansOffre(uh.getId()).getId();
                                     CV cv = sessionHardis.afficherCv(idCV);
@@ -110,6 +113,9 @@ public class ServletUtilisateurHardis extends HttpServlet {
                                     CV cv = sessionHardis.creerCV(chemin, uh.getId(), Long.parseLong(idOffre));
                                     con.uploadFile(part.getInputStream(), chemin);
                                     request.setAttribute("msgSuccess", "Le CV a bien été ajouté");
+                                    UtilisateurHardis updUh = uh ;
+                                    updUh.getcVs().add(cv);
+                                    sessionHttp.setAttribute(ATT_SESSION_HARDIS, updUh);
                                 } else {
                                     CV cv = sessionHardis.afficherCVOffreUtilisateur(uh.getId(), Long.parseLong(idOffre));
                                     con.uploadFile(part.getInputStream(), cv.getCheminCV());
