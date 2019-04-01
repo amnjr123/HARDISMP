@@ -215,6 +215,7 @@
                                 <span class="time_date"><%=dfheure.format(comm.getDateEnvoi())%></span></div>
                         </div>
                     </div>
+                        <%}%>
                     <%if (uh.getProfilTechnique() == ProfilTechnique.valueOf("Administrateur") || (uh == d.getUtilisateurHardis() && uh.getProfilTechnique() == ProfilTechnique.valueOf("Gestionnaire"))) {%>                    <div class="type_msg">
                         <div class="input_msg_write" id="newMessage">
                             <form method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis" id="formulaire">
@@ -226,6 +227,7 @@
                             </form>
                         </div>
                     </div>
+                                
                 </div>
                 <%} else {%>
                 <div class="type_msg">
@@ -233,7 +235,7 @@
                         <input readonly name="message" type="text" class="write_msg" placeholder="Vous n'avez pas les droits nécessaires pour participer à cette conversation." />
                     </div>
                 </div>
-                <%}%>
+                <%}}%>
             </div>
         </div>
     </div>
@@ -280,6 +282,7 @@
             </div>
         </div>
     </div>
+    <%}%>
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Historique des responsables du devis</h5>
