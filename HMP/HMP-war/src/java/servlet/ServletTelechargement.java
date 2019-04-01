@@ -53,6 +53,10 @@ public class ServletTelechargement extends HttpServlet {
                     for (String file : listeFichiers) {
                         if (!file.equals(".") && !file.equals("..")) {
                             try {
+                                File directory = new File("temp\\");
+                                if (!directory.exists()) {
+                                    directory.mkdir();
+                                }
                                 con.downloadFile(rep + "/" + file, "temp\\" + file);
                                 files.add(new File("temp\\" + file));
                             } catch (Exception e) {
