@@ -278,6 +278,8 @@
         </div>
     </div>
     <%}%>
+    
+    
     <%--MODALS--%>
     <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletClient">  
         <div class="modal fade" id="refuser" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

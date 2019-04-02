@@ -6,6 +6,7 @@ import GestionDevis.Communication;
 import GestionDevis.Conversation;
 import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
+import GestionDevis.Proposition;
 import GestionUtilisateur.CV;
 import GestionUtilisateur.Consultant;
 import GestionUtilisateur.Disponibilite;
@@ -114,7 +115,6 @@ public class ServletUtilisateurHardis extends HttpServlet {
                 if (act.equals("ajouterCVOffre")) {
                     String idOffre = request.getParameter("idOffre");
                     String chemin = "/home/hardis/hmp/utilisateurHardis/" + uh.getId() + "/" + idOffre + "/" + uh.getId() + ".pdf";
-
                     SFTPConnexion con = new SFTPConnexion();
                     for (Part part : request.getParts()) {
                         if (part.getName().equals("file")) {
@@ -310,12 +310,51 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     Long idDevis = Long.parseLong(request.getParameter("idDevis"));
                     DevisNonStandard d = sessionHardis.envoyerDevisNonStandard(idDevis);
                     if (d == null) {
-                        request.setAttribute("msgError", "Une erreur est survénue, veuillez vérifier qu'il existe au moins une proposition à l'offre. Si votreplafond de delegation ne suffit pas a cette action veuillez transférer le devis à un autre utilisateur hardis");
+                        request.setAttribute("msgError", "Une erreur est survenue, veuillez vérifier qu'il existe au moins une proposition commerciale. Si votre plafond de délégation ne suffit pas a cette action veuillez transférer le devis à un autre utilisateur hardis.");
                     } else {
-                        request.setAttribute("msgSuccess", "Les fichiers joints n'ont pas pu être envoyés");
+                        request.setAttribute("msgSuccess", "Le devis a été transmis au client.");
                     }
                     gererDevisNonStandard(request, response);
                 }
+                
+                if (act.equals("creerProposition")) {
+                    Long idDevis = Long.parseLong(request.getParameter("idDevis"));
+                    DevisNonStandard d = sessionHardis.rechercherDevisNonStandard(idDevis);
+                    String debutString = request.getParameter("datedebut");
+                    String finString = request.getParameter("datefin");
+                    if(debutString != null && finString != null && !debutString.isEmpty() && !finString.isEmpty()){
+                        if (d == null) {
+                            request.setAttribute("msgError", "Une erreur est survenue.");
+                        } else {
+                            request.setAttribute("msgSuccess", "La proposition a été ajoutée.");
+                        }
+                        gererDevisNonStandard(request, response);
+
+                        String chemin = "/home/hardis/hmp/devis/"+ d.getId()+".ppt";
+
+                        SFTPConnexion con = new SFTPConnexion();
+                        for (Part part : request.getParts()) {
+                            if (part.getName().equals("file")) {
+                                try {
+                                        Date dateDebut = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(debutString);
+                                        Date dateFin = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(finString);
+                                        Proposition proposition = sessionHardis.creerProposition(dateDebut, dateFin,chemin, uh.getId(), idDevis);
+                                        con.uploadFile(part.getInputStream(), chemin);
+                                        UtilisateurHardis updUh = uh;
+                                        con.uploadFile(part.getInputStream(), proposition.getCheminDocument());
+                                        request.setAttribute("msgSuccess", "La proposition a été ajoutée au devis.");
+                                        con.disconnect();
+                                } catch (Exception e) {
+                                    request.setAttribute("msgError", "La proposition n'a pas pu être ajoutée au devis.");
+                                }
+                            }
+                        }
+                    }else{
+                        request.setAttribute("msgError", "Veuillez sélectionner les dates de validité de la proposition.");
+                    }
+                    gererDevisNonStandard(request, response);
+                }
+                
                 /*MESSAGERIE*/
                 if (act.equals("messages")) {
                     request.setAttribute("listConversations", sessionHardis.afficherConversations(uh.getId()));

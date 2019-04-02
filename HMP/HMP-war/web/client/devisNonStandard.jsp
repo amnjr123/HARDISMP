@@ -164,7 +164,7 @@
                     </thead>
                     <tbody>
                         <%if (!d.getPropositions().isEmpty()) {
-                            for (Proposition p : d.getPropositions()) {%>
+                                for (Proposition p : d.getPropositions()) {%>
                         <tr>
                             <td>Proposition commerciale n°<%=p.getId()%></td>
                             <td><%=dfjour.format(p.getDateDebutValidite())%></td>
@@ -183,7 +183,7 @@
                             </td>
                         </tr>
                         <%}
-                        if (d.getStatut() != StatutDevis.valueOf("Incomplet") && d.getStatut() != StatutDevis.valueOf("ReponseEnCours") && d.getStatut() != StatutDevis.valueOf("Envoye") && d.getStatut() != StatutDevis.valueOf("Refuse")) {%>         
+                            if (d.getStatut() != StatutDevis.valueOf("Incomplet") && d.getStatut() != StatutDevis.valueOf("ReponseEnCours") && d.getStatut() != StatutDevis.valueOf("Envoye") && d.getStatut() != StatutDevis.valueOf("Refuse")) {%>         
                         <tr>
                             <td>Bon de commande</td>
                             <td><%=dfjour.format(d.getDateReponse())%></td>
@@ -211,7 +211,7 @@
                 <div class="mesgs" style="width: 100% !important">
                     <div class="msg_history" id="zoneMessages">
                         <%for (Communication comm : listeMessages) {
-                            if (comm.getClient() != null) {%>
+                                if (comm.getClient() != null) {%>
                         <div class="outgoing_msg">
                             <div class="sent_msg">
                                 <p><%=comm.getContenu()%></p>
@@ -227,7 +227,7 @@
                             </div>
                         </div>
                         <%}
-                        }%>
+                            }%>
                     </div>
                     <div class="type_msg">
                         <div class="input_msg_write" id="newMessage">
@@ -278,7 +278,7 @@
         </div>
     </div>
 
-<%if(!listIntervention.isEmpty()){%>
+    <%if (!listIntervention.isEmpty()) {%>
     <div class="card">
         <div class="card-header"style="background-color: #b8daff;">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
@@ -289,102 +289,97 @@
             <div id='calendar'></div>
         </div>
     </div>
-<%}%>
+    <%}%>
 
-<%--MODALS--%>
-<form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletClient">  
-    <div class="modal fade" id="refuser" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <%--MODALS--%>
+    <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletClient">  
+        <div class="modal fade" id="refuser" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
 
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Refuser le devis</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="conditions" >Motif du refus</label>
-                        <textarea rows="2" maxlength="250" name="motif" type="text" id="motif" class="form-control" placeholder="Merci d'expliquer ici la raison de votre refus du devis" required autofocus></textarea>
-                        <div class="invalid-feedback">
-                            Ce champ est obligatoire.
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Refuser le devis</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="conditions" >Motif du refus</label>
+                            <textarea rows="2" maxlength="250" name="motif" type="text" id="motif" class="form-control" placeholder="Merci d'expliquer ici la raison de votre refus du devis" required autofocus></textarea>
+                            <div class="invalid-feedback">
+                                Ce champ est obligatoire.
+                            </div>
                         </div>
                     </div>
+                    <div class="modal-footer ">
+                        <input type="hidden" name="id" value="<%=d.getId()%>">
+                        <input type="hidden" name="action" value="refuserDevis">
+                        <button type="submit" class="btn btn-success">Valider</button>
+                        <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="modal fade" id="replannifier" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Repplannifier les interventions</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <div class="modal-body">
+                      replannifier l'intervention
                 </div>
                 <div class="modal-footer ">
-                    <input type="hidden" name="id" value="<%=d.getId()%>">
+                    <%--<input type="hidden" name="id" value="<%=d.getId()%>">
                     <input type="hidden" name="action" value="refuserDevis">
                     <button type="submit" class="btn btn-success">Valider</button>
-                    <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>--%>
                 </div>
             </div>
         </div>
     </div>
-</form>
 
-<div class="modal fade" id="replannifier" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Repplannifier les interventions</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-
-            </div>
-            <div class="modal-footer ">
-                <%--<input type="hidden" name="id" value="<%=d.getId()%>">
-                <input type="hidden" name="action" value="refuserDevis">
-                <button type="submit" class="btn btn-success">Valider</button>
-                <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>--%>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="historiqueUtilisateur" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Historique des responsables du devis</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <%for (HistoriqueUtilisateurDevis h : listeHistoriqueUtilisateurDevis) {%>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nom</th>
-                            <th scope="col">Du</th>
-                            <th scope="col">Au</th>
-                        </tr>
-                    </thead>
-                    <tbody>                                     
-                        <tr>
-                            <td><%=h.getUtilisateurHardis().getPrenom()%> <%=h.getUtilisateurHardis().getNom()%></td>
-                            <td><%=dfjour.format(h.getDateDebut())%></td>
-                            <td>
-                                <%
-                                    Calendar calendar = Calendar.getInstance();
-                                    calendar.setTime(h.getDateFin());
-                                    if (calendar.get(Calendar.YEAR) < 2100) {;
-                                        out.print(dfjour.format(h.getDateFin()));
-                                    } else {
-                                        out.print("-");
-                                    }%>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <%}%>
+    <div class="modal fade" id="historiqueUtilisateur" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Historique des responsables du devis</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <div class="modal-body">
+                    <%for (HistoriqueUtilisateurDevis h : listeHistoriqueUtilisateurDevis) {%>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Du</th>
+                                <th scope="col">Au</th>
+                            </tr>
+                        </thead>
+                        <tbody>                                     
+                            <tr>
+                                <td><%=h.getUtilisateurHardis().getPrenom()%> <%=h.getUtilisateurHardis().getNom()%></td>
+                                <td><%=dfjour.format(h.getDateDebut())%></td>
+                                <td>
+                                    <%
+                                        Calendar calendar = Calendar.getInstance();
+                                        calendar.setTime(h.getDateFin());
+                                        if (calendar.get(Calendar.YEAR) < 2100) {;
+                                            out.print(dfjour.format(h.getDateFin()));
+                                        } else {
+                                            out.print("-");
+                                        }%>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <%}%>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </main>
 <jsp:include page="footer.jsp"/>
 <script src='${pageContext.request.contextPath}/js/fullcalendar/main.js'></script>
@@ -423,7 +418,7 @@
             calDebut.setTime(interventionJava.getDateInterventionDemandee());
             int yearDebut = calDebut.get(Calendar.YEAR);
             int monthDebut = calDebut.get(Calendar.MONTH);
-            int dayDebut = calDebut.get(Calendar.DAY_OF_MONTH);     
+            int dayDebut = calDebut.get(Calendar.DAY_OF_MONTH);
     %>
                 {
                     title: 'Intervention \n<%=interventionJava.getDevis().getClient().getEntreprise().getNom()%>',
@@ -431,8 +426,8 @@
                     end: new Date(<%=yearDebut%>,<%=monthDebut%>, <%=dayDebut%>, 18, 0),
                     allDay: false,
                     className: 'info',
-                    backgroundColor : '#e74c3c',
-                    displayEventEnd : true
+                    backgroundColor: '#e74c3c',
+                    displayEventEnd: true
                 },
     <%}%>
             ],

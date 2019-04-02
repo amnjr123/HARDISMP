@@ -31,7 +31,7 @@
     <form class="needs-validation" novalidate class="form" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletClient">
         <div class="form-group">
             <label for="description"><b>Description *</b></label>
-            <textarea rows="4"  minlength="50" name="commentaire" type="text" id="commentaire" class="form-control" placeholder="votre commentaire" required autofocus></textarea>
+            <textarea rows="4"  minlength="50" maxlength="250" name="commentaire" type="text" id="commentaire" class="form-control" placeholder="votre commentaire" required autofocus></textarea>
             <div class="invalid-feedback">
                 Un commentaire sur votre besoin est obligatoire et doit être au minimum 50 caractères.
             </div>

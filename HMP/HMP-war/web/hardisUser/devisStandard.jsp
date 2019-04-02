@@ -69,13 +69,13 @@
                                 <%if (d.getStatut() == StatutDevis.valueOf("Envoye") || d.getStatut() == StatutDevis.valueOf("Valide") || d.getStatut() == StatutDevis.valueOf("Refuse") || d.getStatut() == StatutDevis.valueOf("AcompteRegle") || d.getStatut() == StatutDevis.valueOf("PrestationTerminee")) {%>
                             <th scope="col">Date d'envoi au client</th>
                                 <%}
-                                if (d.getStatut() == StatutDevis.valueOf("Valide") || d.getStatut() == StatutDevis.valueOf("Refuse") || d.getStatut() == StatutDevis.valueOf("AcompteRegle") || d.getStatut() == StatutDevis.valueOf("PrestationTerminee")) {%>
+                                    if (d.getStatut() == StatutDevis.valueOf("Valide") || d.getStatut() == StatutDevis.valueOf("Refuse") || d.getStatut() == StatutDevis.valueOf("AcompteRegle") || d.getStatut() == StatutDevis.valueOf("PrestationTerminee")) {%>
                             <th scope="col">Date de réponse</th>
                                 <%}
-                                if (d.getStatut() == StatutDevis.valueOf("AcompteRegle") || d.getStatut() == StatutDevis.valueOf("PrestationTerminee")) {%>
+                                    if (d.getStatut() == StatutDevis.valueOf("AcompteRegle") || d.getStatut() == StatutDevis.valueOf("PrestationTerminee")) {%>
                             <th scope="col">Date de versement de l'acompte</th>
                                 <%}
-                                if (d.getStatut() == StatutDevis.valueOf("PrestationTerminee")) {%>
+                                    if (d.getStatut() == StatutDevis.valueOf("PrestationTerminee")) {%>
                             <th scope="col">Date de versement du restant</th>
                                 <%}%>
                             <th scope="col">Reponsable du Devis</th>
@@ -111,8 +111,8 @@
             </div>
         </div>
     </div>
-                            
-<%if(d.getStatut()==StatutDevis.valueOf("Refuse")){%>
+
+    <%if (d.getStatut() == StatutDevis.valueOf("Refuse")) {%>
     <div class="card mb-3">
         <div class="card-header"style="background-color: #b8daff;">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
@@ -125,8 +125,7 @@
             <p><%=d.getMotifRefus()%></p>
         </div>
     </div>
-</div>
-<%}%>
+    <%}%>
 
     <div class="card mb-3">
         <div class="card-header" style="background-color: #b8daff;">
@@ -156,7 +155,7 @@
                             </td>
                         </tr>
                         <%}
-                            if (d.getStatut() != StatutDevis.valueOf("Incomplet") && d.getStatut() != StatutDevis.valueOf("ReponseEnCours") && d.getStatut() != StatutDevis.valueOf("Envoye") && d.getStatut() != StatutDevis.valueOf("Refuse")) {%>         
+                        if (d.getStatut() != StatutDevis.valueOf("Incomplet") && d.getStatut() != StatutDevis.valueOf("ReponseEnCours") && d.getStatut() != StatutDevis.valueOf("Envoye") && d.getStatut() != StatutDevis.valueOf("Refuse")) {%>         
                         <tr>
                             <td>Bon de commande</td>
                             <td><%=dfjour.format(d.getDateReponse())%></td>
@@ -184,7 +183,7 @@
                 <div class="mesgs" style="width: 100%">
                     <div class="msg_history" id="zoneMessages">
                         <%for (Communication comm : listeMessages) {
-                                if (comm.getUtilisateurHardis() != null) {%>
+                            if (comm.getUtilisateurHardis() != null) {%>
                         <div class="outgoing_msg">
                             <div class="sent_msg">
                                 <p><%=comm.getContenu()%></p>
@@ -200,9 +199,9 @@
                             </div>
                         </div>
                         <%}
-                                        }%>
+                        }%>
                     </div>
-                                        <%if ((uh.getProfilTechnique()==ProfilTechnique.valueOf("Administrateur") || uh == d.getUtilisateurHardis()) && uh.getProfilTechnique()!=ProfilTechnique.valueOf("Visualisation")) {%>
+                    <%if ((uh.getProfilTechnique() == ProfilTechnique.valueOf("Administrateur") || uh == d.getUtilisateurHardis()) && uh.getProfilTechnique() != ProfilTechnique.valueOf("Visualisation")) {%>
                     <div class="type_msg">
                         <div class="input_msg_write" id="newMessage">
                             <form method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis" id="formulaire">
@@ -225,7 +224,7 @@
             </div>
         </div>
     </div>
-<%if ((uh.getProfilTechnique()==ProfilTechnique.valueOf("Administrateur") || uh == d.getUtilisateurHardis()) && uh.getProfilTechnique()!=ProfilTechnique.valueOf("Visualisation")) {%>
+                
     <div class="card">
         <div class="card-header" style="background-color: #b8daff;">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
@@ -235,21 +234,9 @@
             </div>
         </div>
         <div class="card-body">
-
+            Il n'y a aucune action à effectuer sur ce devis.
         </div>
     </div>
-    <%} else {%>
-    <div class="card text-white bg-warning">
-        <div class="card-header">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
-                <h1 class="h2"><i style="width:32px;height: 32px" data-feather="navigation"></i>&nbsp;Actions</h1>
-                <div class="btn-toolbar">
-                    Vous n'avez pas les droits nécessaires pour effectuer une action sur ce devis.
-                </div>
-            </div>
-        </div>
-  
-    </div>
-    <%}%>
+    
 </main>
 <jsp:include page="footer.jsp"/>
