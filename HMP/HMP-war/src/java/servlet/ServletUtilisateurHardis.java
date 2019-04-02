@@ -115,7 +115,6 @@ public class ServletUtilisateurHardis extends HttpServlet {
                 if (act.equals("ajouterCVOffre")) {
                     String idOffre = request.getParameter("idOffre");
                     String chemin = "/home/hardis/hmp/utilisateurHardis/" + uh.getId() + "/" + idOffre + "/" + uh.getId() + ".pdf";
-
                     SFTPConnexion con = new SFTPConnexion();
                     for (Part part : request.getParts()) {
                         if (part.getName().equals("file")) {
@@ -331,29 +330,28 @@ public class ServletUtilisateurHardis extends HttpServlet {
                         }
                         gererDevisNonStandard(request, response);
 
-                        String chemin = "/home/hardis/hmp/devis/" + d.getId()+".ppt";
+                        String chemin = "/home/hardis/hmp/devis/"+ d.getId()+".ppt";
 
                         SFTPConnexion con = new SFTPConnexion();
                         for (Part part : request.getParts()) {
                             if (part.getName().equals("file")) {
                                 try {
-                                        Proposition p = sessionHardis.creerProposition(chemin, uh.getId(), Long.parseLong(idOffre));
+                                        Date dateDebut = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(debutString);
+                                        Date dateFin = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(finString);
+                                        Proposition proposition = sessionHardis.creerProposition(dateDebut, dateFin,chemin, uh.getId(), idDevis);
                                         con.uploadFile(part.getInputStream(), chemin);
-                                        request.setAttribute("msgSuccess", "Le CV a bien été ajouté");
                                         UtilisateurHardis updUh = uh;
-                                        updUh.getcVs().add(cv);
-                                        sessionHttp.setAttribute(ATT_SESSION_HARDIS, updUh);
-                                        CV cv = sessionHardis.afficherCVOffreUtilisateur(uh.getId(), Long.parseLong(idOffre));
-                                        con.uploadFile(part.getInputStream(), cv.getCheminCV());
-                                        request.setAttribute("msgSuccess", "Le CV a bien été modifié");
-                                    }
-                                    con.disconnect();
-
+                                        con.uploadFile(part.getInputStream(), proposition.getCheminDocument());
+                                        request.setAttribute("msgSuccess", "La proposition a été ajoutée au devis.");
+                                        con.disconnect();
                                 } catch (Exception e) {
-                                    request.setAttribute("msgError", "Les fichiers joints n'ont pas pu être envoyés");
+                                    request.setAttribute("msgError", "La proposition n'a pas pu être ajoutée au devis.");
                                 }
                             }
                         }
+                    }else{
+                        request.setAttribute("msgError", "Veuillez sélectionner les dates de validité de la proposition.");
+                    }
                     gererDevisNonStandard(request, response);
                 }
                 

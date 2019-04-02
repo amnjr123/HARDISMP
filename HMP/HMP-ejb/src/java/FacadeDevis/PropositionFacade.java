@@ -43,7 +43,12 @@ public class PropositionFacade extends AbstractFacade<Proposition> implements Pr
         p.setCheminDocument(cheminDocument);
         p.setUtilisateurHardis(uh);
         p.setDevisNonStandard(devisNonStandard);
+        devisNonStandard.getPropositions().add(p);
         create(p);  
+        devisNonStandard.getPropositions().add(p);
+        em.merge(p);
+        uh.getPropositions().add(p);
+        em.merge(uh);
         return p;
     }
     
