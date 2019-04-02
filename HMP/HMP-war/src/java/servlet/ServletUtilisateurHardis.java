@@ -6,6 +6,7 @@ import GestionDevis.Communication;
 import GestionDevis.Conversation;
 import GestionDevis.DevisNonStandard;
 import GestionDevis.DevisStandard;
+import GestionDevis.Proposition;
 import GestionUtilisateur.CV;
 import GestionUtilisateur.Consultant;
 import GestionUtilisateur.Disponibilite;
@@ -310,12 +311,52 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     Long idDevis = Long.parseLong(request.getParameter("idDevis"));
                     DevisNonStandard d = sessionHardis.envoyerDevisNonStandard(idDevis);
                     if (d == null) {
-                        request.setAttribute("msgError", "Une erreur est survénue, veuillez vérifier qu'il existe au moins une proposition à l'offre. Si votreplafond de delegation ne suffit pas a cette action veuillez transférer le devis à un autre utilisateur hardis");
+                        request.setAttribute("msgError", "Une erreur est survenue, veuillez vérifier qu'il existe au moins une proposition commerciale. Si votre plafond de délégation ne suffit pas a cette action veuillez transférer le devis à un autre utilisateur hardis.");
                     } else {
-                        request.setAttribute("msgSuccess", "Les fichiers joints n'ont pas pu être envoyés");
+                        request.setAttribute("msgSuccess", "Le devis a été transmis au client.");
                     }
                     gererDevisNonStandard(request, response);
                 }
+                
+                if (act.equals("creerProposition")) {
+                    Long idDevis = Long.parseLong(request.getParameter("idDevis"));
+                    DevisNonStandard d = sessionHardis.rechercherDevisNonStandard(idDevis);
+                    String debutString = request.getParameter("datedebut");
+                    String finString = request.getParameter("datefin");
+                    if(debutString != null && finString != null && !debutString.isEmpty() && !finString.isEmpty()){
+                        if (d == null) {
+                            request.setAttribute("msgError", "Une erreur est survenue.");
+                        } else {
+                            request.setAttribute("msgSuccess", "La proposition a été ajoutée.");
+                        }
+                        gererDevisNonStandard(request, response);
+
+                        String chemin = "/home/hardis/hmp/devis/" + d.getId()+".ppt";
+
+                        SFTPConnexion con = new SFTPConnexion();
+                        for (Part part : request.getParts()) {
+                            if (part.getName().equals("file")) {
+                                try {
+                                        Proposition p = sessionHardis.creerProposition(chemin, uh.getId(), Long.parseLong(idOffre));
+                                        con.uploadFile(part.getInputStream(), chemin);
+                                        request.setAttribute("msgSuccess", "Le CV a bien été ajouté");
+                                        UtilisateurHardis updUh = uh;
+                                        updUh.getcVs().add(cv);
+                                        sessionHttp.setAttribute(ATT_SESSION_HARDIS, updUh);
+                                        CV cv = sessionHardis.afficherCVOffreUtilisateur(uh.getId(), Long.parseLong(idOffre));
+                                        con.uploadFile(part.getInputStream(), cv.getCheminCV());
+                                        request.setAttribute("msgSuccess", "Le CV a bien été modifié");
+                                    }
+                                    con.disconnect();
+
+                                } catch (Exception e) {
+                                    request.setAttribute("msgError", "Les fichiers joints n'ont pas pu être envoyés");
+                                }
+                            }
+                        }
+                    gererDevisNonStandard(request, response);
+                }
+                
                 /*MESSAGERIE*/
                 if (act.equals("messages")) {
                     request.setAttribute("listConversations", sessionHardis.afficherConversations(uh.getId()));
