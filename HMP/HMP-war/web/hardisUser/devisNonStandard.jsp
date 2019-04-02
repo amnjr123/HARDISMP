@@ -108,7 +108,7 @@
                             <%}%>
                             <td>
                                 <p><%=d.getUtilisateurHardis().getNom() + " " + d.getUtilisateurHardis().getPrenom()%></p>
-                                <p><a href="#" data-toggle="modal" data-target="#historiqueUtilisateur" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="list"></i> Voir l'historique</a></p>
+                                <p><a data-toggle="modal" data-target="#historiqueUtilisateur" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="list"></i> Voir l'historique</a></p>
                             </td>
                         </tr>
                     </tbody>
@@ -121,7 +121,7 @@
     <div class="card mb-3">
         <div class="card-header"style="background-color: #b8daff;">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
-                <h1 class="h2"><i style="width:32px;height: 32px" data-feather="file-text"></i>&nbsp;Documents</h1>
+                <h1 class="h2"><i style="width:32px;height: 32px" data-feather="file-text"></i>&nbsp;Motif de refus</h1>
                 <div class="btn-toolbar">
                 </div>
             </div>
@@ -203,7 +203,8 @@
                         <div class="outgoing_msg">
                             <div class="sent_msg">
                                 <p><%=comm.getContenu()%></p>
-                                <span class="time_date"><%=comm.getUtilisateurHardis().getPrenom()%> <%=comm.getUtilisateurHardis().getNom()%> le <%=dfjour.format(comm.getDateEnvoi())%></span> </div>
+                                <span class="time_date"><%=comm.getUtilisateurHardis().getPrenom()%> <%=comm.getUtilisateurHardis().getNom()%> le <%=dfjour.format(comm.getDateEnvoi())%></span>
+                            </div>
                         </div>
                         <%} else {%>
                         <div class="incoming_msg">
@@ -214,8 +215,10 @@
                                     <span class="time_date"><%=dfheure.format(comm.getDateEnvoi())%></span></div>
                             </div>
                         </div>
-                        <%}%>
-                        <%if (uh.getProfilTechnique() == ProfilTechnique.valueOf("Administrateur") || (uh == d.getUtilisateurHardis() && uh.getProfilTechnique() == ProfilTechnique.valueOf("Gestionnaire"))) {%>                    <div class="type_msg">
+                        <%}
+                            }%>
+                        <div class="type_msg">
+                            <%if ((uh.getProfilTechnique() == ProfilTechnique.valueOf("Administrateur") || uh.equals(d.getUtilisateurHardis())) && uh.getProfilTechnique() != ProfilTechnique.valueOf("Visualisation")) {%>
                             <div class="input_msg_write" id="newMessage">
                                 <form method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis" id="formulaire">
                                     <input type="hidden" name="action" value="repondreMessageDevisNonStandard">
@@ -225,23 +228,19 @@
                                     <button class="msg_send_btn" type="submit"><i data-feather="send" aria-hidden="true"></i></button>
                                 </form>
                             </div>
-                        </div>
-
-                    </div>
-                    <%} else {%>
-                    <div class="type_msg">
-                        <div class="input_msg_write" id="newMessage">
-                            <input readonly name="message" type="text" class="write_msg" placeholder="Vous n'avez pas les droits nécessaires pour participer à cette conversation." />
+                            <%} else {%>
+                            <div class="input_msg_write" id="newMessage">
+                                <input readonly name="message" type="text" class="write_msg" placeholder="Vous n'avez pas les droits nécessaires pour participer à cette conversation." />
+                            </div>
+                            <%}%>
                         </div>
                     </div>
-                    <%}
-                        }%>
                 </div>
             </div>
         </div>
     </div>
 
-    <%if ((uh.getProfilTechnique() == ProfilTechnique.valueOf("Administrateur") || uh == d.getUtilisateurHardis()) && uh.getProfilTechnique() != ProfilTechnique.valueOf("Visualisation")) {%>
+    <%if ((uh.getProfilTechnique() == ProfilTechnique.valueOf("Administrateur") || uh.equals(d.getUtilisateurHardis())) && uh.getProfilTechnique() != ProfilTechnique.valueOf("Visualisation")) {%>
     <div class="card mb-3">
         <div class="card-header">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
@@ -264,22 +263,23 @@
             </div>
             <%}%>
         </div>
-        <%} else {%>
-        <div class="card text-white bg-warning">
-            <div class="card-header">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
-                    <h1 class="h2"><i style="width:32px;height: 32px" data-feather="navigation"></i>&nbsp;Actions</h1>
-                    <div class="btn-toolbar">
-                        Vous n'avez pas les droits nécessaires pour effectuer une action sur ce devis.
-                    </div>
+    </div>
+    <%} else {%>
+    <div class="card text-white bg-warning">
+        <div class="card-header">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
+                <h1 class="h2"><i style="width:32px;height: 32px" data-feather="navigation"></i>&nbsp;Actions</h1>
+                <div class="btn-toolbar">
+                    Vous n'avez pas les droits nécessaires pour effectuer une action sur ce devis.
                 </div>
             </div>
         </div>
-        <%}%>
     </div>
+    <%}%>
+
 
     <%--MODALS--%>
-    <div class="modal fade" id="ajoutProposition" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="historiqueUtilisateur" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -306,9 +306,9 @@
                                         calendar.setTime(h.getDateFin());
                                         if (calendar.get(Calendar.YEAR) < 2100) {;
                                             out.print(dfjour.format(h.getDateFin()));
-                                } else {
-                                    out.print("-");
-                                }%>
+                                        } else {
+                                            out.print("-");
+                                        }%>
                                 </td>
                             </tr>
                         </tbody>
@@ -327,12 +327,13 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
                 </div>
                 <div class="modal-body">
-                    <form novalidate class="form needs-validation" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis">
-                        <input name="file" type="file" class="form-control" id="ppt" accept=".ppt" required>
-                        <input type="date" class="form-control" id="dateDebut" name="datedebut">
-                        <input type="date" class="form-control" id="dateFin" name="datefin">
+                    <form  enctype="multipart/form-data" novalidate class="form needs-validation" role="form" autocomplete="off" method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis">
+                        <input name="file" type="file" class="form-control mb-3" id="ppt" required>
+                        <input type="date" class="form-control mb-3" id="dateDebut" name="datedebut">
+                        <input type="date" class="form-control mb-3" id="dateFin" name="datefin">
                         <input type="hidden" class="form-control" name="idDevis" value="<%=d.getId()%>">
                         <input type="hidden" class="form-control" name="action" value="creerProposition">
+                        <input type="submit" class="btn-block btn-primary btn-lg mb-3" value="Envoyer la proposition">
                     </form>
                 </div>
             </div>

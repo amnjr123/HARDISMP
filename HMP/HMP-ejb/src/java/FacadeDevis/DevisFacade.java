@@ -100,9 +100,17 @@ public class DevisFacade extends AbstractFacade<Devis> implements DevisFacadeLoc
     
     @Override
     public List<Devis> rechercherDevisSaufIncomplet(UtilisateurHardis uh) {
-        Query requete = getEntityManager().createQuery("select d from Devis as d where d.utilisateurHardis=:utilisateur and d.statut!=:statut");
+        Query requete = getEntityManager().createQuery("select d from Devis as d where d.utilisateurHardis=:utilisateur and d.statut!=:incomplet and d.statut!=:encours");
         requete.setParameter("utilisateur", uh);
-        requete.setParameter("statut", StatutDevis.valueOf("Incomplet"));
+        requete.setParameter("incomplet", StatutDevis.valueOf("Incomplet"));
+        requete.setParameter("encours", StatutDevis.valueOf("ReponseEnCours"));
+        return requete.getResultList();
+    }
+    
+    @Override
+    public List<Devis> rechercherDevisSaufIncomplet() {
+        Query requete = getEntityManager().createQuery("select d from Devis as d where d.statut!=:incomplet");
+        requete.setParameter("incomplet", StatutDevis.valueOf("Incomplet"));
         return requete.getResultList();
     }
     

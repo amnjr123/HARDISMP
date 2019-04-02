@@ -82,52 +82,43 @@ public class SessionMain implements SessionLocal {
     }
 
     @Override
-    public void test() {
-        //this.creerClient("NEJJARI","Amine","admin@gmail.com","123456","0624318857");
-        /*ReferentLocal uh = new ReferentLocal();
-        uh.setNom("Gestionnaire");
-        uh.setPrenom("test");
-        uh.setMail("test@gmail.com");
-        uh.setMdp("40BD001563085FC35165329EA1FF5C5ECBDBBEEF");
-        uh.setPlafondDelegation(Float.parseFloat("1000000"));
-        uh.setProfilTechnique(ProfilTechnique.Gestionnaire);
+    public void initilisation() {
+        if (utilisateurFacade.findAll().size() == 0) {
+            ReferentLocal ur = new ReferentLocal();
+            ur.setNom("Administrateur");
+            ur.setPrenom("Admin");
+            ur.setMail("admin@gmail.com");
+            ur.setTelephone("0615962832");
+            ur.setMdp("7C222FB2927D828AF22F592134E8932480637C0D");//12345678
+            ur.setProfilTechnique(ProfilTechnique.Administrateur);
+            referentLocalFacade.create(ur);
 
-        referentLocalFacade.create(uh);
-*/
-        ReferentLocal ur = new ReferentLocal();
-        ur.setNom("Administrateur");
-        ur.setPrenom("Admin");
-        ur.setMail("admin@gmail.com");
-        ur.setTelephone("0615962832");
-        ur.setMdp("7C222FB2927D828AF22F592134E8932480637C0D");
-        ur.setProfilTechnique(ProfilTechnique.Administrateur);
-        referentLocalFacade.create(ur);
-        
-        Consultant c = new Consultant();
-        c.setNom("Dupont");
-        c.setPrenom("François");
-        c.setMail("dupont@gmail.com");
-        c.setTelephone("0615962832");
-        c.setMdp("7C222FB2927D828AF22F592134E8932480637C0D");
-        c.setProfilTechnique(ProfilTechnique.Gestionnaire);
-        consultantFacade.create(c);
-        
-        Consultant cc = new Consultant();
-        cc.setNom("Madranges");
-        cc.setPrenom("Manon");
-        cc.setMail("madranges.m@gmail.com");
-        cc.setTelephone("0615962832");
-        cc.setMdp("7C222FB2927D828AF22F592134E8932480637C0D");
-        cc.setProfilTechnique(ProfilTechnique.Gestionnaire);
-        consultantFacade.create(cc);
-        
-        PorteurOffre po = new PorteurOffre();
-        po.setNom("Boudyach");
-        po.setPrenom("Anas");
-        po.setMail("boudyach.anas@gmail.com");
-        po.setTelephone("0615962832");
-        po.setMdp("7C222FB2927D828AF22F592134E8932480637C0D");
-        po.setProfilTechnique(ProfilTechnique.Visualisation);
-        porteurOffreFacade.create(po);
+            Consultant c = new Consultant();
+            c.setNom("Dupont");
+            c.setPrenom("François");
+            c.setMail("dupont@gmail.com");
+            c.setTelephone("0615962832");
+            c.setMdp("7C222FB2927D828AF22F592134E8932480637C0D");//12345678
+            c.setProfilTechnique(ProfilTechnique.Gestionnaire);
+            consultantFacade.create(c);
+
+            Consultant cc = new Consultant();
+            cc.setNom("Madranges");
+            cc.setPrenom("Manon");
+            cc.setMail("madranges.m@gmail.com");
+            cc.setTelephone("0615962832");
+            cc.setMdp("7C222FB2927D828AF22F592134E8932480637C0D");//12345678
+            cc.setProfilTechnique(ProfilTechnique.Gestionnaire);
+            consultantFacade.create(cc);
+
+            PorteurOffre po = new PorteurOffre();
+            po.setNom("Boudyach");
+            po.setPrenom("Anas");
+            po.setMail("boudyach.anas@gmail.com");
+            po.setTelephone("0615962832");
+            po.setMdp("7C222FB2927D828AF22F592134E8932480637C0D");//12345678
+            po.setProfilTechnique(ProfilTechnique.Visualisation);
+            porteurOffreFacade.create(po);
+        }
     }
 }

@@ -66,7 +66,7 @@ public class Servlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         jspClient = "/home.jsp";
-        //sessionMain.test();
+        sessionMain.initilisation();
         HttpSession sessionHttp = request.getSession();
         if (request.getParameter("action") != null) {
             String act = request.getParameter("action");

@@ -260,7 +260,7 @@
                 </div>
                 <%}%>
                 <div class="col-md">
-                    <a data-toggle="modal" data-target="#replannifier%>" class="btn btn-lg btn-info btn-block">Replannifier les interventions&nbsp;<i style="width:24px;height: 24px" data-feather="calendar"></i></a>&nbsp;
+                    <a data-toggle="modal" data-target="#replannifier" class="btn btn-lg btn-info btn-block">Replannifier les interventions&nbsp;<i style="width:24px;height: 24px" data-feather="calendar"></i></a>&nbsp;
                 </div>
             </div>
         </div>
@@ -288,8 +288,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Refuser le devis</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        </button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -313,21 +312,15 @@
 
     <div class="modal fade" id="replannifier" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Replannifier les interventions</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    </button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
                 </div>
                 <div class="modal-body">
 
                 </div>
                 <div class="modal-footer ">
-                    <%--<input type="hidden" name="id" value="<%=d.getId()%>">
-                    <input type="hidden" name="action" value="refuserDevis">
-                    <button type="submit" class="btn btn-success">Valider</button>
-                    <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>--%>
                 </div>
             </div>
         </div>

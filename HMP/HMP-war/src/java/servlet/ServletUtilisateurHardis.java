@@ -283,7 +283,7 @@ public class ServletUtilisateurHardis extends HttpServlet {
                     jspClient = "/hardisUser/devisTermines.jsp";
                 }
                 if (act.equals("tousLesDevis")) {
-                    request.setAttribute("listeDevis", sessionHardis.rechercherDevis(null, null, null));
+                    request.setAttribute("listeDevis", sessionHardis.rechercherDevisSaufIncomplet());
                     jspClient = "/hardisUser/tousLesDevis.jsp";
                 }
 
@@ -308,13 +308,14 @@ public class ServletUtilisateurHardis extends HttpServlet {
 
                 if (act.equals("envoyerDevisAuClient")) {
                     Long idDevis = Long.parseLong(request.getParameter("idDevis"));
-                    DevisNonStandard d = sessionHardis.envoyerDevisNonStandard(idDevis);
+                    DevisNonStandard d = sessionHardis.envoyerDevisNonStandard(idDevis,uh.getId());
                     if (d == null) {
                         request.setAttribute("msgError", "Une erreur est survenue, veuillez vérifier qu'il existe au moins une proposition commerciale. Si votre plafond de délégation ne suffit pas a cette action veuillez transférer le devis à un autre utilisateur hardis.");
+                        gererDevisNonStandard(request, response);
                     } else {
                         request.setAttribute("msgSuccess", "Le devis a été transmis au client.");
+                        gererDevisNonStandard(request, response);
                     }
-                    gererDevisNonStandard(request, response);
                 }
                 
                 if (act.equals("creerProposition")) {
@@ -329,8 +330,8 @@ public class ServletUtilisateurHardis extends HttpServlet {
                             request.setAttribute("msgSuccess", "La proposition a été ajoutée.");
                         }
                         gererDevisNonStandard(request, response);
-
-                        String chemin = "/home/hardis/hmp/devis/"+ d.getId()+".ppt";
+                        int numero = d.getPropositions().size();
+                        String chemin = "/home/hardis/hmp/devis"+ d.getId()+"/propositionCommerciale"+numero+".ppt";
 
                         SFTPConnexion con = new SFTPConnexion();
                         for (Part part : request.getParts()) {

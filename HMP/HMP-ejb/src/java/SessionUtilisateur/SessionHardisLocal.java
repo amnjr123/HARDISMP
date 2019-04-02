@@ -79,8 +79,6 @@ public interface SessionHardisLocal {
     
     CV afficherCv(Long idCV);
     
-    DevisNonStandard envoyerDevisNonStandard(Long idDevisNonStandard);
-
     List<Disponibilite> afficherDisponibilites(Long idUtilisateur);
 
     List<Intervention> afficherInterventions(Long idUtilisateur);
@@ -104,5 +102,9 @@ public interface SessionHardisLocal {
     List<HistoriqueUtilisateurDevis> afficherHistoriqueUtilisateurDevis(Long idDevis);
 
     List<UtilisateurHardis> utilisateursHardisTransfertDevis(long idDevis);
+
+     List<Devis> rechercherDevisSaufIncomplet();
+
+    DevisNonStandard envoyerDevisNonStandard(Long idDevisNonStandard, Long idUtilisateurHardis);
    
 }

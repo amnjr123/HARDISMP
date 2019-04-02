@@ -6,6 +6,7 @@
 package SessionUtilisateur;
 
 import Enum.Helpers;
+import Enum.ProfilTechnique;
 import Enum.StatutDevis;
 import FacadeCatalogue.LivrableFacadeLocal;
 import FacadeCatalogue.OffreFacadeLocal;
@@ -427,6 +428,11 @@ public class SessionHardis implements SessionHardisLocal {
     public DevisNonStandard rechercherDevisNonStandard(Long idDevisNonStandard){
         return devisNonStandardFacade.rechercheDevisNonStandard(idDevisNonStandard);
     }
+    
+    @Override
+    public List<Devis> rechercherDevisSaufIncomplet(){
+        return devisFacade.rechercherDevisSaufIncomplet();
+    }
         
     @Override
     public DevisStandard rechercherDevisStandard(Long idDevisNonStandard){
@@ -434,36 +440,43 @@ public class SessionHardis implements SessionHardisLocal {
     }      
     
     @Override
-    public DevisNonStandard envoyerDevisNonStandard(Long idDevisNonStandard){ 
+    public DevisNonStandard envoyerDevisNonStandard(Long idDevisNonStandard, Long idUtilisateurHardis){ 
+        UtilisateurHardis uh = utilisateurHardisFacade.rechercheUtilisateurHardis(idUtilisateurHardis);
         DevisNonStandard d = devisNonStandardFacade.rechercheDevisNonStandard(idDevisNonStandard);
         //Vérification s'il y a au moins une proposition commerciale
         if(d.getPropositions().size() > 0){
-            //Si oui alors on vérifie le plafond de délégation de l'utilisateur en charge du devis
-            UtilisateurHardis uh = d.getUtilisateurHardis();
-            if(uh.getDtype()=="PorteurOffre"){
-                PorteurOffre po = (PorteurOffre) uh;
-                return devisNonStandardFacade.envoyerDevisNonStandard(d);
-            }
-            else if(uh.getDtype()=="ReferentLocal"){
-                ReferentLocal rl = (ReferentLocal) uh;
-                if(rl.getPlafondDelegation()>=d.getMontant()){
+            //Si oui alors on vérifie que la personne qui a envoyé est admin
+            if(uh.getProfilTechnique().equals(ProfilTechnique.valueOf("Administrateur"))){
+                //Si c'est un admin on envoie sans vérifier les plafonds
                     return devisNonStandardFacade.envoyerDevisNonStandard(d);
-                }
-                else{
-                    return null;
-                }
-            }
-            else if(uh.getDtype()=="Consultant"){
-                Consultant c = (Consultant) uh;
-                if(c.getPlafondDelegation()>=d.getMontant()){
-                    return devisNonStandardFacade.envoyerDevisNonStandard(d);
-                }
-                else{
-                    return null;
-                }
             }
             else{
-                return null;
+                //Si non alors ce n'est pas un admin qui a envoyé mais la personne en charge du devis.on vérifie le plafond de délégation de l'utilisateur en charge du devis
+                if(uh.getDtype()=="PorteurOffre"){
+                    PorteurOffre po = (PorteurOffre) uh;
+                    return devisNonStandardFacade.envoyerDevisNonStandard(d);
+                }
+                else if(uh.getDtype()=="ReferentLocal"){
+                    ReferentLocal rl = (ReferentLocal) uh;
+                    if(rl.getPlafondDelegation()>=d.getMontant()){
+                        return devisNonStandardFacade.envoyerDevisNonStandard(d);
+                    }
+                    else{
+                        return null;
+                    }
+                }
+                else if(uh.getDtype()=="Consultant"){
+                    Consultant c = (Consultant) uh;
+                    if(c.getPlafondDelegation()>=d.getMontant()){
+                        return devisNonStandardFacade.envoyerDevisNonStandard(d);
+                    }
+                    else{
+                        return null;
+                    }
+                }
+                else{
+                    return null;
+                }
             }
         }
         else{

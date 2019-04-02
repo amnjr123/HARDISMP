@@ -29,8 +29,8 @@ public interface SessionLocal {
 
     Utilisateur rechercherUtilisateurExistant(String mail);
 
-    void test();
-
     boolean motDePasseOublie(String email);
+
+    void initilisation();
     
 }

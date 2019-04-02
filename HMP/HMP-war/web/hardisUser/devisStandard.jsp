@@ -20,6 +20,7 @@
 <jsp:include page="header.jsp"/>
 
 <%DevisStandard d = devisStandard;
+    StatutDevis statut = d .getStatut();
     Collection<Communication> listeMessages = listCommunications;
     java.text.DateFormat dfjour = new java.text.SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH);
     java.text.DateFormat dfheure = new java.text.SimpleDateFormat("dd/MM/yyyy à HH:mm", Locale.FRENCH);
@@ -66,16 +67,16 @@
                             <th scope="col">Montant</th>
                             <th scope="col">Etat</th>
                             <th scope="col">Date de création</th>
-                                <%if (d.getStatut() == StatutDevis.valueOf("Envoye") || d.getStatut() == StatutDevis.valueOf("Valide") || d.getStatut() == StatutDevis.valueOf("Refuse") || d.getStatut() == StatutDevis.valueOf("AcompteRegle") || d.getStatut() == StatutDevis.valueOf("PrestationTerminee")) {%>
+                                <%if (statut == StatutDevis.valueOf("Envoye") || statut == StatutDevis.valueOf("Valide") || statut == StatutDevis.valueOf("Refuse") || statut == StatutDevis.valueOf("AcompteRegle") || statut == StatutDevis.valueOf("PrestationTerminee")) {%>
                             <th scope="col">Date d'envoi au client</th>
                                 <%}
-                                    if (d.getStatut() == StatutDevis.valueOf("Valide") || d.getStatut() == StatutDevis.valueOf("Refuse") || d.getStatut() == StatutDevis.valueOf("AcompteRegle") || d.getStatut() == StatutDevis.valueOf("PrestationTerminee")) {%>
+                                    if (statut == StatutDevis.valueOf("Valide") || statut == StatutDevis.valueOf("Refuse") || statut == StatutDevis.valueOf("AcompteRegle") || statut == StatutDevis.valueOf("PrestationTerminee")) {%>
                             <th scope="col">Date de réponse</th>
                                 <%}
-                                    if (d.getStatut() == StatutDevis.valueOf("AcompteRegle") || d.getStatut() == StatutDevis.valueOf("PrestationTerminee")) {%>
+                                    if (statut == StatutDevis.valueOf("AcompteRegle") || statut == StatutDevis.valueOf("PrestationTerminee")) {%>
                             <th scope="col">Date de versement de l'acompte</th>
                                 <%}
-                                    if (d.getStatut() == StatutDevis.valueOf("PrestationTerminee")) {%>
+                                    if (statut == StatutDevis.valueOf("PrestationTerminee")) {%>
                             <th scope="col">Date de versement du restant</th>
                                 <%}%>
                             <th scope="col">Reponsable du Devis</th>
@@ -88,18 +89,18 @@
                             <td><%=d.getClient().getEntreprise().getNom()%></td>
                             <td><%=d.getServiceStandard().getNom()%></td>
                             <td><%=d.getMontant()%></td>
-                            <td><%=d.getStatut()%></td>
+                            <td><%=statut%></td>
                             <td><%=dfjour.format(d.getDateCreation())%></td>
-                            <%if (d.getStatut() == StatutDevis.valueOf("Envoye") || d.getStatut() == StatutDevis.valueOf("Valide") || d.getStatut() == StatutDevis.valueOf("Refuse") || d.getStatut() == StatutDevis.valueOf("AcompteRegle") || d.getStatut() == StatutDevis.valueOf("PrestationTerminee")) {%>
+                            <%if (statut == StatutDevis.valueOf("Envoye") || statut == StatutDevis.valueOf("Valide") || statut == StatutDevis.valueOf("Refuse") || statut == StatutDevis.valueOf("AcompteRegle") || statut == StatutDevis.valueOf("PrestationTerminee")) {%>
                             <td><%=dfjour.format(d.getDateEnvoi())%></td>
                             <%}
-                                if (d.getStatut() == StatutDevis.valueOf("Valide") || d.getStatut() == StatutDevis.valueOf("Refuse") || d.getStatut() == StatutDevis.valueOf("AcompteRegle") || d.getStatut() == StatutDevis.valueOf("PrestationTerminee")) {%>
+                                if (statut == StatutDevis.valueOf("Valide") || statut == StatutDevis.valueOf("Refuse") || statut == StatutDevis.valueOf("AcompteRegle") || statut == StatutDevis.valueOf("PrestationTerminee")) {%>
                             <td><%=dfjour.format(d.getDateReponse())%></td>
                             <%}
-                                if (d.getStatut() == StatutDevis.valueOf("AcompteRegle") || d.getStatut() == StatutDevis.valueOf("PrestationTerminee")) {%>
+                                if (statut == StatutDevis.valueOf("AcompteRegle") || statut == StatutDevis.valueOf("PrestationTerminee")) {%>
                             <td><%=dfjour.format(d.getDateAcompte())%></td>
                             <%}
-                                if (d.getStatut() == StatutDevis.valueOf("PrestationTerminee")) {%>
+                                if (statut == StatutDevis.valueOf("PrestationTerminee")) {%>
                             <td><%=dfjour.format(d.getDateReglement())%></td>
                             <%}%>
                             <td>
@@ -112,11 +113,11 @@
         </div>
     </div>
 
-    <%if (d.getStatut() == StatutDevis.valueOf("Refuse")) {%>
+    <%if (statut == StatutDevis.valueOf("Refuse")) {%>
     <div class="card mb-3">
         <div class="card-header"style="background-color: #b8daff;">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
-                <h1 class="h2"><i style="width:32px;height: 32px" data-feather="file-text"></i>&nbsp;Documents</h1>
+                <h1 class="h2"><i style="width:32px;height: 32px" data-feather="file-text"></i>&nbsp;Motif de refus</h1>
                 <div class="btn-toolbar">
                 </div>
             </div>
@@ -146,7 +147,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%if (d.getStatut() != StatutDevis.valueOf("Incomplet") && d.getStatut() != StatutDevis.valueOf("ReponseEnCours")) {%>
+                        <%if (statut != StatutDevis.valueOf("Incomplet") && statut != StatutDevis.valueOf("ReponseEnCours")) {%>
                         <tr>
                             <td>Devis</td>
                             <td><%=dfjour.format(d.getDateEnvoi())%></td>
@@ -155,7 +156,7 @@
                             </td>
                         </tr>
                         <%}
-                        if (d.getStatut() != StatutDevis.valueOf("Incomplet") && d.getStatut() != StatutDevis.valueOf("ReponseEnCours") && d.getStatut() != StatutDevis.valueOf("Envoye") && d.getStatut() != StatutDevis.valueOf("Refuse")) {%>         
+                        if (statut != StatutDevis.valueOf("Incomplet") && statut != StatutDevis.valueOf("ReponseEnCours") && statut != StatutDevis.valueOf("Envoye") && statut != StatutDevis.valueOf("Refuse")) {%>         
                         <tr>
                             <td>Bon de commande</td>
                             <td><%=dfjour.format(d.getDateReponse())%></td>
@@ -170,24 +171,25 @@
         </div>
     </div>
 
-    <div class="card mb-3">
-        <div class="card-header" style="background-color: #b8daff;">
+<div class="card mb-3">
+        <div class="card-header">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
-                <h1 class="h2"><i  style="width:32px;height: 32px"  data-feather="message-square"></i>&nbsp;Messagerie</h1>
+                <h1 class="h2"><i style="width:32px;height: 32px" data-feather="message-square"></i>&nbsp;Messagerie</h1>
                 <div class="btn-toolbar">
                 </div>
             </div>
         </div>
         <div class="card-body">
             <div class="messaging">
-                <div class="mesgs" style="width: 100%">
+                <div class="mesgs" style="width: 100% !important">
                     <div class="msg_history" id="zoneMessages">
                         <%for (Communication comm : listeMessages) {
-                            if (comm.getUtilisateurHardis() != null) {%>
+                                if (comm.getUtilisateurHardis() != null) {%>
                         <div class="outgoing_msg">
                             <div class="sent_msg">
                                 <p><%=comm.getContenu()%></p>
-                                <span class="time_date"><%=comm.getUtilisateurHardis().getPrenom()%> <%=comm.getUtilisateurHardis().getNom()%> le <%=dfjour.format(comm.getDateEnvoi())%></span> </div>
+                                <span class="time_date"><%=comm.getUtilisateurHardis().getPrenom()%> <%=comm.getUtilisateurHardis().getNom()%> le <%=dfjour.format(comm.getDateEnvoi())%></span>
+                            </div>
                         </div>
                         <%} else {%>
                         <div class="incoming_msg">
@@ -199,27 +201,25 @@
                             </div>
                         </div>
                         <%}
-                        }%>
-                    </div>
-                    <%if ((uh.getProfilTechnique() == ProfilTechnique.valueOf("Administrateur") || uh == d.getUtilisateurHardis()) && uh.getProfilTechnique() != ProfilTechnique.valueOf("Visualisation")) {%>
-                    <div class="type_msg">
-                        <div class="input_msg_write" id="newMessage">
-                            <form method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis" id="formulaire">
-                                <input type="hidden" name="action" value="repondreMessageDevisStandard">
-                                <input type="hidden" name="idConversation" value="<%=d.getConversation().getId()%>">
-                                <input type="hidden" name="idDevis" value="<%=d.getId()%>">
-                                <input name="message" type="text" class="write_msg" placeholder="Ecrivez votre message ici" />
-                                <button class="msg_send_btn" type="submit"><i data-feather="send" aria-hidden="true"></i></button>
-                            </form>
+                            }%>
+                        <div class="type_msg">
+                            <%if ((uh.getProfilTechnique() == ProfilTechnique.valueOf("Administrateur") || uh.equals(d.getUtilisateurHardis())) && uh.getProfilTechnique() != ProfilTechnique.valueOf("Visualisation")) {%>
+                            <div class="input_msg_write" id="newMessage">
+                                <form method="POST" action="${pageContext.request.contextPath}/ServletUtilisateurHardis" id="formulaire">
+                                    <input type="hidden" name="action" value="repondreMessageDevisStandard">
+                                    <input type="hidden" name="idConversation" value="<%=d.getConversation().getId()%>">
+                                    <input type="hidden" name="idDevis" value="<%=d.getId()%>">
+                                    <input name="message"  maxlength="254" type="text" class="write_msg" placeholder="Ecrivez votre message ici" />
+                                    <button class="msg_send_btn" type="submit"><i data-feather="send" aria-hidden="true"></i></button>
+                                </form>
+                            </div>
+                            <%} else {%>
+                            <div class="input_msg_write" id="newMessage">
+                                <input readonly name="message" type="text" class="write_msg" placeholder="Vous n'avez pas les droits nécessaires pour participer à cette conversation." />
+                            </div>
+                            <%}%>
                         </div>
                     </div>
-                    <%} else {%>
-                    <div class="type_msg">
-                        <div class="input_msg_write" id="newMessage">
-                            <input readonly name="message" type="text" class="write_msg" placeholder="Vous n'avez pas les droits nécessaires pour participer à cette conversation." />
-                        </div>
-                    </div>
-                    <%}%>
                 </div>
             </div>
         </div>

@@ -120,7 +120,7 @@
                             <%}%>
                             <td>
                                 <p><%=d.getUtilisateurHardis().getNom() + " " + d.getUtilisateurHardis().getPrenom()%></p>
-                                <p><a href="#" data-toggle="modal" data-target="#historiqueUtilisateur" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="list"></i> Voir l'historique</a></p>
+                                <p><a href="#" data-toggle="modal" data-target="#historiqueUtilisateur" type="button" class="btn" style="background-color:transparent; color:yellowgreen"><i data-feather="list"></i>Voir l'historique</a></p>
                             </td>
                         </tr>
                     </tbody>
@@ -223,11 +223,12 @@
                             <div class="received_msg">
                                 <div class="received_withd_msg">
                                     <p><%=comm.getContenu()%></p>
-                                    <span class="time_date"><%=dfheure.format(comm.getDateEnvoi())%></span></div>
+                                    <span class="time_date"><%=dfheure.format(comm.getDateEnvoi())%></span>
+                                </div>
                             </div>
                         </div>
                         <%}
-                            }%>
+                        }%>
                     </div>
                     <div class="type_msg">
                         <div class="input_msg_write" id="newMessage">
@@ -272,7 +273,7 @@
                 </div>
                 <%}%>
                 <div class="col-md">
-                    <a data-toggle="modal" data-target="#replannifier>" class="btn btn-lg btn-info btn-block">Replannifier les interventions&nbsp;<i style="width:24px;height: 24px" data-feather="calendar"></i></a>&nbsp;
+                    <a data-toggle="modal" data-target="#replannifier" class="btn btn-lg btn-info btn-block">Replannifier les interventions&nbsp;<i style="width:24px;height: 24px" data-feather="calendar"></i></a>&nbsp;
                 </div>
             </div>
         </div>
@@ -325,17 +326,13 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Repplannifier les interventions</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Replannifier les interventions</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
                 </div>
                 <div class="modal-body">
-                      replannifier l'intervention
+                    replannifier l'intervention
                 </div>
                 <div class="modal-footer ">
-                    <%--<input type="hidden" name="id" value="<%=d.getId()%>">
-                    <input type="hidden" name="action" value="refuserDevis">
-                    <button type="submit" class="btn btn-success">Valider</button>
-                    <button type="button" class="btn btn-warning " data-dismiss="modal">Fermer</button>--%>
                 </div>
             </div>
         </div>

@@ -364,7 +364,7 @@ public class ServletClient extends HttpServlet {
                     request.setAttribute("listConsultants", sessionClient.listConsultant(c.getEntreprise().getAgence().getId()));
                     jspClient = "/client/creerDevisNonStandard.jsp";
                 }
-
+/*
                 if (act.equals("gererDevisNonStandard")) {
                     Long idDevis = Long.parseLong(request.getParameter("idDevis"));
                     DevisNonStandard d = sessionClient.rechercherDevisNonStandard(idDevis);
@@ -395,7 +395,7 @@ public class ServletClient extends HttpServlet {
                     request.setAttribute("listCommunications", sessionClient.afficherCommunications(id));
                     jspClient = "/client/devisStandard.jsp";
                 }
-
+*/
                 if (act.equals("repondreMessageDevisNonStandard")) {
                     Long convId = Long.parseLong(request.getParameter("idConversation"));
                     Conversation conv = sessionClient.afficherConversation(convId);
@@ -407,8 +407,10 @@ public class ServletClient extends HttpServlet {
                     Long idDevis = Long.parseLong(request.getParameter("idDevis"));
                     request.setAttribute("devisNonStandard", sessionClient.rechercherDevisNonStandard(idDevis));
                     request.setAttribute("listHistoriqueUtilisateurDevis", sessionClient.afficherHistoriqueUtilisateurDevis(idDevis));
+                    request.setAttribute("listInterv", sessionClient.afficherInterventions(idDevis));
                     jspClient = "/client/devisNonStandard.jsp";
                 }
+                
                 if (act.equals("repondreMessageDevisStandard")) {
                     Long convId = Long.parseLong(request.getParameter("idConversation"));
                     Conversation conv = sessionClient.afficherConversation(convId);
@@ -419,6 +421,7 @@ public class ServletClient extends HttpServlet {
                     request.setAttribute("listCommunications", sessionClient.afficherCommunications(conv.getId()));
                     Long idDevis = Long.parseLong(request.getParameter("idDevis"));
                     request.setAttribute("devisStandard", sessionClient.rechercherDevisStandard(idDevis));
+                    request.setAttribute("listInterv", sessionClient.afficherInterventions(idDevis));
                     jspClient = "/client/devisStandard.jsp";
                 }
 
