@@ -331,8 +331,7 @@ public class ServletUtilisateurHardis extends HttpServlet {
                         }
                         gererDevisNonStandard(request, response);
                         int numero = d.getPropositions().size();
-                        String chemin = "/home/hardis/hmp/devis"+ d.getId()+"/propositionCommerciale"+numero+".ppt";
-
+                        String chemin = "/home/hardis/hmp/devis/propositionCommerciale/proposition"+d.getId()+"_"+numero+".ppt";
                         SFTPConnexion con = new SFTPConnexion();
                         for (Part part : request.getParts()) {
                             if (part.getName().equals("file")) {
