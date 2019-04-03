@@ -441,24 +441,24 @@ public class ServletClient extends HttpServlet {
 
                 if (act.equals("accepterDevisStandard")) {
                     Long idDevis = Long.parseLong(request.getParameter("id").trim());
-                    sessionClient.supprimerDevisNonStandardIncomplet(idDevis);
                     DevisStandard d = sessionClient.rechercherDevisStandard(idDevis);
                     sessionClient.validerDevis(idDevis);
                     request.setAttribute("devisStandard", d);
                     Long id = d.getConversation().getId();
                     request.setAttribute("listCommunications", sessionClient.afficherCommunications(id));
+                    request.setAttribute("listInterv", sessionClient.afficherInterventions(idDevis));
                     jspClient = "/client/devisStandard.jsp";
                 }
                 
                 if (act.equals("accepterDevisNonStandard")) {
                     Long idDevis = Long.parseLong(request.getParameter("id").trim());
-                    sessionClient.supprimerDevisNonStandardIncomplet(idDevis);
                     DevisNonStandard d = sessionClient.rechercherDevisNonStandard(idDevis);
                     sessionClient.validerDevis(idDevis);
                     request.setAttribute("devisNonStandard", d);
                     request.setAttribute("listHistoriqueUtilisateurDevis", sessionClient.afficherHistoriqueUtilisateurDevis(idDevis));
                     Long id = d.getConversation().getId();
                     request.setAttribute("listCommunications", sessionClient.afficherCommunications(id));
+                    request.setAttribute("listInterv", sessionClient.afficherInterventions(idDevis));
                     jspClient = "/client/devisNonStandard.jsp";
                 }
                 
@@ -472,6 +472,7 @@ public class ServletClient extends HttpServlet {
                     request.setAttribute("devisStandard", d);
                     Long id = d.getConversation().getId();
                     request.setAttribute("listCommunications", sessionClient.afficherCommunications(id));
+                    request.setAttribute("listInterv", sessionClient.afficherInterventions(idDevis));                    
                     jspClient = "/client/devisStandard.jsp";
                 }
                 
@@ -486,6 +487,7 @@ public class ServletClient extends HttpServlet {
                     request.setAttribute("listHistoriqueUtilisateurDevis", sessionClient.afficherHistoriqueUtilisateurDevis(idDevis));
                     Long id = d.getConversation().getId();
                     request.setAttribute("listCommunications", sessionClient.afficherCommunications(id));
+                    request.setAttribute("listInterv", sessionClient.afficherInterventions(idDevis));                    
                     jspClient = "/client/devisNonStandard.jsp";
                 }
                 if (act.equals("payerAcompteDevisNonStandard")) {

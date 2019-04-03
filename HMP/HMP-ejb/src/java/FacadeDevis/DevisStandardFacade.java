@@ -64,6 +64,7 @@ public class DevisStandardFacade extends AbstractFacade<DevisStandard> implement
             d.setAgence(agence);
             d.setMontant(d.getServiceStandard().getCout());
             d.setUtilisateurHardis(rl); 
+            d.setDateEnvoi(new Date());
         }
         edit(d);
         return d;

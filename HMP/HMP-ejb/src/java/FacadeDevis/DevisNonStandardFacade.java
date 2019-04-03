@@ -64,6 +64,7 @@ public class DevisNonStandardFacade extends AbstractFacade<DevisNonStandard> imp
             d.setUtilisateurHardis(rl);
             d.setMontant(d.getServiceNonStandard().getCout());
             d.setAgence(agence);
+            d.setDateEnvoi(new Date());
         }
         edit(d);
         return d;
